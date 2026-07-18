@@ -1,0 +1,13 @@
+// general format for readability
+
+/////////////////////////
+/////////////////////////
+
+USER SLOT: ##
+name: "John Smith"
+ID: #####
+days: "mon,tue,wed"
+time: "time1", "time2", "time3"
+
+/////////////////////////
+/////////////////////////

@@ -1,6 +1,6 @@
 ## Project
 
-MeetingScheduler
+BusinessMeetingScheduler
 
 ## Project Description
 

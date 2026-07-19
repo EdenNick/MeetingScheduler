@@ -1,7 +1,8 @@
-// UserScheduleStore.txt
-// general format for readability
+// TextTestFile.Txt
 
-/////////////////////////
+
+
+
 /////////////////////////
 
 USER SLOT: ##
@@ -11,10 +12,3 @@ days: "mon,tue,wed"
 time: "time1", "time2", "time3"
 
 /////////////////////////
-/////////////////////////
-
-
-
-
-
-

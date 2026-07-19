@@ -6,8 +6,10 @@
  * MeetingScheduler.java
  */
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MeetingScheduler {
 
@@ -36,6 +38,7 @@ public class MeetingScheduler {
         MeetingScheduler MeetingScheduler = new MeetingScheduler();
 
         MeetingScheduler.InputTest1();
+        MeetingScheduler.FileDataTest1();
 
     } // void main
 
@@ -49,6 +52,9 @@ public class MeetingScheduler {
      * including: name, id, meeting days, and meeting times.
      */
     public void InputTest1() {
+
+        System.out.println("Input Test 1: Start");
+
 
         // Adds a single beignning and ending time to the list
         TESTInterval.add(new TimeSet(1, 0, 2, 0));
@@ -67,10 +73,37 @@ public class MeetingScheduler {
         System.out.println("time end    : " + StaticInfoInput.TimeIntervals.get(0).PreferedHourEND);
 
         // Testing complete
-        System.out.println("Input Test 1: complete");
+        System.out.println("Input Test 1: Complete");
 
 
     } // public void InputTest1()
+
+    public void FileDataTest1() {
+
+        System.out.println("File Data test 1: Start");
+
+        List<String> TestTextLine = new ArrayList<>();
+
+        //set file name to src\TextTestFile.txt
+        DataFileInput.setFileName("src\\TextTestFile.txt");
+
+        TestTextLine.add("\n");
+        TestTextLine.add("/////////////////////////");
+        TestTextLine.add("");
+        TestTextLine.add("USER SLOT: ##");
+        TestTextLine.add("name: \"John Smith\"");
+        TestTextLine.add("ID: #####");
+        TestTextLine.add("days: \"mon,tue,wed\"");
+        TestTextLine.add("time: \"time1\", \"time2\", \"time3\"");
+        TestTextLine.add("");
+        TestTextLine.add("/////////////////////////");
+
+        DataFileInput.writeData(TestTextLine);
+
+
+        System.out.println("File Data test 1: Complete");
+
+    }
 
 } // public class MeetingScheduler
 

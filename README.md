@@ -64,7 +64,7 @@ info includes:
 // TODO: DONE
 1. program can receive information inputs
 
-// TODO: test
+// TODO: incomplete
 2. program can save those inputs in a local file
 
 // TODO: Incomplete

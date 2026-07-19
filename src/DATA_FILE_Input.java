@@ -4,16 +4,18 @@
  * Description: Inputs user submitted data to a selected file (write-only)
  */
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataFileInput {
+public class DATA_FILE_Input {
 
 
     /** 
@@ -29,6 +31,8 @@ public class DataFileInput {
 
     
     static Path filePath;
+
+    static Path TemporaryFilePath = Paths.get("src\\TempFile.txt");
 
     static boolean Locked = false;
 
@@ -118,22 +122,67 @@ public class DataFileInput {
      * does not clean or organize file structure
      * returns 1 on error 0 on success
      */
-    public static int DeleteData() {
+    public static int DeleteData(String ID) {
 
         if (CheckState() == 1) {
             System.out.println("ERROR: DataFileInput.DeleteData - CheckState -");
             return 1;
         }
 
+        String DeleteID = ID;
+
+        try (BufferedReader FileReader = Files.newBufferedReader(filePath);
+            BufferedWriter FileWriter = Files.newBufferedWriter(TemporaryFilePath)) {
+            
+            // Current line being read
+            String CurrentLine;
+
+            // iterates over all lines in the file
+            while((CurrentLine = FileReader.readLine()) != null) {
+
+                // if the current line contains the id that needs to be deleted
+                if (CurrentLine.contains(DeleteID)) {
+                    
+                    // iterates over five lines without performing an operation
+                    // effectiveley removes the lines while self organizing
+                    for (int x = 0; x < 4; x++) {
+                        CurrentLine = FileReader.readLine();
+                    }
+
+                } else {
+                    FileWriter.write(CurrentLine);
+                    FileWriter.newLine();
+                }
+
+            } // while()
+
+            FileWriter.close();
+            FileReader.close();
+
+            Files.move(TemporaryFilePath, filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("File :" + filePath + " changed");
+
+        } catch (IOException e) {
+
+            System.out.println("ERROR: DataFileInput.DeleteData - file delete - error in the try catch");
+            return 1;
+
+        }
+
+        Path filePath = null;
+        Locked = false;
+
+
         return 0;
-    }
+
+    } // DeleteData(String ID)
 
 
 
     /** 
      * organizes specified file
-     * should only be called after data within a file is deleted
-     * does not clean or organize file structure
+     * should only be called after data within a file is deleted.
      */
     public static int OrganizeData() {
 
@@ -143,7 +192,7 @@ public class DataFileInput {
         }
 
         return 0;
-    }
+    } // OrganizeData()
 
 
 

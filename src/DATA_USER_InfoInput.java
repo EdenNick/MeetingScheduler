@@ -8,7 +8,7 @@
 
 import java.util.LinkedList;
 
-public class StaticInfoInput {
+public class DATA_USER_InfoInput {
 
     // stores employee name
     static String EmployeeName = "default";
@@ -20,7 +20,7 @@ public class StaticInfoInput {
     static String[] EmployeeMEETINGDAYS = new String[6];
 
     // stores a set of specific clock times
-    static LinkedList<TimeSet> TimeIntervals = null;
+    static LinkedList<DATA_USER_TimeInput> TimeIntervals = null;
 
     /**
      * Method to be called to input all user inputs at once
@@ -29,7 +29,7 @@ public class StaticInfoInput {
      * @param week
      * @param times
      */
-    public void UserInput(String name, int ID, String[] week, LinkedList<TimeSet> times) {
+    public void UserInput(String name, int ID, String[] week, LinkedList<DATA_USER_TimeInput> times) {
         EmployeeName        = name;
         EmployeeID          = ID;
         EmployeeMEETINGDAYS = week;

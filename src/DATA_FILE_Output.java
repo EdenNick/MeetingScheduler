@@ -5,7 +5,7 @@
  * Description: 
  * Retrieves data from files (read-only)
  */
-public class DataFileOutput {
+public class DATA_FILE_Output {
 
     /**
      * reads the specified file either as a whole or specific lines, returning the desired text.

@@ -8,12 +8,12 @@
 
 import java.time.LocalTime;
 
-public class TimeSet {
+public class DATA_USER_TimeInput {
 
     LocalTime PreferedHourBEGIN;
     LocalTime PreferedHourEND;
 
-    public TimeSet(int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
+    public DATA_USER_TimeInput(int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
         
         // stores the beginning of the prefered time interval
         this.PreferedHourBEGIN = LocalTime.of(BeginHOUR, BeginMIN);

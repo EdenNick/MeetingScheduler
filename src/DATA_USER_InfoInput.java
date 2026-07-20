@@ -35,17 +35,28 @@ public class DATA_USER_InfoInput {
     LinkedList<DATA_USER_TimeInput> TimeIntervals;
 
     /**
-     * Method to be called to input all user inputs at once
+     * Main Constructor method ethod to be called to input all user inputs at once
      * @param name
      * @param ID
      * @param week
      * @param times
      */
-    public void UserInput(String name, int ID, String[] week, LinkedList<DATA_USER_TimeInput> times) {
+    public DATA_USER_InfoInput(String name, int ID, String[] week, LinkedList<DATA_USER_TimeInput> times) {
         this.EmployeeName        = name;
         this.EmployeeID          = ID;
         this.EmployeeMEETINGDAYS = week;
         this.TimeIntervals       = new LinkedList<>(times);
+    }
+
+    /** 
+     * Copy Constructor method
+     * Currently no use.
+     */
+    public DATA_USER_InfoInput(DATA_USER_InfoInput copy) {
+        this.EmployeeName        = copy.EmployeeName;
+        this.EmployeeID          = copy.EmployeeID;
+        this.EmployeeMEETINGDAYS = copy.EmployeeMEETINGDAYS;
+        this.TimeIntervals       = copy.TimeIntervals;
     }
     
 }

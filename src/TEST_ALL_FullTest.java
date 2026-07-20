@@ -1,3 +1,8 @@
+/**
+ * TEST_ALL_FullTest.java
+ * File used to test various functions of the program
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -34,18 +39,29 @@ public class TEST_ALL_FullTest {
     static int                              TestID = 1;
     static String[]                         TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
     static LinkedList<DATA_USER_TimeInput>  TestTimeInterval = new LinkedList<>();
+    DATA_USER_InfoInput                     staticInfo;
 
 
+    // Constructor - Fills objects with parameters for testing
+    public TEST_ALL_FullTest() {
+
+        // Adds a single beignning and ending time to the list
+        this.TestTimeInterval.add(new DATA_USER_TimeInput("Mon",8, 0, 12, 0));
+        this.TestTimeInterval.add(new DATA_USER_TimeInput("Mon",14, 1, 15, 30));
+        this.TestTimeInterval.add(new DATA_USER_TimeInput("Fri",12, 5, 17, 45));
+
+        // creates userinfo object and sets all input testing data
+        this.staticInfo = new DATA_USER_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
+
+    }
 
     /**
      * FullTest()
      * Runs a full test of all components throughout the entire program
      */
     public void FullTest() {
-        TEST_USER_BasicInfoInput();
-        TEST_File_AddCardToFile("001");
-        TEST_File_AddCardToFile("002");
-        TEST_File_RemCardFromFile();
+        UserTest();
+        FileTest();
     }
 
 
@@ -56,6 +72,7 @@ public class TEST_ALL_FullTest {
      */
     public void UserTest() {
         TEST_USER_BasicInfoInput();
+        TEST_USER_StandardTimeConversion();
     }
 
 
@@ -68,10 +85,11 @@ public class TEST_ALL_FullTest {
         TEST_File_AddCardToFile("001");
         TEST_File_AddCardToFile("002");
         TEST_File_RemCardFromFile();
+        TEST_FILE_OrganizeUserInfo();
     }
 
 
-
+    
 
 
 
@@ -86,16 +104,6 @@ public class TEST_ALL_FullTest {
         System.out.println("TEST_USER_BasicInfoInput    Test: Start");
 
 
-        // Adds a single beignning and ending time to the list
-        TestTimeInterval.add(new DATA_USER_TimeInput("Mon",8, 0, 12, 0));
-        TestTimeInterval.add(new DATA_USER_TimeInput("Mon",14, 1, 15, 30));
-        TestTimeInterval.add(new DATA_USER_TimeInput("Fri",12, 5, 17, 45));
-
-        // creates userinfo object and sets all input testing data
-        DATA_USER_InfoInput staticInfo = new DATA_USER_InfoInput();
-        staticInfo.UserInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
-
-
         // Prints the testing info to verify it can be accessed correctly
         System.out.println("Name        : " + staticInfo.EmployeeName);
         System.out.println("ID          : " + staticInfo.EmployeeID);
@@ -108,6 +116,28 @@ public class TEST_ALL_FullTest {
         System.out.println("TEST_USER_BasicInfoInput    Test: Complete");
 
     } // TEST_USER_BasicInfoInput()
+
+
+    /**
+     * TEST_USER_StandardTimeConversion
+     * tests the functionality of the time conversion method in 
+     * the DATA_USER_TimeInput class
+     */
+    public void TEST_USER_StandardTimeConversion()  {
+
+        System.out.println("TEST_USER_TimeConvert       Test: Start");
+
+        //int IndexPosition = 0;
+
+        for (DATA_USER_TimeInput TimeInterval : staticInfo.TimeIntervals) {
+
+            TimeInterval.TimeConversion();
+
+        }
+
+        System.out.println("TEST_USER_TimeConvert       Test: Complete");
+
+    }
 
 
 
@@ -138,6 +168,7 @@ public class TEST_ALL_FullTest {
     } // TEST_File_AddCardToFile(String ID)
 
 
+
     /**
      * TEST_File_RemCardFromFile()
      * Removes a user data input card from the file
@@ -156,6 +187,35 @@ public class TEST_ALL_FullTest {
         System.out.println("TEST_File_RemCardFromFile   Test: Complete");
 
     } // TEST_File_RemCardFromFile()
+
+
+
+    /**
+     * TEST_FILE_OrganizeUserInfo()
+     * organize the file containing user preference inputs to
+     * ensure it is corrently formatted
+     */
+    public void TEST_FILE_OrganizeUserInfo() {
+
+        System.out.println("TEST_FILE_OrganizeUserInfo  Test: Start");
+
+        List<String> TestTextLine = new ArrayList<>();
+
+        DATA_FILE_Input.setFileName("src\\TextTestFile.txt");
+
+        // adding a series of blank spaces to the file to simulate unformated lines of space
+        TestTextLine.add(" ");
+        TestTextLine.add("");
+        TestTextLine.add("      ");
+        TestTextLine.add("  ");
+
+        DATA_FILE_Input.OrganizeData();
+
+        System.out.println("TEST_FILE_OrganizeUserInfo  Test: Complete");
+
+    }
+
+
 
 
 

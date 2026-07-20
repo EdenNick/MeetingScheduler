@@ -68,19 +68,22 @@ info includes:
 2. program can save those inputs in a local file
 
 // TODO: Incomplete
-3. program can receive inputs from user for sceduling
+3. program can read from and display File contents
 
 // TODO: Incomplete
-4. program can perform operations necessary for proper scheduling
+4. program can receive inputs from user for sceduling
 
 // TODO: Incomplete
-5. program can output the operations to a file
+5. program can perform operations necessary for proper scheduling
 
 // TODO: Incomplete
-6. UI implementation of previous steps
+6. program can output the operations to a file
 
 // TODO: Incomplete
-7. graphical output of scheduling operations
+7. UI implementation of previous steps
 
 // TODO: Incomplete
-8. program exists as runable desktop file
+8. graphical output of scheduling operations
+
+// TODO: Incomplete
+9. program exists as runable desktop file

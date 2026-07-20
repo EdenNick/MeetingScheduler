@@ -10,17 +10,29 @@ import java.util.LinkedList;
 
 public class DATA_USER_InfoInput {
 
+    //TODO: update default values
+
+    /**
+     * DEFAULT VALUES: 
+     * 
+     * EmployeeName:    default
+     * EmployeeID:      -1
+     * MeetingDays:     (empty String[6] array)
+     * timesIntervals:  unitialized
+     */
+
+    
     // stores employee name
-    static String EmployeeName = "default";
+    String EmployeeName = "default";
 
     // stores employee ID
-    static int EmployeeID = -1;
+    int EmployeeID = -1;
 
     // stores the days they can meet on
-    static String[] EmployeeMEETINGDAYS = new String[6];
+    String[] EmployeeMEETINGDAYS = new String[6];
 
     // stores a set of specific clock times
-    static LinkedList<DATA_USER_TimeInput> TimeIntervals = null;
+    LinkedList<DATA_USER_TimeInput> TimeIntervals;
 
     /**
      * Method to be called to input all user inputs at once
@@ -30,10 +42,10 @@ public class DATA_USER_InfoInput {
      * @param times
      */
     public void UserInput(String name, int ID, String[] week, LinkedList<DATA_USER_TimeInput> times) {
-        EmployeeName        = name;
-        EmployeeID          = ID;
-        EmployeeMEETINGDAYS = week;
-        TimeIntervals       = new LinkedList<>(times);
+        this.EmployeeName        = name;
+        this.EmployeeID          = ID;
+        this.EmployeeMEETINGDAYS = week;
+        this.TimeIntervals       = new LinkedList<>(times);
     }
     
 }

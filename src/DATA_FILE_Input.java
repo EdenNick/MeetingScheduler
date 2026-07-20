@@ -161,7 +161,7 @@ public class DATA_FILE_Input {
 
             Files.move(TemporaryFilePath, filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            System.out.println("File :" + filePath + " changed");
+            System.out.println("File: " + filePath + " changed");
 
         } catch (IOException e) {
 
@@ -182,6 +182,7 @@ public class DATA_FILE_Input {
 
     /** 
      * organizes specified file
+     * iterates over a file removing any blank lines
      * should only be called after data within a file is deleted.
      */
     public static int OrganizeData() {
@@ -190,6 +191,42 @@ public class DATA_FILE_Input {
             System.out.println("ERROR: DataFileInput.OrganizeData - CheckState -");
             return 1;
         }
+
+
+        try (BufferedReader FileReader = Files.newBufferedReader(filePath);
+            BufferedWriter FileWriter = Files.newBufferedWriter(TemporaryFilePath)) {
+            
+            // Current line being read
+            String CurrentLine;
+
+            // iterates over all lines in the file
+            while((CurrentLine = FileReader.readLine()) != null) {
+
+                if (CurrentLine.isBlank()) {
+                    // Do nothing
+                } else {
+                    FileWriter.write(CurrentLine);
+                    FileWriter.newLine();
+                }
+
+            } // while()
+
+            FileWriter.close();
+            FileReader.close();
+
+            Files.move(TemporaryFilePath, filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("File: " + filePath + " changed");
+
+        } catch (IOException e) {
+
+            System.out.println("ERROR: DataFileInput.DeleteData - file delete - error in the try catch");
+            return 1;
+
+        }
+
+        Path filePath = null;
+        Locked = false;
 
         return 0;
     } // OrganizeData()

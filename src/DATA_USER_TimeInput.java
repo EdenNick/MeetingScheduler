@@ -10,15 +10,19 @@ import java.time.LocalTime;
 
 public class DATA_USER_TimeInput {
 
-    LocalTime PreferedHourBEGIN;
-    LocalTime PreferedHourEND;
+    String      WeekDay;
+    LocalTime   PreferedHourBEGIN;
+    LocalTime   PreferedHourEND;
 
-    public DATA_USER_TimeInput(int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
+    public DATA_USER_TimeInput(String day, int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
         
-        // stores the beginning of the prefered time interval
+        //stores the day of the prefered time;
+        this.WeekDay = day;
+
+        // stores the beginning of the prefered time interval (hour:min)    Military Time
         this.PreferedHourBEGIN = LocalTime.of(BeginHOUR, BeginMIN);
 
-        //stores the ed of the prefered time interval
+        //stores the ed of the prefered time interval (hour:min)            Military Time
         this.PreferedHourEND = LocalTime.of(EndHOUR, EndMIN);
     }
     

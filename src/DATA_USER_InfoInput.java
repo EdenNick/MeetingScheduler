@@ -35,7 +35,7 @@ public class DATA_USER_InfoInput {
     LinkedList<DATA_USER_TimeInput> TimeIntervals;
 
     /**
-     * Main Constructor method ethod to be called to input all user inputs at once
+     * Main Constructor method to be called to input all user inputs at once
      * @param name
      * @param ID
      * @param week

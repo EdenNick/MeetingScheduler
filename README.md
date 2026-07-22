@@ -71,7 +71,7 @@ info includes:
 3. program can read from and display File contents
 
 // TODO: Incomplete
-4. program can receive inputs from user for sceduling
+4. program can receive formatted inputs from user for sceduling
 
 // TODO: Incomplete
 5. program can perform operations necessary for proper scheduling

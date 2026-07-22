@@ -42,7 +42,7 @@ public class DATA_FILE_Input {
     /**
      * sets the current state of file parameters
      * Sets the filename used in operations, and sets a lock to prevent race conditions or unwanted file operationsw
-     * 
+     * necessary as this class contains methods that write to files.
      */
     public static int setFileName(String name) {
 

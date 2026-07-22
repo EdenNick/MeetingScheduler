@@ -1,7 +1,7 @@
 /**
  * DataFileInput.java
  * 
- * Description: Inputs user submitted data to a selected file (write-only)
+ * Description: Inputs user submitted data to a selected file (write-only).
  */
 
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DATA_FILE_Input {
+public class PROG_FILE_Input {
 
 
     /** 

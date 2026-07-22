@@ -1,9 +1,8 @@
 /**
  * DataFileOutput.java
  * 
- * Description: 
- * Retrieves data from files (read-only)
- * No locks or preventative measures need to be implemented as all methods are read only operations
+ * Description: Retrieves data from files (read-only).
+ * No locks or preventative measures need to be implemented as all methods are read only operations.
  */
 
 import java.io.BufferedReader;
@@ -13,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 
 
-public class DATA_FILE_Output {
+public class PROG_FILE_Output {
 
     private String              FILENAME    = "";
     private String              InvalidText = "File could not be read";

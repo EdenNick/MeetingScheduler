@@ -26,8 +26,20 @@ info includes:
 3. option to save a meeting and its information in a file
 -save one or more meetings
 
+## File Descriptions
 
-## prject blueprint
+PROG - PROGRAM: Denotes the File is a part of the program and necessary for its operation.
+
+DATA: Denotes a file that exists purely to store information.
+
+FILE: Denotes a file whose function(s) include Read, Write or Deleting a file.
+
+INFO: Denotes a file whose function(s) include recieve, organize or moving information typically user submitted info.
+
+TEST: Denotes a file whose Function is to test various aspects of the program.
+
+
+## project blueprint
 
 1. start program
 
@@ -65,25 +77,22 @@ info includes:
 1. program can receive information inputs
 
 // TODO: Done - requires further testing/possible changes later
-2. program can save those inputs in a local file
+2. program can save info to a local file
 
-// TODO: Incomplete
-3. program can read from and display File contents
+// TODO: Done - requires further testing/possible changes later
+3. program can read from and display file contents
 
-// TODO: Incomplete
+// TODO:  Done - requires further testing/possible changes later
 4. program can receive formatted inputs from user for sceduling
 
 // TODO: Incomplete
 5. program can perform operations necessary for proper scheduling
 
 // TODO: Incomplete
-6. program can output the operations to a file
+6. UI Implementation for user inputs and actions
 
 // TODO: Incomplete
-7. UI implementation of previous steps
+7. graphical output of scheduling operations
 
 // TODO: Incomplete
-8. graphical output of scheduling operations
-
-// TODO: Incomplete
-9. program exists as runable desktop file
+8. program exists as runable desktop file

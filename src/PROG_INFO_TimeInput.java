@@ -1,20 +1,19 @@
 /**
  * DATA_USER_TimeInput.java
  * 
- * Description:
- * Object that stores a single set of clock times meant to be added to a linked list.
+ * Description: Object that stores a single set of clock times meant to be added to a linked list.
  * (Format: Begin -> End)
  */
 
 import java.time.LocalTime;
 
-public class DATA_USER_TimeInput {
+public class PROG_INFO_TimeInput {
 
     String      WeekDay;
     LocalTime   PreferedHourBEGIN;
     LocalTime   PreferedHourEND;
 
-    public DATA_USER_TimeInput(String day, int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
+    public PROG_INFO_TimeInput(String day, int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
         
         //stores the day of the prefered time;
         this.WeekDay = day;
@@ -68,7 +67,7 @@ public class DATA_USER_TimeInput {
             String EndInterval      = "AM";
 
             // Converts the beginning hour interval to PM if needed, otherwise it defaults to AM
-            if ((12 <= BEGINHour) && (BEGINHour < 25)) {
+            if ((12 <= BEGINHour) && (BEGINHour < 24)) {
 
                 BEGINHour       = BEGINHour - 12;
                 StartInterval   = "PM";
@@ -76,7 +75,7 @@ public class DATA_USER_TimeInput {
             }
             
             // Converts the end hour interval to PM if needed, otherwise it defaults to AM
-            if ((12 <= ENDHour) && (ENDHour < 25)) {
+            if ((12 <= ENDHour) && (ENDHour < 24)) {
 
                 ENDHour         = ENDHour - 12;
                 EndInterval     = "PM";

@@ -1,9 +1,11 @@
 /**
  * Project Name: Project Meeting Scheduler 
- * Created By: NIcholas Edenfield
+ * Created By: Nicholas Edenfield
  * 
  * 
  * MeetingScheduler.java
+ * 
+ * Description: main file
  */
 
 public class MeetingScheduler {
@@ -23,14 +25,13 @@ public class MeetingScheduler {
     public static void main(String[] args) throws Exception {
 
         System.out.println("Hello, World!");
-
-        //MeetingScheduler MeetingScheduler = new MeetingScheduler();
-
+        System.out.println("Program Start");
         
-        TEST_ALL_FullTest FULL_TEST = new TEST_ALL_FullTest();
+        PROG_TEST_FullTest FULL_TEST = new PROG_TEST_FullTest();
 
         FULL_TEST.FullTest();
 
+        System.out.println("Program End");
 
     } // void main
 

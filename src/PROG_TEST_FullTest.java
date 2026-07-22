@@ -1,6 +1,7 @@
 /**
  * TEST_ALL_FullTest.java
- * File used to test various functions of the program
+ * 
+ * Description: File used to test various functions of the program.
  */
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TEST_ALL_FullTest {
+public class PROG_TEST_FullTest {
 
 
     /**
@@ -16,7 +17,7 @@ public class TEST_ALL_FullTest {
      * 
      * TEST_(TypeOfTest)_(basicTestDescription)
      * 
-     * USER     - indicates test directly ties to user data variables
+     * INFO     - indicates test directly ties to user data variables
      * FILE     - indicates test focuses on file management/manipulation
      * UI       - indicates test focusing on UI functinality
      * GRAPH    - indicates visual test for graphical elements
@@ -38,20 +39,20 @@ public class TEST_ALL_FullTest {
     static String                           TestName = "John Smith";
     static int                              TestID = 1;
     static String[]                         TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static LinkedList<DATA_USER_TimeInput>  TestTimeInterval = new LinkedList<>();
-    DATA_USER_InfoInput                     staticInfo;
+    static LinkedList<PROG_INFO_TimeInput>  TestTimeInterval = new LinkedList<>();
+    PROG_INFO_InfoInput                     staticInfo;
 
 
     // Constructor - Fills objects with parameters for testing
-    public TEST_ALL_FullTest() {
+    public PROG_TEST_FullTest() {
 
         // Adds a single beignning and ending time to the list
-        this.TestTimeInterval.add(new DATA_USER_TimeInput("Mon",8, 0, 12, 0));
-        this.TestTimeInterval.add(new DATA_USER_TimeInput("Mon",14, 1, 15, 30));
-        this.TestTimeInterval.add(new DATA_USER_TimeInput("Fri",12, 5, 17, 45));
+        this.TestTimeInterval.add(new PROG_INFO_TimeInput("Mon",8, 0, 12, 0));
+        this.TestTimeInterval.add(new PROG_INFO_TimeInput("Mon",14, 1, 15, 30));
+        this.TestTimeInterval.add(new PROG_INFO_TimeInput("Fri",12, 5, 17, 45));
 
         // creates userinfo object and sets all input testing data
-        this.staticInfo = new DATA_USER_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        this.staticInfo = new PROG_INFO_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
     }
 
@@ -60,8 +61,8 @@ public class TEST_ALL_FullTest {
      * Runs a full test of all components throughout the entire program
      */
     public void FullTest() {
-        UserTest();
-        FileTest();
+        INFOTest();
+        FILETest();
     }
 
 
@@ -70,21 +71,21 @@ public class TEST_ALL_FullTest {
      * UserTest()
      * Runs a full test for all user data variables and actions
      */
-    public void UserTest() {
-        TEST_USER_BasicInfoInput();
-        TEST_USER_StandardTimeConversion();
+    public void INFOTest() {
+        TEST_INFO_BasicInfoInput();
+        TEST_INFO_StandardTimeConversion();
     }
 
 
 
     /**
-     * FileTest()
+     * FILETest()
      * Runs a full test for all File manipulation actions
      */
-    public void FileTest() {
-        TEST_File_AddCardToFile("001");
-        TEST_File_AddCardToFile("002");
-        TEST_File_RemCardFromFile();
+    public void FILETest() {
+        TEST_INFO_AddCardToFile("001");
+        TEST_INFO_AddCardToFile("002");
+        TEST_FILE_RemCardFromFile();
         TEST_FILE_OrganizeUserInfo();
     }
 
@@ -95,11 +96,11 @@ public class TEST_ALL_FullTest {
 
 
     /**
-     * TEST_USER_BasicInfoInput
+     * TEST_INFO_BasicInfoInput
      * Tests the basic functionality of user data variables
      * including: name, id, meeting days, and meeting times.
      */
-    public void TEST_USER_BasicInfoInput() {
+    public void TEST_INFO_BasicInfoInput() {
 
         System.out.println("TEST_USER_BasicInfoInput    Test: Start");
 
@@ -119,17 +120,17 @@ public class TEST_ALL_FullTest {
 
 
     /**
-     * TEST_USER_StandardTimeConversion
+     * TEST_INFO_StandardTimeConversion
      * tests the functionality of the time conversion method in 
      * the DATA_USER_TimeInput class
      */
-    public void TEST_USER_StandardTimeConversion()  {
+    public void TEST_INFO_StandardTimeConversion()  {
 
         System.out.println("TEST_USER_TimeConvert       Test: Start");
 
         //int IndexPosition = 0;
 
-        for (DATA_USER_TimeInput TimeInterval : staticInfo.TimeIntervals) {
+        for (PROG_INFO_TimeInput TimeInterval : staticInfo.TimeIntervals) {
 
             TimeInterval.TimeConversion();
 
@@ -141,7 +142,7 @@ public class TEST_ALL_FullTest {
 
 
 
-    public void TEST_File_AddCardToFile(String ID) {
+    public void TEST_INFO_AddCardToFile(String ID) {
 
         System.out.println("TEST_File_AddCardToFile:    Test: Start");
 
@@ -150,7 +151,7 @@ public class TEST_ALL_FullTest {
 
 
         // Sets file to perform an action on.
-        DATA_FILE_Input.setFileName("src\\TextTestFile.txt");
+        PROG_FILE_Input.setFileName("src\\TextTestFile.txt");
 
         // Data to add to the file
         TestTextLine.add("ID: " + ID);                                  // Keep an Eye on this variable, caused problems when deleting file info
@@ -160,7 +161,7 @@ public class TEST_ALL_FullTest {
         TestTextLine.add("####################");
 
 
-        DATA_FILE_Input.writeData(TestTextLine);
+        PROG_FILE_Input.writeData(TestTextLine);
 
 
         System.out.println("TEST_File_AddCardToFile:    Test: Complete");
@@ -173,15 +174,15 @@ public class TEST_ALL_FullTest {
      * TEST_File_RemCardFromFile()
      * Removes a user data input card from the file
      */
-    public void TEST_File_RemCardFromFile() {
+    public void TEST_FILE_RemCardFromFile() {
 
         System.out.println("TEST_File_RemCardFromFile   Test: Start");
 
         // Sets file to perform an action on.
-        DATA_FILE_Input.setFileName("src\\TextTestFile.txt");
+        PROG_FILE_Input.setFileName("src\\TextTestFile.txt");
 
         // Delete data with User ID "001".
-        DATA_FILE_Input.DeleteData("001");
+        PROG_FILE_Input.DeleteData("001");
 
 
         System.out.println("TEST_File_RemCardFromFile   Test: Complete");
@@ -201,7 +202,7 @@ public class TEST_ALL_FullTest {
 
         List<String> TestTextLine = new ArrayList<>();
 
-        DATA_FILE_Input.setFileName("src\\TextTestFile.txt");
+        PROG_FILE_Input.setFileName("src\\TextTestFile.txt");
 
         // adding a series of blank spaces to the file to simulate unformated lines of space
         TestTextLine.add(" ");
@@ -209,7 +210,7 @@ public class TEST_ALL_FullTest {
         TestTextLine.add("      ");
         TestTextLine.add("  ");
 
-        DATA_FILE_Input.OrganizeData();
+        PROG_FILE_Input.OrganizeData();
 
         System.out.println("TEST_FILE_OrganizeUserInfo  Test: Complete");
 

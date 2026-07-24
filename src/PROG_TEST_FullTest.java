@@ -141,7 +141,11 @@ public class PROG_TEST_FullTest {
     }
 
 
-
+    /**
+     * TEST_INFO_AddCardToFile
+     * tests format for User Card information when input to txt files
+     * @param ID
+     */
     public void TEST_INFO_AddCardToFile(String ID) {
 
         System.out.println("TEST_File_AddCardToFile:    Test: Start");
@@ -151,7 +155,7 @@ public class PROG_TEST_FullTest {
 
 
         // Sets file to perform an action on.
-        PROG_FILE_Input.setFileName("src\\TextTestFile.txt");
+        PROG_FILE_Input.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // Data to add to the file
         TestTextLine.add("ID: " + ID);                                  // Keep an Eye on this variable, caused problems when deleting file info
@@ -179,7 +183,7 @@ public class PROG_TEST_FullTest {
         System.out.println("TEST_File_RemCardFromFile   Test: Start");
 
         // Sets file to perform an action on.
-        PROG_FILE_Input.setFileName("src\\TextTestFile.txt");
+        PROG_FILE_Input.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // Delete data with User ID "001".
         PROG_FILE_Input.DeleteData("001");
@@ -202,7 +206,7 @@ public class PROG_TEST_FullTest {
 
         List<String> TestTextLine = new ArrayList<>();
 
-        PROG_FILE_Input.setFileName("src\\TextTestFile.txt");
+        PROG_FILE_Input.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // adding a series of blank spaces to the file to simulate unformated lines of space
         TestTextLine.add(" ");

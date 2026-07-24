@@ -16,8 +16,8 @@ public class PROG_FILE_Output {
 
     private String              FILENAME    = "";
     private String              InvalidText = "File could not be read";
-    private String              USERID      = "-1";
-    private LinkedList<String>  FileText;
+    private LinkedList<String>  USERID      = new LinkedList<String>();
+    private LinkedList<String>  FileText    = new LinkedList<String>();
     private Path                FilePath;
 
 
@@ -26,34 +26,57 @@ public class PROG_FILE_Output {
      * used when the full contents of a single file Need to be read;
      * @param FileToRead
      */
-    public void DATA_FILE_Output(String FileToRead) {
+    public PROG_FILE_Output(String FileToRead) {
 
         this.FILENAME   = FileToRead;
-        FileText.add(FILENAME);
-        FilePath = Paths.get(FILENAME);
+        this.FileText.add(FILENAME);
+        this.FilePath = Paths.get(FILENAME);
 
     }
 
-    public void DATA_FILE_Output(String FileToRead, int ID) {
+
+
+    /**
+     * Constructor
+     * Description: used when a single id needs to be read
+     */
+    public PROG_FILE_Output(String FileToRead, int ID) {
 
         // Ensures valid ID
         if (ID < -1) {
             ID = -1;
         }
 
-        this.FILENAME   = FileToRead;
-        this.USERID     = Integer.toString(ID);
-        FileText.add(FILENAME);
-        FilePath = Paths.get(FILENAME);
+        this.FILENAME = FileToRead;
+        this.USERID.add(String.valueOf(ID));
+        this.FileText.add(FILENAME);
+        this.FilePath = Paths.get(FILENAME);
 
     }
 
+
+
     /**
-     * reads the specified file either as a whole.
+     * Constructor
+     * Description: used when a set of ids need to be read
+     */
+    public PROG_FILE_Output(String FileToRead, LinkedList<String> ID) {
+
+        this.FILENAME   = FileToRead;
+        this.USERID     = new LinkedList<String>(ID);
+        this.FileText.add(FILENAME);
+        this.FilePath = Paths.get(FILENAME);
+
+    }
+
+
+
+    /**
+     * reads the specified file as a whole.
      */
     public LinkedList<String> ReadFile() {
 
-        FileText = new LinkedList<>();
+        // FileText = new LinkedList<>();
 
 
         try (BufferedReader FileReader = Files.newBufferedReader(FilePath);){
@@ -88,7 +111,7 @@ public class PROG_FILE_Output {
 
     public LinkedList<String> ReadUser() {
 
-        FileText = new LinkedList<>();
+        //FileText = new LinkedList<>();
 
         try (BufferedReader FileReader = Files.newBufferedReader(FilePath);){
 
@@ -97,17 +120,18 @@ public class PROG_FILE_Output {
             // iterates over all lines in the file
             while((CurrentLine = FileReader.readLine()) != null) {
 
-                // if the current line contains the id that needs to be deleted
-                if (CurrentLine.contains(USERID)) {
-                    
-                    FileText.add(CurrentLine);
-
-                    for (int x = 0; x < 4; x++) {
-                        CurrentLine = FileReader.readLine();
+                //if a line contains a user ID
+                for (String ID : USERID )
+                    if (CurrentLine.contains(ID)) {
+                        
                         FileText.add(CurrentLine);
-                    }
 
-                }
+                        for (int x = 0; x < 4; x++) {
+                            CurrentLine = FileReader.readLine();
+                            FileText.add(CurrentLine);
+                        }
+
+                    }
 
             } // while()
 

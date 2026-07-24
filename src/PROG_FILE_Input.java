@@ -30,13 +30,10 @@ public class PROG_FILE_Input {
 
 
     
-    static Path filePath;
-
-    static Path TemporaryFilePath = Paths.get("src\\TempFile.txt");
-
-    static boolean Locked = false;
-
-    List<String> textlines;
+    static Path     filePath;
+    static Path     TemporaryFilePath = Paths.get("src\\PROG_DATA_TempFile.txt");
+    static boolean  Locked = false;
+    List<String>    textlines;
 
 
     /**
@@ -77,10 +74,35 @@ public class PROG_FILE_Input {
         return 0;
     }
 
+    /**
+     * Checks fiel type
+     * checks what type of file is being accessed to ensure proper operations
+     * 0 : .txt file
+     * 1 : .json file
+     */
+    public static int CheckFile(String type) {
+
+        String fileType;
+
+        try {
+            fileType = Files.probeContentType(filePath);
+        } catch (IOException e) {
+            System.out.println("ERROR: DataFileInput.CheckFile - invalid file path");
+            return 1;
+        }
+
+        if (!(fileType.equals(type))) {
+            System.out.println("ERROR: DataFileInput.CheckFile - invalid file type");
+            return 1;
+        }
+        return 0;
+
+    }
+
 
 
     /**
-     * writes incoming data into a selected file 
+     * writes incoming data into a selected txt file 
      * does so in order without overwriting existing dta
      * returns 1 on error 0 on success
      */
@@ -88,6 +110,11 @@ public class PROG_FILE_Input {
 
         if (CheckState() == 1) {
             System.out.println("ERROR: DataFileInput.writeData - CheckState -");
+            return 1;
+        }
+
+        if (CheckFile("txt") != 0) {
+            System.out.println("ERROR: DataFileInput.writeData - CheckFile -");
             return 1;
         }
 
@@ -118,7 +145,7 @@ public class PROG_FILE_Input {
 
 
     /**
-     * deletes specified data within a file
+     * deletes specified data within a txt file
      * does not clean or organize file structure
      * returns 1 on error 0 on success
      */
@@ -126,6 +153,11 @@ public class PROG_FILE_Input {
 
         if (CheckState() == 1) {
             System.out.println("ERROR: DataFileInput.DeleteData - CheckState -");
+            return 1;
+        }
+
+        if (CheckFile("txt") != 0) {
+            System.out.println("ERROR: DataFileInput.DeleteData - CheckFile -");
             return 1;
         }
 
@@ -181,7 +213,7 @@ public class PROG_FILE_Input {
 
 
     /** 
-     * organizes specified file
+     * organizes specified txt file
      * iterates over a file removing any blank lines
      * should only be called after data within a file is deleted.
      */
@@ -189,6 +221,11 @@ public class PROG_FILE_Input {
 
         if (CheckState() == 1) {
             System.out.println("ERROR: DataFileInput.OrganizeData - CheckState -");
+            return 1;
+        }
+
+        if (CheckFile("txt") != 0) {
+            System.out.println("ERROR: DataFileInput.DeleteData - CheckFile -");
             return 1;
         }
 

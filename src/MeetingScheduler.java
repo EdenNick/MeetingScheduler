@@ -11,15 +11,6 @@
 public class MeetingScheduler {
 
     /**
-     * Input Format:
-     * Name String
-     * ID   int
-     * days String[6] (sun - mon - tue - wed - thu - fri - sat)
-     * time TimeSet (int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN)
-     */
-
-
-    /**
      * static main
      */
     public static void main(String[] args) throws Exception {

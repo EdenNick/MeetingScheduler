@@ -1,0 +1,6 @@
+// General formatting for system messages such as errors
+
+
+// Error formatting for int return
+
+ERROR - FILELOCATION - METHOD - basic description

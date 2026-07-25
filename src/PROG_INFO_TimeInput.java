@@ -13,20 +13,43 @@ public class PROG_INFO_TimeInput {
     LocalTime   PreferedHourBEGIN;
     LocalTime   PreferedHourEND;
 
-    public PROG_INFO_TimeInput(String day, int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
-        
-        //stores the day of the prefered time;
-        this.WeekDay = day;
-
-        // stores the beginning of the prefered time interval (hour:min)    Military Time
-        this.PreferedHourBEGIN = LocalTime.of(BeginHOUR, BeginMIN);
-
-        //stores the ed of the prefered time interval (hour:min)            Military Time
-        this.PreferedHourEND = LocalTime.of(EndHOUR, EndMIN);
-    }
 
     /**
-     * Converts time between standardizations
+     * Primary Constructor
+     * @param day
+     * @param BeginHOUR
+     * @param BeginMIN
+     * @param EndHOUR
+     * @param EndMIN
+     */
+    public PROG_INFO_TimeInput(String day, int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
+        
+        this.WeekDay            = day;
+        this.PreferedHourBEGIN  = LocalTime.of(BeginHOUR, BeginMIN);    // (hour:min)    Military Time
+        this.PreferedHourEND    = LocalTime.of(EndHOUR, EndMIN);        // (hour:min)    Military Time
+
+    }
+
+
+
+    /**
+     * Copy Constructor
+     * @return
+     */
+    public PROG_INFO_TimeInput(PROG_INFO_TimeInput copy) {
+        
+        this.WeekDay            = copy.WeekDay;
+        this.PreferedHourBEGIN  = copy.PreferedHourBEGIN;               // (hour:min)    Military Time
+        this.PreferedHourEND    = copy.PreferedHourEND;                 // (hour:min)    Military Time
+        
+    }
+
+
+
+
+    /**
+     * TimeConversion()
+     * Description: Converts time between standardizations
      * As a default time is stored as military standard time which ranges from 0-24, witout using AM/PM 
      * to signify which hour of the day it is.
      * This method is used to convert the time to standard time which uses AM/PM designations

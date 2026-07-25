@@ -97,7 +97,7 @@ public class PROG_TEST_FullTest {
 
     /**
      * TEST_INFO_BasicInfoInput
-     * Tests the basic functionality of user data variables
+     * Description: Tests the basic functionality of user data variables
      * including: name, id, meeting days, and meeting times.
      */
     public void TEST_INFO_BasicInfoInput() {
@@ -121,7 +121,7 @@ public class PROG_TEST_FullTest {
 
     /**
      * TEST_INFO_StandardTimeConversion
-     * tests the functionality of the time conversion method in 
+     * Description: tests the functionality of the time conversion method in 
      * the DATA_USER_TimeInput class
      */
     public void TEST_INFO_StandardTimeConversion()  {
@@ -143,7 +143,7 @@ public class PROG_TEST_FullTest {
 
     /**
      * TEST_INFO_AddCardToFile
-     * tests format for User Card information when input to txt files
+     * Description: tests format for User Card information when input to txt files
      * @param ID
      */
     public void TEST_INFO_AddCardToFile(String ID) {
@@ -176,7 +176,7 @@ public class PROG_TEST_FullTest {
 
     /**
      * TEST_File_RemCardFromFile()
-     * Removes a user data input card from the file
+     * Description: Removes a user data input card from the file
      */
     public void TEST_FILE_RemCardFromFile() {
 
@@ -197,7 +197,7 @@ public class PROG_TEST_FullTest {
 
     /**
      * TEST_FILE_OrganizeUserInfo()
-     * organize the file containing user preference inputs to
+     * Description: organize the file containing user preference inputs to
      * ensure it is corrently formatted
      */
     public void TEST_FILE_OrganizeUserInfo() {

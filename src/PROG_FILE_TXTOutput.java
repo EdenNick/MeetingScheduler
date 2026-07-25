@@ -21,6 +21,9 @@ public class PROG_FILE_TXTOutput {
     private Path                FilePath;
 
 
+
+
+
     /**
      * Constructor
      * used when the full contents of a single file Need to be read;
@@ -34,6 +37,9 @@ public class PROG_FILE_TXTOutput {
         this.FilePath = Paths.get(FILENAME);
 
     }
+
+
+
 
 
     /**
@@ -52,21 +58,30 @@ public class PROG_FILE_TXTOutput {
     }
 
 
+
+
+
     /**
      * UpdateFileOutput
      * Used to update the file being read
      */
     public void UpdateFileOutput(String FileToRead, LinkedList<String> ID) {
+
         this.FILENAME = FileToRead;
         this.USERID   = new LinkedList<String>(ID);
         this.FileText.add(FILENAME);
         this.FilePath = Paths.get(FILENAME);
+
     }
 
 
 
+
+
     /**
-     * reads the specified file as a whole.
+     * ReadFile()
+     * Description: Reads the specified file as a whole
+     * returning a linked list of each line within it.
      */
     public LinkedList<String> ReadFile() {
 
@@ -92,7 +107,7 @@ public class PROG_FILE_TXTOutput {
             
         } catch (Exception e) {
 
-            System.out.println("DATA_FILE_Output - ReadFile() - error in try/catch");
+            System.out.println("ERROR - PROG_FILE_TXTOutput - ReadFile() - try/catch error");
             FileText.add(InvalidText);
             return FileText;
 
@@ -103,6 +118,14 @@ public class PROG_FILE_TXTOutput {
     }
 
 
+
+
+
+    /**
+     * ReadUser()
+     * Description: reads specified user or users using the
+     * local linkedlist<string> USERID
+     */
     public LinkedList<String> ReadUser() {
 
         // FileText = new LinkedList<>();
@@ -136,7 +159,7 @@ public class PROG_FILE_TXTOutput {
             
         } catch (Exception e) {
 
-            System.out.println("DATA_FILE_Output - ReadFile() - error in try/catch");
+            System.out.println("ERROR - PROG_FILE_TXTOutput - ReadUser() - try/catch error");
             FileText.add(InvalidText);
             return FileText;
 

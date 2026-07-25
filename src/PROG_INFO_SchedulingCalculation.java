@@ -18,8 +18,10 @@ public class PROG_INFO_SchedulingCalculation {
     private LinkedList<String>  PeopleToSchedule;                       // stores user id of people to be scheduled
     private String[]            WeekDays                = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
+    private boolean             OperationReady          = false;        // variable use to prevent unwanted operations on PeopleLinkedList. if false, the full list of people are retrieved as default
     private LinkedList<PROG_INFO_InfoInput> People;                     // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
-    
+    private LinkedList<PROG_INFO_Schedule>  ScheduleList = new LinkedList<PROG_INFO_Schedule>();
+    private PROG_INFO_Schedule              Schedule;
 
 
     /**
@@ -33,6 +35,7 @@ public class PROG_INFO_SchedulingCalculation {
         // AnyDayAnyTime            = true
         // PeopleToSchedule         = null;
         // WeekDays                 = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        // perationReady            = false;
 
     }
 
@@ -48,6 +51,7 @@ public class PROG_INFO_SchedulingCalculation {
         this.ScheduleEveryone       = false;
         // this.AnyDayANDTime       = true;
         this.PeopleToSchedule       = new LinkedList<String>(people);
+        this.OperationReady         = true;
 
     }
 
@@ -58,11 +62,12 @@ public class PROG_INFO_SchedulingCalculation {
      * Description: Constructor used when a specific set of days are selected and there is no preference for people.
      * @param days
      */
-    public PROG_INFO_SchedulingCalculation( String[] days) {
+    public PROG_INFO_SchedulingCalculation(String[] days) {
 
         // this.ScheduleEveryone    = true;
         this.AnyDayAnyTime          = false;
         this.WeekDays               = days.clone();
+        this.OperationReady         = false;
 
     }
 
@@ -80,6 +85,7 @@ public class PROG_INFO_SchedulingCalculation {
         this.AnyDayAnyTime          = false;
         this.PeopleToSchedule       = new LinkedList<String>(people);
         this.WeekDays               = days.clone();
+        this.OperationReady         = true;
 
     }
 
@@ -100,11 +106,17 @@ public class PROG_INFO_SchedulingCalculation {
      */
     private void RetrieveUserCards() {
 
-        // iterates over the linked list string of people to select
-        for (String Person : PeopleToSchedule) {
+        if (OperationReady == true) {                                       // A linkedlist of user ids was provided iterate through those
+            // iterates over the linked list string of people to select
+            for (String Person : PeopleToSchedule) {
+                // TODO: Implement json
+            }
+        } else {                                                            // A LinkedList of user ids was NOT provided, retrieve all info from the json file
             
-        }
+            People = new LinkedList<PROG_INFO_InfoInput>();
+            // TODO: Implement json
 
+        }
     }
 
 
@@ -112,12 +124,82 @@ public class PROG_INFO_SchedulingCalculation {
      * CalculateSchedule()
      * Description: calculates the schedules
      */
-    private void CalculateSchedule() {
+    private int CalculateSchedule() {
 
-        for (PROG_INFO_InfoInput PERSON : People) {
+        RetrieveUserCards(); // retrieves user info
+
+        //for (PROG_INFO_InfoInput PERSON : People) {
+        //}
+
+
+        // for each day of the week find the total ammount of people that can meet
+        for (int day = 0; day < 7; day++) {     // 0 = Sun, 6 = Sat
+
+            int IndexAmmount = 100;
+            // iterates over the list storing the smallest index size
+            // this prevents exceptions later from geting indexes that don't exist
+            for (PROG_INFO_InfoInput Person : People) {
+                if (Person.TimeIntervals.size() < IndexAmmount) {
+                    IndexAmmount = Person.TimeIntervals.size();
+                }
+            }
+
+
+            int position        = 0;
+
+            while (position < IndexAmmount) {
+
+                int StartInterval   = -1;
+                int EndInterval     = 24;
+
+                for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
+
+                    // 1. find the latest start time of the earliest time interval from all people on that day
+                    if (Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour() > StartInterval) {
+                        StartInterval   = Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour();
+                    }
+
+                    // 2. find the earliest end time from the same interval on that day
+                    if (Person.TimeIntervals.get(position).PreferedHourEND.getHour() > EndInterval) {
+                        EndInterval     = Person.TimeIntervals.get(position).PreferedHourEND.getHour();
+                    }
+
+                } // for()
+
+                // 3. store the total number of people that fall within that interval
+                for (PROG_INFO_InfoInput Person : People) {
+
+                    if ((StartInterval >= Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour()) && (EndInterval) <= Person.TimeIntervals.get(position).PreferedHourEND.getHour()) {
+                        // add to the list for that day
+                        Schedule = new PROG_INFO_Schedule(WeekDays[position], null, Person.EmployeeID, ScheduleEveryone)
+                        ScheduleList.add
+                    }
+                } // for()
+                
+                
+                position++;
+
+            } // while() 
+            // 5. discard all lists beside the one with the most ammount of people, if there are more than one with the same ammount store all of them.
+
+
+            // 6. if any of these lists contain all the specified people, mark that list
 
         }
 
+
+        // 7. iterate through all lists focusing first on those with the identifier
+
+
+
+        // 8. if none with the identfier are found look for the top lists (user ammount specified) based on quantity of people
+
+
+        // 9. store specified lists
+
+
+
+        return 0;
     }
 
 
@@ -126,8 +208,8 @@ public class PROG_INFO_SchedulingCalculation {
      * RetrieveSchedule()
      * Description: public method called in order to retrieve the calculated schedule times
      */
-    public void RetrieveSchedule() {
-
+    public LinkedList<PROG_INFO_Schedule> RetrieveSchedule() {
+        return ScheduleList;
     }
 
 }

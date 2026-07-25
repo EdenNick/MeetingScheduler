@@ -28,32 +28,38 @@ public class PROG_INFO_InfoFileWrite {
 
 
     /**
-     * Recieves User input
-     * This method is used to check and store the User inputs from the UI ensuring they are valid and can be used
+     * CheckUserInfo()
+     * Description Checks User input
+     * This method is used to check and store the User inputs from the UI ensuring they are valid and can be used.
+     * Should be called once per object given to WriteUserInfo()
      * @param name
      * @param id
      * @param days
      * @param intervals
      * @return
      */
-    public int ReceiveUserInfo(String name, int id, String[] days, LinkedList<PROG_INFO_TimeInput> intervals) {
+    public int CheckUserInfo(String name, int id, String[] days, LinkedList<PROG_INFO_TimeInput> intervals) {
+
+
 
         // Check Name to ensure it contains at least one character
         if (!name.isBlank()) {
             Name = name;
         } else {
-            System.out.println("Error - ReceiveUserInfo - invalid name, blank or white space");
+            System.out.println("Error - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid name, blank or white space");
             return 1;
         }
+
 
 
         // Check Id to ensure it is a valid positive number or the default id (-1)
         if (id >= -1) {
             Id = id;
         } else {
-            System.out.println("Error - ReceiveUserInfo - invalid id, less than -1");
+            System.out.println("Error - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid id, less than -1");
             return 1;
         }
+
 
 
         // Check Days to ensure each array position contains a string that isn't blank
@@ -61,10 +67,12 @@ public class PROG_INFO_InfoFileWrite {
             if (!days[day].isBlank()) {
 
             } else {
-                System.out.println("Error - ReceiveUserInfo - invalid Day, String blank at position: " + day);
+                System.out.println("Error - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid Day, String blank at position: " + day);
                 return 1;
             }
         }
+
+
 
         // Check TimeIntervals
         // - check each day is valid
@@ -72,35 +80,35 @@ public class PROG_INFO_InfoFileWrite {
         // - check each prefered min is within valid time 00 - 59
         for (int intervalPosition = 0; intervalPosition < intervals.size(); intervalPosition++) {
 
-            String Day      = intervals.get(intervalPosition).WeekDay;
-            int BeginHour   = intervals.get(intervalPosition).PreferedHourBEGIN.getHour();
-            int BeginMIN    = intervals.get(intervalPosition).PreferedHourBEGIN.getMinute();
-            int EndHour     = intervals.get(intervalPosition).PreferedHourEND.getHour();
-            int EndMin      = intervals.get(intervalPosition).PreferedHourEND.getMinute();
+            String  Day         = intervals.get(intervalPosition).WeekDay;
+            int     BeginHour   = intervals.get(intervalPosition).PreferedHourBEGIN.getHour();
+            int     BeginMIN    = intervals.get(intervalPosition).PreferedHourBEGIN.getMinute();
+            int     EndHour     = intervals.get(intervalPosition).PreferedHourEND.getHour();
+            int     EndMin      = intervals.get(intervalPosition).PreferedHourEND.getMinute();
 
 
             if (Day.isBlank()) {
-                System.out.println("Error - ReceiveUserInfo - invalid interval, missing day at position: " + intervalPosition);
+                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid interval, missing day at position: " + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < BeginHour) || !(BeginHour < 24)) {
-                System.out.println("Error - ReceiveUserInfo - invalid Begin Hour, Hour above or below interval limit at position: " + intervalPosition);
+                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid Begin Hour, Hour above or below interval limit at position: " + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < BeginMIN) || !(BeginHour < 60)) {
-                System.out.println("Error - ReceiveUserInfo - invalid Begin Min, Min above or below interval limit at position: " + intervalPosition);
+                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid Begin Min, Min above or below interval limit at position: " + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < EndHour) || !(EndHour < 24)) {
-                System.out.println("Error - ReceiveUserInfo - invalid End Hour, Hour above or below interval limit at position: " + intervalPosition);
+                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid End Hour, Hour above or below interval limit at position: " + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < EndMin) || !(EndMin < 60)) {
-                System.out.println("Error - ReceiveUserInfo - invalid End Min, Min above or below interval limit at position: " + intervalPosition);
+                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid End Min, Min above or below interval limit at position: " + intervalPosition);
                 return 1;
             }
 
@@ -114,11 +122,15 @@ public class PROG_INFO_InfoFileWrite {
         System.out.println("Success - ReceiveUserInfo - UserData object created and assigned");
 
         return 0;
-    }
+
+    } // ReceiveUserInfo()
+
+
 
 
 
     /**
+     * WriteUserInfo
      * Writes User Info
      * Adds the submitted info into the Default file containing User info Cards
      * in the correct format.

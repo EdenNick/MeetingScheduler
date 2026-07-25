@@ -1,0 +1,28 @@
+/**
+ * PROG_INFO_Schedule
+ * Description: Object that holds the calcualted scheduleinfo
+ */
+
+import java.util.LinkedList;
+
+public class PROG_INFO_Schedule {
+
+    String              WeekDay;            // Holds The Day the TimeInterval exists on
+    PROG_INFO_TimeInput Intervals;          // Holds a specific interval for that day
+    LinkedList<String>  USERIDs;            // Total ammount of people that can meet for that interval
+    boolean             Schedule = false;   // true if all the people that are in USERIDs are all the people the user wants scheduled, false otherwise.
+
+
+    public PROG_INFO_Schedule(String day, PROG_INFO_TimeInput times, LinkedList<String> IDs, boolean schedule) {
+
+        this.WeekDay    = day;
+        this.Intervals  = new PROG_INFO_TimeInput(times);
+        this.USERIDs    = new LinkedList<String>(IDs);
+        this.Schedule   = schedule;
+
+    }
+    
+}
+
+
+

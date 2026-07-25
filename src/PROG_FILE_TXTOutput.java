@@ -12,12 +12,12 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 
 
-public class PROG_FILE_Output {
+public class PROG_FILE_TXTOutput {
 
     private String              FILENAME    = "";
     private String              InvalidText = "File could not be read";
-    private LinkedList<String>  USERID      = new LinkedList<String>();
-    private LinkedList<String>  FileText    = new LinkedList<String>();
+    private LinkedList<String>  USERID;
+    private LinkedList<String>  FileText;
     private Path                FilePath;
 
 
@@ -26,47 +26,41 @@ public class PROG_FILE_Output {
      * used when the full contents of a single file Need to be read;
      * @param FileToRead
      */
-    public PROG_FILE_Output(String FileToRead) {
-
-        this.FILENAME   = FileToRead;
-        this.FileText.add(FILENAME);
-        this.FilePath = Paths.get(FILENAME);
-
-    }
-
-
-
-    /**
-     * Constructor
-     * Description: used when a single id needs to be read
-     */
-    public PROG_FILE_Output(String FileToRead, int ID) {
-
-        // Ensures valid ID
-        if (ID < -1) {
-            ID = -1;
-        }
+    public PROG_FILE_TXTOutput(String FileToRead) {
 
         this.FILENAME = FileToRead;
-        this.USERID.add(String.valueOf(ID));
+        this.FileText = new LinkedList<String>();
         this.FileText.add(FILENAME);
         this.FilePath = Paths.get(FILENAME);
 
     }
-
 
 
     /**
      * Constructor
      * Description: used when a set of ids need to be read
+     * @param FileToRead
+     * @param ID
      */
-    public PROG_FILE_Output(String FileToRead, LinkedList<String> ID) {
+    public PROG_FILE_TXTOutput(String FileToRead, LinkedList<String> ID) {
 
-        this.FILENAME   = FileToRead;
-        this.USERID     = new LinkedList<String>(ID);
+        this.FILENAME = FileToRead;
+        this.USERID   = new LinkedList<String>(ID);
         this.FileText.add(FILENAME);
         this.FilePath = Paths.get(FILENAME);
 
+    }
+
+
+    /**
+     * UpdateFileOutput
+     * Used to update the file being read
+     */
+    public void UpdateFileOutput(String FileToRead, LinkedList<String> ID) {
+        this.FILENAME = FileToRead;
+        this.USERID   = new LinkedList<String>(ID);
+        this.FileText.add(FILENAME);
+        this.FilePath = Paths.get(FILENAME);
     }
 
 
@@ -111,7 +105,7 @@ public class PROG_FILE_Output {
 
     public LinkedList<String> ReadUser() {
 
-        //FileText = new LinkedList<>();
+        // FileText = new LinkedList<>();
 
         try (BufferedReader FileReader = Files.newBufferedReader(FilePath);){
 
@@ -121,7 +115,7 @@ public class PROG_FILE_Output {
             while((CurrentLine = FileReader.readLine()) != null) {
 
                 //if a line contains a user ID
-                for (String ID : USERID )
+                for (String ID : USERID ) {
                     if (CurrentLine.contains(ID)) {
                         
                         FileText.add(CurrentLine);
@@ -132,7 +126,7 @@ public class PROG_FILE_Output {
                         }
 
                     }
-
+                }
             } // while()
 
             FileReader.close();
@@ -150,5 +144,7 @@ public class PROG_FILE_Output {
 
         return FileText;
     }
+
+
     
 }

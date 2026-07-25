@@ -155,7 +155,7 @@ public class PROG_TEST_FullTest {
 
 
         // Sets file to perform an action on.
-        PROG_FILE_Input.setFileName("src\\PROG_DATA_TextTestFile.txt");
+        PROG_FILE_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // Data to add to the file
         TestTextLine.add("ID: " + ID);                                  // Keep an Eye on this variable, caused problems when deleting file info
@@ -165,7 +165,7 @@ public class PROG_TEST_FullTest {
         TestTextLine.add("####################");
 
 
-        PROG_FILE_Input.writeData(TestTextLine);
+        PROG_FILE_TXTInput.writeData(TestTextLine);
 
 
         System.out.println("TEST_File_AddCardToFile:    Test: Complete");
@@ -183,10 +183,10 @@ public class PROG_TEST_FullTest {
         System.out.println("TEST_File_RemCardFromFile   Test: Start");
 
         // Sets file to perform an action on.
-        PROG_FILE_Input.setFileName("src\\PROG_DATA_TextTestFile.txt");
+        PROG_FILE_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // Delete data with User ID "001".
-        PROG_FILE_Input.DeleteData("001");
+        PROG_FILE_TXTInput.DeleteData("001");
 
 
         System.out.println("TEST_File_RemCardFromFile   Test: Complete");
@@ -206,7 +206,7 @@ public class PROG_TEST_FullTest {
 
         List<String> TestTextLine = new ArrayList<>();
 
-        PROG_FILE_Input.setFileName("src\\PROG_DATA_TextTestFile.txt");
+        PROG_FILE_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // adding a series of blank spaces to the file to simulate unformated lines of space
         TestTextLine.add(" ");
@@ -214,7 +214,7 @@ public class PROG_TEST_FullTest {
         TestTextLine.add("      ");
         TestTextLine.add("  ");
 
-        PROG_FILE_Input.OrganizeData();
+        PROG_FILE_TXTInput.OrganizeData();
 
         System.out.println("TEST_FILE_OrganizeUserInfo  Test: Complete");
 

@@ -15,7 +15,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PROG_FILE_Input {
+public class PROG_FILE_TXTInput {
 
 
     /** 
@@ -74,31 +74,6 @@ public class PROG_FILE_Input {
         return 0;
     }
 
-    /**
-     * Checks fiel type
-     * checks what type of file is being accessed to ensure proper operations
-     * 0 : .txt file
-     * 1 : .json file
-     */
-    public static int CheckFile(String type) {
-
-        String fileType;
-
-        try {
-            fileType = Files.probeContentType(filePath);
-        } catch (IOException e) {
-            System.out.println("ERROR: DataFileInput.CheckFile - invalid file path");
-            return 1;
-        }
-
-        if (!(fileType.equals(type))) {
-            System.out.println("ERROR: DataFileInput.CheckFile - invalid file type");
-            return 1;
-        }
-        return 0;
-
-    }
-
 
 
     /**
@@ -113,10 +88,6 @@ public class PROG_FILE_Input {
             return 1;
         }
 
-        if (CheckFile("txt") != 0) {
-            System.out.println("ERROR: DataFileInput.writeData - CheckFile -");
-            return 1;
-        }
 
         // lines to be added to the file
         List<String> textlines = new ArrayList<>(lines);
@@ -156,10 +127,6 @@ public class PROG_FILE_Input {
             return 1;
         }
 
-        if (CheckFile("txt") != 0) {
-            System.out.println("ERROR: DataFileInput.DeleteData - CheckFile -");
-            return 1;
-        }
 
         String DeleteID = ID;
 
@@ -224,10 +191,6 @@ public class PROG_FILE_Input {
             return 1;
         }
 
-        if (CheckFile("txt") != 0) {
-            System.out.println("ERROR: DataFileInput.DeleteData - CheckFile -");
-            return 1;
-        }
 
 
         try (BufferedReader FileReader = Files.newBufferedReader(filePath);

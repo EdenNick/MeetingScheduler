@@ -13,15 +13,18 @@ import java.util.LinkedList;
 
 public class PROG_INFO_SchedulingCalculation {
 
-    private boolean             ScheduleEveryone        = true;         // True for scheduling everyone             - False for scheduling specifc people.
-    private boolean             AnyDayAnyTime           = true;         // True if day and time Don't matter        - False if they do
-    private LinkedList<String>  PeopleToSchedule;                       // stores user id of people to be scheduled
-    private String[]            WeekDays                = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    //private boolean             ScheduleEveryone        = true;         // True for scheduling everyone             - False for scheduling specifc people.
+    //private boolean             AnyDayAnyTime           = true;         // True if day and time Don't matter        - False if they do
 
-    private boolean             OperationReady          = false;        // variable use to prevent unwanted operations on PeopleLinkedList. if false, the full list of people are retrieved as default
+
+    private String[]                        WeekDays                    = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private boolean                         OperationReady = false;     // If false, the full list of people are retrieved as default
+    private LinkedList<String>              PeopleToSchedule;           // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it
+    private LinkedList<String>              IDList;                     // LinkedList that holds the list of available people for each viable interval.
     private LinkedList<PROG_INFO_InfoInput> People;                     // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
-    private LinkedList<PROG_INFO_Schedule>  ScheduleList = new LinkedList<PROG_INFO_Schedule>();
-    private PROG_INFO_Schedule              Schedule;
+    private LinkedList<PROG_INFO_Schedule>  ScheduleList;               // LinkedList of viableschedules and the people who can be in them
+    private PROG_INFO_TimeInput             TimeInput;                  // Used to set viable time intervals in the ScheduleList LinkedList.
+
 
 
     /**
@@ -30,7 +33,11 @@ public class PROG_INFO_SchedulingCalculation {
      */
     public PROG_INFO_SchedulingCalculation() {
 
-        // Values remain as default no action taken
+        // Values set as default
+        this.WeekDays       = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        this.OperationReady = false;
+
+
         // ScheduleEveryone         = true;
         // AnyDayAnyTime            = true
         // PeopleToSchedule         = null;
@@ -48,7 +55,7 @@ public class PROG_INFO_SchedulingCalculation {
      */
     public PROG_INFO_SchedulingCalculation(LinkedList<String> people) {
 
-        this.ScheduleEveryone       = false;
+        //this.ScheduleEveryone       = false;
         // this.AnyDayANDTime       = true;
         this.PeopleToSchedule       = new LinkedList<String>(people);
         this.OperationReady         = true;
@@ -65,7 +72,7 @@ public class PROG_INFO_SchedulingCalculation {
     public PROG_INFO_SchedulingCalculation(String[] days) {
 
         // this.ScheduleEveryone    = true;
-        this.AnyDayAnyTime          = false;
+        //this.AnyDayAnyTime          = false;
         this.WeekDays               = days.clone();
         this.OperationReady         = false;
 
@@ -81,8 +88,8 @@ public class PROG_INFO_SchedulingCalculation {
      */
     public PROG_INFO_SchedulingCalculation(LinkedList<String> people, String[] days) {
 
-        this.ScheduleEveryone       = false;
-        this.AnyDayAnyTime          = false;
+        //this.ScheduleEveryone       = false;
+        //this.AnyDayAnyTime          = false;
         this.PeopleToSchedule       = new LinkedList<String>(people);
         this.WeekDays               = days.clone();
         this.OperationReady         = true;
@@ -106,6 +113,8 @@ public class PROG_INFO_SchedulingCalculation {
      */
     private void RetrieveUserCards() {
 
+        People = new LinkedList<PROG_INFO_InfoInput>();
+
         if (OperationReady == true) {                                       // A linkedlist of user ids was provided iterate through those
             // iterates over the linked list string of people to select
             for (String Person : PeopleToSchedule) {
@@ -126,14 +135,12 @@ public class PROG_INFO_SchedulingCalculation {
      */
     private int CalculateSchedule() {
 
-        RetrieveUserCards(); // retrieves user info
+        RetrieveUserCards();                                        // retrieves user info
 
-        //for (PROG_INFO_InfoInput PERSON : People) {
-        //}
+        ScheduleList    = new LinkedList<PROG_INFO_Schedule>();     // List of possible schedules
+        IDList          = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
 
-
-        // for each day of the week find the total ammount of people that can meet
-        for (int day = 0; day < 7; day++) {     // 0 = Sun, 6 = Sat
+        for (int day = 0; day < 7; day++) {                         // for each day of the week find the total ammount of people that can meet. 0 = Sun, 6 = Sat
 
             int IndexAmmount = 100;
             // iterates over the list storing the smallest index size
@@ -145,57 +152,108 @@ public class PROG_INFO_SchedulingCalculation {
             }
 
 
-            int position        = 0;
+            int position = 0;
 
             while (position < IndexAmmount) {
 
-                int StartInterval   = -1;
-                int EndInterval     = 24;
+                int StartIntervalHour   = -1;
+                int StartIntervalMin    = -1;
+                int EndIntervalHour     = 24;
+                int EndIntervalMin      = 60;
+
+
 
                 for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
 
                     // 1. find the latest start time of the earliest time interval from all people on that day
-                    if (Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour() > StartInterval) {
-                        StartInterval   = Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour();
+                    if (Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour() > StartIntervalHour) {
+                        StartIntervalHour   = Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour();       // HOUR
                     }
+
+                    if (Person.TimeIntervals.get(position).PreferedHourBEGIN.getMinute() > StartIntervalMin) {
+                        StartIntervalMin    = Person.TimeIntervals.get(position).PreferedHourBEGIN.getMinute();     // MIN
+                    }
+
+
+
 
                     // 2. find the earliest end time from the same interval on that day
-                    if (Person.TimeIntervals.get(position).PreferedHourEND.getHour() > EndInterval) {
-                        EndInterval     = Person.TimeIntervals.get(position).PreferedHourEND.getHour();
+                    if (Person.TimeIntervals.get(position).PreferedHourEND.getHour() > EndIntervalHour) {
+                        EndIntervalHour     = Person.TimeIntervals.get(position).PreferedHourEND.getHour();         // HOUR
+                    }
+
+                    if (Person.TimeIntervals.get(position).PreferedHourEND.getMinute() > EndIntervalMin) {
+                        EndIntervalMin      = Person.TimeIntervals.get(position).PreferedHourEND.getMinute();       // MIN
                     }
 
                 } // for()
+
+
+
 
                 // 3. store the total number of people that fall within that interval
-                for (PROG_INFO_InfoInput Person : People) {
+                for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
 
-                    if ((StartInterval >= Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour()) && (EndInterval) <= Person.TimeIntervals.get(position).PreferedHourEND.getHour()) {
-                        // add to the list for that day
-                        Schedule = new PROG_INFO_Schedule(WeekDays[position], null, Person.EmployeeID, ScheduleEveryone)
-                        ScheduleList.add
+                    // 1. find the latest start time of the earliest time interval from all people on that day
+                    int BeginHour   = Person.TimeIntervals.get(position).PreferedHourBEGIN.getHour();
+                    int BeginMIN    = Person.TimeIntervals.get(position).PreferedHourBEGIN.getMinute();
+                    int EndHour     = Person.TimeIntervals.get(position).PreferedHourEND.getHour();
+                    int EndMin      = Person.TimeIntervals.get(position).PreferedHourEND.getMinute();
+
+                    // if persons interval lies between then its id is added to the list
+                    if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
+                        IDList.add(String.valueOf(Person.EmployeeID));
                     }
+
                 } // for()
+
+
+                if (PeopleToSchedule.equals(IDList)) {      // everyone the user wanted is on the list for this interval
+                    OperationReady = true;
+                } else {                                    // not everyone is on the list
+                    OperationReady = false;
+                }
+
+
+                TimeInput = new PROG_INFO_TimeInput(WeekDays[position], StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
+
+                // 6. if any of these lists contain all the specified people, mark that list
+                ScheduleList.add(new PROG_INFO_Schedule(WeekDays[position], TimeInput, IDList, OperationReady));
                 
                 
                 position++;
 
-            } // while() 
-            // 5. discard all lists beside the one with the most ammount of people, if there are more than one with the same ammount store all of them.
+            } // while()
+
+        } // for()
 
 
-            // 6. if any of these lists contain all the specified people, mark that list
+        // 5. discard all lists beside the one with the most ammount of people, if there are more than one with the same ammount store all of them.
+        int ScheduleListSize = ScheduleList.size();
 
+        boolean FullList = false;
+
+        for (int position = 0; position < ScheduleListSize; position++) {
+            
+            if (ScheduleList.get(position).Schedule == true) {
+                FullList = true;
+            }
+
+        } // for()
+
+
+        // TODO: add mechanism for user to interact with this process desciding how many lists to keep, what lsits, etc.
+
+        if (FullList == true) {
+            // 7. iterate through all lists focusing first on those with the identifier
+            // Discard all lists where .schedule == false
+        } else {
+            // 8. if none with the identfier are found look for the top lists (user ammount specified) based on quantity of people
+            // sort through lists keeping only at most the top three if possible
         }
 
 
-        // 7. iterate through all lists focusing first on those with the identifier
-
-
-
-        // 8. if none with the identfier are found look for the top lists (user ammount specified) based on quantity of people
-
-
-        // 9. store specified lists
+        // 9. final set of lists
 
 
 

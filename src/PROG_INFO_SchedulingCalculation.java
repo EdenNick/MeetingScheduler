@@ -14,6 +14,28 @@ import java.util.LinkedList;
 public class PROG_INFO_SchedulingCalculation {
 
 
+
+    /**
+     * INSTRUCTIONS FOR CLASS USE:
+     * 
+     * 1. Declare new PROG_INFO_SchedulingCalculation() object
+     * 
+     * 2. Optional - add user preference through any or all of the following methods
+     *      a. UpdatePeopleToSchedule()
+     *      b. UpdateListNumber()
+     *      c. UpdateWeekDays()
+     *      d. SetSpecificTime()
+     *      e. SetNonSpecificTime()
+     *      f. ResetALLPreferences()
+     * 
+     * 3. call CalculateSchedule() to calculate the schedules for the user
+     * 
+     * 4. Optional - use any of the methods in step 2. to update the preferences. Call CalculateSchedule() again to recalculate the schedules
+     * 
+     * 5. use RetrieveSchedule to retrieve the completed schedules. returns LinkedList<PROG_INFO_Schedule>
+     */
+
+
     /**
      * User Preferences
      */
@@ -22,6 +44,8 @@ public class PROG_INFO_SchedulingCalculation {
     private String[]                        WeekDays;                       // Days the user wants a schedule for, defaults to the whole week.
     private boolean                         IDsProvided         = false;    // If false, a list of people to schedule was not provided, false as default.
     private LinkedList<String>              PeopleToSchedule;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
+    private boolean                         UserTimes           = false;    // boolean if the user wants specified time intervals.
+    private LinkedList<PROG_INFO_TimeInput> UserSpecifiedTimes;             // LinkedList containing the specified times of the user
 
     /**
      * Program calculation variables
@@ -33,6 +57,8 @@ public class PROG_INFO_SchedulingCalculation {
     private boolean                         FullList            = false;    // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
 
     private LinkedList<PROG_INFO_Schedule>  ScheduleList;                   // LinkedList of viableschedules and the people who can be in them.
+
+
 
 
 
@@ -52,6 +78,8 @@ public class PROG_INFO_SchedulingCalculation {
 
 
 
+
+
     /**
      * ResetALLPreferences()
      * Description: Resets all User preferences to default
@@ -63,8 +91,13 @@ public class PROG_INFO_SchedulingCalculation {
         this.ShowOnlyFullLists  = true;
         this.WeekDays           = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
         this.IDsProvided        = false;
+        this.UserTimes          = false;
 
     }
+
+
+
+
 
     /**
      * UpdatePeopleToSchedule()
@@ -77,6 +110,8 @@ public class PROG_INFO_SchedulingCalculation {
         this.IDsProvided        = true;
 
     }
+
+
 
 
 
@@ -93,6 +128,8 @@ public class PROG_INFO_SchedulingCalculation {
 
 
 
+
+
     /**
      * UpdateWeekDays()
      * Description: Updates the user selected days they want to schedule a meeting on
@@ -103,6 +140,38 @@ public class PROG_INFO_SchedulingCalculation {
         this.WeekDays           = days.clone();
 
     }
+
+
+
+
+
+    /**
+     * SetSpecificTime()
+     * Description: sets the program to find the people who can meet in specified intervals provided by the user
+     * @param time
+     */
+    public void SetSpecificTime(LinkedList<PROG_INFO_TimeInput> time) {
+        
+        this.UserTimes          = true;
+        this.UserSpecifiedTimes = new LinkedList<PROG_INFO_TimeInput>(time);
+
+    }
+
+
+
+
+
+    /**
+     * SetNonSpecificTime()
+     * Description: sets the program to find all possible times within the given day, sets UserSpecifiedTimes to null for garbage collection
+     */
+    public void SetNonSpecificTime() {
+
+        this.UserTimes          = false;
+        this.UserSpecifiedTimes = null;
+    }
+
+
 
 
 
@@ -131,6 +200,9 @@ public class PROG_INFO_SchedulingCalculation {
     }
 
 
+
+
+
     /**
      * CalculateSchedule()
      * Description: calculates the schedules based on user preference
@@ -139,13 +211,11 @@ public class PROG_INFO_SchedulingCalculation {
     private int CalculateSchedule() {
 
 
-
         /**
          * Step 1. Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
          */
         ScheduleList    = new LinkedList<PROG_INFO_Schedule>();     // List of possible schedules
         AvailableIDs    = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
-
 
 
         /**
@@ -157,7 +227,6 @@ public class PROG_INFO_SchedulingCalculation {
             System.out.println("ERROR - PROG_INFO_SchedulingCalculation - CalculateSchedule - PeopleSet is false");
             return 1;
         }
-
 
         
         /**
@@ -173,14 +242,11 @@ public class PROG_INFO_SchedulingCalculation {
         } // for ()
 
 
-
         /**
          * Step 4. Iterate over each day of the week stored in the WeekDays String[], the string may chnage due to user preference so it must be 
          * iterated over using a for loop.
          */
         for (String Day : WeekDays) {
-
-
 
 
             /**
@@ -195,77 +261,122 @@ public class PROG_INFO_SchedulingCalculation {
                 int EndIntervalMin      = 60;
 
 
-
                 /**
                  * Step 6. iterate through all people in the People LinkedList, looking at only the index positon from step 5.
                  * checking first to see if the TimeInterval index is on the correct day. For all the intervals that are, store the latest time in that
                  * index and the earliest time in that index as within the start and end intervals for hours and minutes
-                 * 
-                 * TODO: possible implementation of user selected times.
                  */
-                for (PROG_INFO_InfoInput Person : People) {
+                if (UserTimes == false) {
 
+                    // No User Selected times
 
-                    try {
+                    for (PROG_INFO_InfoInput Person : People) {
 
-                        if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) { // If the day is not correct the interval shouldn't be checked.
+                        try {
 
-                            // 6.a find the latest start time of the earliest time interval from all people on that day
-                            if (Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour() > StartIntervalHour) {
-                                StartIntervalHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();       // HOUR
+                            if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) { // If the day is not correct the interval shouldn't be checked.
+
+                                // 6.a find the latest start time of the earliest time interval from all people on that day
+                                if (Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour() > StartIntervalHour) {
+                                    StartIntervalHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();       // HOUR
+                                }
+
+                                if (Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute() > StartIntervalMin) {
+                                    StartIntervalMin    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();     // MIN
+                                }
+
+                                // 6.b find the earliest end time from the same interval on that day
+                                if (Person.TimeIntervals.get(Index).PreferedHourEND.getHour() > EndIntervalHour) {
+                                    EndIntervalHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();         // HOUR
+                                }
+
+                                if (Person.TimeIntervals.get(Index).PreferedHourEND.getMinute() > EndIntervalMin) {
+                                    EndIntervalMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();       // MIN
+                                }
+
                             }
 
-                            if (Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute() > StartIntervalMin) {
-                                StartIntervalMin    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();     // MIN
-                            }
+                        } catch (Exception e) {
 
-                            // 6.b find the earliest end time from the same interval on that day
-                            if (Person.TimeIntervals.get(Index).PreferedHourEND.getHour() > EndIntervalHour) {
-                                EndIntervalHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();         // HOUR
-                            }
-
-                            if (Person.TimeIntervals.get(Index).PreferedHourEND.getMinute() > EndIntervalMin) {
-                                EndIntervalMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();       // MIN
-                            }
+                            // try/catch exists due to index out of bounds. This is expected to happen as each list is dynamic in size
+                            // TODO: look into possible soultion for this to reduce complexity
 
                         }
+                    
+                    } // for()
 
-                    } catch (Exception e) {
-
-                        // try/catch exists due to index out of bounds. This is expected to happen as each list is dynamic in size
-                        // TODO: look into possible soultion for this to reduce complexity
-
-                    }
-                
-                } // for()
-
-
-                // TODO: possible implementation of check to ensure start and end intervals are within bounds
-
-            
+                }
+ 
+                // TODO: might need possible implementation of check to ensure start and end intervals are within bounds
             
                 /**
                  * Step 7. For all people in the People LinkedList, check the time interval at that index, if it lies between the stored
+                 * interval, add it to the list
                  */
-                for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
+                if (UserTimes == false) {
 
-                    if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
+                    /**
+                     * no user selected times, program calculates any possible interval set
+                     */
 
-                        // 1. find the latest start time of the earliest time interval from all people on that day
-                        int BeginHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();
-                        int BeginMIN    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();
-                        int EndHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();
-                        int EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
+                    for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
 
-                        // if persons interval lies between then its id is added to the list
-                        if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
-                            AvailableIDs.add(String.valueOf(Person.EmployeeID));
-                        }
+                        if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
 
-                    } // if()
+                            // 1. find the latest start time of the earliest time interval from all people on that day
+                            int BeginHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();
+                            int BeginMIN    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();
+                            int EndHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();
+                            int EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
 
-                } // for()
-            
+                            // if persons interval lies between then its id is added to the list
+                            if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
+                                AvailableIDs.add(String.valueOf(Person.EmployeeID));
+                            }
+
+                        } // if()
+
+                    } // for()
+
+
+                } else if (UserTimes == true) {
+
+                    /**
+                     * Sser selected times, program calculates based off of provided intervals in UserSpecifiedTimes
+                     */
+
+                    for (PROG_INFO_TimeInput Interval : UserSpecifiedTimes) {
+
+                        StartIntervalHour   = Interval.PreferedHourBEGIN.getHour();
+                        StartIntervalMin    = Interval.PreferedHourBEGIN.getMinute();
+                        EndIntervalHour     = Interval.PreferedHourEND.getHour();
+                        EndIntervalMin      = Interval.PreferedHourEND.getMinute();
+
+                        for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
+
+                            if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
+
+                                // 1. find the latest start time of the earliest time interval from all people on that day
+                                int BeginHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();
+                                int BeginMIN    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();
+                                int EndHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();
+                                int EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
+
+                                // if persons interval lies between then its id is added to the list
+                                if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
+                                    AvailableIDs.add(String.valueOf(Person.EmployeeID));
+                                }
+
+                            } // if()
+
+                        } // for()
+
+                    }
+                } else {
+                    // should never get here
+                    System.out.println("ERROR - PROG_INFO_SchedulingCalculation - CalculateSchedule - if/else loop UserTimes not true or false");
+                    return 1;
+                }
             
             
                 /**
@@ -279,12 +390,10 @@ public class PROG_INFO_SchedulingCalculation {
                 }
 
 
-
                 /**
                  * Step 9. create new TimeInput LinkedList containing this schedule
                  */
                 TimeInput = new PROG_INFO_TimeInput(WeekDays[Index], StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
-
 
 
                 /**
@@ -292,8 +401,6 @@ public class PROG_INFO_SchedulingCalculation {
                  */
                 ScheduleList.add(new PROG_INFO_Schedule(WeekDays[Index], TimeInput, AvailableIDs, FullList));
                 
-            
-            
             
             } // for (int Index = 0; Index <= MaxSize; Index++)
 
@@ -310,6 +417,8 @@ public class PROG_INFO_SchedulingCalculation {
 
 
 
+
+
     /**
      * RetrieveSchedule()
      * Description: public method called in order to pass ScheduleList outside the class
@@ -318,8 +427,5 @@ public class PROG_INFO_SchedulingCalculation {
         return ScheduleList;
     }
 
-
-
-    // TODO: decide whether operations showing what lists are shown should remain within this class or be implemented in another class as part of the UI.
 
 }

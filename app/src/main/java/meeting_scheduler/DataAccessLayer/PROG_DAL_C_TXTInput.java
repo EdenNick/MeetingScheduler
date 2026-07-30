@@ -1,4 +1,4 @@
-package meeting_scheduler.ProgramFiles;
+package meeting_scheduler.DataAccessLayer;
 /**
  * DataFileInput.java
  * 
@@ -16,7 +16,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PROG_FILE_TXTInput {
+public class PROG_DAL_C_TXTInput {
 
 
     /** 

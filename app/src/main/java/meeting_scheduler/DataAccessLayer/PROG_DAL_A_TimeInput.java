@@ -1,4 +1,4 @@
-package meeting_scheduler.ProgramFiles;
+package meeting_scheduler.DataAccessLayer;
 /**
  * DATA_USER_TimeInput.java
  * 
@@ -8,7 +8,7 @@ package meeting_scheduler.ProgramFiles;
 
 import java.time.LocalTime;
 
-public class PROG_INFO_TimeInput {
+public class PROG_DAL_A_TimeInput {
 
     public String      WeekDay;
     public LocalTime   PreferedHourBEGIN;
@@ -19,7 +19,7 @@ public class PROG_INFO_TimeInput {
      * Default consturctor
      * Meant for use with Json files, do not alter this.
      */
-    public PROG_INFO_TimeInput() {
+    public PROG_DAL_A_TimeInput() {
 
 
 
@@ -32,7 +32,7 @@ public class PROG_INFO_TimeInput {
      * @param EndHOUR
      * @param EndMIN
      */
-    public PROG_INFO_TimeInput(String day, int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
+    public PROG_DAL_A_TimeInput(String day, int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN) {
         
         this.WeekDay            = day;
         this.PreferedHourBEGIN  = LocalTime.of(BeginHOUR, BeginMIN);    // (hour:min)    Military Time
@@ -46,7 +46,7 @@ public class PROG_INFO_TimeInput {
      * Copy Constructor
      * @return
      */
-    public PROG_INFO_TimeInput(PROG_INFO_TimeInput copy) {
+    public PROG_DAL_A_TimeInput(PROG_DAL_A_TimeInput copy) {
         
         this.WeekDay            = copy.WeekDay;
         this.PreferedHourBEGIN  = copy.PreferedHourBEGIN;               // (hour:min)    Military Time

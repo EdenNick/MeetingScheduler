@@ -1,4 +1,4 @@
-package meeting_scheduler.ProgramFiles;
+package meeting_scheduler.DataAccessLayer;
 /** 
  * StaticInfoInput.java
  * 
@@ -8,7 +8,7 @@ package meeting_scheduler.ProgramFiles;
 
 import java.util.LinkedList;
 
-public class PROG_INFO_InfoInput {
+public class PROG_DAL_A_InfoInput {
 
     /**
      * DEFAULT VALUES: 
@@ -22,7 +22,7 @@ public class PROG_INFO_InfoInput {
     public  String                          EmployeeName        = "Default";
     public  int                             EmployeeID          = -1;
     public  String[]                        EmployeeMEETINGDAYS;
-    public  LinkedList<PROG_INFO_TimeInput> TimeIntervals;
+    public  LinkedList<PROG_DAL_A_TimeInput> TimeIntervals;
 
 
 
@@ -30,7 +30,7 @@ public class PROG_INFO_InfoInput {
      * Default Constructor
      * used for json operations
      */
-    public PROG_INFO_InfoInput(){
+    public PROG_DAL_A_InfoInput(){
         // com.fasterxml.jackson requires a no argument constructor - Do NOT put anything here
     }
 
@@ -41,7 +41,7 @@ public class PROG_INFO_InfoInput {
      * @param week
      * @param times
      */
-    public PROG_INFO_InfoInput(String name, int ID, String[] week, LinkedList<PROG_INFO_TimeInput> times) {
+    public PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times) {
         this.EmployeeName        = name;
         this.EmployeeID          = ID;
         this.EmployeeMEETINGDAYS = week.clone();
@@ -52,7 +52,7 @@ public class PROG_INFO_InfoInput {
      * Copy Constructor
      * @param copy
      */
-    public PROG_INFO_InfoInput(PROG_INFO_InfoInput copy) {
+    public PROG_DAL_A_InfoInput(PROG_DAL_A_InfoInput copy) {
         this.EmployeeName        = copy.EmployeeName;
         this.EmployeeID          = copy.EmployeeID;
         this.EmployeeMEETINGDAYS = copy.EmployeeMEETINGDAYS;

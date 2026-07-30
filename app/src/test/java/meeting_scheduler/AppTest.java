@@ -12,10 +12,10 @@ import java.util.List;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import meeting_scheduler.ProgramFiles.PROG_FILE_JSONManager;
-import meeting_scheduler.ProgramFiles.PROG_FILE_TXTInput;
-import meeting_scheduler.ProgramFiles.PROG_INFO_InfoInput;
-import meeting_scheduler.ProgramFiles.PROG_INFO_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTInput;
 
 class AppTest {
 
@@ -45,8 +45,8 @@ class AppTest {
     static String                           TestName = "John Smith";
     static int                              TestID = 1;
     static String[]                         TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static LinkedList<PROG_INFO_TimeInput>  TestTimeInterval = new LinkedList<>();
-    PROG_INFO_InfoInput                     staticInfo;
+    static LinkedList<PROG_DAL_A_TimeInput>  TestTimeInterval = new LinkedList<>();
+    PROG_DAL_A_InfoInput                     staticInfo;
 
   
   
@@ -55,12 +55,12 @@ class AppTest {
     public AppTest() {
 
         // Adds a single beignning and ending time to the list
-        AppTest.TestTimeInterval.add(new PROG_INFO_TimeInput("Mon",8, 0, 12, 0));
-        AppTest.TestTimeInterval.add(new PROG_INFO_TimeInput("Mon",14, 1, 15, 30));
-        AppTest.TestTimeInterval.add(new PROG_INFO_TimeInput("Fri",12, 5, 17, 45));
+        AppTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",8, 0, 12, 0));
+        AppTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",14, 1, 15, 30));
+        AppTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Fri",12, 5, 17, 45));
 
         // creates userinfo object and sets all input testing data
-        this.staticInfo = new PROG_INFO_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        this.staticInfo = new PROG_DAL_A_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
     }
 
@@ -112,7 +112,7 @@ class AppTest {
 
     public void TEST_INFO_JsonTest() throws StreamWriteException, DatabindException, IOException {
 
-        PROG_FILE_JSONManager test = new PROG_FILE_JSONManager();
+        PROG_DAL_B_JSONManager test = new PROG_DAL_B_JSONManager();
         //test.JsonWriteTest();
 
     }
@@ -151,7 +151,7 @@ class AppTest {
 
         //int IndexPosition = 0;
 
-        for (PROG_INFO_TimeInput TimeInterval : staticInfo.TimeIntervals) {
+        for (PROG_DAL_A_TimeInput TimeInterval : staticInfo.TimeIntervals) {
 
             TimeInterval.TimeConversion();
 
@@ -176,7 +176,7 @@ class AppTest {
 
 
         // Sets file to perform an action on.
-        PROG_FILE_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
+        PROG_DAL_C_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // Data to add to the file
         TestTextLine.add("ID: " + ID);                                  // Keep an Eye on this variable, caused problems when deleting file info
@@ -186,7 +186,7 @@ class AppTest {
         TestTextLine.add("####################");
 
 
-        PROG_FILE_TXTInput.writeData(TestTextLine);
+        PROG_DAL_C_TXTInput.writeData(TestTextLine);
 
 
         System.out.println("TEST_File_AddCardToFile:    Test: Complete");
@@ -204,10 +204,10 @@ class AppTest {
         System.out.println("TEST_File_RemCardFromFile   Test: Start");
 
         // Sets file to perform an action on.
-        PROG_FILE_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
+        PROG_DAL_C_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // Delete data with User ID "001".
-        PROG_FILE_TXTInput.DeleteData("001");
+        PROG_DAL_C_TXTInput.DeleteData("001");
 
 
         System.out.println("TEST_File_RemCardFromFile   Test: Complete");
@@ -227,7 +227,7 @@ class AppTest {
 
         List<String> TestTextLine = new ArrayList<>();
 
-        PROG_FILE_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
+        PROG_DAL_C_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
         // adding a series of blank spaces to the file to simulate unformated lines of space
         TestTextLine.add(" ");
@@ -235,7 +235,7 @@ class AppTest {
         TestTextLine.add("      ");
         TestTextLine.add("  ");
 
-        PROG_FILE_TXTInput.OrganizeData();
+        PROG_DAL_C_TXTInput.OrganizeData();
 
         System.out.println("TEST_FILE_OrganizeUserInfo  Test: Complete");
 

@@ -1,4 +1,4 @@
-package meeting_scheduler.ProgramFiles;
+package meeting_scheduler.BusinessLogiclayer;
 /**
  * PROG_INFO_SchedulingCalculation
  * 
@@ -12,7 +12,11 @@ package meeting_scheduler.ProgramFiles;
 
 import java.util.LinkedList;
 
-public class PROG_INFO_SchedulingCalculation {
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+
+public class PROG_BLL_SchedulingCalculation {
 
 
 
@@ -46,18 +50,18 @@ public class PROG_INFO_SchedulingCalculation {
     private boolean                         IDsProvided         = false;    // If false, a list of people to schedule was not provided, false as default.
     private LinkedList<String>              PeopleToSchedule;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
     private boolean                         UserTimes           = false;    // boolean if the user wants specified time intervals.
-    private LinkedList<PROG_INFO_TimeInput> UserSpecifiedTimes;             // LinkedList containing the specified times of the user
+    private LinkedList<PROG_DAL_A_TimeInput> UserSpecifiedTimes;             // LinkedList containing the specified times of the user
 
     /**
      * Program calculation variables
      */
     private LinkedList<String>              AvailableIDs;                   // LinkedList that holds the list of available people for each viable interval.
-    private LinkedList<PROG_INFO_InfoInput> People;                         // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
+    private LinkedList<PROG_DAL_A_InfoInput> People;                         // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
     private boolean                         PeopleSet           = false;    // false if the linkedlist peopele has not been set. false as default. 
-    private PROG_INFO_TimeInput             TimeInput;                      // Used to set viable time intervals in the ScheduleList LinkedList.
+    private PROG_DAL_A_TimeInput             TimeInput;                      // Used to set viable time intervals in the ScheduleList LinkedList.
     private boolean                         FullList            = false;    // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
 
-    private LinkedList<PROG_INFO_Schedule>  ScheduleList;                   // LinkedList of viableschedules and the people who can be in them.
+    private LinkedList<PROG_DAL_A_Schedule>  ScheduleList;                   // LinkedList of viableschedules and the people who can be in them.
 
 
 
@@ -67,7 +71,7 @@ public class PROG_INFO_SchedulingCalculation {
      * Constructor 1
      * Description: primary defualt constructor when there is no preference for who is being shceduled and when the meeting should occur.
      */
-    public PROG_INFO_SchedulingCalculation() {
+    public PROG_BLL_SchedulingCalculation() {
 
         // Values set as default
         // this.NumberOfLists      = 3;
@@ -151,10 +155,10 @@ public class PROG_INFO_SchedulingCalculation {
      * Description: sets the program to find the people who can meet in specified intervals provided by the user
      * @param time
      */
-    public void SetSpecificTime(LinkedList<PROG_INFO_TimeInput> time) {
+    public void SetSpecificTime(LinkedList<PROG_DAL_A_TimeInput> time) {
         
         this.UserTimes          = true;
-        this.UserSpecifiedTimes = new LinkedList<PROG_INFO_TimeInput>(time);
+        this.UserSpecifiedTimes = new LinkedList<PROG_DAL_A_TimeInput>(time);
 
     }
 
@@ -183,7 +187,7 @@ public class PROG_INFO_SchedulingCalculation {
     private void RetrieveUserCards() {
 
         // People - Linked list of the preferences of the people the user wants shceduled. should be calculated using user provided PeopleToSchedule variable
-        People = new LinkedList<PROG_INFO_InfoInput>();
+        People = new LinkedList<PROG_DAL_A_InfoInput>();
 
         if (IDsProvided == true) {                                       // A linkedlist of user ids was provided iterate through those
             // iterates over the linked list string of people to select
@@ -192,7 +196,7 @@ public class PROG_INFO_SchedulingCalculation {
             }
         } else {                                                            // A LinkedList of user ids was NOT provided, retrieve all info from the json file
             
-            People = new LinkedList<PROG_INFO_InfoInput>();
+            People = new LinkedList<PROG_DAL_A_InfoInput>();
             // TODO: Implement json
 
         }
@@ -215,7 +219,7 @@ public class PROG_INFO_SchedulingCalculation {
         /**
          * Step 1. Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
          */
-        ScheduleList    = new LinkedList<PROG_INFO_Schedule>();     // List of possible schedules
+        ScheduleList    = new LinkedList<PROG_DAL_A_Schedule>();     // List of possible schedules
         AvailableIDs    = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
 
 
@@ -235,7 +239,7 @@ public class PROG_INFO_SchedulingCalculation {
          * This ensures all indexes in each TimeIntervals LinkedList is covered.
          */
         int MaxSize = 0;
-        for (PROG_INFO_InfoInput Person : People) {
+        for (PROG_DAL_A_InfoInput Person : People) {
             if (Person.TimeIntervals.size() > MaxSize) {
                 MaxSize = Person.TimeIntervals.size();
             }
@@ -271,7 +275,7 @@ public class PROG_INFO_SchedulingCalculation {
 
                     // No User Selected times
 
-                    for (PROG_INFO_InfoInput Person : People) {
+                    for (PROG_DAL_A_InfoInput Person : People) {
 
                         try {
 
@@ -320,7 +324,7 @@ public class PROG_INFO_SchedulingCalculation {
                      * no user selected times, program calculates any possible interval set
                      */
 
-                    for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
+                    for (PROG_DAL_A_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
 
                         if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
 
@@ -346,14 +350,14 @@ public class PROG_INFO_SchedulingCalculation {
                      * Sser selected times, program calculates based off of provided intervals in UserSpecifiedTimes
                      */
 
-                    for (PROG_INFO_TimeInput Interval : UserSpecifiedTimes) {
+                    for (PROG_DAL_A_TimeInput Interval : UserSpecifiedTimes) {
 
                         StartIntervalHour   = Interval.PreferedHourBEGIN.getHour();
                         StartIntervalMin    = Interval.PreferedHourBEGIN.getMinute();
                         EndIntervalHour     = Interval.PreferedHourEND.getHour();
                         EndIntervalMin      = Interval.PreferedHourEND.getMinute();
 
-                        for (PROG_INFO_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
+                        for (PROG_DAL_A_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
 
                             if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
 
@@ -394,13 +398,13 @@ public class PROG_INFO_SchedulingCalculation {
                 /**
                  * Step 9. create new TimeInput LinkedList containing this schedule
                  */
-                TimeInput = new PROG_INFO_TimeInput(WeekDays[Index], StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
+                TimeInput = new PROG_DAL_A_TimeInput(WeekDays[Index], StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
 
 
                 /**
                  * Step 10. Add this new schedule to the ScheduleList (contains all createdSchedules)
                  */
-                ScheduleList.add(new PROG_INFO_Schedule(WeekDays[Index], TimeInput, AvailableIDs, FullList));
+                ScheduleList.add(new PROG_DAL_A_Schedule(WeekDays[Index], TimeInput, AvailableIDs, FullList));
                 
             
             } // for (int Index = 0; Index <= MaxSize; Index++)
@@ -424,7 +428,7 @@ public class PROG_INFO_SchedulingCalculation {
      * RetrieveSchedule()
      * Description: public method called in order to pass ScheduleList outside the class
      */
-    public LinkedList<PROG_INFO_Schedule> RetrieveSchedule() {
+    public LinkedList<PROG_DAL_A_Schedule> RetrieveSchedule() {
         return ScheduleList;
     }
 

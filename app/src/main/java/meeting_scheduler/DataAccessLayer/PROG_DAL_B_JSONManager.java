@@ -1,4 +1,4 @@
-package meeting_scheduler.ProgramFiles;
+package meeting_scheduler.DataAccessLayer;
 /**
  * PROG_FILE_JSONManager
  * Description: Used to manage the Input and output of the json file containing user preferences
@@ -21,14 +21,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 // import org.w3c.dom.events.Event;
 
 
-public class PROG_FILE_JSONManager {
+public class PROG_DAL_B_JSONManager {
 
 
     // Class parameters
-    private static final File PROG_DATA_UserDataCard = new File("app\\src\\main\\java\\meeting_scheduler\\DataFiles\\PROG_DATA_UserDataCard.json");
-    LinkedList<PROG_INFO_InfoInput> IncomingCardList;   // incoming list of usercards containing user datapreferences
-    LinkedList<PROG_INFO_InfoInput> FileCardList;  // Retrieved List of user card from the relvant .Json file.
-    LinkedList<PROG_INFO_InfoInput> OutgoingCardList;   // Card list used for all outgoing operations.
+    private static final File PROG_DATA_UserDataCard = new File("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_A_UserDataCard.json");
+    LinkedList<PROG_DAL_A_InfoInput> IncomingCardList;   // incoming list of usercards containing user datapreferences
+    LinkedList<PROG_DAL_A_InfoInput> FileCardList;  // Retrieved List of user card from the relvant .Json file.
+    LinkedList<PROG_DAL_A_InfoInput> OutgoingCardList;   // Card list used for all outgoing operations.
     boolean                         ObjectReferenceSet = false;
 
     ObjectMapper JsonObjectMapper;
@@ -41,13 +41,13 @@ public class PROG_FILE_JSONManager {
     static String                           TestName = "John Smith";
     static int                              TestID = 1;
     static String[]                         TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static LinkedList<PROG_INFO_TimeInput>  TestTimeInterval = new LinkedList<>();
-    PROG_INFO_InfoInput                     staticInfo;
+    static LinkedList<PROG_DAL_A_TimeInput>  TestTimeInterval = new LinkedList<>();
+    PROG_DAL_A_InfoInput                     staticInfo;
 
-    private static final File TestFile = new File("app\\src\\main\\java\\meeting_scheduler\\DataFiles\\JsonTestFile.json");
+    private static final File TestFile = new File("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_A_JsonTestFile.json");
 
 
-    public PROG_FILE_JSONManager() {
+    public PROG_DAL_B_JSONManager() {
         JsonObjectMapper = new ObjectMapper();
         JsonObjectMapper.registerModule(new JavaTimeModule());
         JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -62,7 +62,7 @@ public class PROG_FILE_JSONManager {
      * Description: Incoming datacards of employee preferences the user wants saved
      * @param card
      */
-    public void SetUserCards(LinkedList<PROG_INFO_InfoInput> card) {
+    public void SetUserCards(LinkedList<PROG_DAL_A_InfoInput> card) {
         
         this.IncomingCardList       = new LinkedList<>(card);
 
@@ -106,16 +106,16 @@ public class PROG_FILE_JSONManager {
             return 1;
         }
 
-        FileCardList = JsonObjectMapper.readValue(TestFile, new TypeReference<LinkedList<PROG_INFO_InfoInput>>() {});
+        FileCardList = JsonObjectMapper.readValue(TestFile, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
 
 
         // iterates through both the incoming list of data cards and the existing datacards to ensure there are no duplicates, if there are,
         // it removes them from the IncomingCardList LinkedList.
-        for (PROG_INFO_InfoInput FilePerson : FileCardList) {
+        for (PROG_DAL_A_InfoInput FilePerson : FileCardList) {
             
             int UserPersonIndex = 0;
 
-            for (PROG_INFO_InfoInput UserPerson : IncomingCardList) {
+            for (PROG_DAL_A_InfoInput UserPerson : IncomingCardList) {
                 
                 if (UserPerson.EmployeeID == FilePerson.EmployeeID) {
                     IncomingCardList.remove(UserPersonIndex);
@@ -151,7 +151,7 @@ public class PROG_FILE_JSONManager {
     public int RetrieveFromFile() throws StreamReadException, DatabindException, IOException {
 
         // retrieves existing datacrads from files
-        FileCardList = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<PROG_INFO_InfoInput>>() {});
+        FileCardList = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
 
         OutgoingCardList = new LinkedList<>(FileCardList);
 
@@ -167,14 +167,14 @@ public class PROG_FILE_JSONManager {
 
     public void JsonWriteTest1() throws StreamWriteException, DatabindException, IOException {
 
-        TestTimeInterval.add(new PROG_INFO_TimeInput("Mon",8, 0, 12, 0));
-        TestTimeInterval.add(new PROG_INFO_TimeInput("Mon",14, 1, 15, 30));
-        TestTimeInterval.add(new PROG_INFO_TimeInput("Fri",12, 5, 17, 45));
+        TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",8, 0, 12, 0));
+        TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",14, 1, 15, 30));
+        TestTimeInterval.add(new PROG_DAL_A_TimeInput("Fri",12, 5, 17, 45));
 
         // creates userinfo object and sets all input testing data
-        this.staticInfo = new PROG_INFO_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        this.staticInfo = new PROG_DAL_A_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
-        LinkedList<PROG_INFO_InfoInput> ListInfo = new LinkedList<PROG_INFO_InfoInput>();
+        LinkedList<PROG_DAL_A_InfoInput> ListInfo = new LinkedList<PROG_DAL_A_InfoInput>();
 
         ListInfo.add(staticInfo);
 
@@ -184,9 +184,9 @@ public class PROG_FILE_JSONManager {
 
     public void JsonWriteTest2() throws StreamWriteException, DatabindException, IOException {
 
-        this.staticInfo = new PROG_INFO_InfoInput("test2", 2, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        this.staticInfo = new PROG_DAL_A_InfoInput("test2", 2, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
-        LinkedList<PROG_INFO_InfoInput> UserCards;// = new LinkedList<PROG_INFO_InfoInput>();
+        LinkedList<PROG_DAL_A_InfoInput> UserCards;// = new LinkedList<PROG_INFO_InfoInput>();
 
         //JsonObjectMapper.registerModule(new JavaTimeModule());
         //JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -195,7 +195,7 @@ public class PROG_FILE_JSONManager {
         // read data
             //LinkedList<PROG_INFO_InfoInput> ListInfo = new LinkedList<PROG_INFO_InfoInput>();
 
-            UserCards = JsonObjectMapper.readValue(TestFile, new TypeReference<LinkedList<PROG_INFO_InfoInput>>() {});
+            UserCards = JsonObjectMapper.readValue(TestFile, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
         // add data
             UserCards.add(staticInfo);
 

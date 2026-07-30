@@ -1,4 +1,4 @@
-package meeting_scheduler;
+package meeting_scheduler.PresentationLayer;
 
 /**
  * Project Name: Project Meeting Scheduler 
@@ -20,7 +20,7 @@ public class MeetingScheduler {
         System.out.println("Hello, World!");
         System.out.println("Program Start");
         
-        meeting_scheduler.ProgramFiles.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.ProgramFiles.PROG_TEST_FullTest();
+        meeting_scheduler.PresentationLayer.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.PresentationLayer.PROG_TEST_FullTest();
 
         FULL_TEST.FullTest();
 

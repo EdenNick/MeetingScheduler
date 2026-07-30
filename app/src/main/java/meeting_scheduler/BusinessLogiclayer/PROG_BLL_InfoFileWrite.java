@@ -1,4 +1,4 @@
-package meeting_scheduler.ProgramFiles;
+package meeting_scheduler.BusinessLogiclayer;
 /**
  * DATA_USER_InfoFileWrite.java
  * 
@@ -21,17 +21,21 @@ import java.util.LinkedList;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-public class PROG_INFO_InfoFileWrite {
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+
+public class PROG_BLL_InfoFileWrite {
 
     public  boolean                             Input = false;
     public  String                              Name;
     public  int                                 Id;
     public  String[]                            Days = new String[6];
-    public  LinkedList<PROG_INFO_TimeInput>     TimeIntervals;
-    private PROG_INFO_InfoInput                 UserDataCard;
-    private LinkedList<PROG_INFO_InfoInput>     AllDataCards;
+    public  LinkedList<PROG_DAL_A_TimeInput>     TimeIntervals;
+    private PROG_DAL_A_InfoInput                 UserDataCard;
+    private LinkedList<PROG_DAL_A_InfoInput>     AllDataCards;
 
-    private PROG_FILE_JSONManager               JsonfileManager = new PROG_FILE_JSONManager();
+    private PROG_DAL_B_JSONManager               JsonfileManager = new PROG_DAL_B_JSONManager();
 
 
     /**
@@ -45,10 +49,10 @@ public class PROG_INFO_InfoFileWrite {
      * @param intervals
      * @return
      */
-    public int CheckUserInfo(String name, int id, String[] days, LinkedList<PROG_INFO_TimeInput> intervals) {
+    public int CheckUserInfo(String name, int id, String[] days, LinkedList<PROG_DAL_A_TimeInput> intervals) {
 
 
-        for (PROG_INFO_InfoInput Person : AllDataCards) {
+        for (PROG_DAL_A_InfoInput Person : AllDataCards) {
             if (id == Person.EmployeeID) {
                 System.out.println("INVALID INPUT - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - id already input");
                 return 0;
@@ -133,7 +137,7 @@ public class PROG_INFO_InfoFileWrite {
         
         // Assign Data
         //Create USer Data card
-        this.UserDataCard = new PROG_INFO_InfoInput(Name, Id, Days, TimeIntervals);
+        this.UserDataCard = new PROG_DAL_A_InfoInput(Name, Id, Days, TimeIntervals);
         // Assign Card to the DataCard list
         this.AllDataCards.add(UserDataCard);
         return 0;

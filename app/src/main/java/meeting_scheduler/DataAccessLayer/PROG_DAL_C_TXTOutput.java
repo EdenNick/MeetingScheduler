@@ -1,4 +1,4 @@
-package meeting_scheduler.ProgramFiles;
+package meeting_scheduler.DataAccessLayer;
 /**
  * DataFileOutput.java
  * 
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 
 
-public class PROG_FILE_TXTOutput {
+public class PROG_DAL_C_TXTOutput {
 
     private String              FILENAME    = "";
     private String              InvalidText = "File could not be read";
@@ -30,7 +30,7 @@ public class PROG_FILE_TXTOutput {
      * used when the full contents of a single file Need to be read;
      * @param FileToRead
      */
-    public PROG_FILE_TXTOutput(String FileToRead) {
+    public PROG_DAL_C_TXTOutput(String FileToRead) {
 
         this.FILENAME = FileToRead;
         this.FileText = new LinkedList<String>();
@@ -49,7 +49,7 @@ public class PROG_FILE_TXTOutput {
      * @param FileToRead
      * @param ID
      */
-    public PROG_FILE_TXTOutput(String FileToRead, LinkedList<String> ID) {
+    public PROG_DAL_C_TXTOutput(String FileToRead, LinkedList<String> ID) {
 
         this.FILENAME = FileToRead;
         this.USERID   = new LinkedList<String>(ID);

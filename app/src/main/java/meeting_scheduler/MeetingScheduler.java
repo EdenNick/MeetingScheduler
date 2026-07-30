@@ -1,7 +1,5 @@
 package meeting_scheduler;
 
-import meeting_scheduler.ProgramFiles.PROG_TEST_FullTest;
-
 /**
  * Project Name: Project Meeting Scheduler 
  * Created By: Nicholas Edenfield
@@ -22,7 +20,7 @@ public class MeetingScheduler {
         System.out.println("Hello, World!");
         System.out.println("Program Start");
         
-        meeting_scheduler.ProgramFiles.PROG_TEST_FullTest FULL_TEST = new PROG_TEST_FullTest();
+        meeting_scheduler.ProgramFiles.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.ProgramFiles.PROG_TEST_FullTest();
 
         FULL_TEST.FullTest();
 

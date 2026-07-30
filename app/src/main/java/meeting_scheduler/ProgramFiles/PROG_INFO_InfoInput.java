@@ -24,9 +24,18 @@ public class PROG_INFO_InfoInput {
     public  String[]                        EmployeeMEETINGDAYS;
     public  LinkedList<PROG_INFO_TimeInput> TimeIntervals;
 
+
+
+    /**
+     * Default Constructor
+     * used for json operations
+     */
+    public PROG_INFO_InfoInput(){
+        // com.fasterxml.jackson requires a no argument constructor - Do NOT put anything here
+    }
+
     /**
      * Main Constructor
-     * Called to input all user inputs at once
      * @param name
      * @param ID
      * @param week
@@ -41,7 +50,6 @@ public class PROG_INFO_InfoInput {
 
     /** 
      * Copy Constructor
-     * Currently no use.
      * @param copy
      */
     public PROG_INFO_InfoInput(PROG_INFO_InfoInput copy) {

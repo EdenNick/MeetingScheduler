@@ -10,11 +10,20 @@ import java.time.LocalTime;
 
 public class PROG_INFO_TimeInput {
 
-    String      WeekDay;
-    LocalTime   PreferedHourBEGIN;
-    LocalTime   PreferedHourEND;
+    public String      WeekDay;
+    public LocalTime   PreferedHourBEGIN;
+    public LocalTime   PreferedHourEND;
 
 
+    /**
+     * Default consturctor
+     * Meant for use with Json files, do not alter this.
+     */
+    public PROG_INFO_TimeInput() {
+
+
+
+    }
     /**
      * Primary Constructor
      * @param day

@@ -5,10 +5,14 @@ package meeting_scheduler.ProgramFiles;
  * Description: File used to test various functions of the program.
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.databind.DatabindException;
 
 public class PROG_TEST_FullTest {
 
@@ -45,6 +49,7 @@ public class PROG_TEST_FullTest {
 
 
     // Constructor - Fills objects with parameters for testing
+   // Constructor - Fills objects with parameters for testing
     public PROG_TEST_FullTest() {
 
         // Adds a single beignning and ending time to the list
@@ -60,8 +65,11 @@ public class PROG_TEST_FullTest {
     /**
      * FullTest()
      * Runs a full test of all components throughout the entire program
+     * @throws IOException 
+     * @throws DatabindException 
+     * @throws StreamWriteException 
      */
-    public void FullTest() {
+    public void FullTest() throws StreamWriteException, DatabindException, IOException {
         INFOTest();
         FILETest();
     }
@@ -71,10 +79,14 @@ public class PROG_TEST_FullTest {
     /**
      * UserTest()
      * Runs a full test for all user data variables and actions
+     * @throws IOException 
+     * @throws DatabindException 
+     * @throws StreamWriteException 
      */
-    public void INFOTest() {
-        TEST_INFO_BasicInfoInput();
-        TEST_INFO_StandardTimeConversion();
+    public void INFOTest() throws StreamWriteException, DatabindException, IOException {
+        //TEST_INFO_BasicInfoInput();
+        //TEST_INFO_StandardTimeConversion();
+        TEST_INFO_JsonTest();
     }
 
 
@@ -92,6 +104,22 @@ public class PROG_TEST_FullTest {
 
 
     
+
+
+
+
+    /**
+     * TEST_INFO_JsonTest()
+     * Description: tests the file read and write capabilities of the json manager
+     */
+    public void TEST_INFO_JsonTest() throws StreamWriteException, DatabindException, IOException  {
+
+        PROG_FILE_JSONManager test = new PROG_FILE_JSONManager();
+        test.JsonWriteTest1();
+        test.JsonWriteTest2();
+
+    }
+
 
 
 
@@ -225,4 +253,4 @@ public class PROG_TEST_FullTest {
 
 
 
-} // TEST_ALL_FullTest
+}

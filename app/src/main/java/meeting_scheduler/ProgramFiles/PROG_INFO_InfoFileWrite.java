@@ -15,7 +15,11 @@ package meeting_scheduler.ProgramFiles;
  * "####################"
  */
 
+import java.io.IOException;
 import java.util.LinkedList;
+
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 
 public class PROG_INFO_InfoFileWrite {
 
@@ -24,8 +28,10 @@ public class PROG_INFO_InfoFileWrite {
     public  int                                 Id;
     public  String[]                            Days = new String[6];
     public  LinkedList<PROG_INFO_TimeInput>     TimeIntervals;
-    private PROG_INFO_InfoInput                 UserData;
+    private PROG_INFO_InfoInput                 UserDataCard;
+    private LinkedList<PROG_INFO_InfoInput>     AllDataCards;
 
+    private PROG_FILE_JSONManager               JsonfileManager = new PROG_FILE_JSONManager();
 
 
     /**
@@ -41,6 +47,13 @@ public class PROG_INFO_InfoFileWrite {
      */
     public int CheckUserInfo(String name, int id, String[] days, LinkedList<PROG_INFO_TimeInput> intervals) {
 
+
+        for (PROG_INFO_InfoInput Person : AllDataCards) {
+            if (id == Person.EmployeeID) {
+                System.out.println("INVALID INPUT - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - id already input");
+                return 0;
+            }
+        }
 
 
         // Check Name to ensure it contains at least one character
@@ -117,11 +130,12 @@ public class PROG_INFO_InfoFileWrite {
         }
 
         System.out.println("Success - ReceiveUserInfo - All inputs valid");
+        
         // Assign Data
-        this.UserData = new PROG_INFO_InfoInput(Name, Id, Days, TimeIntervals);
-
-        System.out.println("Success - ReceiveUserInfo - UserData object created and assigned");
-
+        //Create USer Data card
+        this.UserDataCard = new PROG_INFO_InfoInput(Name, Id, Days, TimeIntervals);
+        // Assign Card to the DataCard list
+        this.AllDataCards.add(UserDataCard);
         return 0;
 
     } // ReceiveUserInfo()
@@ -141,10 +155,15 @@ public class PROG_INFO_InfoFileWrite {
      * Days:
      * Times
      * "####################"
+     * @throws IOException 
+     * @throws DatabindException 
+     * @throws StreamReadException 
      */
-    public int WriteUserInfo() {
+    public int WriteUserInfo() throws StreamReadException, DatabindException, IOException {
 
-        // UserData
+        JsonfileManager.SetUserCards(AllDataCards);
+
+        JsonfileManager.SetToFile();
 
         return 0;
     }

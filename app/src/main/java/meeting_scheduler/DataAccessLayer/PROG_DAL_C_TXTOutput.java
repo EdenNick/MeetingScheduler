@@ -1,6 +1,6 @@
 package meeting_scheduler.DataAccessLayer;
 /**
- * DataFileOutput.java
+ * PROG_DAL_C_TXTOutput.java
  * 
  * Description: Retrieves data from files (read-only).
  * No locks or preventative measures need to be implemented as all methods are read only operations.

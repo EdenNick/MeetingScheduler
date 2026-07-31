@@ -1,0 +1,66 @@
+DATA ACCESS LAYER
+
+
+
+DESCRIPTION: Stores the classes used for data storage and management and for internal file management.
+
+
+
+FILES & IMPORTS:
+
+1. PROG_DAL_A_InfoInput     - Stores static info to be applyed to different files.
+
+Imports:
+import java.util.LinkedList;
+
+
+2. PROG_DAL_A_Schedule      - Object that holds the calcualted scheduleinfo.
+
+Imports:
+import java.util.LinkedList;
+
+
+3. PROG_DAL_A_TimeInput     - Object that stores a single set of clock times meant to be added to a linked list.
+
+Imports:
+import java.time.LocalTime;
+
+
+4. PROG_DAL_B_JSONManager   - Used to manage the Input and output of the json file containing user preferences.
+
+Imports:
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.core.exc.StreamWriteException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+
+5. PROG_DAL_C_TXTInput      - Inputs user submitted data to a selected file (write-only).
+
+Imports:
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
+
+
+6. PROG_DAL_C_TXTOutput     - Retrieves data from files (read-only).
+
+Imports:
+import java.io.BufferedReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedList;

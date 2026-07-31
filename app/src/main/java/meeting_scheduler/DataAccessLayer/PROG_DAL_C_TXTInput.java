@@ -1,6 +1,6 @@
 package meeting_scheduler.DataAccessLayer;
 /**
- * DataFileInput.java
+ * PROG_DAL_C_TXTInput.java
  * 
  * Description: Inputs user submitted data to a selected file (write-only).
  */

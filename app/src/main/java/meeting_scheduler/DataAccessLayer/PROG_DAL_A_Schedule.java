@@ -1,7 +1,7 @@
 package meeting_scheduler.DataAccessLayer;
 /**
- * PROG_INFO_Schedule
- * Description: Object that holds the calcualted scheduleinfo
+ * PROG_DAL_A_Schedule
+ * Description: Object that holds the calcualted scheduleinfo.
  */
 
 import java.util.LinkedList;

@@ -1,6 +1,6 @@
 package meeting_scheduler.DataAccessLayer;
 /** 
- * StaticInfoInput.java
+ * PROG_DAL_A_InfoInput.java
  * 
  * Description: Stores static info to be applyed to different files.
  * Should only be concurrently.

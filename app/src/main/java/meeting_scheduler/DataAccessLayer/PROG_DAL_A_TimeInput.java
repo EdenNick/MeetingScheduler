@@ -1,6 +1,6 @@
 package meeting_scheduler.DataAccessLayer;
 /**
- * DATA_USER_TimeInput.java
+ * PROG_DAL_A_TimeInput.java
  * 
  * Description: Object that stores a single set of clock times meant to be added to a linked list.
  * (Format: Begin -> End)

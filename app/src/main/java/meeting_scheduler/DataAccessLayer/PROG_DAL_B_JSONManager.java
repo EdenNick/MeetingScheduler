@@ -1,7 +1,7 @@
 package meeting_scheduler.DataAccessLayer;
 /**
- * PROG_FILE_JSONManager
- * Description: Used to manage the Input and output of the json file containing user preferences
+ * PROG_DAL_B_JSONManager
+ * Description: Used to manage the Input and output of the json file containing user preferences.
  * 
  */
 

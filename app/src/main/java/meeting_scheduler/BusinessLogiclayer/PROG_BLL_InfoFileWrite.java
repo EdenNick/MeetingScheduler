@@ -1,6 +1,6 @@
 package meeting_scheduler.BusinessLogiclayer;
 /**
- * DATA_USER_InfoFileWrite.java
+ * PROG_BLL_InfoFileWrite.java
  * 
  * Description: Used to recieve user inputs and write user info, Id, name, etc
  * into the proper file.

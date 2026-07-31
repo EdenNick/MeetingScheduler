@@ -1,6 +1,6 @@
 package meeting_scheduler.BusinessLogiclayer;
 /**
- * PROG_INFO_SchedulingCalculation
+ * PROG_BLL_SchedulingCalculation.java
  * 
  * Description: Performs the calculations necessary to schedule a meeting between various individuals.
  * Options include:

@@ -10,11 +10,16 @@ package meeting_scheduler.BusinessLogiclayer;
  * Not scheduling meeting on specifed times or days.
  */
 
+import java.io.IOException;
 import java.util.LinkedList;
+
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 
 public class PROG_BLL_SchedulingCalculation {
 
@@ -40,31 +45,40 @@ public class PROG_BLL_SchedulingCalculation {
      * 5. use RetrieveSchedule to retrieve the completed schedules. returns LinkedList<PROG_INFO_Schedule>
      */
 
+    /**
+     * User Submitted variables for calculation
+     */
+    private LinkedList<String>                  UserInput_PeopleToSchedule; // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
+    private boolean                             IDsProvided        = false; // If false, a list of people to schedule was not provided, false as default.
+
 
     /**
-     * User Preferences
+     * User Preferences for schedule calculation
      */
-    // private int                             NumberOfLists       = 3;        // number of calculated lists the user wantslisted.
-    // private boolean                         ShowOnlyFullLists   = true;     // shows only calculated lists containing all people selected by the user.
-    private String[]                        WeekDays;                       // Days the user wants a schedule for, defaults to the whole week.
-    private boolean                         IDsProvided         = false;    // If false, a list of people to schedule was not provided, false as default.
-    private LinkedList<String>              PeopleToSchedule;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
-    private boolean                         UserTimes           = false;    // boolean if the user wants specified time intervals.
-    private LinkedList<PROG_DAL_A_TimeInput> UserSpecifiedTimes;             // LinkedList containing the specified times of the user
+    private String[]                            Pref_WeekDays;              // Days the user wants a schedule for, defaults to the whole week.
+    private LinkedList<PROG_DAL_A_TimeInput>    Pref_UserTimes;             // LinkedList containing the specified times of the user
+    private boolean                             Pref_SpecificTimes = false; // boolean if the user wants specified time intervals.
+
 
     /**
      * Program calculation variables
      */
-    private LinkedList<String>              AvailableIDs;                   // LinkedList that holds the list of available people for each viable interval.
-    private LinkedList<PROG_DAL_A_InfoInput> People;                         // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
-    private boolean                         PeopleSet           = false;    // false if the linkedlist peopele has not been set. false as default. 
-    private PROG_DAL_A_TimeInput             TimeInput;                      // Used to set viable time intervals in the ScheduleList LinkedList.
-    private boolean                         FullList            = false;    // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
+    private LinkedList<String>                  Calc_AvailableIDs;          // LinkedList that holds the list of available people for each viable interval.
 
-    private LinkedList<PROG_DAL_A_Schedule>  ScheduleList;                   // LinkedList of viableschedules and the people who can be in them.
+    private LinkedList<PROG_DAL_A_InfoInput>    Calc_People;                // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
+    private boolean                             Calc_PeopleSet     = false; // false if the linkedlist peopele has not been set. false as default. 
+
+    private PROG_DAL_A_TimeInput                Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
+    private boolean                             Calc_IdealSchedule = false; // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
+
+    private LinkedList<PROG_DAL_A_Schedule>     Calc_FullScheduleList;      // LinkedList of viableschedules and the people who can be in them.
 
 
-
+    /**
+     * File data info and management
+     */
+    private PROG_DAL_B_JSONManager              JsonFileManager = new PROG_DAL_B_JSONManager();
+    private LinkedList<PROG_DAL_A_InfoInput>    PeopleFromFile;             // All datacards contained within the relavant Json File.
 
 
     /**
@@ -74,10 +88,8 @@ public class PROG_BLL_SchedulingCalculation {
     public PROG_BLL_SchedulingCalculation() {
 
         // Values set as default
-        // this.NumberOfLists      = 3;
-        // this.ShowOnlyFullLists  = true;
-        this.WeekDays           = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-        this.IDsProvided        = false;
+        this.Pref_WeekDays              = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        this.IDsProvided                = false;
 
     }
 
@@ -92,11 +104,9 @@ public class PROG_BLL_SchedulingCalculation {
     public void ResetALLPreferences() {
 
         // Values set as default
-        // this.NumberOfLists      = 3;
-        // this.ShowOnlyFullLists  = true;
-        this.WeekDays           = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-        this.IDsProvided        = false;
-        this.UserTimes          = false;
+        this.Pref_WeekDays              = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        this.IDsProvided                = false;
+        this.Pref_SpecificTimes         = false;
 
     }
 
@@ -111,23 +121,8 @@ public class PROG_BLL_SchedulingCalculation {
      */
     public void UpdatePeopleToSchedule(LinkedList<String> people) {
 
-        this.PeopleToSchedule   = new LinkedList<String>(people);
-        this.IDsProvided        = true;
-
-    }
-
-
-
-
-
-    /**
-     * UpdateListNumber()
-     * Description: updates the total number of lists the user wants displayed
-     * @param ammount
-     */
-    public void UpdateListNumber(int ammount) {
-
-        // this.NumberOfLists      = ammount;
+        this.UserInput_PeopleToSchedule = new LinkedList<String>(people);
+        this.IDsProvided                = true;
 
     }
 
@@ -142,7 +137,7 @@ public class PROG_BLL_SchedulingCalculation {
      */
     public void UpdateWeekDays(String[] days) {
 
-        this.WeekDays           = days.clone();
+        this.Pref_WeekDays              = days.clone();
 
     }
 
@@ -157,8 +152,8 @@ public class PROG_BLL_SchedulingCalculation {
      */
     public void SetSpecificTime(LinkedList<PROG_DAL_A_TimeInput> time) {
         
-        this.UserTimes          = true;
-        this.UserSpecifiedTimes = new LinkedList<PROG_DAL_A_TimeInput>(time);
+        this.Pref_SpecificTimes         = true;
+        this.Pref_UserTimes             = new LinkedList<PROG_DAL_A_TimeInput>(time);
 
     }
 
@@ -172,8 +167,8 @@ public class PROG_BLL_SchedulingCalculation {
      */
     public void SetNonSpecificTime() {
 
-        this.UserTimes          = false;
-        this.UserSpecifiedTimes = null;
+        this.Pref_SpecificTimes         = false;
+        this.Pref_UserTimes             = null;
     }
 
 
@@ -183,25 +178,51 @@ public class PROG_BLL_SchedulingCalculation {
     /**
      * RetrieveUserCards()
      * Description: retrieves the user cards to be stored as a linked list of objects (People)
+     * @throws IOException 
+     * @throws DatabindException 
+     * @throws StreamReadException 
      */
-    private void RetrieveUserCards() {
+    private void RetrieveUserCards() throws StreamReadException, DatabindException, IOException {
 
-        // People - Linked list of the preferences of the people the user wants shceduled. should be calculated using user provided PeopleToSchedule variable
-        People = new LinkedList<PROG_DAL_A_InfoInput>();
+        // Calc_People - calculated list of people the user wants scheduled based on their input fromm UserInput_PeopleToSchedule
+        Calc_People = new LinkedList<PROG_DAL_A_InfoInput>();
 
-        if (IDsProvided == true) {                                       // A linkedlist of user ids was provided iterate through those
-            // iterates over the linked list string of people to select
-            for (String Person : PeopleToSchedule) {
-                // TODO: Implement json
+        // retrieves the latest list of datacards from the relevant Json file.
+        JsonFileManager.RetrieveFromFile();
+        
+        // PeopleFromFile is a new linkedlist containing a copy of the retrieved json file data calculated from JsonFileManager.RetrieveFromFile();
+        PeopleFromFile = new LinkedList<PROG_DAL_A_InfoInput>(JsonFileManager.ReturnFile());
+
+
+
+        // A linkedlist of user ids was provided iterate through those
+        if (IDsProvided == true) {
+
+            for (PROG_DAL_A_InfoInput FilePerson : PeopleFromFile) {
+                // iterates over the linked list string of people to select
+                for (String IDOfPerson : UserInput_PeopleToSchedule) {
+                    
+                    if(FilePerson.EmployeeID == Integer.parseInt(IDOfPerson)) {
+                        Calc_People.add(FilePerson);
+                    }
+
+                }
             }
-        } else {                                                            // A LinkedList of user ids was NOT provided, retrieve all info from the json file
+
+        // A LinkedList of user ids was NOT provided, retrieve all info from the json file
+        } else {
             
-            People = new LinkedList<PROG_DAL_A_InfoInput>();
-            // TODO: Implement json
+            for (PROG_DAL_A_InfoInput FilePerson : PeopleFromFile) {
+                // iterates over the linked list string of people to select
+                Calc_People.add(FilePerson);
+
+            }
 
         }
 
-        PeopleSet = true;
+        // Calc_People is set containing a list of the people to schedule
+        Calc_PeopleSet = true;
+
     }
 
 
@@ -212,15 +233,18 @@ public class PROG_BLL_SchedulingCalculation {
      * CalculateSchedule()
      * Description: calculates the schedules based on user preference
      * Its segmented into steps for readablility
+     * @throws IOException 
+     * @throws DatabindException 
+     * @throws StreamReadException 
      */
-    private int CalculateSchedule() {
+    private int CalculateSchedule() throws StreamReadException, DatabindException, IOException {
 
 
         /**
          * Step 1. Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
          */
-        ScheduleList    = new LinkedList<PROG_DAL_A_Schedule>();     // List of possible schedules
-        AvailableIDs    = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
+        Calc_FullScheduleList   = new LinkedList<PROG_DAL_A_Schedule>();     // List of possible schedules
+        Calc_AvailableIDs       = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
 
 
         /**
@@ -228,7 +252,7 @@ public class PROG_BLL_SchedulingCalculation {
          */
         RetrieveUserCards();                                        // retrieves user info
 
-        if (PeopleSet == false) {
+        if (Calc_PeopleSet == false) {
             System.out.println("ERROR - PROG_INFO_SchedulingCalculation - CalculateSchedule - PeopleSet is false");
             return 1;
         }
@@ -239,7 +263,7 @@ public class PROG_BLL_SchedulingCalculation {
          * This ensures all indexes in each TimeIntervals LinkedList is covered.
          */
         int MaxSize = 0;
-        for (PROG_DAL_A_InfoInput Person : People) {
+        for (PROG_DAL_A_InfoInput Person : Calc_People) {
             if (Person.TimeIntervals.size() > MaxSize) {
                 MaxSize = Person.TimeIntervals.size();
             }
@@ -251,7 +275,7 @@ public class PROG_BLL_SchedulingCalculation {
          * Step 4. Iterate over each day of the week stored in the WeekDays String[], the string may chnage due to user preference so it must be 
          * iterated over using a for loop.
          */
-        for (String Day : WeekDays) {
+        for (String Day : Pref_WeekDays) {
 
 
             /**
@@ -259,6 +283,7 @@ public class PROG_BLL_SchedulingCalculation {
              * the maximum ammount of indexes will be used in the for loop to ensure everytime interval is iterated over.
              */
             for (int Index = 0; Index <= MaxSize; Index++) {                    // iterates through each index
+
 
                 int StartIntervalHour   = -1;
                 int StartIntervalMin    = -1;
@@ -271,11 +296,11 @@ public class PROG_BLL_SchedulingCalculation {
                  * checking first to see if the TimeInterval index is on the correct day. For all the intervals that are, store the latest time in that
                  * index and the earliest time in that index as within the start and end intervals for hours and minutes
                  */
-                if (UserTimes == false) {
+                if (Pref_SpecificTimes == false) {
 
                     // No User Selected times
 
-                    for (PROG_DAL_A_InfoInput Person : People) {
+                    for (PROG_DAL_A_InfoInput Person : Calc_People) {
 
                         try {
 
@@ -318,65 +343,73 @@ public class PROG_BLL_SchedulingCalculation {
                  * Step 7. For all people in the People LinkedList, check the time interval at that index, if it lies between the stored
                  * interval, add it to the list
                  */
-                if (UserTimes == false) {
+
+                int BeginHour;
+                int BeginMIN;
+                int EndHour;
+                int EndMin;
+                
+                if (Pref_SpecificTimes == false) {
 
                     /**
                      * no user selected times, program calculates any possible interval set
                      */
 
-                    for (PROG_DAL_A_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
+
+                    for (PROG_DAL_A_InfoInput Person : Calc_People) { // 4. repeat this for all intervals that exist for that day
 
                         if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
 
-                            // 1. find the latest start time of the earliest time interval from all people on that day
-                            int BeginHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();
-                            int BeginMIN    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();
-                            int EndHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();
-                            int EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
+                            // 7.a Find the latest start time of the earliest time interval from all people on that day
+                            BeginHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();
+                            BeginMIN    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();
+                            EndHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();
+                            EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
 
-                            // if persons interval lies between then its id is added to the list
+                            // 7.b if persons interval lies between then its id is added to the list
                             if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
-                                AvailableIDs.add(String.valueOf(Person.EmployeeID));
-                            }
+                                Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
+                            } // if ()
 
-                        } // if()
+                        } // if (Person.TimeIntervals.get(Index).WeekDay.equals(Day))
 
-                    } // for()
+                    } // for (PROG_DAL_A_InfoInput Person : Calc_People)
 
 
-                } else if (UserTimes == true) {
+                } else if (Pref_SpecificTimes == true) {
 
                     /**
                      * Sser selected times, program calculates based off of provided intervals in UserSpecifiedTimes
                      */
 
-                    for (PROG_DAL_A_TimeInput Interval : UserSpecifiedTimes) {
+                    for (PROG_DAL_A_TimeInput Interval : Pref_UserTimes) {
 
                         StartIntervalHour   = Interval.PreferedHourBEGIN.getHour();
                         StartIntervalMin    = Interval.PreferedHourBEGIN.getMinute();
                         EndIntervalHour     = Interval.PreferedHourEND.getHour();
                         EndIntervalMin      = Interval.PreferedHourEND.getMinute();
 
-                        for (PROG_DAL_A_InfoInput Person : People) { // 4. repeat this for all intervals that exist for that day
+                        for (PROG_DAL_A_InfoInput Person : Calc_People) { // 4. repeat this for all intervals that exist for that day
 
                             if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
 
                                 // 1. find the latest start time of the earliest time interval from all people on that day
-                                int BeginHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();
-                                int BeginMIN    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();
-                                int EndHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();
-                                int EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
+                                BeginHour   = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getHour();
+                                BeginMIN    = Person.TimeIntervals.get(Index).PreferedHourBEGIN.getMinute();
+                                EndHour     = Person.TimeIntervals.get(Index).PreferedHourEND.getHour();
+                                EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
 
                                 // if persons interval lies between then its id is added to the list
                                 if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
-                                    AvailableIDs.add(String.valueOf(Person.EmployeeID));
+                                    Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
                                 }
 
-                            } // if()
+                            } // if (Person.TimeIntervals.get(Index).WeekDay.equals(Day))
 
-                        } // for()
+                        } // for (PROG_DAL_A_InfoInput Person : Calc_People)
 
-                    }
+                    } // for (PROG_DAL_A_TimeInput Interval : Pref_UserTimes)
+
                 } else {
                     // should never get here
                     System.out.println("ERROR - PROG_INFO_SchedulingCalculation - CalculateSchedule - if/else loop UserTimes not true or false");
@@ -388,23 +421,23 @@ public class PROG_BLL_SchedulingCalculation {
                  * Step 8. check if the people available to attend that schedule represent everyone the user wanted
                  * true if yes, false otherwise.
                  */
-                if (PeopleToSchedule.equals(AvailableIDs)) {    // everyone the user wanted is on the list for this interval
-                    FullList = true;
+                if (UserInput_PeopleToSchedule.equals(Calc_AvailableIDs)) {    // everyone the user wanted is on the list for this interval
+                    Calc_IdealSchedule = true;
                 } else {                                        // not everyone is on the list
-                    FullList = false;
+                    Calc_IdealSchedule = false;
                 }
 
 
                 /**
                  * Step 9. create new TimeInput LinkedList containing this schedule
                  */
-                TimeInput = new PROG_DAL_A_TimeInput(WeekDays[Index], StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
+                Calc_ViableSchedule = new PROG_DAL_A_TimeInput(Day, StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
 
 
                 /**
                  * Step 10. Add this new schedule to the ScheduleList (contains all createdSchedules)
                  */
-                ScheduleList.add(new PROG_DAL_A_Schedule(WeekDays[Index], TimeInput, AvailableIDs, FullList));
+                Calc_FullScheduleList.add(new PROG_DAL_A_Schedule(Day, Calc_ViableSchedule, Calc_AvailableIDs, Calc_IdealSchedule));
                 
             
             } // for (int Index = 0; Index <= MaxSize; Index++)
@@ -429,7 +462,7 @@ public class PROG_BLL_SchedulingCalculation {
      * Description: public method called in order to pass ScheduleList outside the class
      */
     public LinkedList<PROG_DAL_A_Schedule> RetrieveSchedule() {
-        return ScheduleList;
+        return Calc_FullScheduleList;
     }
 
 

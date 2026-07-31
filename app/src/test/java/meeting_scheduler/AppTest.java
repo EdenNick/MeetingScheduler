@@ -3,19 +3,22 @@
  */
 package meeting_scheduler;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.LinkedList;
+
+import meeting_scheduler.BusinessLogiclayer.PROG_BLL_InfoFileWrite;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTInput;
 
 class AppTest {
 
@@ -24,226 +27,231 @@ class AppTest {
      * 
      * TEST_(TypeOfTest)_(basicTestDescription)
      * 
-     * INFO     - indicates test directly ties to user data variables
-     * FILE     - indicates test focuses on file management/manipulation
-     * UI       - indicates test focusing on UI functinality
-     * GRAPH    - indicates visual test for graphical elements
+     * INFO     - Idicates test directly ties to user data variables
+     * FILE     - Indicates test focuses on file management/manipulation
+     * BLL      - Tests the business logic layer operations
+     * UI       - Indicates test focusing on UI functinality
+     * GRAPH    - Indicates visual test for graphical elements
      */
+
 
 
     /**
-     * Input    Format:
-     * Name     String
-     * ID       int
-     * Days     String[6] (sun - mon - tue - wed - thu - fri - sat)
-     * Time     TimeSet (int BeginHOUR, int BeginMIN, int EndHOUR, int EndMIN)
+     * Constructor
      */
-
-
-
-
-    static String                           TestName = "John Smith";
-    static int                              TestID = 1;
-    static String[]                         TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static LinkedList<PROG_DAL_A_TimeInput>  TestTimeInterval = new LinkedList<>();
-    PROG_DAL_A_InfoInput                     staticInfo;
-
-  
-  
-  
-    // Constructor - Fills objects with parameters for testing
     public AppTest() {
 
-        // Adds a single beignning and ending time to the list
-        AppTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",8, 0, 12, 0));
-        AppTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",14, 1, 15, 30));
-        AppTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Fri",12, 5, 17, 45));
 
-        // creates userinfo object and sets all input testing data
-        this.staticInfo = new PROG_DAL_A_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
-
-    }
-
-    /**
-     * FullTest()
-     * Runs a full test of all components throughout the entire program
-     * @throws IOException 
-     * @throws DatabindException 
-     * @throws StreamWriteException 
-     */
-    public void FullTest() throws StreamWriteException, DatabindException, IOException {
-        INFOTest();
-        FILETest();
-    }
-
-
-
-    /**
-     * UserTest()
-     * Runs a full test for all user data variables and actions
-     * @throws IOException 
-     * @throws DatabindException 
-     * @throws StreamWriteException 
-     */
-    public void INFOTest() throws StreamWriteException, DatabindException, IOException {
-        //TEST_INFO_BasicInfoInput();
-        //TEST_INFO_StandardTimeConversion();
-        TEST_INFO_JsonTest();
-    }
-
-
-
-    /**
-     * FILETest()
-     * Runs a full test for all File manipulation actions
-     */
-    public void FILETest() {
-        TEST_INFO_AddCardToFile("001");
-        TEST_INFO_AddCardToFile("002");
-        TEST_FILE_RemCardFromFile();
-        TEST_FILE_OrganizeUserInfo();
     }
 
 
     
-
-
-
-
-    public void TEST_INFO_JsonTest() throws StreamWriteException, DatabindException, IOException {
-
-        PROG_DAL_B_JSONManager test = new PROG_DAL_B_JSONManager();
-        //test.JsonWriteTest();
-
-    }
     /**
-     * TEST_INFO_BasicInfoInput
-     * Description: Tests the basic functionality of user data variables
-     * including: name, id, meeting days, and meeting times.
+     * INFO Test Section
+     * Description: This section tests user data such as objects that hold user card info
      */
-    public void TEST_INFO_BasicInfoInput() {
+    @Test void TEST_TimeInput() {
+        
+        PROG_DAL_A_TimeInput test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
 
-        System.out.println("TEST_USER_BasicInfoInput    Test: Start");
+        // Object not null
+        assertNotNull(test_TimeInterval);
 
+        // day is correct
+        assertEquals(test_TimeInterval.WeekDay, "Mon");
 
-        // Prints the testing info to verify it can be accessed correctly
-        System.out.println("Name        : " + staticInfo.EmployeeName);
-        System.out.println("ID          : " + staticInfo.EmployeeID);
-        System.out.println("Days        : " + Arrays.toString(staticInfo.EmployeeMEETINGDAYS));
-        System.out.print("Time Pref   : " + staticInfo.TimeIntervals.get(0).WeekDay);
-        System.out.print(" " + staticInfo.TimeIntervals.get(0).PreferedHourBEGIN);
-        System.out.println(" - " + staticInfo.TimeIntervals.get(0).PreferedHourEND);
+        // Beginning hour and minute correct
+        assertEquals(test_TimeInterval.PreferedHourBEGIN.getHour(), 03);
+        assertEquals(test_TimeInterval.PreferedHourBEGIN.getMinute(), 50);
 
-       
-        System.out.println("TEST_USER_BasicInfoInput    Test: Complete");
+        // Ending hour and minute correct
+        assertEquals(test_TimeInterval.PreferedHourEND.getHour(), 14);
+        assertEquals(test_TimeInterval.PreferedHourEND.getMinute(), 07);
 
-    } // TEST_USER_BasicInfoInput()
-
-
-    /**
-     * TEST_INFO_StandardTimeConversion
-     * Description: tests the functionality of the time conversion method in 
-     * the DATA_USER_TimeInput class
-     */
-    public void TEST_INFO_StandardTimeConversion()  {
-
-        System.out.println("TEST_USER_TimeConvert       Test: Start");
-
-        //int IndexPosition = 0;
-
-        for (PROG_DAL_A_TimeInput TimeInterval : staticInfo.TimeIntervals) {
-
-            TimeInterval.TimeConversion();
-
-        }
-
-        System.out.println("TEST_USER_TimeConvert       Test: Complete");
-
+        test_TimeInterval = null;
     }
 
 
-    /**
-     * TEST_INFO_AddCardToFile
-     * Description: tests format for User Card information when input to txt files
-     * @param ID
-     */
-    public void TEST_INFO_AddCardToFile(String ID) {
+    @Test void TEST_InfoInput() {
 
-        System.out.println("TEST_File_AddCardToFile:    Test: Start");
-
-
-        List<String> TestTextLine = new ArrayList<>();
-
-
-        // Sets file to perform an action on.
-        PROG_DAL_C_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
-
-        // Data to add to the file
-        TestTextLine.add("ID: " + ID);                                  // Keep an Eye on this variable, caused problems when deleting file info
-        TestTextLine.add("name: \"John Smith\"");
-        TestTextLine.add("days: \"mon,tue,wed\"");
-        TestTextLine.add("time: \"time1\", \"time2\", \"time3\"");
-        TestTextLine.add("####################");
-
-
-        PROG_DAL_C_TXTInput.writeData(TestTextLine);
-
-
-        System.out.println("TEST_File_AddCardToFile:    Test: Complete");
-
-    } // TEST_File_AddCardToFile(String ID)
+        // Test object build parameter
+        String[]                            Week = new String[] {"Mon", "Wed", "Thu"};
+        LinkedList<PROG_DAL_A_TimeInput>    test_timeintervals = new LinkedList<PROG_DAL_A_TimeInput>();
+        PROG_DAL_A_TimeInput                test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
+        
+        test_timeintervals.add(test_TimeInterval);
 
 
 
-    /**
-     * TEST_File_RemCardFromFile()
-     * Description: Removes a user data input card from the file
-     */
-    public void TEST_FILE_RemCardFromFile() {
+        // Object being tested
+        PROG_DAL_A_InfoInput Test_person = new PROG_DAL_A_InfoInput("John Smith", 1007, Week, test_timeintervals);
 
-        System.out.println("TEST_File_RemCardFromFile   Test: Start");
+        // Object not null
+        assertNotNull(Test_person);
 
-        // Sets file to perform an action on.
-        PROG_DAL_C_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
+        // name is correct
+        assertEquals(Test_person.EmployeeName, "John Smith");
 
-        // Delete data with User ID "001".
-        PROG_DAL_C_TXTInput.DeleteData("001");
+        // ID is correct
+        assertEquals(Test_person.EmployeeID, 1007);
+
+        // weekday is correct
+        assertEquals(Test_person.TimeIntervals.get(0).WeekDay, "Mon");
+
+        // Beginning hour and minute correct
+        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourBEGIN.getHour(), 03);
+        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourBEGIN.getMinute(), 50);
+
+        // Ending hour and minute correct
+        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourEND.getHour(), 14);
+        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourEND.getMinute(), 07);
 
 
-        System.out.println("TEST_File_RemCardFromFile   Test: Complete");
 
-    } // TEST_File_RemCardFromFile()
+        // garbage collection
+        test_TimeInterval   = null;
+        test_timeintervals  = null;
+        Test_person         = null;
+
+    }
 
 
+    @Test void TEST_Schedule() {
 
-    /**
-     * TEST_FILE_OrganizeUserInfo()
-     * Description: organize the file containing user preference inputs to
-     * ensure it is corrently formatted
-     */
-    public void TEST_FILE_OrganizeUserInfo() {
+        PROG_DAL_A_TimeInput test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
 
-        System.out.println("TEST_FILE_OrganizeUserInfo  Test: Start");
+        LinkedList<String> test_Ids = new LinkedList<>();
 
-        List<String> TestTextLine = new ArrayList<>();
+        test_Ids.add("1007");
 
-        PROG_DAL_C_TXTInput.setFileName("src\\PROG_DATA_TextTestFile.txt");
 
-        // adding a series of blank spaces to the file to simulate unformated lines of space
-        TestTextLine.add(" ");
-        TestTextLine.add("");
-        TestTextLine.add("      ");
-        TestTextLine.add("  ");
+        // Object being testec
+        PROG_DAL_A_Schedule test_schedule = new PROG_DAL_A_Schedule("Mon", test_TimeInterval, test_Ids, true);
 
-        PROG_DAL_C_TXTInput.OrganizeData();
+        assertNotNull(test_schedule);
 
-        System.out.println("TEST_FILE_OrganizeUserInfo  Test: Complete");
+        assertEquals(test_schedule.WeekDay, "Mon");
+
+        // weekday is correct
+        assertEquals(test_schedule.WeekDay, "Mon");
+
+        // Beginning hour and minute correct
+        assertEquals(test_schedule.Interval.PreferedHourBEGIN.getHour(), 03);
+        assertEquals(test_schedule.Interval.PreferedHourBEGIN.getMinute(), 50);
+
+        // Ending hour and minute correct
+        assertEquals(test_schedule.Interval.PreferedHourEND.getHour(), 14);
+        assertEquals(test_schedule.Interval.PreferedHourEND.getMinute(), 07);
 
     }
 
 
 
+    /**
+     * FILE Test Section
+     * Description: This section tests file reading writing and organization operations
+     * @throws IOException 
+     * @throws DatabindException 
+     * @throws StreamWriteException 
+     */
+    @Test void TEST_JsonManager() throws StreamWriteException, DatabindException, IOException {
 
+        // // week days
+        // String[]                            Week = new String[] {"Mon", "Wed", "Thu"};
+        // // time intervals
+        // LinkedList<PROG_DAL_A_TimeInput>    test_timeintervals = new LinkedList<PROG_DAL_A_TimeInput>();
+        // // single time interval
+        // PROG_DAL_A_TimeInput                test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
+        // // add time interval to list
+        // test_timeintervals.add(test_TimeInterval);
+
+        // // person
+        // PROG_DAL_A_InfoInput                Test_person = new PROG_DAL_A_InfoInput("John Smith", 1007, Week, test_timeintervals);
+
+        // //list of people
+        // LinkedList<PROG_DAL_A_InfoInput>    test_peopleList = new LinkedList<>();
+
+        // // add person to list
+        // test_peopleList.add(Test_person);
+
+
+        PROG_DAL_B_JSONManager test_JsonFilemanager = new PROG_DAL_B_JSONManager();
+
+        // test_JsonFilemanager.SetUserCards(test_peopleList);
+
+        assertNotNull(test_JsonFilemanager);
+
+        test_JsonFilemanager.JsonWriteTest2();
+
+    }
+
+    @Test void TEST_TXTInput() {
+
+    }
+
+    @Test void TEST_TXTOutput() {
+
+    }
+
+
+    /**
+     * BLL Test Section
+     * Description: This section tests the Businesslogiclayer
+     * @throws IOException 
+     * @throws DatabindException 
+     * @throws StreamReadException 
+     */
+    @Test void TEST_InfoFileWrite() throws StreamReadException, DatabindException, IOException {
+
+        // Test object build parameter
+        String[]                            Week = new String[] {"Mon", "Wed", "Thu"};
+        LinkedList<PROG_DAL_A_TimeInput>    test_timeintervals = new LinkedList<PROG_DAL_A_TimeInput>();
+        PROG_DAL_A_TimeInput                test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
+        
+        test_timeintervals.add(test_TimeInterval);
+
+
+        //Object being tested
+        PROG_BLL_InfoFileWrite test_InfoFileWrite = new PROG_BLL_InfoFileWrite();
+
+        // Object not null
+        assertNotNull(test_InfoFileWrite);
+
+        // adding info returns without error
+        assertEquals(test_InfoFileWrite.CheckUserInfo("John Smith", 1007, Week, test_timeintervals), 0);
+
+        // WriteUserInfo
+        assertEquals(test_InfoFileWrite.WriteUserInfo(), 0);
+    }
+
+    @Test void TEST_SchedulingCalculation() {
+
+    }
+
+
+    /**
+     * UI Test Section
+     * Description: Tests the user interface
+     */
+
+
+
+    /**
+     * Full Test section
+     * Description: this ection is meant for the full testing of all major components of a certain type
+     * as well as full testing of the full application.
+     */
+    @Test void TEST_ALL_Info() {
+
+    }
+
+    @Test void TEST_ALL_File() {
+
+    }
+
+    @Test void FULLTEST_UI() {
+
+    }
 
 } // TEST_ALL_FullTest
 

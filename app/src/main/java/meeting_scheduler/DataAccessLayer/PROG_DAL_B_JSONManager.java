@@ -26,9 +26,9 @@ public class PROG_DAL_B_JSONManager {
 
     // Class parameters
     private static final File PROG_DATA_UserDataCard = new File("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_A_UserDataCard.json");
-    LinkedList<PROG_DAL_A_InfoInput> IncomingCardList;   // incoming list of usercards containing user datapreferences
-    LinkedList<PROG_DAL_A_InfoInput> FileCardList;  // Retrieved List of user card from the relvant .Json file.
-    LinkedList<PROG_DAL_A_InfoInput> OutgoingCardList;   // Card list used for all outgoing operations.
+    LinkedList<PROG_DAL_A_InfoInput> IncomingCardList;      // incoming list of usercards containing user datapreferences
+    LinkedList<PROG_DAL_A_InfoInput> FileCardList;          // Retrieved List of user card from the relvant .Json file.
+    private LinkedList<PROG_DAL_A_InfoInput> OutgoingCardList;      // Card list used for all outgoing operations.
     boolean                         ObjectReferenceSet = false;
 
     ObjectMapper JsonObjectMapper;
@@ -156,6 +156,17 @@ public class PROG_DAL_B_JSONManager {
         OutgoingCardList = new LinkedList<>(FileCardList);
 
         return 0;
+    }
+
+
+
+    /**
+     * ReturnFile()
+     * Description: Returns the outgoingcard list
+     */
+    public LinkedList<PROG_DAL_A_InfoInput> ReturnFile() {
+
+        return OutgoingCardList;
     }
 
 

@@ -19,10 +19,10 @@ public class PROG_DAL_A_InfoInput {
      * timesIntervals:  unitialized
      */
 
-    public  String                          EmployeeName        = "Default";
-    public  int                             EmployeeID          = -1;
-    public  String[]                        EmployeeMEETINGDAYS;
-    public  LinkedList<PROG_DAL_A_TimeInput> TimeIntervals;
+    public  String                              EmployeeName        = "Default";
+    public  int                                 EmployeeID          = -1;
+    public  String[]                            EmployeeMEETINGDAYS;
+    public  LinkedList<PROG_DAL_A_TimeInput>    TimeIntervals;
 
 
 

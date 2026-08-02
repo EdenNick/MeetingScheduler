@@ -4,5 +4,10 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.resourceFilters": [
+        "node_modules",
+        "build",
+        ".gradle"
+    ]
 }

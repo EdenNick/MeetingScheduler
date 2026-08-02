@@ -1,5 +1,7 @@
 package meeting_scheduler.PresentationLayer;
 
+import javafx.application.Application;
+
 /**
  * Project Name: Project Meeting Scheduler 
  * Created By: Nicholas Edenfield
@@ -20,31 +22,26 @@ public class MeetingScheduler {
         System.out.println("Hello, World!");
         System.out.println("Program Start");
         
-        meeting_scheduler.PresentationLayer.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.PresentationLayer.PROG_TEST_FullTest();
 
-        FULL_TEST.FullTest();
+        boolean test = false;
+
+        if (test == true) {
+
+            meeting_scheduler.PresentationLayer.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.PresentationLayer.PROG_TEST_FullTest();
+
+            FULL_TEST.FullTest();
+
+        } else {
+
+            // launch application window
+            Application.launch (PROG_UI_A_Application.class, args);
+
+        }
 
         System.out.println("Program End");
 
-    } // void main
+    } // main(String[] args)
 
 
 
-
-/** 
- * 
- * Import Info
- * 
- * - MeetingScheduler.java -
- * import java.util.Arrays;
- * import java.util.LinkedList;
- * 
- * 
- * - StaticInfoInput.java -
- * import java.util.LinkedList;
- * 
- * 
- * - TimeSet.java -
- * import java.time.LocalTime;
- */
-}
+} // MeetingScheduler

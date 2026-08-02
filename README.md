@@ -85,7 +85,7 @@ TEST: Denotes a file whose Function is to test various aspects of the program.
 // TODO:  Done - requires further testing/possible changes later
 4. program can receive formatted inputs from user for sceduling
 
-// TODO: Incomplete
+// TODO: Done - requires further testing/possible changes later
 5. program can perform operations necessary for proper scheduling
 
 // TODO: Incomplete

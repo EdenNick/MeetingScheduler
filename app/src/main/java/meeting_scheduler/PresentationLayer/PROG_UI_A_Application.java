@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 // import javafx.scene.layout.StackPane;
 
 
+
 public class PROG_UI_A_Application extends Application {
 
     /**
@@ -22,29 +23,22 @@ public class PROG_UI_A_Application extends Application {
     @Override
     public void start(Stage stage) {
 
+        boolean test = true;
 
-        // testing parameters
-        // boolean test = true;
+        if (test == false) {
+            WindowRun(stage);
+        } else {
+            WindowTest(stage);
+        }
 
-        //if (test == true) {
+    }
 
-            // Test labels
-            Label HeightWidthLabel = new Label();
+    private void WindowRun(Stage stage) {
 
-            stage.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-                RetrieveWindowSize(HeightWidthLabel, stage);
-            });
-
-            stage.heightProperty().addListener((obs, oldWidth, newWidth) -> {
-                RetrieveWindowSize(HeightWidthLabel, stage);
-            });
-
-
-        //}
         /**
          * 2. Root Node - required to hold all other nodes as well as start
          */
-        Pane RootNode = new Pane(HeightWidthLabel);
+        Pane RootNode = new Pane();
 
         /**
          * 3. other Nodes
@@ -64,15 +58,46 @@ public class PROG_UI_A_Application extends Application {
         
         stage.show();
 
-        // if (test == true) {
-            RetrieveWindowSize(HeightWidthLabel, stage);
-        // }
+
     }
 
 
+    private void WindowTest(Stage stage) {
+
+        Label HeightWidthLabel = new Label();
+
+        stage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+            RetrieveWindowSize(HeightWidthLabel, stage);
+        });
+
+        stage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+              RetrieveWindowSize(HeightWidthLabel, stage);
+        });
+
+
+
+        Pane RootNode = new Pane(HeightWidthLabel);
+
+
+
+        Scene PrimaryScene = new Scene(RootNode, 300, 300);
+
+
+        stage.setTitle("Application - Test");
+
+        stage.setScene(PrimaryScene);
+        
+        stage.show();
+        
+        RetrieveWindowSize(HeightWidthLabel, stage);
+
+
+    }
 
     private void RetrieveWindowSize(Label LABEL, Stage STAGE) {
         LABEL.setText("Width: " + (int) STAGE.getWidth() + "\n" + "Height: " + (int) STAGE.getHeight());
     }
     
+
+
 }

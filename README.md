@@ -43,11 +43,13 @@ TEST: Denotes a file whose Function is to test various aspects of the program.
 
 1. start program
 
-- two options avaiable (buttons)
+- four options avaiable (buttons)
     a. add info
     b. select people for a meeting
+    c. Instructions
+    d. exit
 
-- exit exits the program
+- exit: exits the program
 
 2. Select add info
 
@@ -55,7 +57,7 @@ TEST: Denotes a file whose Function is to test various aspects of the program.
     a. add info manually through app
     b. add info through file (specific format - contains more than one person)
 
-- exit returns to previous page
+- Return: returns to previous page
 
 3. Select people for meeting
 
@@ -66,7 +68,7 @@ TEST: Denotes a file whose Function is to test various aspects of the program.
 
 - program will display meeting times with option to save one or more meetings to a file
 
-- exit returns to previous page
+- Return: returns to previous page
 
 
 ## general work plan

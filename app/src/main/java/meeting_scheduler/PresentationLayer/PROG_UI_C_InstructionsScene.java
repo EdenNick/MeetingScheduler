@@ -11,11 +11,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -99,6 +102,10 @@ public class PROG_UI_C_InstructionsScene {
 
 
 
+        // TODO: Add instruction box
+
+
+
         /**
          * Node management
          */
@@ -109,8 +116,25 @@ public class PROG_UI_C_InstructionsScene {
         // Root Node - set return home button position
         AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
         AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
-        RootNode.getChildren().addAll(ReturnToMenu);
 
+
+        // Text and background
+        Text testText = new Text("Testing");
+
+        Rectangle TextBackground = new Rectangle();
+        TextBackground.setWidth(50);
+        TextBackground.setHeight(100);
+
+        TextBackground.setFill(Color.BURLYWOOD);
+
+
+        StackPane InstructionBox = new StackPane();
+
+        InstructionBox.getChildren().addAll(TextBackground, testText);
+        
+
+        RootNode.getChildren().addAll(ReturnToMenu, InstructionBox);
+        
         // create menu scene with the current node layout
         this.InstructionScene = new Scene(RootNode, 500, 500);
 

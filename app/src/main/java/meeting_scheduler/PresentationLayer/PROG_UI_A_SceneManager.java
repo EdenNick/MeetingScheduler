@@ -9,13 +9,19 @@ import javafx.stage.Stage;
 
 public class PROG_UI_A_SceneManager {
 
-    private final Stage ApplicationStage;
+    // Stage
+    private final Stage                         ApplicationStage;
 
-    private final PROG_UI_B_MainMenuScene         MainMenu;
-    private final PROG_UI_B_DataCardinfoScene     DataCard;
-    private final PROG_UI_B_SchedulePeopleScene   Schedule;
-    private final PROG_UI_B_InstructionsScene     Instructions;
+    // Objects
+    private final PROG_UI_B_MainMenuScene       MainMenu;
+    private final PROG_UI_C_DataCardinfoScene   DataCard;
+    private final PROG_UI_C_SchedulePeopleScene Schedule;
+    private final PROG_UI_C_InstructionsScene   Instructions;
 
+    /**
+     * Constructor
+     * @param stage
+     */
     public PROG_UI_A_SceneManager (Stage stage) {
         
         // Set local reference to the application stage for use within the class.
@@ -23,11 +29,24 @@ public class PROG_UI_A_SceneManager {
 
         // Initialize objects used within the class
         MainMenu        = new PROG_UI_B_MainMenuScene(ApplicationStage);
-        DataCard        = new PROG_UI_B_DataCardinfoScene(ApplicationStage);
-        Schedule        = new PROG_UI_B_SchedulePeopleScene(ApplicationStage);
-        Instructions    = new PROG_UI_B_InstructionsScene(ApplicationStage);
+        DataCard        = new PROG_UI_C_DataCardinfoScene(ApplicationStage);
+        Schedule        = new PROG_UI_C_SchedulePeopleScene(ApplicationStage);
+        Instructions    = new PROG_UI_C_InstructionsScene(ApplicationStage);
 
     }
+
+    /**
+     * StartUP()
+     * Description: Initializes all operarations needed for each scene change
+     */
+    public void StartUp() {
+        this.MainMenu.ConstructMainMenuScene();
+        this.DataCard.ConstructCardManagerScene();
+        this.Schedule.ConstructSchedulingScene();
+        this.Instructions.ConstructInstructionsScene();
+
+    }
+
 
     /**
      * MainMenu()
@@ -38,7 +57,7 @@ public class PROG_UI_A_SceneManager {
     }
 
     /**
-     * DataCardManage
+     * DataCardManage()
      * Description: Changess the scene to the data card management page
      */
     public void DataCardManage() {

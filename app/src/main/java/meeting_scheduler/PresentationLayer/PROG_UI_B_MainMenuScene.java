@@ -1,21 +1,21 @@
 package meeting_scheduler.PresentationLayer;
 
-/**
- * PROG_UI_B_MainMenuScene()
- * 
- * Description: Application window scene for the mian menu - first and primary scene of the pplication
- * Contains:
- * a. Exit application button       (End Program)
- * b. Add/remove data card button   (change scene)
- * c. scheudling button             (change scene)
- * d. basic instructions button     (change scene)
- */
-
-
-
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
 
@@ -24,6 +24,25 @@ public class PROG_UI_B_MainMenuScene {
 
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
+
+    // Buttons
+    private Button EndProgramButton;
+    private Button SchedulePageButton;
+    private Button DatacardPageButton;
+    private Button InstructionButton;
+
+    // Root Node
+    private AnchorPane  RootNode;
+
+    // Format Nodes
+    private VBox        menuButtonHolderNode;
+
+    // Scene
+    private Scene       menuScene;
+
+
+
+
 
 
 
@@ -41,9 +60,13 @@ public class PROG_UI_B_MainMenuScene {
      * Description: Public method meant to be called outside the class in order to set the scene to the main menu scene
      */
     public void ChangeToMainMenu() {
-
-        ConstructMainMenuScene();
         
+        // Sets the stage to the main menu scene
+        this.ApplicationStage.setScene(this.menuScene);
+
+        // Shows the change
+        this.ApplicationStage.show();
+
     }
 
 
@@ -52,7 +75,128 @@ public class PROG_UI_B_MainMenuScene {
      * ConstructMainMenuStage()
      * Description: Performs the necessary operations in order to build the various nodes/components of the stage.
      */
-    private void ConstructMainMenuScene() {
+    public void ConstructMainMenuScene() {
+
+        /**
+         * Buttons
+         */
+
+        // End program button
+        EndProgramButton = new Button("End program");
+
+        EventHandler<ActionEvent> closeProgram = (ActionEvent e) -> {
+            
+            // Exits the program
+            System.out.println("BUTTON CLICK - MAIN MENU - Program Ending");
+            Platform.exit();
+
+        };
+
+        EndProgramButton.setOnAction(closeProgram);
+        // ############################################################
+
+
+
+        // Data card page button
+        DatacardPageButton = new Button("Manage Data Cards");
+
+        EventHandler<ActionEvent> DatacardScenechange = (ActionEvent e) -> {
+            
+            // changes scene to data card management
+            System.out.println("BUTTON CLICK - MAIN MENU - Scene changing to datacard management");
+            PROG_UI_A_Application.SceneManager.DataCardManage();
+
+        };
+
+        DatacardPageButton.setOnAction(DatacardScenechange);
+        // ############################################################
+        
+
+
+        // Schedule page button
+        SchedulePageButton = new Button("Schedule");
+
+        EventHandler<ActionEvent> ScheduleSceneChange = (ActionEvent e) -> {
+            
+            // Chnages the scene to schedule managment
+            System.out.println("BUTTON CLICK - MAIN MENU - Scene changing to schedule management");
+            PROG_UI_A_Application.SceneManager.Schedule();
+        };  
+
+        SchedulePageButton.setOnAction(ScheduleSceneChange);
+        // ############################################################
+
+
+        // Schedule page button
+        InstructionButton = new Button("Instructions");
+
+        EventHandler<ActionEvent> InstructionSceneChange = (ActionEvent e) -> {
+            
+            // Chnages the scene to schedule managment
+            System.out.println("BUTTON CLICK - MAIN MENU - Scene changing to Instructions");
+            PROG_UI_A_Application.SceneManager.Instructions();
+        };  
+
+        InstructionButton.setOnAction(InstructionSceneChange);
+        // ############################################################
+
+
+
+
+
+        /**
+         * Node management
+         */
+
+        // Root Node
+        RootNode = new AnchorPane();
+
+        // menu button holder node
+        menuButtonHolderNode = new VBox(20);
+        
+
+
+        // menu button holder node - set menu button positions
+        menuButtonHolderNode.setAlignment(Pos.CENTER);
+
+        menuButtonHolderNode.getChildren().addAll(DatacardPageButton, SchedulePageButton, InstructionButton);
+        
+
+
+        // Root Node - set end program button position
+        AnchorPane.setBottomAnchor(EndProgramButton, 20.0);
+        AnchorPane.setRightAnchor(EndProgramButton, 20.0);
+        
+        // Root Node - set Menu buttons position
+        AnchorPane.setTopAnchor(menuButtonHolderNode, 30.0);
+        AnchorPane.setLeftAnchor(menuButtonHolderNode, 30.0);
+
+        // Root Node - add buttons to the node
+        RootNode.getChildren().addAll(menuButtonHolderNode, EndProgramButton);
+
+        // ############################################################
+
+
+
+        /**
+         * Scene edits
+         */
+
+        // Add background gradient
+        LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
+            new Stop(0, Color.DARKBLUE), new Stop(1, Color.BEIGE)
+        );
+
+        BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
+
+        RootNode.setBackground(new Background(backgroundFill));
+
+
+
+
+        // create menu scene with the current node layout
+        this.menuScene = new Scene(RootNode, 500, 500);
+
 
     }
 

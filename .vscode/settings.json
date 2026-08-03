@@ -9,5 +9,6 @@
         "node_modules",
         "build",
         ".gradle"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "disabled"
 }

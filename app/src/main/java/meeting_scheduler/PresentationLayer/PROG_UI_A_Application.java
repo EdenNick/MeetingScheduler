@@ -17,13 +17,26 @@ import javafx.stage.Stage;
 
 public class PROG_UI_A_Application extends Application {
 
+    // Local Variables
+    public static PROG_UI_A_SceneManager SceneManager;
+
+
+
     /**
      * 1. Create Application
      */
     @Override
     public void start(Stage stage) {
 
-        boolean test = true;
+        // Creates Object that manages various application scenes
+        PROG_UI_A_Application.SceneManager = new PROG_UI_A_SceneManager(stage);
+
+        // Initialization method used to create the various scenes
+        PROG_UI_A_Application.SceneManager.StartUp();
+
+
+        // testing 
+        boolean test = false;
 
         if (test == false) {
             WindowRun(stage);
@@ -35,34 +48,18 @@ public class PROG_UI_A_Application extends Application {
 
     private void WindowRun(Stage stage) {
 
-        /**
-         * 2. Root Node - required to hold all other nodes as well as start
-         */
-        Pane RootNode = new Pane();
+        // Sets the name of the application window
+        stage.setTitle("Application - RunTest");
 
-        /**
-         * 3. other Nodes
-         */
-
-        /**
-         * 4. Scene
-         */
-        Scene PrimaryScene = new Scene(RootNode, 300, 300);
-
-        /**
-         * 5. Stage
-         */
-        stage.setTitle("Application - Test");
-
-        stage.setScene(PrimaryScene);
-        
-        stage.show();
-
+        // Initializes the main menu scene on startup
+        PROG_UI_A_Application.SceneManager.MainMenu();
 
     }
 
 
     private void WindowTest(Stage stage) {
+
+        stage.setTitle("Application - StartTest");
 
         Label HeightWidthLabel = new Label();
 
@@ -101,3 +98,31 @@ public class PROG_UI_A_Application extends Application {
 
 
 }
+
+
+ // TODO: initilize main menu with SceneManager
+
+
+        /**
+         * 2. Nodes:visible components/controls
+         */
+        // Labels:
+
+        // Buttons:
+
+        // Event handlers
+
+        /**
+         * 3. Root Node: layout organizer - requires at least one to hold all other nodes as well as to create a scene
+         */
+        //Pane RootNode = new Pane();
+
+
+        /**
+         * 4. Scene
+         */
+        //Scene PrimaryScene = new Scene(RootNode, 300, 300);
+
+        /**
+         * 5. Stage
+         */

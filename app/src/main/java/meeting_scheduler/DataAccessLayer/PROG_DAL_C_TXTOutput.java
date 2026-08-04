@@ -7,6 +7,9 @@ package meeting_scheduler.DataAccessLayer;
  */
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,10 +19,10 @@ import java.util.LinkedList;
 public class PROG_DAL_C_TXTOutput {
 
     private String              FILENAME    = "";
-    private String              InvalidText = "File could not be read";
+    private String              InvalidText = " File could not be read";
     private LinkedList<String>  USERID;
     private LinkedList<String>  FileText;
-    private Path                FilePath;
+    // private Path                FilePath;
 
 
 
@@ -35,7 +38,7 @@ public class PROG_DAL_C_TXTOutput {
         this.FILENAME = FileToRead;
         this.FileText = new LinkedList<String>();
         this.FileText.add(FILENAME);
-        this.FilePath = Paths.get(FILENAME);
+        // this.FilePath = Paths.get(FILENAME);
 
     }
 
@@ -54,7 +57,7 @@ public class PROG_DAL_C_TXTOutput {
         this.FILENAME = FileToRead;
         this.USERID   = new LinkedList<String>(ID);
         this.FileText.add(FILENAME);
-        this.FilePath = Paths.get(FILENAME);
+        // this.FilePath = Paths.get(FILENAME);
 
     }
 
@@ -71,7 +74,7 @@ public class PROG_DAL_C_TXTOutput {
         this.FILENAME = FileToRead;
         this.USERID   = new LinkedList<String>(ID);
         this.FileText.add(FILENAME);
-        this.FilePath = Paths.get(FILENAME);
+        // this.FilePath = Paths.get(FILENAME);
 
     }
 
@@ -89,7 +92,8 @@ public class PROG_DAL_C_TXTOutput {
         // FileText = new LinkedList<>();
 
 
-        try (BufferedReader FileReader = Files.newBufferedReader(FilePath);){
+        try (InputStream input = getClass().getResourceAsStream(FILENAME);
+            BufferedReader FileReader = new BufferedReader(new InputStreamReader(input))) {
 
 
             String CurrentLine;
@@ -103,10 +107,10 @@ public class PROG_DAL_C_TXTOutput {
 
             FileReader.close();
 
-            System.out.println("File: " + FilePath + " read");
+            //System.out.println("File: " + FilePath + " read");
 
             
-        } catch (Exception e) {
+        } catch (IOException e) {
 
             System.out.println("ERROR - PROG_FILE_TXTOutput - ReadFile() - try/catch error");
             FileText.add(InvalidText);
@@ -131,7 +135,8 @@ public class PROG_DAL_C_TXTOutput {
 
         // FileText = new LinkedList<>();
 
-        try (BufferedReader FileReader = Files.newBufferedReader(FilePath);){
+        try (InputStream input = getClass().getResourceAsStream(FILENAME);
+            BufferedReader FileReader = new BufferedReader(new InputStreamReader(input))) {
 
             String CurrentLine;
 
@@ -155,7 +160,7 @@ public class PROG_DAL_C_TXTOutput {
 
             FileReader.close();
 
-            System.out.println("File: " + FilePath + " read");
+            // System.out.println("File: " + FilePath + " read");
 
             
         } catch (Exception e) {

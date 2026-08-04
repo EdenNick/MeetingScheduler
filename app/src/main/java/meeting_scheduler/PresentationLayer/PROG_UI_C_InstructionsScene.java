@@ -1,5 +1,7 @@
 package meeting_scheduler.PresentationLayer;
 
+import java.util.LinkedList;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -19,7 +22,9 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
 
 /**
  * PROG_UI_B_InstructionsScene()
@@ -34,7 +39,11 @@ import javafx.stage.Stage;
 
 
 public class PROG_UI_C_InstructionsScene {
+    
+    // file reader
+    PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput("/PROG_UI_D_Instructions.txt");
 
+    LinkedList<String> InstructionFileText;
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
 
@@ -47,6 +56,9 @@ public class PROG_UI_C_InstructionsScene {
     // Buttons
     private Button      ReturnToMenu;
 
+    // Stage width/height
+    private double StageWidth;
+    private double stageHeight;
 
     /**
      * Constructor class
@@ -63,8 +75,16 @@ public class PROG_UI_C_InstructionsScene {
      */
     public void changetoInstructionsScene() {
 
+        // Gets the current size of the stage
+        this.StageWidth   = this.ApplicationStage.getWidth();
+        this.stageHeight  = this.ApplicationStage.getHeight();
+
         // Sets the stage to the main menu scene
         this.ApplicationStage.setScene(this.InstructionScene);
+
+        // sets the correct size for the stage
+        this.ApplicationStage.setWidth(StageWidth);
+        this.ApplicationStage.setHeight(stageHeight);
 
         // Shows the change
         this.ApplicationStage.show();
@@ -91,7 +111,7 @@ public class PROG_UI_C_InstructionsScene {
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
             // Exits the program
-            System.out.println("BUTTON CLICK - INSTRUCTION PAGE - Returning to home page");
+            System.out.println("BUTTON CLICK    - INSTRUCTION PAGE  - Returning to home page");
             PROG_UI_A_Application.SceneManager.MainMenu();
 
         };
@@ -103,6 +123,66 @@ public class PROG_UI_C_InstructionsScene {
 
 
         // TODO: Add instruction box
+        /**
+         * Text Box
+         */
+        TextFlow Instructions = new TextFlow();
+
+        // padding/ line spacing
+        Instructions.setPadding(new Insets(5));
+        Instructions.setLineSpacing(1);
+
+        // font/color
+        Instructions.setStyle(
+            "-fx-font-size: 10px;" +
+            "-fx-font-family: 'TimesNewRoman';" +
+            "-fx-fill: black;"
+
+        );
+
+        // retrieves linkedlist of txt file
+        InstructionFileText = new LinkedList<>(fileReader.ReadFile());
+
+        // insert text here
+        for (String TXTLine : InstructionFileText) {
+            Instructions.getChildren().addAll(
+                new Text(TXTLine + "\n")
+            );
+        }
+
+
+
+
+
+        //stylize text
+        // ((Text) Instructions.getChildren().get(0)).setStyle("");
+
+
+        //Scroll pane
+        ScrollPane instructionScrollPane = new ScrollPane(Instructions);
+
+        //instructionScrollPane.setFitToWidth(true);
+
+        // instructionScrollPane.viewportBoundsProperty().addListener((observation, oldBound, newBound) ->
+        //     instructionScrollPane.setPrefWidth(newBound.getWidth())
+        // );
+
+        double ScrollPaneWidth = PROG_UI_A_SceneManager.WindowWidth / 1.5;
+
+        double ScrollPanHeight = PROG_UI_A_SceneManager.WindowHeight / 1.5;
+
+        instructionScrollPane.setPrefWidth(ScrollPaneWidth);
+        instructionScrollPane.setPrefHeight(ScrollPanHeight);
+
+
+        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+            instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
+        });
+
+        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+            instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
+        });
+
 
 
 
@@ -117,26 +197,41 @@ public class PROG_UI_C_InstructionsScene {
         AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
         AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
 
-
-        // Text and background
-        Text testText = new Text("Testing");
-
-        Rectangle TextBackground = new Rectangle();
-        TextBackground.setWidth(50);
-        TextBackground.setHeight(100);
-
-        TextBackground.setFill(Color.BURLYWOOD);
-
-
-        StackPane InstructionBox = new StackPane();
-
-        InstructionBox.getChildren().addAll(TextBackground, testText);
+        // root Node - set text position
+        AnchorPane.setTopAnchor(instructionScrollPane, 30.0);
+        AnchorPane.setLeftAnchor(instructionScrollPane, 30.0);
         
 
-        RootNode.getChildren().addAll(ReturnToMenu, InstructionBox);
+
+       /**
+         * Scene edits
+         */
+
+        // Add background gradient
+        LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
+            new Stop(0, Color.DARKBLUE), new Stop(1, Color.BEIGE)
+        );
+
+        BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
+
+        RootNode.setBackground(new Background(backgroundFill));
+        
+
+
+
+        // Add values to the root node
+        RootNode.getChildren().addAll(ReturnToMenu, instructionScrollPane);
         
         // create menu scene with the current node layout
-        this.InstructionScene = new Scene(RootNode, 500, 500);
+        this.InstructionScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+
+        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+            instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
+        });
+
+        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+            instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
+        });
 
     }
     

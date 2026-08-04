@@ -38,11 +38,15 @@ public class PROG_UI_C_SchedulePeopleScene {
     // Scene
     private Scene       SchedulingScene;
 
-    //Root Node
+    // Root Node
     private AnchorPane  RootNode;
 
     // Buttons
     private Button      ReturnToMenu;
+
+    // Stage width/height
+    private double StageWidth;
+    private double stageHeight;
 
     /**
      * Constructor class
@@ -59,8 +63,16 @@ public class PROG_UI_C_SchedulePeopleScene {
      */
     public void changetoSchedulingScene() {
 
+        // Gets the current size of the stage
+        this.StageWidth   = this.ApplicationStage.getWidth();
+        this.stageHeight  = this.ApplicationStage.getHeight();
+
         // Sets the stage to the main menu scene
         this.ApplicationStage.setScene(this.SchedulingScene);
+
+        // sets the correct size for the stage
+        this.ApplicationStage.setWidth(StageWidth);
+        this.ApplicationStage.setHeight(stageHeight);
 
         // Shows the change
         this.ApplicationStage.show();
@@ -85,7 +97,7 @@ public class PROG_UI_C_SchedulePeopleScene {
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
             // Exits the program
-            System.out.println("BUTTON CLICK - SCHEDULE PAGE - Returning to home page");
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Returning to home page");
             PROG_UI_A_Application.SceneManager.MainMenu();
 
         };
@@ -96,6 +108,7 @@ public class PROG_UI_C_SchedulePeopleScene {
 
 
         // TODO: Add Scheduling interface;
+
 
 
         /**
@@ -110,8 +123,23 @@ public class PROG_UI_C_SchedulePeopleScene {
         AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
         RootNode.getChildren().addAll(ReturnToMenu);
 
+
+
+        /**
+         * Scene edits
+         */
+
+        // Add background gradient
+        LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
+            new Stop(0, Color.DARKBLUE), new Stop(1, Color.BEIGE)
+        );
+
+        BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
+
+        RootNode.setBackground(new Background(backgroundFill));
+
         // create menu scene with the current node layout
-        this.SchedulingScene = new Scene(RootNode, 500, 500);
+        this.SchedulingScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
 
     }
     

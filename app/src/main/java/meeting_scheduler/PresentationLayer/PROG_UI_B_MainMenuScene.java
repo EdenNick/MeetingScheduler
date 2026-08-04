@@ -35,12 +35,14 @@ public class PROG_UI_B_MainMenuScene {
     private AnchorPane  RootNode;
 
     // Format Nodes
-    private VBox        menuButtonHolderNode;
+    private VBox   menuButtonHolderNode;
 
     // Scene
-    private Scene       menuScene;
+    private Scene  menuScene;
 
-
+    // Stage width/height
+    private double StageWidth;
+    private double stageHeight;
 
 
 
@@ -61,8 +63,16 @@ public class PROG_UI_B_MainMenuScene {
      */
     public void ChangeToMainMenu() {
         
+        // Gets the current size of the stage
+        this.StageWidth   = this.ApplicationStage.getWidth();
+        this.stageHeight  = this.ApplicationStage.getHeight();
+
         // Sets the stage to the main menu scene
         this.ApplicationStage.setScene(this.menuScene);
+
+        // sets the correct size for the stage
+        this.ApplicationStage.setWidth(StageWidth);
+        this.ApplicationStage.setHeight(stageHeight);
 
         // Shows the change
         this.ApplicationStage.show();
@@ -87,7 +97,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> closeProgram = (ActionEvent e) -> {
             
             // Exits the program
-            System.out.println("BUTTON CLICK - MAIN MENU - Program Ending");
+            System.out.println("BUTTON CLICK    - MAIN MENU         - Program Ending");
             Platform.exit();
 
         };
@@ -103,7 +113,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> DatacardScenechange = (ActionEvent e) -> {
             
             // changes scene to data card management
-            System.out.println("BUTTON CLICK - MAIN MENU - Scene changing to datacard management");
+            System.out.println("BUTTON CLICK    - MAIN MENU         - Scene changing to datacard management");
             PROG_UI_A_Application.SceneManager.DataCardManage();
 
         };
@@ -119,7 +129,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> ScheduleSceneChange = (ActionEvent e) -> {
             
             // Chnages the scene to schedule managment
-            System.out.println("BUTTON CLICK - MAIN MENU - Scene changing to schedule management");
+            System.out.println("BUTTON CLICK    - MAIN MENU         - Scene changing to schedule management");
             PROG_UI_A_Application.SceneManager.Schedule();
         };  
 
@@ -133,7 +143,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> InstructionSceneChange = (ActionEvent e) -> {
             
             // Chnages the scene to schedule managment
-            System.out.println("BUTTON CLICK - MAIN MENU - Scene changing to Instructions");
+            System.out.println("BUTTON CLICK    - MAIN MENU         - Scene changing to Instructions");
             PROG_UI_A_Application.SceneManager.Instructions();
         };  
 
@@ -195,8 +205,7 @@ public class PROG_UI_B_MainMenuScene {
 
 
         // create menu scene with the current node layout
-        this.menuScene = new Scene(RootNode, 500, 500);
-
+        this.menuScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
 
     }
 

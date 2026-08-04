@@ -1,0 +1,9 @@
+Meeting Scheduler Instructions
+
+- A how to guide for using this application -
+
+1. step 1
+
+2. step 2
+
+3. etc.

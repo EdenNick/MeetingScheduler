@@ -18,6 +18,11 @@ public class PROG_UI_A_SceneManager {
     private final PROG_UI_C_SchedulePeopleScene Schedule;
     private final PROG_UI_C_InstructionsScene   Instructions;
 
+
+    // window size
+    public static int WindowWidth;
+    public static int WindowHeight;
+
     /**
      * Constructor
      * @param stage
@@ -33,6 +38,10 @@ public class PROG_UI_A_SceneManager {
         Schedule        = new PROG_UI_C_SchedulePeopleScene(ApplicationStage);
         Instructions    = new PROG_UI_C_InstructionsScene(ApplicationStage);
 
+        // Default Window width and height values
+        PROG_UI_A_SceneManager.WindowWidth     = 900;
+        PROG_UI_A_SceneManager.WindowHeight    = 700;
+
     }
 
     /**
@@ -40,11 +49,19 @@ public class PROG_UI_A_SceneManager {
      * Description: Initializes all operarations needed for each scene change
      */
     public void StartUp() {
+
         this.MainMenu.ConstructMainMenuScene();
         this.DataCard.ConstructCardManagerScene();
         this.Schedule.ConstructSchedulingScene();
         this.Instructions.ConstructInstructionsScene();
 
+        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+            PROG_UI_A_SceneManager.WindowWidth = newWidth.intValue();
+        });
+
+        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+            PROG_UI_A_SceneManager.WindowHeight = newHeight.intValue();
+        });
     }
 
 

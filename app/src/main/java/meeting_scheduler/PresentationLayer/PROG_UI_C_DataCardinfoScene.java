@@ -2,9 +2,17 @@ package meeting_scheduler.PresentationLayer;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +42,14 @@ public class PROG_UI_C_DataCardinfoScene {
     // Buttons
     private Button      ReturnToMenu;
 
+    // Stage width/height
+    private double StageWidth;
+    private double stageHeight;
+
+
+
+
+    
     /**
      * Constructor class
      */
@@ -49,8 +65,16 @@ public class PROG_UI_C_DataCardinfoScene {
      */
     public void changetoDataCardScene() {
 
+        // Gets the current size of the stage
+        this.StageWidth   = this.ApplicationStage.getWidth();
+        this.stageHeight  = this.ApplicationStage.getHeight();
+
         // Sets the stage to the main menu scene
         this.ApplicationStage.setScene(this.DataCardScene);
+
+        // sets the correct size for the stage
+        this.ApplicationStage.setWidth(StageWidth);
+        this.ApplicationStage.setHeight(stageHeight);
 
         // Shows the change
         this.ApplicationStage.show();
@@ -75,7 +99,7 @@ public class PROG_UI_C_DataCardinfoScene {
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
             // Exits the program
-            System.out.println("BUTTON CLICK - CARD MANAGER PAGE - Returning to home page");
+            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Returning to home page");
             PROG_UI_A_Application.SceneManager.MainMenu();
 
         };
@@ -99,8 +123,25 @@ public class PROG_UI_C_DataCardinfoScene {
         AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
         RootNode.getChildren().addAll(ReturnToMenu);
 
+
+
+        /**
+         * Scene edits
+         */
+
+        // Add background gradient
+        LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
+            new Stop(0, Color.DARKBLUE), new Stop(1, Color.BEIGE)
+        );
+
+        BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
+
+        RootNode.setBackground(new Background(backgroundFill));
+
+        
+
         // create menu scene with the current node layout
-        this.DataCardScene = new Scene(RootNode, 500, 500);
+        this.DataCardScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
 
     }
 }

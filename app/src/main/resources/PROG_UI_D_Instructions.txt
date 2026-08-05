@@ -2,8 +2,8 @@ Meeting Scheduler Instructions
 
 - A how to guide for using this application -
 
-1. step 1
+1. Data Card Management: By accessing the data card page you will be able to add, update and remove user preferences
 
-2. step 2
+2. Scheduling: By accessing the scheudling seciton you can create schedules based on specified user reference.
 
-3. etc.
+3. Instructions: How to guide

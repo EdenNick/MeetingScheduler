@@ -2,11 +2,12 @@ package meeting_scheduler.PresentationLayer;
 
 import java.util.LinkedList;
 
-import javafx.application.Platform;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -14,16 +15,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
 
 /**
@@ -60,6 +59,10 @@ public class PROG_UI_C_InstructionsScene {
     private double StageWidth;
     private double stageHeight;
 
+    // transitions
+    private ParallelTransition fadeMenuNodes;
+    private ParallelTransition UnfadeMenuNodes;
+
     /**
      * Constructor class
      */
@@ -74,6 +77,9 @@ public class PROG_UI_C_InstructionsScene {
      * Description: Public method meant to be called outside the class in order to set the scene to the instructions scene
      */
     public void changetoInstructionsScene() {
+
+        // unfades nodes
+        UnfadeMenuNodes.play();
 
         // Gets the current size of the stage
         this.StageWidth   = this.ApplicationStage.getWidth();
@@ -112,7 +118,14 @@ public class PROG_UI_C_InstructionsScene {
             
             // Exits the program
             System.out.println("BUTTON CLICK    - INSTRUCTION PAGE  - Returning to home page");
-            PROG_UI_A_Application.SceneManager.MainMenu();
+
+            fadeMenuNodes.setOnFinished(event -> {
+                PROG_UI_A_Application.SceneManager.MainMenu();
+            });
+
+            fadeMenuNodes.play();
+
+            // PROG_UI_A_Application.SceneManager.MainMenu();
 
         };
 
@@ -201,6 +214,8 @@ public class PROG_UI_C_InstructionsScene {
         AnchorPane.setTopAnchor(instructionScrollPane, 30.0);
         AnchorPane.setLeftAnchor(instructionScrollPane, 30.0);
         
+        // Add values to the root node
+        RootNode.getChildren().addAll(ReturnToMenu, instructionScrollPane);
 
 
        /**
@@ -215,12 +230,44 @@ public class PROG_UI_C_InstructionsScene {
         BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
 
         RootNode.setBackground(new Background(backgroundFill));
-        
 
 
 
-        // Add values to the root node
-        RootNode.getChildren().addAll(ReturnToMenu, instructionScrollPane);
+        // Transition to fade buttons
+        fadeMenuNodes = new ParallelTransition();
+
+        for (Node node : RootNode.getChildren()) {
+            
+            FadeTransition NodeFade = new FadeTransition(
+                Duration.seconds(2),
+                node
+            );
+
+            NodeFade.setToValue(0);
+            
+            fadeMenuNodes.getChildren().addAll(NodeFade);
+        }
+        // ############################################################
+
+
+
+        // Transition to Unfade buttons
+        UnfadeMenuNodes = new ParallelTransition();
+
+        for (Node node : RootNode.getChildren()) {
+            
+            FadeTransition NodeUnFade = new FadeTransition(
+                Duration.seconds(2),
+                node
+            );
+
+            NodeUnFade.setToValue(1);
+            
+            UnfadeMenuNodes.getChildren().addAll(NodeUnFade);
+        }
+        // ############################################################
+
+
         
         // create menu scene with the current node layout
         this.InstructionScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
@@ -232,6 +279,9 @@ public class PROG_UI_C_InstructionsScene {
         this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
             instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
         });
+
+        // fade all objects before the scene is set
+        fadeMenuNodes.play();
 
     }
     

@@ -102,7 +102,7 @@ public class PROG_DAL_B_JSONManager {
     public int SetToFile() throws StreamReadException, DatabindException, IOException { // File
         
         if (ObjectReferenceSet == false) {
-            System.out.println("ERROR - PROG_FILE_JSONManager - SetToFile - objectrefence null or missing values");
+            System.out.println("ERROR - PROG_FILE_JSONManager - SetToFile - object refence null or missing values");
             return 1;
         }
 
@@ -115,6 +115,8 @@ public class PROG_DAL_B_JSONManager {
             
             int UserPersonIndex = 0;
 
+            // TODO: may need to remove or change later to ensure people can update the user preferences in the future
+            
             for (PROG_DAL_A_InfoInput UserPerson : IncomingCardList) {
                 
                 if (UserPerson.EmployeeID == FilePerson.EmployeeID) {

@@ -18,10 +18,11 @@ public class PROG_UI_A_SceneManager {
     private final PROG_UI_C_SchedulePeopleScene Schedule;
     private final PROG_UI_C_InstructionsScene   Instructions;
 
-
     // window size
     public static int WindowWidth;
     public static int WindowHeight;
+
+
 
     /**
      * Constructor
@@ -44,6 +45,12 @@ public class PROG_UI_A_SceneManager {
 
     }
 
+
+
+
+
+
+
     /**
      * StartUP()
      * Description: Initializes all operarations needed for each scene change
@@ -62,7 +69,9 @@ public class PROG_UI_A_SceneManager {
         this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
             PROG_UI_A_SceneManager.WindowHeight = newHeight.intValue();
         });
-    }
+
+    } // StartUp()
+
 
 
     /**
@@ -73,6 +82,8 @@ public class PROG_UI_A_SceneManager {
         this.MainMenu.ChangeToMainMenu();
     }
 
+
+
     /**
      * DataCardManage()
      * Description: Changess the scene to the data card management page
@@ -81,6 +92,8 @@ public class PROG_UI_A_SceneManager {
         this.DataCard.changetoDataCardScene();
     }
 
+
+
     /**
      * Schedule()
      * Description: Changes the scene to the scheduling page
@@ -88,6 +101,8 @@ public class PROG_UI_A_SceneManager {
     public void Schedule() {
         this.Schedule.changetoSchedulingScene();
     }
+
+
 
     /**
      * Instructions()

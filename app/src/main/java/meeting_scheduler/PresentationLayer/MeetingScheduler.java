@@ -19,18 +19,21 @@ public class MeetingScheduler {
      */
     public static void main(String[] args) throws Exception {
 
+        // Program start message
         System.out.println("Hello, World!");
         System.out.println("Program Start");
         
 
         boolean test = false;
 
+        // Test for program internal logic
         if (test == true) {
 
             meeting_scheduler.PresentationLayer.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.PresentationLayer.PROG_TEST_FullTest();
 
             FULL_TEST.FullTest();
 
+        // System start
         } else {
 
             // launch application window
@@ -38,7 +41,9 @@ public class MeetingScheduler {
 
         }
 
+        // Program end message
         System.out.println("Program End");
+        System.out.println("Goodbye World");
 
     } // main(String[] args)
 

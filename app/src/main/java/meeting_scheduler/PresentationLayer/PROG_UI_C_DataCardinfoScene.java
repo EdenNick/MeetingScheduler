@@ -240,7 +240,7 @@ public class PROG_UI_C_DataCardinfoScene {
      */
     private void UserInputGraphic(PROG_DAL_A_TimeInput InputTime) {
 
-        System.out.println("UserInputGraphic");
+        // System.out.println("UserInputGraphic");
         // userInputGraphic = new FlowPane();
 
         // VBox creation and variables
@@ -257,7 +257,7 @@ public class PROG_UI_C_DataCardinfoScene {
         Label   InputNumber = new Label("Input Number: " + Index);
         InputNumber.setId("" + Index);
 
-        Label   WeekDay     = new Label("WeekDay:" + InputTime.WeekDay);        
+        Label   WeekDay     = new Label("WeekDay: " + InputTime.WeekDay);        
         Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " - " + EndHour + ":" + EndMin);
 
 
@@ -281,9 +281,6 @@ public class PROG_UI_C_DataCardinfoScene {
             // loop through list to remove empty Vbox node
             int LinkedListIndex = 0;
             while (Iterator.hasNext()) {
-
-                // Update Input Number Label
-                // InputNumber.setText("Input Number:" + (IndexPosition + 1));
 
                 // next Vbox in iterator
                 VBox tempBox = Iterator.next();
@@ -319,9 +316,6 @@ public class PROG_UI_C_DataCardinfoScene {
 
             } // for()
 
-            // removes
-            // UserTimeInput.remove(Index);
-
             System.out.println("UserTimeInput ammount" + UserTimeInput.size());
 
         };
@@ -330,6 +324,7 @@ public class PROG_UI_C_DataCardinfoScene {
         // ############################################################
 
 
+        // adds relevant nodes to the vbox
         IndividualDataCard.getChildren().addAll(
             // Input number: #
             InputNumber,
@@ -351,7 +346,7 @@ public class PROG_UI_C_DataCardinfoScene {
         // add to linked list Vbox
         UserPreferences.add(IndividualDataCard);
 
-        // add boc to flowpane
+        // add vbox to flowpane
         userInputGraphic.getChildren().add(IndividualDataCard);
     
     } // UserInputGraphic
@@ -672,7 +667,7 @@ public class PROG_UI_C_DataCardinfoScene {
      */
     private void UI_UserInputs() {
 
-
+        //TODO: make sure inputs are erased after submission
 
         // Name Input
         // ############################################################

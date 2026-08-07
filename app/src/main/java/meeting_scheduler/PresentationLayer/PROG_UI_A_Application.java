@@ -23,7 +23,8 @@ public class PROG_UI_A_Application extends Application {
 
 
     /**
-     * 1. Create Application
+     * start()
+     * Description: starts applicaiton
      */
     @Override
     public void start(Stage stage) {
@@ -46,6 +47,17 @@ public class PROG_UI_A_Application extends Application {
 
     }
 
+
+
+
+
+
+
+    /**
+     * WindowRun()
+     * Description: method for running the applicaiton
+     * @param stage
+     */
     private void WindowRun(Stage stage) {
 
         // Sets the name of the application window
@@ -57,6 +69,16 @@ public class PROG_UI_A_Application extends Application {
     }
 
 
+
+
+
+
+
+    /**
+     * WindowTest()
+     * Description: method to run a test for the window, showing window size
+     * @param stage
+     */
     private void WindowTest(Stage stage) {
 
         stage.setTitle("Application - StartTest");
@@ -91,38 +113,22 @@ public class PROG_UI_A_Application extends Application {
 
     }
 
+
+
+
+
+
+    
+    /**
+     * RetrieveWindowSize()
+     * Description: calculates window size for testing
+     * @param LABEL
+     * @param STAGE
+     */
     private void RetrieveWindowSize(Label LABEL, Stage STAGE) {
         LABEL.setText("Width: " + (int) STAGE.getWidth() + "\n" + "Height: " + (int) STAGE.getHeight());
     }
     
 
 
-}
-
-
- // TODO: initilize main menu with SceneManager
-
-
-        /**
-         * 2. Nodes:visible components/controls
-         */
-        // Labels:
-
-        // Buttons:
-
-        // Event handlers
-
-        /**
-         * 3. Root Node: layout organizer - requires at least one to hold all other nodes as well as to create a scene
-         */
-        //Pane RootNode = new Pane();
-
-
-        /**
-         * 4. Scene
-         */
-        //Scene PrimaryScene = new Scene(RootNode, 300, 300);
-
-        /**
-         * 5. Stage
-         */
+}// PROG_UI_A_Application

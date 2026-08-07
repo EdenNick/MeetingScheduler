@@ -254,7 +254,9 @@ public class PROG_UI_C_DataCardinfoScene {
         int     EndMin      = InputTime.PreferedHourEND.getMinute();
         
 
-        Label   InputNumber = new Label("Input Number:" + Index);
+        Label   InputNumber = new Label("Input Number: " + Index);
+        InputNumber.setId("" + Index);
+
         Label   WeekDay     = new Label("WeekDay:" + InputTime.WeekDay);        
         Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " - " + EndHour + ":" + EndMin);
 
@@ -275,9 +277,15 @@ public class PROG_UI_C_DataCardinfoScene {
             // Create new iterator to iterate over nodes in the linkedlist UserPreferences
             Iterator = UserPreferences.iterator();
 
+
             // loop through list to remove empty Vbox node
+            int LinkedListIndex = 0;
             while (Iterator.hasNext()) {
 
+                // Update Input Number Label
+                // InputNumber.setText("Input Number:" + (IndexPosition + 1));
+
+                // next Vbox in iterator
                 VBox tempBox = Iterator.next();
 
                 if (tempBox.getChildren().isEmpty()) {
@@ -285,18 +293,36 @@ public class PROG_UI_C_DataCardinfoScene {
                     // removes empty Vbox from the linked list of preferences
                     Iterator.remove();
 
+                    //removes InputTime from UserTimeInput LinkedList
+                    UserTimeInput.remove(LinkedListIndex);
+
                 } // if()
+
+                LinkedListIndex++;
 
             } // for()
             
             // removes node from the parent flowpane
             userInputGraphic.getChildren().remove(IndividualDataCard);
 
+            // loop through nodes in the flowpane to update index
+            int flowPaneIndex = 1;
+            for (Node node: userInputGraphic.getChildren()) {
 
-            // TODO: Update nodes within flowpane to accuratley reflect the current Index Position - needed in order to properly remove index position from userTimeInput
+                if (node instanceof VBox vbox) {
+                    Label newLabel = (Label) vbox.getChildren().get(0);   // lookup("#" + flowPaneIndex);
+                    if (newLabel != null) {
+                        newLabel.setText("Input Number: " + flowPaneIndex);
+                        flowPaneIndex++;
+                    }
+                }
+
+            } // for()
 
             // removes
             // UserTimeInput.remove(Index);
+
+            System.out.println("UserTimeInput ammount" + UserTimeInput.size());
 
         };
 
@@ -320,6 +346,7 @@ public class PROG_UI_C_DataCardinfoScene {
 
         // add to linked list of preferences
         UserTimeInput.add(InputTime);
+        System.out.println("UserTimeInput ammount" + UserTimeInput.size());
 
         // add to linked list Vbox
         UserPreferences.add(IndividualDataCard);

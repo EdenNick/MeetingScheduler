@@ -1,5 +1,7 @@
 package meeting_scheduler.PresentationLayer;
 
+import java.io.File;
+
 import javafx.application.Application;
 
 /**
@@ -29,9 +31,14 @@ public class MeetingScheduler {
         // Test for program internal logic
         if (test == true) {
 
-            meeting_scheduler.PresentationLayer.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.PresentationLayer.PROG_TEST_FullTest();
+            //meeting_scheduler.PresentationLayer.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.PresentationLayer.PROG_TEST_FullTest();
 
-            FULL_TEST.FullTest();
+            //FULL_TEST.FullTest();
+
+            File file = new File("src\\main\\resources\\PROG_DATA_A_JsonTestFile.json");
+
+            System.out.println(file.getAbsolutePath());
+            System.out.println(file.getParentFile().exists());
 
         // System start
         } else {

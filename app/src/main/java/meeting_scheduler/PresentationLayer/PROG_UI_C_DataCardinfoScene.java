@@ -2,6 +2,9 @@ package meeting_scheduler.PresentationLayer;
 
 import java.util.LinkedList;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -31,8 +34,11 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 /**
@@ -111,12 +117,20 @@ public class PROG_UI_C_DataCardinfoScene {
     private CheckBox    StartTimeAMPM;
     private CheckBox    EndTimeAMPM;
 
-    // Day/times
+    // individual user Day/time preference
     private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
 
     // cardlist
-    private LinkedList<VBox>                    UserPreferences;
-    private Iterator<VBox>                      Iterator;
+    private LinkedList<VBox>                    VBOXUserPreferences;
+    private Iterator<VBox>                      VBOXIterator;
+
+    // User preferences
+    private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;
+
+    // string[] weekdays
+    private String[] Weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
+    private PROG_DAL_B_JSONManager JsonManager;
     
 
 
@@ -124,9 +138,14 @@ public class PROG_UI_C_DataCardinfoScene {
      * Constructor class
      */
     public PROG_UI_C_DataCardinfoScene(Stage stage) {
+        
         this.ApplicationStage = stage;
 
         this.UserTimeInput = new LinkedList<>();
+
+        this.InfoInputPreferences = new LinkedList<>();
+
+        this.JsonManager = new PROG_DAL_B_JSONManager();
     }
 
 
@@ -182,7 +201,7 @@ public class PROG_UI_C_DataCardinfoScene {
 
 
         // VBox user info linkedlist
-        UserPreferences = new LinkedList<>();
+        VBOXUserPreferences = new LinkedList<>();
 
         // Creates layout of user submitted info before submission
         this.userInputGraphic = new FlowPane();
@@ -275,20 +294,20 @@ public class PROG_UI_C_DataCardinfoScene {
             IndividualDataCard.getChildren().removeAll(InputNumber, WeekDay, TimeFrame, DeleteCard);
 
             // Create new iterator to iterate over nodes in the linkedlist UserPreferences
-            Iterator = UserPreferences.iterator();
+            VBOXIterator = VBOXUserPreferences.iterator();
 
 
             // loop through list to remove empty Vbox node
             int LinkedListIndex = 0;
-            while (Iterator.hasNext()) {
+            while (VBOXIterator.hasNext()) {
 
                 // next Vbox in iterator
-                VBox tempBox = Iterator.next();
+                VBox tempBox = VBOXIterator.next();
 
                 if (tempBox.getChildren().isEmpty()) {
 
                     // removes empty Vbox from the linked list of preferences
-                    Iterator.remove();
+                    VBOXIterator.remove();
 
                     //removes InputTime from UserTimeInput LinkedList
                     UserTimeInput.remove(LinkedListIndex);
@@ -344,7 +363,7 @@ public class PROG_UI_C_DataCardinfoScene {
         System.out.println("UserTimeInput ammount" + UserTimeInput.size());
 
         // add to linked list Vbox
-        UserPreferences.add(IndividualDataCard);
+        VBOXUserPreferences.add(IndividualDataCard);
 
         // add vbox to flowpane
         userInputGraphic.getChildren().add(IndividualDataCard);
@@ -479,7 +498,9 @@ public class PROG_UI_C_DataCardinfoScene {
             IDLabel,
             userInput_EmployeeID,
 
-            addTimeInfo_input
+            addTimeInfo_input, 
+
+            SubmitUserInfo
         );
         // ############################################################
 
@@ -525,25 +546,51 @@ public class PROG_UI_C_DataCardinfoScene {
         this.AddUserInfo = new Button("Add Info");
 
         EventHandler<ActionEvent> AddInfo = (ActionEvent e) -> {
+
             // adds user info - does not submit anything
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
 
-            String WeekDay = userInput_WeekDaySelection.getValue();
-            int BeginHour = Integer.parseInt(userInput_BeginningHourSelection.getText());
-            int BeginMinute = Integer.parseInt(userInput_BeginningMinuteSeleciton.getText());
 
-            int EndHour = Integer.parseInt(userInput_EndingHourSeleciton.getText());
-            int EndMinute = Integer.parseInt(userInput_EndingMinuteSeleciton.getText());
+            if (userInput_WeekDaySelection.getValue() == null)  { // Do nothing
+                // user has not submitted a weekday
+                System.out.println("user has not submitted a weekday");
 
+            } else if (userInput_BeginningHourSelection     .getText().isBlank())   { // Do nothing
+                // user has not submitted a beginning hour
+                System.out.println("user has not submitted a beginning hour");
 
-            PROG_DAL_A_TimeInput UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+            } else if (userInput_BeginningMinuteSeleciton   .getText().isBlank())   { // Do nothing
+                // user has not submitted a beginning minute
+                System.out.println("user has not submitted a beginning minute");
 
+            } else if (userInput_EndingHourSeleciton        .getText().isBlank())   { // Do nothing
+                // user has not submitted a ending hour
+                System.out.println("user has not submitted a ending hour");
 
-            // add preference to flowpane
-            UserInputGraphic(UserPreference);
-            
-            // null for garbage collection
-            //UserPreference = null;
+            } else if (userInput_EndingMinuteSeleciton      .getText().isBlank())   { // Do nothing
+                // user has not submitted a ending minute
+                System.out.println("user has not submitted a ending minute");
+            } else {
+
+                // Correct info has been submitted
+                System.out.println("Correct info has been submitted");
+
+                String  WeekDay     = userInput_WeekDaySelection                            .getValue();
+                int     BeginHour   = Integer.parseInt(userInput_BeginningHourSelection     .getText());
+                int     BeginMinute = Integer.parseInt(userInput_BeginningMinuteSeleciton   .getText());
+                int     EndHour     = Integer.parseInt(userInput_EndingHourSeleciton        .getText());
+                int     EndMinute   = Integer.parseInt(userInput_EndingMinuteSeleciton      .getText());
+
+                // new user preference
+                PROG_DAL_A_TimeInput UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+
+                // add preference to flowpane
+                UserInputGraphic(UserPreference);
+                
+                // null for garbage collection
+                UserPreference = null;
+
+            } // else ()
 
         };
 
@@ -553,6 +600,7 @@ public class PROG_UI_C_DataCardinfoScene {
 
 
         // Submit UserInfo
+        // TODO: check why mutliple time frames are not being submitted - check why index number doesn't work when id/name change?
         // ############################################################
         this.SubmitUserInfo = new Button("Submit Info");
 
@@ -561,9 +609,77 @@ public class PROG_UI_C_DataCardinfoScene {
             // Submits USer info
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Submit User Info");
 
-            // TODO: submit info
-        };
+            // collect all info into the relvant linkedlist
+            // Employee name
 
+            if (userInput_EmployeeName      .getText().isBlank())               { // Do nothing
+                // user has not submitted a valid name
+                System.out.println("user has not submitted a valid name");
+
+            } else if (userInput_EmployeeID .getText().isBlank())               { // Do nothing
+                // user has not submitted a valid name
+                System.out.println("user has not submitted a valid ID");
+
+            } else {
+
+
+                String name    = userInput_EmployeeName.getText();
+                int    id      = Integer.parseInt(userInput_EmployeeID.getText());
+
+                // preferred week days linked list
+                LinkedList<String> preferredDaysList = new LinkedList<>();
+
+                // iterate through weekdays first to ensure a weekday can only be matched once
+                for (String Day : Weekdays) {
+
+                    for (PROG_DAL_A_TimeInput preference : UserTimeInput) {
+                        if (preference.WeekDay == Day) {
+
+                            preferredDaysList.add(Day); // each day should only be added once
+                            break; // should break to the first for loop
+                        }
+                    }
+
+                }
+
+                // create String array with no null values
+                String[] preferredDays = new String[preferredDaysList.size()];
+
+                for (int index = 0; index < preferredDaysList.size(); index++) {
+                    preferredDays[index] = preferredDaysList.get(index);
+                }
+
+
+                // PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
+                InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, UserTimeInput));
+
+                // testing
+                System.out.println(InfoInputPreferences.size());
+                System.out.println(InfoInputPreferences.getLast().EmployeeMEETINGDAYS);
+
+                // 1. set user card so file can be updated
+                JsonManager.SetUserCards(InfoInputPreferences);
+
+                // 2. set to file
+                try {
+                    JsonManager.SetToFile(); // submit linkedlist of peoples preferences
+                } catch (StreamReadException e1)    {
+                    e1.printStackTrace();
+                } catch (DatabindException e1)      {
+                    e1.printStackTrace();
+                } catch (IOException e1)            {
+                    e1.printStackTrace();
+                }
+
+                // 3. reset Json Manager
+                JsonManager.DiscardCard();
+
+                // clear linkedlist and any other data for a fresh start
+                UserTimeInput = new LinkedList<>();
+                InfoInputPreferences = new LinkedList<>();
+        }
+
+        };
         this.SubmitUserInfo.setOnAction(SubmitInfo);
         // ############################################################
 
@@ -662,7 +778,7 @@ public class PROG_UI_C_DataCardinfoScene {
 
 
     /**
-     * UI_USerInputs()
+     * UI_UserInputs()
      * Description: creates various UI components where the user inputs direct info
      */
     private void UI_UserInputs() {

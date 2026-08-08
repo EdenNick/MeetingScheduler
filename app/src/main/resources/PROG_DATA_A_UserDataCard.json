@@ -1,0 +1,18 @@
+[ {
+  "EmployeeName" : "default",
+  "EmployeeID" : -1,
+  "EmployeeMEETINGDAYS" : [ "Mon", "Fri" ],
+  "TimeIntervals" : [ {
+    "WeekDay" : "Mon",
+    "PreferedHourBEGIN" : [ 8, 0 ],
+    "PreferedHourEND" : [ 12, 0 ]
+  }, {
+    "WeekDay" : "Mon",
+    "PreferedHourBEGIN" : [ 14, 1 ],
+    "PreferedHourEND" : [ 15, 30 ]
+  }, {
+    "WeekDay" : "Fri",
+    "PreferedHourBEGIN" : [ 12, 5 ],
+    "PreferedHourEND" : [ 17, 45 ]
+  } ]
+} ]

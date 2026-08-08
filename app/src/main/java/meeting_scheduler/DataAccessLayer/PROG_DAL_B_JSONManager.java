@@ -7,7 +7,9 @@ package meeting_scheduler.DataAccessLayer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
@@ -25,16 +27,17 @@ public class PROG_DAL_B_JSONManager {
 
 
     // Class parameters
-    private static final File PROG_DATA_UserDataCard = new File("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_A_UserDataCard.json");
-    LinkedList<PROG_DAL_A_InfoInput> IncomingCardList;      // incoming list of usercards containing user datapreferences
-    LinkedList<PROG_DAL_A_InfoInput> FileCardList;          // Retrieved List of user card from the relvant .Json file.
+    private static final File PROG_DATA_UserDataCard = new File("src\\main\\resources\\PROG_DATA_A_UserDataCard.json");
+    private LinkedList<PROG_DAL_A_InfoInput> IncomingCardList;      // incoming list of usercards containing user datapreferences
+    private LinkedList<PROG_DAL_A_InfoInput> FileCardList;          // Retrieved List of user card from the relvant .Json file.
     private LinkedList<PROG_DAL_A_InfoInput> OutgoingCardList;      // Card list used for all outgoing operations.
-    boolean                         ObjectReferenceSet = false;
+    private boolean                         ObjectReferenceSet = false;
 
-    ObjectMapper JsonObjectMapper;
+    private ObjectMapper JsonObjectMapper;
 
-
-
+    // iterators
+    private ListIterator<PROG_DAL_A_InfoInput> FileCardIterator;
+    private Iterator<PROG_DAL_A_InfoInput> IncomingCardIterator;
 
 
     // Testing parameters
@@ -44,13 +47,13 @@ public class PROG_DAL_B_JSONManager {
     static LinkedList<PROG_DAL_A_TimeInput>  TestTimeInterval = new LinkedList<>();
     PROG_DAL_A_InfoInput                     staticInfo;
 
-    private static final File TestFile = new File("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_A_JsonTestFile.json");
+    private static final File TestFile = new File("src\\main\\resources\\PROG_DATA_A_JsonTestFile.json");
 
 
     public PROG_DAL_B_JSONManager() {
-        JsonObjectMapper = new ObjectMapper();
-        JsonObjectMapper.registerModule(new JavaTimeModule());
-        JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        this.JsonObjectMapper = new ObjectMapper();
+        this.JsonObjectMapper.registerModule(new JavaTimeModule());
+        this.JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
 
@@ -72,6 +75,7 @@ public class PROG_DAL_B_JSONManager {
             this.ObjectReferenceSet = false;
         }
     }
+    
 
 
 
@@ -106,30 +110,41 @@ public class PROG_DAL_B_JSONManager {
             return 1;
         }
 
-        FileCardList = JsonObjectMapper.readValue(TestFile, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
+        FileCardList = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
 
 
         // iterates through both the incoming list of data cards and the existing datacards to ensure there are no duplicates, if there are,
         // it removes them from the IncomingCardList LinkedList.
-        for (PROG_DAL_A_InfoInput FilePerson : FileCardList) {
+        FileCardIterator = FileCardList.listIterator();
+
+        IncomingCardIterator = IncomingCardList.iterator();
+
+
+        while (FileCardIterator.hasNext()) {
             
+            // info retrieved from file
+            PROG_DAL_A_InfoInput FilePerson = FileCardIterator.next();
+
             int UserPersonIndex = 0;
 
             // TODO: may need to remove or change later to ensure people can update the user preferences in the future
             
-            for (PROG_DAL_A_InfoInput UserPerson : IncomingCardList) {
+            while(IncomingCardIterator.hasNext()) {
+
+                // incoming list of people
+                PROG_DAL_A_InfoInput UserPerson = IncomingCardIterator.next();
                 
                 if (UserPerson.EmployeeID == FilePerson.EmployeeID) {
-                    IncomingCardList.remove(UserPersonIndex);
+                    IncomingCardIterator.remove();
                 } else {
-                    FileCardList.add(IncomingCardList.get(UserPersonIndex));
+                    FileCardIterator.add(UserPerson);
                 }
 
                 UserPersonIndex++;
 
             } // for()
 
-        } // for()
+        } // while (FileCarditerator.hasNext())
 
         JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(PROG_DATA_UserDataCard, FileCardList);
 

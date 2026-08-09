@@ -115,8 +115,8 @@ public class PROG_UI_C_DataCardinfoScene {
     private ComboBox<String>    userInput_WeekDaySelection;
 
     // CheckBox
-    private CheckBox    StartTimeAMPM;
-    private CheckBox    EndTimeAMPM;
+    private ComboBox<String>    StartTimeAMPM;
+    private ComboBox<String>    EndTimeAMPM;
 
     // individual user Day/time preference
     private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
@@ -235,6 +235,9 @@ public class PROG_UI_C_DataCardinfoScene {
         AnchorPane.setTopAnchor(userInputGraphic, 20.0);
         AnchorPane.setRightAnchor(userInputGraphic, 20.0);
 
+        //ResetUserTimePref
+        
+
         this.RootNode.getChildren().addAll(UserInterface_Input, ReturnToMenu, userInputGraphic);
         // ############################################################
 
@@ -272,16 +275,40 @@ public class PROG_UI_C_DataCardinfoScene {
 
         int     Index       = (this.UserTimeInput.size() + 1);
         int     StartHour   = InputTime.PreferedHourBEGIN.getHour();
-        int     startMin    = InputTime.PreferedHourBEGIN.getMinute();
+        String     startMin    = Integer.toString(InputTime.PreferedHourBEGIN.getMinute());
         int     EndHour     = InputTime.PreferedHourEND.getHour();
-        int     EndMin      = InputTime.PreferedHourEND.getMinute();
+        String     EndMin      = Integer.toString(InputTime.PreferedHourEND.getMinute());
+
+        // add a leading zero to the start minute
+        if (Integer.parseInt(startMin) < 10) {
+            startMin = "0" + startMin;
+        }
+
+        // add a leading zero the end minute
+        if (Integer.parseInt(EndMin) < 10) {
+            EndMin = "0" + EndMin;
+        }
+
+        String  StartTimeFrame  = "AM";
+        String  EndTimeFrame    = "AM";
         
+        // if pm is selected for the starting time add 12 hours to the starting hour
+        // and ending hour, (am can't occure before pm)
+        if (StartTimeAMPM.getValue().equals("PM")) {
+            StartTimeFrame  = "PM";
+            EndTimeFrame    = "PM";
+        }
+
+        // if pm is selected for the ending time add 12 hours to the ending time
+        if(EndTimeAMPM.getValue().equals("PM")) {
+            EndTimeFrame    = "PM";
+        }
 
         Label   InputNumber = new Label("Input Number: " + Index);
         InputNumber.setId("" + Index);
 
         Label   WeekDay     = new Label("WeekDay: " + InputTime.WeekDay);        
-        Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " - " + EndHour + ":" + EndMin);
+        Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
 
 
 
@@ -509,6 +536,8 @@ public class PROG_UI_C_DataCardinfoScene {
 
             addTimeInfo_input, 
 
+            ResetUserTimePref,
+
             SubmitUserInfo
         );
         // ############################################################
@@ -609,7 +638,6 @@ public class PROG_UI_C_DataCardinfoScene {
 
 
         // Submit UserInfo
-        // TODO: check why mutliple time frames are not being submitted - check why index number doesn't work when id/name change?
         // ############################################################
         this.SubmitUserInfo = new Button("Submit Info");
 
@@ -700,27 +728,38 @@ public class PROG_UI_C_DataCardinfoScene {
 
         // reset usertimeinput
         // ############################################################
-        this.ResetUserTimePref = new Button("Submit Info");
+        this.ResetUserTimePref = new Button("Reset added time preferences");
 
         EventHandler<ActionEvent> ResetTimePreference = (ActionEvent e) -> {
 
+            // linkedlist Vbox full of user preferences
             RemoveAllVBOXIterator = VBOXUserPreferences.iterator();
-            int LinkedListIndex = 0;
+            //int LinkedListIndex = 0;
 
-            while (VBOXIterator.hasNext()) {
+            while (RemoveAllVBOXIterator.hasNext()) {
 
                 // next Vbox in iterator
-                VBox tempBox = VBOXIterator.next();
+                VBox tempBox = RemoveAllVBOXIterator.next();
 
-                // removes empty Vbox from the linked list of preferences
-                VBOXIterator.remove();
+                // clears all nodes in the Vbox
+                tempBox.getChildren().clear();
 
-                //removes InputTime from UserTimeInput LinkedList
-                UserTimeInput.remove(LinkedListIndex);
+                // if the Vbox is fully empty
+                if (tempBox.getChildren().isEmpty()) {
+
+                    // removes empty Vbox from the linked list of preferences
+                    RemoveAllVBOXIterator.remove();
+
+                    //removes InputTime from UserTimeInput LinkedList
+                    System.out.println("user Input :" + UserTimeInput.size());
+                    // System.out.println("user Input index :" + LinkedListIndex);
+                    UserTimeInput.remove(0);
+
+                } // if()
 
                 
 
-                LinkedListIndex++;
+                //LinkedListIndex++;
 
             } // for()
 
@@ -958,10 +997,16 @@ public class PROG_UI_C_DataCardinfoScene {
 
         // CheckBox for beginning AM/PM
         // ############################################################
-        this.StartTimeAMPM = new CheckBox("PM");
-        if (this.StartTimeAMPM.isSelected()) {
-            // set time to PM
-        }
+        this.StartTimeAMPM = new ComboBox<>();
+        this.StartTimeAMPM.getItems().addAll("AM", "PM");
+        this.StartTimeAMPM.getSelectionModel().select("AM");
+        this.StartTimeAMPM.valueProperty().addListener((observed, oldvalue, newvalue) -> {
+
+            if (newvalue.equals("PM")) {
+                this.EndTimeAMPM.getSelectionModel().select("PM");
+            }
+
+        });
         // ############################################################
 
 
@@ -978,6 +1023,16 @@ public class PROG_UI_C_DataCardinfoScene {
             // if th etext is empty accept it
             if (TextInput.isEmpty()) {
                 return change;
+            }
+
+            // ensures end hour is never before the beginning hour
+            if (!userInput_BeginningHourSelection.getText().isBlank()) {
+
+                if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) > Integer.parseInt(TextInput)) 
+                    && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
+                    userInput_EndingHourSeleciton.setText(userInput_BeginningHourSelection.getText());
+                }
+
             }
 
             // test if the text is a valid int within a valid range
@@ -1011,6 +1066,20 @@ public class PROG_UI_C_DataCardinfoScene {
                 return change;
             }
 
+            // if both the beginning and ending hour are the same and at the same period (AM/PM) ensure the ending minute is always later
+            if ((!userInput_BeginningHourSelection.getText().isBlank()) && (!userInput_EndingHourSeleciton.getText().isBlank())) {
+
+                // TODO: organize the nonsense
+                if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) == Integer.parseInt(userInput_EndingHourSeleciton.getText()) )
+                    && ( Integer.parseInt(TextInput) < Integer.parseInt(userInput_BeginningMinuteSeleciton.getText()) )
+                    && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
+
+                    userInput_EndingMinuteSeleciton.setText(userInput_BeginningMinuteSeleciton.getText());
+
+                }
+
+            }
+
             // test if the text is a valid int within a valid range
             try {
                 int intValue = Integer.parseInt(TextInput);
@@ -1018,6 +1087,7 @@ public class PROG_UI_C_DataCardinfoScene {
                 if (intValue >= 0 && intValue < 60) {
                     return change;
                 }
+
             } catch (NumberFormatException e) {
                 // Invalid Input
             }
@@ -1027,13 +1097,11 @@ public class PROG_UI_C_DataCardinfoScene {
         // ############################################################
 
 
-
         // CheckBox for Ending AM/PM
         // ############################################################
-        this.EndTimeAMPM = new CheckBox("PM");
-        if (this.EndTimeAMPM.isSelected()) {
-            // set time to PM
-        }
+        this.EndTimeAMPM = new ComboBox<>();
+        this.EndTimeAMPM.getItems().addAll("AM", "PM");
+        this.EndTimeAMPM.getSelectionModel().select("AM");
         // ############################################################
 
     } // UI_UserInputs()

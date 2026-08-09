@@ -5,14 +5,18 @@ package meeting_scheduler.DataAccessLayer;
  * 
  */
 
+// Java.io
 import java.io.File;
 import java.io.IOException;
+
+// java.util
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Objects;
 
+// jackson (json file manager)
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,42 +25,52 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-// import java.io.IOException;
-// import org.w3c.dom.events.Event;
 
 
 public class PROG_DAL_B_JSONManager {
 
 
     // Class parameters
+    // ############################################################
+    // File path
     private static final File PROG_DATA_UserDataCard = new File("src\\main\\resources\\PROG_DATA_A_UserDataCard.json");
-    private LinkedList<PROG_DAL_A_InfoInput> IncomingCardList;      // incoming list of usercards containing user datapreferences
-    private LinkedList<PROG_DAL_A_InfoInput> FileCardList;          // Retrieved List of user card from the relvant .Json file.
-    private LinkedList<PROG_DAL_A_InfoInput> OutgoingCardList;      // Card list used for all outgoing operations.
-    private LinkedList<PROG_DAL_A_InfoInput> tempManagementList;    // temporarylist for performing in class operations
-    private boolean                          ObjectReferenceSet = false;
 
-    private boolean                          sameID = false;
-
-    private String[] Weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-    private String[] tempDays;
-
+    // read/write to json file
     private ObjectMapper JsonObjectMapper;
 
+    // Json Object management
+    private LinkedList<PROG_DAL_A_InfoInput>    IncomingCardList;      // incoming list of usercards containing user datapreferences
+    private LinkedList<PROG_DAL_A_InfoInput>    FileCardList;          // Retrieved List of user card from the relvant .Json file.
+    private LinkedList<PROG_DAL_A_InfoInput>    OutgoingCardList;      // Card list used for all outgoing operations.
+    private LinkedList<PROG_DAL_A_InfoInput>    tempManagementList;    // temporarylist for performing in class operations
+
     // iterators
-    private ListIterator<PROG_DAL_A_InfoInput> FileCardIterator;
-    private ListIterator<PROG_DAL_A_InfoInput> IncomingCardIterator;
+    private ListIterator<PROG_DAL_A_InfoInput>  FileCardIterator;
+    private ListIterator<PROG_DAL_A_InfoInput>  IncomingCardIterator;
+
+    // arrays
+    private final   String[] Weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private         String[] tempDays;
+
+    // boolean
+    private boolean ObjectReferenceSet  = false;
+    private boolean sameID              = false;
+    // ############################################################
 
 
 
     // Testing parameters
-    static String                           TestName = "John Smith";
-    static int                              TestID = 1;
-    static String[]                         TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static LinkedList<PROG_DAL_A_TimeInput>  TestTimeInterval = new LinkedList<>();
-    PROG_DAL_A_InfoInput                     staticInfo;
-
+    // ############################################################
+    // file path
     private static final File TestFile = new File("src\\main\\resources\\PROG_DATA_A_JsonTestFile.json");
+
+    private static  String                              TestName                = "John Smith";
+    private static  int                                 TestID                  = 1;
+    private static  String[]                            TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
+    private static  LinkedList<PROG_DAL_A_TimeInput>    TestTimeInterval        = new LinkedList<>();
+    private         PROG_DAL_A_InfoInput                staticInfo;
+    // ############################################################
+
 
 
     public PROG_DAL_B_JSONManager() {
@@ -76,14 +90,16 @@ public class PROG_DAL_B_JSONManager {
      */
     public void SetUserCards(LinkedList<PROG_DAL_A_InfoInput> card) {
         
-        this.IncomingCardList       = new LinkedList<>(card);
+        this.IncomingCardList = new LinkedList<>(card);
 
-        if (this.IncomingCardList.size() > 0 ) {    // ensures the list contains at least one object
+        // ensures the list contains at least one object
+        if (this.IncomingCardList.size() > 0 )  { // File operations WILL work
             this.ObjectReferenceSet = true;
-        } else {
+        } else                                  { // File operations WILL NOT work
             this.ObjectReferenceSet = false;
         }
-    }
+
+    } // SetUserCards()
     
 
 
@@ -119,15 +135,14 @@ public class PROG_DAL_B_JSONManager {
             return 1;
         }
 
-        FileCardList = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
+        this.FileCardList        = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
 
-        tempManagementList = new LinkedList<>();
+        this.tempManagementList  = new LinkedList<>();
 
         // iterates through both the incoming list of data cards and the existing datacards to ensure there are no duplicates, if there are,
         // it removes them from the IncomingCardList LinkedList.
-        FileCardIterator = FileCardList.listIterator();
-
-        IncomingCardIterator = IncomingCardList.listIterator();
+        this.FileCardIterator        = FileCardList      .listIterator();
+        this.IncomingCardIterator    = IncomingCardList  .listIterator();
 
         // Iterate through incoming json data
         this.sameID = false;
@@ -146,61 +161,55 @@ public class PROG_DAL_B_JSONManager {
                 // incomin datacard has the same id has one in the json file
                 if (UserPerson.EmployeeID == FilePerson.EmployeeID) {
 
-                    System.out.println("duplicate name");
-                    this.sameID = true;
-
-                    // combine weekdays
-                    tempDays = new String[7];
-
+                    this.sameID     = true;
+                    this.tempDays   = new String[7];
+                    int index       = 0;
 
                     // Iterates over both the days in the file and the days from the incoming data card, this ensures
                     // all days are accounted for and are added in the correct order.
-                    int index = 0;
                     for (String day : Weekdays) {
                         // iterate through incoming list
                         for (String PersonDay : UserPerson.EmployeeMEETINGDAYS) {
                             if (day.equals(PersonDay)) {
                                 tempDays[index] = day;
                             }
-                        }
+                        } // for()
 
                         // iterate through existing list
                         for (String FileDay : FilePerson.EmployeeMEETINGDAYS) {
                             if (day.equals(FileDay)) {
                                 tempDays[index] = day;
                             }
-                        }
+                        } // for()
 
                         index++;
 
                     } // (String day : Weekdays)
                     
 
-                    //create a new string with no null values
+                    // create a new string with no null values
                     String[] NewWeekday = Arrays.stream(tempDays).filter(Objects::nonNull).toArray(String[]::new);
                     
-                    //set new weekdayds for the file data card
+                    // set new weekdayds for the file data card
                     FilePerson.EmployeeMEETINGDAYS = NewWeekday.clone();
 
-                    // TODO: possibile formatting later.
-                    // add new timeInputs to the existingfile
 
-                    // new time inputs
+                    // formatting new time inputs
                     for (PROG_DAL_A_TimeInput newInput : UserPerson.TimeIntervals) {
 
                         // old time inputs
                         for (PROG_DAL_A_TimeInput oldInput : FilePerson.TimeIntervals) {
 
-                            System.out.println("iterate");
-                            
                             if (newInput.IsEqual(oldInput)) {
                                 System.out.println("remove old input");
                                 FilePerson.TimeIntervals.remove(oldInput);
                             }
 
-                        }
+                        } // for ()
+
                         FilePerson.TimeIntervals.add(newInput);
-                    }
+
+                    } // for()
 
 
                     // break out of this while loop
@@ -211,28 +220,26 @@ public class PROG_DAL_B_JSONManager {
 
             if (this.sameID == true) {
                 // do nothing
-                System.out.println("Do nothing");
             } else {
                 // id does not exist in file -> add data card
-                System.out.println("add to file");
                 tempManagementList.add(UserPerson);
+            } // if ()
 
-            }
-
-            //
             this.sameID = false;
+
         } // (IncomingCardIterator.hasNext())
 
-        System.out.println(tempManagementList.size());
-
+        // Add updated information to the list of filecard linkedlist of json data
         FileCardList.addAll(tempManagementList);
 
+        // write the updated list back into the file
         JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(PROG_DATA_UserDataCard, FileCardList);
 
+        // discard the incoming list to ensure it is not used again by accident
         DiscardCard();
 
+        // no errors
         return 0;
-
     }
 
 

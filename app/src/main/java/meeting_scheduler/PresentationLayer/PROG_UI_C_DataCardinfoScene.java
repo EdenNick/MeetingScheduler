@@ -83,6 +83,7 @@ public class PROG_UI_C_DataCardinfoScene {
     private Button      ReturnToMenu;
     private Button      AddUserInfo;
     private Button      SubmitUserInfo;
+    private Button      ResetUserTimePref;
 
     // Labels
     private Label       nameLabel;
@@ -122,7 +123,10 @@ public class PROG_UI_C_DataCardinfoScene {
 
     // cardlist
     private LinkedList<VBox>                    VBOXUserPreferences;
+
+    // iterators
     private Iterator<VBox>                      VBOXIterator;
+    private Iterator<VBox>                      RemoveAllVBOXIterator;
 
     // User preferences
     private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;
@@ -291,7 +295,8 @@ public class PROG_UI_C_DataCardinfoScene {
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Deleteing Card");
             
             // remove all nodes in the current Vbox
-            IndividualDataCard.getChildren().removeAll(InputNumber, WeekDay, TimeFrame, DeleteCard);
+            //IndividualDataCard.getChildren().removeAll(InputNumber, WeekDay, TimeFrame, DeleteCard);
+            IndividualDataCard.getChildren().clear();
 
             // Create new iterator to iterate over nodes in the linkedlist UserPreferences
             VBOXIterator = VBOXUserPreferences.iterator();
@@ -321,7 +326,11 @@ public class PROG_UI_C_DataCardinfoScene {
             // removes node from the parent flowpane
             userInputGraphic.getChildren().remove(IndividualDataCard);
 
-            // loop through nodes in the flowpane to update index
+
+
+            /**
+             * Update index number for each node
+             */
             int flowPaneIndex = 1;
             for (Node node: userInputGraphic.getChildren()) {
 
@@ -612,13 +621,17 @@ public class PROG_UI_C_DataCardinfoScene {
             // collect all info into the relvant linkedlist
             // Employee name
 
-            if (userInput_EmployeeName      .getText().isBlank())               { // Do nothing
+            if          (userInput_EmployeeName .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
                 System.out.println("user has not submitted a valid name");
 
-            } else if (userInput_EmployeeID .getText().isBlank())               { // Do nothing
+            } else if   (userInput_EmployeeID   .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
                 System.out.println("user has not submitted a valid ID");
+
+            } else if   (UserTimeInput          .size() < 1)                { // Do nothing
+                // user has not submitted valid user times
+                System.out.println("user has not submitted valid user times");
 
             } else {
 
@@ -632,7 +645,7 @@ public class PROG_UI_C_DataCardinfoScene {
                 // iterate through weekdays first to ensure a weekday can only be matched once
                 for (String Day : Weekdays) {
 
-                    for (PROG_DAL_A_TimeInput preference : UserTimeInput) {
+                    for (PROG_DAL_A_TimeInput preference : this.UserTimeInput) {
                         if (preference.WeekDay == Day) {
 
                             preferredDaysList.add(Day); // each day should only be added once
@@ -651,7 +664,7 @@ public class PROG_UI_C_DataCardinfoScene {
 
 
                 // PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
-                InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, UserTimeInput));
+                InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, this.UserTimeInput));
 
                 // testing
                 System.out.println(InfoInputPreferences.size());
@@ -675,13 +688,58 @@ public class PROG_UI_C_DataCardinfoScene {
                 JsonManager.DiscardCard();
 
                 // clear linkedlist and any other data for a fresh start
-                UserTimeInput = new LinkedList<>();
-                InfoInputPreferences = new LinkedList<>();
+                // UserTimeInput           = new LinkedList<>();
+                InfoInputPreferences    = new LinkedList<>();
         }
 
         };
         this.SubmitUserInfo.setOnAction(SubmitInfo);
         // ############################################################
+
+
+
+        // reset usertimeinput
+        // ############################################################
+        this.ResetUserTimePref = new Button("Submit Info");
+
+        EventHandler<ActionEvent> ResetTimePreference = (ActionEvent e) -> {
+
+            RemoveAllVBOXIterator = VBOXUserPreferences.iterator();
+            int LinkedListIndex = 0;
+
+            while (VBOXIterator.hasNext()) {
+
+                // next Vbox in iterator
+                VBox tempBox = VBOXIterator.next();
+
+                // removes empty Vbox from the linked list of preferences
+                VBOXIterator.remove();
+
+                //removes InputTime from UserTimeInput LinkedList
+                UserTimeInput.remove(LinkedListIndex);
+
+                
+
+                LinkedListIndex++;
+
+            } // for()
+
+
+            /**
+             * remove nodes from the flowpane
+             */
+            for (Node node: userInputGraphic.getChildren()) {
+                if (node instanceof VBox vbox) {
+                    vbox.getChildren().clear();
+                }
+
+            } // for()
+
+            userInputGraphic.getChildren().clear();
+            
+
+        };
+        this.ResetUserTimePref.setOnAction(ResetTimePreference);
 
     } // ButtonCreation()
 

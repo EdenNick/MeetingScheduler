@@ -54,8 +54,33 @@ public class PROG_DAL_A_TimeInput {
         
     }
 
+    public boolean IsEqual(PROG_DAL_A_TimeInput otherInput) {
+        
+        if (!this.WeekDay.equals(otherInput.WeekDay)) {
+            System.out.println("weekday");
+            return false;
 
+        } else if (this.PreferedHourBEGIN.getHour() != otherInput.PreferedHourBEGIN.getHour())  {
+            System.out.println("beginhour");
+            return false;
 
+        } else if (this.PreferedHourBEGIN.getMinute() != otherInput.PreferedHourBEGIN.getMinute())  {
+            System.out.println("beginminute");
+            return false;
+
+        } else if (this.PreferedHourEND.getHour() != otherInput.PreferedHourEND.getHour())      {
+            System.out.println("endhour");
+            return false;
+
+        } else if (this.PreferedHourEND.getMinute() != otherInput.PreferedHourEND.getMinute())      {
+            System.out.println("endminute");
+            return false;
+
+        } else {
+            return true;
+        }
+
+    }
 
     /**
      * TimeConversion()

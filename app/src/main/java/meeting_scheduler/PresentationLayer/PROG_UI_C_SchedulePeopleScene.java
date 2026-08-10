@@ -1,10 +1,10 @@
 package meeting_scheduler.PresentationLayer;
 
+// javaFX
+// animation
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+// Scene
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,8 +19,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+//event
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+//geometry
+import javafx.geometry.Insets;
+// stage
 import javafx.stage.Stage;
+// util
 import javafx.util.Duration;
+
+// schedule calculator
+import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
 
 /**
  * PROG_UI_B_SchedulePeopleScene()
@@ -72,11 +82,15 @@ public class PROG_UI_C_SchedulePeopleScene {
     private ParallelTransition fadeMenuNodes;
     private ParallelTransition UnfadeMenuNodes;
 
+
+    private final PROG_BLL_SchedulingCalculation ScheduleCalculator;
+
     /**
      * Constructor class
      */
     public PROG_UI_C_SchedulePeopleScene(Stage stage) {
         this.ApplicationStage = stage;
+        this.ScheduleCalculator = new PROG_BLL_SchedulingCalculation();
     }
 
 
@@ -121,39 +135,6 @@ public class PROG_UI_C_SchedulePeopleScene {
         ButtonCreation();
 
 
-
-        // TODO: Add Scheduling interface;
-
-
-        /**
-         * Interface format
-         * 
-         * 1.
-         * TODO: Input for people to schedule
-         * Reset Button
-         * 
-         * 2.
-         * TODO: How many schedule lists to display
-         * Reset Button (should reset to 1)
-         * 
-         * 3.
-         * TODO: Input for any number of days to scheudle on
-         * Reset Button (should reset to all days)
-         * 
-         * 4.
-         * TODO: input for specific times
-         * resetButton (no specific time)
-         * TODO: - more than one option?
-         * 
-         * 5.
-         * TODO: checkbox for non specific time
-         * TODO: should grey out set times not delete them, clicking the button agin should reverse this
-         * 
-         * 6.
-         * Reset all preferences button
-         * 
-         */
-
         /**
          * General format
          * 
@@ -172,13 +153,12 @@ public class PROG_UI_C_SchedulePeopleScene {
          */
 
 
-
-
         // create UI interface
         SchedulingInterface();
 
 
-
+        // create Schedule Display
+        SchedulingDisplay();
 
 
         // Root Node management
@@ -327,30 +307,6 @@ public class PROG_UI_C_SchedulePeopleScene {
         this.VboxUIHolder.setPadding(new Insets(10));
 
 
-        /**
-         * Interface format
-         * 
-        */
-        // TODO: Input for people to schedule - 
-        // Reset Button
-        
-        // TODO: How many schedule lists to display - textfield with number restrictions
-        // Reset Button (should reset to 1)
-        
-        // TODO: Input for any number of days to scheudle on - series of checkboxes with days below them to them
-        // Reset Button (should reset to all days)
-         
-        // TODO: input for specific times - textfields, similar to ones used for time inputs in datacardinfo
-        // resetButton (no specific time)
-        // TODO: - more than one option?
-
-        // TODO: checkbox for non specific time - simple checkbox
-        // TODO: should grey out set times not delete them, clicking the button agin should reverse this
-
-        // Reset all preferences button
-
-
-
         // UI componenets creation
         // people Input
         InputPeople();
@@ -411,21 +367,26 @@ public class PROG_UI_C_SchedulePeopleScene {
 
         HBoxInputPeople = new HBox();
 
+        // TODO: create interface
     }
 
     private void InputListNumber() {
         HBoxInputListNumber = new HBox();
+
+        // TODO: create interface
 
     }
 
     private void InputDayPreference() {
         HBoxInputDayPreference = new HBox();
 
+        // TODO: create interface
     }
 
     private void InputTimePreference() {
         HBoxInputTimePreference = new HBox();
 
+        // TODO: create interface
     }
 
 

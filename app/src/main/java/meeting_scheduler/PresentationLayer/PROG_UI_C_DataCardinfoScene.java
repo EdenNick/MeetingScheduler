@@ -86,15 +86,15 @@ public class PROG_UI_C_DataCardinfoScene {
     private Button      ResetUserTimePref;
 
     // Labels
-    private Label       nameLabel;
-    private Label       IDLabel;
-    private Label       DayLabel;
-    private Label       BeginHourLabel;
-    private Label       BeginMinuteLabel;
-    private Label       EndHourLabel;
-    private Label       EndMinuteLabel;
-    private Label       BeginningTime;
-    private Label       EndingTime;
+    private Label       Labelname;
+    private Label       LabelID;
+    private Label       LabelDay;
+    private Label       LabelBeginHour;
+    private Label       LabelBeginMinute;
+    private Label       LabelEndHour;
+    private Label       LabelEndMinute;
+    private Label       LabelBeginningTime;
+    private Label       LabelEndingTime;
 
     // TextFields
     private TextField   userInput_EndingMinuteSeleciton;
@@ -187,6 +187,12 @@ public class PROG_UI_C_DataCardinfoScene {
      */
     public void ConstructCardManagerScene() {
 
+        // Root Node
+        // - must be called first
+        this.RootNode = new AnchorPane();
+        
+        // loads css styles
+        RootNode.getStylesheets().add(getClass().getResource("/CSS_Styles.css").toExternalForm());
 
         // Creates Buttons for this scene
         ButtonCreation();
@@ -217,11 +223,6 @@ public class PROG_UI_C_DataCardinfoScene {
             "-fx-border-width: 2;" +
             "-fx-border-radius: 5;"
         );
-
-
-        // Root Node
-        // ############################################################
-        this.RootNode = new AnchorPane();
 
         // Root Node - set return home button position
         AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
@@ -437,10 +438,10 @@ public class PROG_UI_C_DataCardinfoScene {
 
         this.AddStartTime.getChildren().addAll(
 
-            BeginHourLabel,
+            LabelBeginHour,
             userInput_BeginningHourSelection,
 
-            BeginMinuteLabel,
+            LabelBeginMinute,
             userInput_BeginningMinuteSeleciton,
 
             StartTimeAMPM
@@ -464,10 +465,10 @@ public class PROG_UI_C_DataCardinfoScene {
 
         this.addEndingTime.getChildren().addAll(
 
-            EndHourLabel,
+            LabelEndHour,
             userInput_EndingHourSeleciton,
 
-            EndMinuteLabel,
+            LabelEndMinute,
             userInput_EndingMinuteSeleciton,
 
             EndTimeAMPM
@@ -495,13 +496,13 @@ public class PROG_UI_C_DataCardinfoScene {
 
         this.addTimeInfo_input.getChildren().addAll(
 
-            DayLabel,
+            LabelDay,
             userInput_WeekDaySelection,
             
-            BeginningTime,
+            LabelBeginningTime,
             AddStartTime,
 
-            EndingTime,
+            LabelEndingTime,
             addEndingTime,
 
             ButtonSpace,
@@ -528,10 +529,10 @@ public class PROG_UI_C_DataCardinfoScene {
 
         // add nodes to the box
         this.UserInterface_Input.getChildren().addAll(
-            nameLabel,
+            Labelname,
             userInput_EmployeeName, 
 
-            IDLabel,
+            LabelID,
             userInput_EmployeeID,
 
             addTimeInfo_input, 
@@ -671,7 +672,7 @@ public class PROG_UI_C_DataCardinfoScene {
                 LinkedList<String> preferredDaysList = new LinkedList<>();
 
                 // iterate through weekdays first to ensure a weekday can only be matched once
-                for (String Day : Weekdays) {
+                for (String Day : PROG_UI_D_DataVariables.WEEKDAYS) {
 
                     for (PROG_DAL_A_TimeInput preference : this.UserTimeInput) {
                         if (preference.WeekDay == Day) {
@@ -794,76 +795,49 @@ public class PROG_UI_C_DataCardinfoScene {
      */
     private void UI_LabelCreation() {
 
-        // Name label
-        this.nameLabel = new Label("Enter Name Here:");
-        this.nameLabel.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Name Prompt
+        this.Labelname          = new Label(PROG_UI_D_DataVariables.Prompt_Name);
+        this.Labelname.getStyleClass().add("default-label");
 
 
-        // ID Label
-        this.IDLabel = new Label("Enter ID Here:");
-        this.IDLabel.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - ID Prompt
+        this.LabelID            = new Label(PROG_UI_D_DataVariables.Prompt_ID);
+        this.LabelID.getStyleClass().add("default-label");
 
 
-        // Weekday label
-        this.DayLabel = new Label("Select weekday here");
-        this.DayLabel.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Weekday Prompt
+        this.LabelDay           = new Label(PROG_UI_D_DataVariables.Prompt_Day);
+        this.LabelDay.getStyleClass().add("default-label");
 
 
-        // Beginning Hour Label
-        this.BeginHourLabel = new Label("Hour");
-        this.BeginHourLabel.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Beginning time Prompt
+        this.LabelBeginningTime = new Label(PROG_UI_D_DataVariables.Prompt_BeginningTime);
+        this.LabelBeginningTime.getStyleClass().add("default-label");
 
 
-        // Beginning Minute Label
-        this.BeginMinuteLabel = new Label("Min");
-        this.BeginMinuteLabel.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Beginning Hour Label
+        this.LabelBeginHour     = new Label(PROG_UI_D_DataVariables.Prompt_HourLabel);
+        this.LabelBeginHour.getStyleClass().add("default-label");
 
 
-        // Ending hour Label
-        this.EndHourLabel = new Label("Hour");
-        this.EndHourLabel.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Beginning Minute Label
+        this.LabelBeginMinute   = new Label(PROG_UI_D_DataVariables.Prompt_MinuteLabel);
+        this.LabelBeginMinute.getStyleClass().add("default-label");
 
 
-        // Ending Minute Label
-        this.EndMinuteLabel = new Label("Min");
-        this.EndMinuteLabel.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Ending time Prompt
+        this.LabelEndingTime    = new Label(PROG_UI_D_DataVariables.Prompt_EndingTime);
+        this.LabelEndingTime.getStyleClass().add("default-label");
 
 
-        // Beginning tim
-        this.BeginningTime = new Label("Input start time:");
-        this.BeginningTime.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Ending hour Label
+        this.LabelEndHour       = new Label(PROG_UI_D_DataVariables.Prompt_HourLabel);
+        this.LabelEndHour.getStyleClass().add("default-label");
 
 
-        // Ending time
-        this.EndingTime = new Label("Input End time");
-        this.EndingTime.setStyle(
-            "-fx-font-size: 12px;" +
-            "-fx-font-weight: bold;"
-        );
+        // Label - Ending Minute Label
+        this.LabelEndMinute     = new Label(PROG_UI_D_DataVariables.Prompt_MinuteLabel);
+        this.LabelEndMinute.getStyleClass().add("default-label");
 
 
     }
@@ -927,7 +901,7 @@ public class PROG_UI_C_DataCardinfoScene {
         // Weekday Input
         // ############################################################
         this.userInput_WeekDaySelection = new ComboBox<>();
-        this.userInput_WeekDaySelection.getItems().addAll("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+        this.userInput_WeekDaySelection.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
         this.userInput_WeekDaySelection.setPrefSize(100, 25.0);
         // ############################################################
 

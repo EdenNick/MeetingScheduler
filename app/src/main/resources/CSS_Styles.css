@@ -1,0 +1,26 @@
+/* DataCardInfo Scene formats */
+.default-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+
+}
+
+/* Instructions scene formats */
+.instructions-text {
+    -fx-font-size: 12px;
+    -fx-font-family: "Elephant";
+    -fx-fill: black;
+}
+
+.instructions-title {
+    -fx-font-size: 24px;
+    -fx-font-family: "Impact";
+    -fx-font-weight: bold;
+    -fx-fill: black;
+}
+
+.instructions-scrollPane {
+    -fx-background-color:   rgba(210,220,220,0.8);
+    -fx-border-color:       rgba(110,195,210,0.8);
+
+}

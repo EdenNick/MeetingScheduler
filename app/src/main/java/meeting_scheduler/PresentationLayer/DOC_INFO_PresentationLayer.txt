@@ -1,0 +1,9 @@
+// TODO: seperate labels and other similar nodes into their own file declared as final
+
+// TODO: add instructions for each file for proper method use
+
+// TODO: organize layout of datacardinfoscene
+
+// TODO: reformat instructions scene so it looks better
+
+// TODO: either create new scene or add to existing scene to edit inidividual persons schedule so times can be deleted/changed

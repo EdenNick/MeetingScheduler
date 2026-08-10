@@ -329,7 +329,7 @@ public class PROG_BLL_SchedulingCalculation {
                         } catch (Exception e) {
 
                             // try/catch exists due to index out of bounds. This is expected to happen as each list is dynamic in size
-                            // TODO: look into possible soultion for this to reduce complexity
+                            // TODO: look into possible solution for this to reduce complexity
 
                         }
                     

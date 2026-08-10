@@ -8,10 +8,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -42,8 +45,24 @@ public class PROG_UI_C_SchedulePeopleScene {
     // Root Node
     private AnchorPane  RootNode;
 
+    // scrollpane
+    private ScrollPane  UIInterfaceNode;
+
+    //VBox
+    private VBox        VboxUIHolder;
+
+    // HBox
+    private HBox        HBoxInputPeople;
+    private HBox        HBoxInputListNumber;
+    private HBox        HBoxInputDayPreference;
+    private HBox        HBoxInputTimePreference;
     // Buttons
     private Button      ReturnToMenu;
+    private Button      RESET_People;
+    private Button      RESET_ListNumber;
+    private Button      RESET_DaySelection;
+    private Button      RESET_TimeInput;
+    private Button      RESET_ALLPreferences;
 
     // Stage width/height
     private double StageWidth;
@@ -95,16 +114,115 @@ public class PROG_UI_C_SchedulePeopleScene {
      */
     public void ConstructSchedulingScene() {
 
+        // Root Node creation
+        RootNode = new AnchorPane();
+
+        // Button creation
+        ButtonCreation();
+
+
+
+        // TODO: Add Scheduling interface;
+
+
         /**
-         * Buttons
+         * Interface format
+         * 
+         * 1.
+         * TODO: Input for people to schedule
+         * Reset Button
+         * 
+         * 2.
+         * TODO: How many schedule lists to display
+         * Reset Button (should reset to 1)
+         * 
+         * 3.
+         * TODO: Input for any number of days to scheudle on
+         * Reset Button (should reset to all days)
+         * 
+         * 4.
+         * TODO: input for specific times
+         * resetButton (no specific time)
+         * TODO: - more than one option?
+         * 
+         * 5.
+         * TODO: checkbox for non specific time
+         * TODO: should grey out set times not delete them, clicking the button agin should reverse this
+         * 
+         * 6.
+         * Reset all preferences button
+         * 
          */
 
-        // Return Home Button
-        ReturnToMenu = new Button("Return Home");
+        /**
+         * General format
+         * 
+         * interfaces should be on the left side in a node that is fixed in size with a scroll wheel to see all interface options
+         * 
+         * schedules should be on the left side
+         * 
+         * each schedule should be listed in a vertical column with only one column
+         * 
+         * each schedule should extend horizontally to show in order
+         * 
+         * - is it an ideal schedule - weekday - time interval
+         * - each person who can be scheduled (wraps around)
+         * 
+         * 
+         */
 
+
+
+
+        // create UI interface
+        SchedulingInterface();
+
+
+
+
+
+        // Root Node management
+        // Root Node - set return home button position
+        AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
+        AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
+
+        // Root Node - set UI interface position
+        AnchorPane.setTopAnchor(UIInterfaceNode, 20.0);
+        AnchorPane.setLeftAnchor(UIInterfaceNode, 20.0);
+
+        RootNode.getChildren().addAll(UIInterfaceNode, ReturnToMenu);
+
+
+        // Background creation
+        SetBackground();
+
+
+        // Fade Transitions - must be called after every node is added to the root node
+        fadeTransitions();
+
+        
+        // create menu scene with the current node layout
+        this.SchedulingScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+
+        // fade all objects before the scene is set
+        fadeMenuNodes.play();
+
+    }
+
+
+
+    /**
+     * ButtonCreation()
+     * Description: creates the various buttons used for the scheduling page
+     */
+    private void ButtonCreation() {
+
+        // Return Home Button
+        // ############################################################
+        ReturnToMenu = new Button("Return Home");
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
-            // Exits the program
+            // Returns to the home page
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Returning to home page");
 
             fadeMenuNodes.setOnFinished(event -> {
@@ -113,36 +231,220 @@ public class PROG_UI_C_SchedulePeopleScene {
 
             fadeMenuNodes.play();
 
-            // PROG_UI_A_Application.SceneManager.MainMenu();
-
         };
-
         ReturnToMenu.setOnAction(ReturnHome);
         // ############################################################
 
 
 
-        // TODO: Add Scheduling interface;
+        // People to schedule reset button
+        // ############################################################
+        RESET_People = new Button("Reset people to schedule");
+        EventHandler<ActionEvent> RESETPEOPLE = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset people to schedule");
 
+            // TODO: Add Funcitonality
+
+        };
+        RESET_People.setOnAction(RESETPEOPLE);
+        // ############################################################
+
+
+
+        // number of lists reset button
+        // ############################################################
+        RESET_ListNumber = new Button("Reset number of lists to output");
+        EventHandler<ActionEvent> RESETLISTS = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset number of lists to output");
+
+            // TODO: Add Funcitonality
+
+        };
+        RESET_ListNumber.setOnAction(RESETLISTS);
+        // ############################################################
+
+
+
+        // Reset number of days to schedule
+        // ############################################################
+        RESET_DaySelection = new Button("Reset days to schedule");
+        EventHandler<ActionEvent> RESETDAYS = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset days to schedule");
+
+            // TODO: Add Funcitonality
+
+        };
+        RESET_DaySelection.setOnAction(RESETDAYS);
+        // ############################################################
+
+
+
+        // Reset specific input times
+        // ############################################################
+        RESET_TimeInput = new Button("Reset time input");
+        EventHandler<ActionEvent> RESETTIMES = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset time input");
+
+            // TODO: Add Funcitonality
+
+        };
+        RESET_TimeInput.setOnAction(RESETTIMES);
+        // ############################################################
+
+
+
+        // Reset all preferences
+        // ############################################################
+        RESET_ALLPreferences = new Button("Reseting all Preferences");
+        EventHandler<ActionEvent> RESETALLPREFERENCES = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reseting all Preferences");
+
+            // TODO: Add Funcitonality
+
+        };
+        RESET_ALLPreferences.setOnAction(RESETALLPREFERENCES);
+        // ############################################################
+
+
+    } // ButtonCreation()
+
+
+
+    /**
+     * SchedulingInterface()
+     * Description: creates the interface used for adding user preferences to the schedule.
+     */
+    private void SchedulingInterface() {
+
+        // contains UI elements
+        // add nodes here not UIInterfaceNode
+        this.VboxUIHolder = new VBox();
+        this.VboxUIHolder.setPadding(new Insets(10));
 
 
         /**
-         * Node management
-         */
+         * Interface format
+         * 
+        */
+        // TODO: Input for people to schedule - 
+        // Reset Button
+        
+        // TODO: How many schedule lists to display - textfield with number restrictions
+        // Reset Button (should reset to 1)
+        
+        // TODO: Input for any number of days to scheudle on - series of checkboxes with days below them to them
+        // Reset Button (should reset to all days)
+         
+        // TODO: input for specific times - textfields, similar to ones used for time inputs in datacardinfo
+        // resetButton (no specific time)
+        // TODO: - more than one option?
 
-        // Root Node
-        RootNode = new AnchorPane();
+        // TODO: checkbox for non specific time - simple checkbox
+        // TODO: should grey out set times not delete them, clicking the button agin should reverse this
 
-        // Root Node - set return home button position
-        AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
-        AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
-        RootNode.getChildren().addAll(ReturnToMenu);
+        // Reset all preferences button
 
 
 
-        /**
-         * Scene edits
-         */
+        // UI componenets creation
+        // people Input
+        InputPeople();
+
+        // List number
+        InputListNumber();
+
+        // day preference
+        InputDayPreference();
+
+        // time input + no time input checkbox
+        InputTimePreference();
+
+
+        this.VboxUIHolder.getChildren().addAll(
+            // people Input
+            HBoxInputPeople,
+            RESET_People,
+
+            // List number
+            HBoxInputListNumber,
+            RESET_ListNumber,
+
+            // day preference
+            HBoxInputDayPreference,
+            RESET_DaySelection,
+
+            // time input + no time input checkbox
+            HBoxInputTimePreference,
+            RESET_TimeInput,
+
+            // reset preferences
+            RESET_ALLPreferences
+
+        );
+
+
+        // contains vbox which contains UI elements
+        UIInterfaceNode = new ScrollPane(this.VboxUIHolder);
+
+        // sets default interface dimensions
+        this.UIInterfaceNode.setPrefWidth((PROG_UI_A_SceneManager.WindowWidth / 2) - 80.0);
+        this.UIInterfaceNode.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight - 100.0);
+
+        // updates interface dimensions
+        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+            UIInterfaceNode.setPrefWidth((newWidth.intValue() / 2) - 80.0);
+        });
+
+        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+            UIInterfaceNode.setPrefHeight(newHeight.intValue() - 100.0);
+        });
+
+    }
+
+
+    private void InputPeople() {
+
+        HBoxInputPeople = new HBox();
+
+    }
+
+    private void InputListNumber() {
+        HBoxInputListNumber = new HBox();
+
+    }
+
+    private void InputDayPreference() {
+        HBoxInputDayPreference = new HBox();
+
+    }
+
+    private void InputTimePreference() {
+        HBoxInputTimePreference = new HBox();
+
+    }
+
+
+
+    /**
+     * SchedulingDisplay()
+     * Description: creates the display board for the finished schedules
+     */
+    private void SchedulingDisplay() {
+
+    }
+
+
+
+    /**
+     * SetBackground()
+     * Description: Sets the scene background
+     */
+    private void SetBackground() {
 
         // Add background gradient
         LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
@@ -153,7 +455,15 @@ public class PROG_UI_C_SchedulePeopleScene {
 
         RootNode.setBackground(new Background(backgroundFill));
 
+    } // SetBackground()
 
+
+
+    /**
+     * fadeTransitions()
+     * Description: creates the fade transitions for the scene change
+     */
+    private void fadeTransitions() {
 
         // Transition to fade buttons
         fadeMenuNodes = new ParallelTransition();
@@ -189,14 +499,6 @@ public class PROG_UI_C_SchedulePeopleScene {
         }
         // ############################################################
 
-
-        
-        // create menu scene with the current node layout
-        this.SchedulingScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
-
-        // fade all objects before the scene is set
-        fadeMenuNodes.play();
-
-    }
+    } // fadeTransitions()
     
 }

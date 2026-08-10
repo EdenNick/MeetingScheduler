@@ -43,6 +43,7 @@ public class PROG_UI_C_InstructionsScene {
     PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput("/PROG_UI_D_Instructions.txt");
 
     LinkedList<String> InstructionFileText;
+    
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
 
@@ -51,6 +52,12 @@ public class PROG_UI_C_InstructionsScene {
 
     //Root Node
     private AnchorPane  RootNode;
+
+    //textflow
+    private TextFlow    Instructions;
+
+    // scrollpane
+    private ScrollPane  instructionScrollPane;
 
     // Buttons
     private Button      ReturnToMenu;
@@ -106,14 +113,116 @@ public class PROG_UI_C_InstructionsScene {
     public void ConstructInstructionsScene() {
 
 
+        // Root Node creation
+        RootNode = new AnchorPane();
+
+        // Import styles
+        RootNode.getStylesheets().add(getClass().getResource("/CSS_Styles.css").toExternalForm());
+
+        /// Button Creation
+        ButtonCreation();
+
+
+        // Text Box
+        Instructions = new TextFlow();
+
+        // retrieves linkedlist of txt file
+        InstructionFileText = new LinkedList<>(fileReader.ReadFile());
+        
+        // removes file name from the instructions
+        InstructionFileText.remove(0);
+        
+        // insert text here
+        for (String TXTLine : InstructionFileText) {
+            Instructions.getChildren().addAll(
+                new Text(TXTLine + "\n")
+            );
+        }
+
+        // padding/ line spacing
+        this.Instructions.setPadding(new Insets(5));
+        this.Instructions.setLineSpacing(1);
+
+        // set style for generl text
+        this.Instructions.getStyleClass().add("instructions-text");
+
+        // set style for title
+        this.Instructions.getChildren().get(0).getStyleClass().add("instructions-title");
+
+
+
+
+        // Scroll pane management
+        this.instructionScrollPane = new ScrollPane(this.Instructions);
+        this.instructionScrollPane.getStyleClass().add("instructions-scrollPane");
+
+        // set width/height
+        double ScrollPaneWidth = PROG_UI_A_SceneManager.WindowWidth / 1.5;
+        double ScrollPanHeight = PROG_UI_A_SceneManager.WindowHeight / 1.5;
+        this.instructionScrollPane.setPrefWidth(ScrollPaneWidth);
+        this.instructionScrollPane.setPrefHeight(ScrollPanHeight);
+
+
+        // this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+        //     instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
+        // });
+
+        // this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+        //     instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
+        // });
+
+
+
 
         /**
-         * Buttons
+         * Root Node management
          */
+        // Root Node - set return home button position
+        AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
+        AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
 
+        // root Node - set text position
+        AnchorPane.setTopAnchor(instructionScrollPane, 30.0);
+        AnchorPane.setLeftAnchor(instructionScrollPane, 30.0);
+        
+        // Add values to the root node
+        RootNode.getChildren().addAll(ReturnToMenu, instructionScrollPane);
+
+
+        // Background creation
+        BackgroundManagement();
+
+        
+        // Transition to fade effects
+        SceneTransitions();
+
+
+        // Scene Creation
+        this.InstructionScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+
+        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+            instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
+        });
+
+        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+            instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
+        });
+
+        // fade all objects before the scene is set
+        fadeMenuNodes.play();
+
+    }
+
+
+
+    /**
+     * ButtonCreation()
+     * Description: creates the various buttons for the instruction page
+     */
+    private void ButtonCreation() {
         // Return Home Button
+        // ############################################################
         ReturnToMenu = new Button("Return Home");
-
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
             // Exits the program
@@ -128,99 +237,18 @@ public class PROG_UI_C_InstructionsScene {
             // PROG_UI_A_Application.SceneManager.MainMenu();
 
         };
-
         ReturnToMenu.setOnAction(ReturnHome);
         // ############################################################
 
+    }
 
 
 
-        // TODO: Add instruction box
-        /**
-         * Text Box
-         */
-        TextFlow Instructions = new TextFlow();
-
-        // padding/ line spacing
-        Instructions.setPadding(new Insets(5));
-        Instructions.setLineSpacing(1);
-
-        // font/color
-        Instructions.setStyle(
-            "-fx-font-size: 10px;" +
-            "-fx-font-family: 'TimesNewRoman';" +
-            "-fx-fill: black;"
-
-        );
-
-        // retrieves linkedlist of txt file
-        InstructionFileText = new LinkedList<>(fileReader.ReadFile());
-
-        // insert text here
-        for (String TXTLine : InstructionFileText) {
-            Instructions.getChildren().addAll(
-                new Text(TXTLine + "\n")
-            );
-        }
-
-
-
-
-
-        //stylize text
-        // ((Text) Instructions.getChildren().get(0)).setStyle("");
-
-
-        //Scroll pane
-        ScrollPane instructionScrollPane = new ScrollPane(Instructions);
-
-        //instructionScrollPane.setFitToWidth(true);
-
-        // instructionScrollPane.viewportBoundsProperty().addListener((observation, oldBound, newBound) ->
-        //     instructionScrollPane.setPrefWidth(newBound.getWidth())
-        // );
-
-        double ScrollPaneWidth = PROG_UI_A_SceneManager.WindowWidth / 1.5;
-
-        double ScrollPanHeight = PROG_UI_A_SceneManager.WindowHeight / 1.5;
-
-        instructionScrollPane.setPrefWidth(ScrollPaneWidth);
-        instructionScrollPane.setPrefHeight(ScrollPanHeight);
-
-
-        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
-            instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
-        });
-
-        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
-            instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
-        });
-
-
-
-
-        /**
-         * Node management
-         */
-
-        // Root Node
-        RootNode = new AnchorPane();
-
-        // Root Node - set return home button position
-        AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
-        AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
-
-        // root Node - set text position
-        AnchorPane.setTopAnchor(instructionScrollPane, 30.0);
-        AnchorPane.setLeftAnchor(instructionScrollPane, 30.0);
-        
-        // Add values to the root node
-        RootNode.getChildren().addAll(ReturnToMenu, instructionScrollPane);
-
-
-       /**
-         * Scene edits
-         */
+    /**
+     * BackgroundManagement()
+     * Description: manages the various background effets for the scene
+     */
+    private void BackgroundManagement() {
 
         // Add background gradient
         LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
@@ -231,7 +259,15 @@ public class PROG_UI_C_InstructionsScene {
 
         RootNode.setBackground(new Background(backgroundFill));
 
+    }
 
+
+
+    /**
+     * SceneTransitions()
+     * Description: manages the scene transitions
+     */
+    private void SceneTransitions() {
 
         // Transition to fade buttons
         fadeMenuNodes = new ParallelTransition();
@@ -266,22 +302,6 @@ public class PROG_UI_C_InstructionsScene {
             UnfadeMenuNodes.getChildren().addAll(NodeUnFade);
         }
         // ############################################################
-
-
-        
-        // create menu scene with the current node layout
-        this.InstructionScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
-
-        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
-            instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
-        });
-
-        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
-            instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
-        });
-
-        // fade all objects before the scene is set
-        fadeMenuNodes.play();
 
     }
     

@@ -10,11 +10,16 @@ import javafx.animation.ParallelTransition;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -61,6 +66,9 @@ public class PROG_UI_C_SchedulePeopleScene {
     // scrollpane
     private ScrollPane  UIInterfaceNode;
 
+    //flowPane
+    private FlowPane    OutputDays;
+
     // VBox
     private VBox        VboxUIHolder;
 
@@ -71,6 +79,18 @@ public class PROG_UI_C_SchedulePeopleScene {
     private HBox        HBoxInputTimePreference;
     private HBox        HBoxCalculaeSchedule;
 
+    // VBox
+    private VBox        Holder_DayPreference;
+    private VBox        Output_DayPreference;
+    private VBox        Holder_TimePreference;
+    private VBox        Holder_ListAmmount;
+    private VBox        Holder_ListPeople;
+    private VBox        Holder_Calculate;
+    private 
+
+    // combo box
+    private ComboBox<String>    userInput_SelectDays;
+
     // Buttons
     private Button      ReturnToMenu;
     private Button      RESET_People;
@@ -79,6 +99,17 @@ public class PROG_UI_C_SchedulePeopleScene {
     private Button      RESET_TimeInput;
     private Button      RESET_ALLPreferences;
     private Button      CALCULATE_Schedule;
+
+    // labels
+    private Label       Label_inputDay;
+    private Label       Label_OutputDay;
+    private Label       Label_inputTime;
+    private Label       Label_inputNumber;
+    private Label       Label_ScheduleNow;
+    private 
+
+    // userInputs
+    private TextField   userInput_listAmmount;
 
     // Stage width/height
     private double StageWidth;
@@ -139,6 +170,9 @@ public class PROG_UI_C_SchedulePeopleScene {
 
         // Root Node creation
         RootNode = new AnchorPane();
+
+        RootNode.getStylesheets().add(getClass().getResource("/CSS_Styles.css").toExternalForm());
+
 
         // Button creation
         ButtonCreation();
@@ -336,7 +370,7 @@ public class PROG_UI_C_SchedulePeopleScene {
 
         // contains UI elements
         // add nodes here not UIInterfaceNode
-        this.VboxUIHolder = new VBox();
+        this.VboxUIHolder = new VBox(10);
         this.VboxUIHolder.setPadding(new Insets(10));
 
 
@@ -398,41 +432,282 @@ public class PROG_UI_C_SchedulePeopleScene {
             UIInterfaceNode.setPrefHeight(newHeight.intValue() - 100.0);
         });
 
-    }
+    } // SchedulingInterface()
 
 
+
+    /**
+     * InputPeople()
+     * Description: node used to input the preferred people for the schedule calculation
+     */
     private void InputPeople() {
 
-        HBoxInputPeople = new HBox();
+        // Create new HBox
+        this.HBoxInputPeople = new HBox(10);
+        this.HBoxInputPeople.getStyleClass().add("UserPreference-box");
+        this.HBoxInputPeople.setPrefSize(400.0, 100.0);
+        this.HBoxInputPeople.setPadding(new Insets(10));
+
+
 
         // TODO: create interface
-    }
 
+        // button to update list
+        // scroll through people in the file (id + name)
+
+        // clicking a person adds them to a seperate scroll list that they can also be taken off of
+
+
+
+        // VBox for formatting
+        Holder_ListPeople = new VBox(10);
+        Label Label_inputPeople = new Label("Input the people to schedule");
+        Label_inputPeople.getStyleClass().add("default-label");
+
+        this.Holder_ListPeople.getChildren().addAll(Label_inputPeople);
+        
+        
+        // Add to HBox Node
+        this.HBoxInputPeople.getChildren().addAll(Holder_ListPeople);
+
+    } // InputPeople()
+
+
+
+    /**
+     * InputListNumber()
+     * Description: receives the input to specificy how many lists should be shown
+     */
     private void InputListNumber() {
-        HBoxInputListNumber = new HBox();
+        
+        // Create new HBox
+        // ############################################################
+        HBoxInputListNumber = new HBox(10);
+        HBoxInputListNumber.getStyleClass().add("UserPreference-box");
+        HBoxInputListNumber.setPrefSize(400.0, 100.0);
+        HBoxInputListNumber.setPadding(new Insets(10));
+        // ############################################################
+        
 
-        // TODO: create interface
 
-    }
+        // Input Section
+        // ############################################################
+        // Enter List Ammount
+        this.userInput_listAmmount = new TextField();
+        this.userInput_listAmmount.setPromptText("Enter List Ammount");
+        this.userInput_listAmmount.setPrefSize(150.0, 40.0);
+        this.userInput_listAmmount.setTextFormatter(new TextFormatter<>(change -> {
+            
+            // User input text
+            String TextInput = change.getControlNewText();
 
+            // if th etext is empty accept it
+            if (TextInput.isEmpty()) {
+                return change;
+            }
+
+            // test if the text is a valid int within a valid range
+            try {
+
+                int intValue = Integer.parseInt(TextInput);
+                
+                // TODO: may need to change the max value later dpending on formatting
+                if (intValue >= 0 && intValue < 20) {
+                    return change;
+                }
+
+            } catch (NumberFormatException e) {
+                // Invalid Input
+            }
+
+            return null;
+
+        }));
+        
+
+        //TODO: possibly add label which displays number
+
+
+        // VBox for formatting
+        Holder_ListAmmount = new VBox(10);
+
+        // label
+        Label_inputNumber = new Label("Input the total ammount of lists to Display");
+        Label_inputNumber.getStyleClass().add("default-label");
+
+        // Add all to the node
+        Holder_ListAmmount.getChildren().addAll(Label_inputNumber, userInput_listAmmount);
+        // ############################################################
+        
+
+
+        // Add all to the node
+        // ############################################################
+        HBoxInputListNumber.getChildren().addAll(Holder_ListAmmount);
+        // ############################################################
+
+    } // InputListNumber()
+
+
+
+    /**
+     * InputDayPreference()
+     * Description: User input for what preferred days they want in the schedule
+     */
     private void InputDayPreference() {
-        HBoxInputDayPreference = new HBox();
 
-        // TODO: create interface
-    }
+        // Create new HBox
+        // ############################################################
+        this.HBoxInputDayPreference = new HBox(10);
+        this.HBoxInputDayPreference.getStyleClass().add("UserPreference-box");
+        this.HBoxInputDayPreference.setPrefSize(400.0, 100.0);
+        this.HBoxInputDayPreference.setPadding(new Insets(10));
+        // ############################################################
 
+
+
+        // Input Section
+        // ############################################################
+        // VBox for formatting
+        this.Holder_DayPreference = new VBox(10);
+
+        // label
+        this.Label_inputDay = new Label("Input the days to schedule");
+        this.Label_inputDay.getStyleClass().add("default-label");
+
+        // combo box for days of the week, add multiple days
+        this.userInput_SelectDays = new ComboBox<>();
+        this.userInput_SelectDays.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
+        this.userInput_SelectDays.setPrefSize(150.0, 40.0);
+
+        // Button
+        // TODO: add button here
+
+
+        // Add all to the node
+        this.Holder_DayPreference.getChildren().addAll(Label_inputDay, userInput_SelectDays);
+        // ############################################################
+
+
+
+        // Output Section
+        // ############################################################
+        this.Output_DayPreference = new VBox(10);
+
+        // label
+        this.Label_OutputDay = new Label("Days Selected");
+        this.Label_OutputDay.getStyleClass().add("default-label");
+
+
+
+        // TODO: add list of selected days - button to add selected days to the list
+        this.OutputDays = new FlowPane();
+
+
+
+        // Add all to the node
+        this.Output_DayPreference.getChildren().addAll(Label_OutputDay);
+        // ############################################################
+
+
+
+        // Add all to the node
+        // ############################################################
+        this.HBoxInputDayPreference.getChildren().addAll(Holder_DayPreference, Output_DayPreference);
+        // ############################################################
+
+    } // InputDayPreference()
+
+
+
+    /**
+     * InputTimePreference()
+     * Description: user input for the specific times they want scheduled
+     */
     private void InputTimePreference() {
-        HBoxInputTimePreference = new HBox();
 
-        // TODO: create interface
-    }
+        // Create new HBox
+        // ############################################################
+        this.HBoxInputTimePreference = new HBox(10);
+        this.HBoxInputTimePreference.getStyleClass().add("UserPreference-box");
+        this.HBoxInputTimePreference.setPrefSize(400.0, 100.0);
+        this.HBoxInputTimePreference.setPadding(new Insets(10));
+        // ############################################################
 
+
+
+        // Input Section
+        // ############################################################
+        // VBox for formatting
+        this.Holder_TimePreference = new VBox(10);
+        
+        // label
+        this.Label_inputTime = new Label("Input the times to schedule");
+        this.Label_inputTime.getStyleClass().add("default-label");
+
+        // Add all to the node
+        this.Holder_TimePreference.getChildren().addAll(Label_inputTime);
+        // ############################################################
+
+
+
+        // Output Section
+        // ############################################################
+        // TODO: create Output Section
+        // ############################################################
+
+        // Add all to the node
+        // ############################################################
+        this.HBoxInputTimePreference.getChildren().addAll(Holder_TimePreference);
+        // ############################################################
+
+    } // InputTimePreference()
+
+
+
+    /**
+     * CalculateSchedule()
+     * Description: hold the calculate schedule button
+     */
     private void CalculateSchedule() {
-        HBoxCalculaeSchedule = new HBox();
+
+        // Create new HBox
+        // ############################################################
+        this.HBoxCalculaeSchedule = new HBox(10);
+        this.HBoxCalculaeSchedule.getStyleClass().add("UserPreference-box");
+        this.HBoxCalculaeSchedule.setPrefSize(400.0, 100.0);
+        this.HBoxCalculaeSchedule.setPadding(new Insets(10));
+        // ############################################################
 
 
-        // TODO: create interface
-    }
+
+        // Input Section
+        // ############################################################
+        // VBox for formatting
+        this.Holder_Calculate = new VBox(10);
+
+        // label
+        this.Label_ScheduleNow = new Label("Calculate Schedule");
+        this.Label_ScheduleNow.getStyleClass().add("default-label");
+
+        // Add all to the node
+        this.Holder_Calculate.getChildren().addAll(Label_ScheduleNow);
+        // ############################################################
+
+
+        // Output Section
+        // ############################################################
+        // TODO: create output interface section
+        // ############################################################
+
+
+
+        // Add all to the node
+        // ############################################################
+        this.HBoxCalculaeSchedule.getChildren().addAll(Holder_Calculate);
+        // ############################################################
+
+    } // CalculateSchedule()
 
 
 
@@ -442,7 +717,9 @@ public class PROG_UI_C_SchedulePeopleScene {
      */
     private void SchedulingDisplay() {
 
-    }
+        // TODO: create Display
+
+    } // SchedulingDisplay()
 
 
 

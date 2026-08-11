@@ -24,3 +24,10 @@
     -fx-border-color:       rgba(110,195,210,0.8);
 
 }
+
+.UserPreference-box {
+        -fx-background-color: white;
+        -fx-border-color: Black;
+        -fx-border-width: 2;
+        -fx-border-radius: 5;
+}

@@ -244,7 +244,7 @@ public class PROG_BLL_SchedulingCalculation {
          * Step 1. Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
          */
         Calc_FullScheduleList   = new LinkedList<PROG_DAL_A_Schedule>();     // List of possible schedules
-        Calc_AvailableIDs       = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
+        // Calc_AvailableIDs       = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
 
 
         /**
@@ -282,13 +282,14 @@ public class PROG_BLL_SchedulingCalculation {
              * Step 5. For each day of the week the total ammount of timeintervals will be iterated over, because not all people will have the same ammount,
              * the maximum ammount of indexes will be used in the for loop to ensure everytime interval is iterated over.
              */
-            for (int Index = 0; Index <= MaxSize; Index++) {                    // iterates through each index
+            for (int Index = 0; Index < MaxSize; Index++) {                    // iterates through each index
 
+                Calc_AvailableIDs       = new LinkedList<String>();                 // List of people who can be scheduled in a time interval
 
-                int StartIntervalHour   = -1;
-                int StartIntervalMin    = -1;
-                int EndIntervalHour     = 24;
-                int EndIntervalMin      = 60;
+                int StartIntervalHour   = 0;
+                int StartIntervalMin    = 0;
+                int EndIntervalHour     = 23;
+                int EndIntervalMin      = 59;
 
 
                 /**
@@ -367,7 +368,7 @@ public class PROG_BLL_SchedulingCalculation {
                             EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
 
                             // 7.b if persons interval lies between then its id is added to the list
-                            if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
+                            if ((BeginHour >= StartIntervalHour) && (BeginMIN >= StartIntervalMin) && (EndHour <= EndIntervalHour) && (EndMin <= EndIntervalMin)) {
                                 Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
                             } // if ()
 
@@ -421,25 +422,38 @@ public class PROG_BLL_SchedulingCalculation {
                  * Step 8. check if the people available to attend that schedule represent everyone the user wanted
                  * true if yes, false otherwise.
                  */
-                if (UserInput_PeopleToSchedule.equals(Calc_AvailableIDs)) {    // everyone the user wanted is on the list for this interval
-                    Calc_IdealSchedule = true;
-                } else {                                        // not everyone is on the list
+                if (IDsProvided == true) {
+                    if (UserInput_PeopleToSchedule.equals(Calc_AvailableIDs)) {    // everyone the user wanted is on the list for this interval
+                        Calc_IdealSchedule = true;
+                    } else {                                        // not everyone is on the list
+                        Calc_IdealSchedule = false;
+                    }
+                } else {
+                    // no users specified so no ideal schedule
                     Calc_IdealSchedule = false;
                 }
 
 
-                /**
-                 * Step 9. create new TimeInput LinkedList containing this schedule
-                 */
-                Calc_ViableSchedule = new PROG_DAL_A_TimeInput(Day, StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
+                // only continue if a possible schedule has at least one person
+                // otherwise many garbage objects will be created
+                if (Calc_AvailableIDs.size() > 0) {
+                    /**
+                     * Step 9. create new TimeInput LinkedList containing this schedule
+                     */
+                    System.out.println("Day: " + Day);
+                    System.out.println("startHour: " + StartIntervalHour);
+                    System.out.println("startMin: " + StartIntervalMin);
+                    System.out.println("endhour: " + EndIntervalHour);
+                    System.out.println("endMinute: " + EndIntervalMin);
+                    Calc_ViableSchedule = new PROG_DAL_A_TimeInput(Day, StartIntervalHour, StartIntervalMin, EndIntervalHour, EndIntervalMin);
 
 
-                /**
-                 * Step 10. Add this new schedule to the ScheduleList (contains all createdSchedules)
-                 */
-                Calc_FullScheduleList.add(new PROG_DAL_A_Schedule(Day, Calc_ViableSchedule, Calc_AvailableIDs, Calc_IdealSchedule));
+                    /**
+                     * Step 10. Add this new schedule to the ScheduleList (contains all createdSchedules)
+                     */
+                    Calc_FullScheduleList.add(new PROG_DAL_A_Schedule(Day, Calc_ViableSchedule, Calc_AvailableIDs, Calc_IdealSchedule));
                 
-            
+                }
             } // for (int Index = 0; Index <= MaxSize; Index++)
 
 
@@ -462,6 +476,14 @@ public class PROG_BLL_SchedulingCalculation {
      * Description: public method called in order to pass ScheduleList outside the class
      */
     public LinkedList<PROG_DAL_A_Schedule> RetrieveSchedule() {
+
+        try {
+            CalculateSchedule();
+        } catch (IOException e) {
+            System.out.println("ERROR - PROG_INFO_SchedulingCalculation - RetrieveSchedule - CalculateSchedule");
+            e.printStackTrace();
+        }
+        
         return Calc_FullScheduleList;
     }
 

@@ -1,5 +1,7 @@
 package meeting_scheduler.PresentationLayer;
 
+import java.util.LinkedList;
+
 // javaFX
 // animation
 import javafx.animation.FadeTransition;
@@ -31,6 +33,7 @@ import javafx.util.Duration;
 
 // schedule calculator
 import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 
 /**
  * PROG_UI_B_SchedulePeopleScene()
@@ -58,7 +61,7 @@ public class PROG_UI_C_SchedulePeopleScene {
     // scrollpane
     private ScrollPane  UIInterfaceNode;
 
-    //VBox
+    // VBox
     private VBox        VboxUIHolder;
 
     // HBox
@@ -66,6 +69,8 @@ public class PROG_UI_C_SchedulePeopleScene {
     private HBox        HBoxInputListNumber;
     private HBox        HBoxInputDayPreference;
     private HBox        HBoxInputTimePreference;
+    private HBox        HBoxCalculaeSchedule;
+
     // Buttons
     private Button      ReturnToMenu;
     private Button      RESET_People;
@@ -73,6 +78,7 @@ public class PROG_UI_C_SchedulePeopleScene {
     private Button      RESET_DaySelection;
     private Button      RESET_TimeInput;
     private Button      RESET_ALLPreferences;
+    private Button      CALCULATE_Schedule;
 
     // Stage width/height
     private double StageWidth;
@@ -82,8 +88,11 @@ public class PROG_UI_C_SchedulePeopleScene {
     private ParallelTransition fadeMenuNodes;
     private ParallelTransition UnfadeMenuNodes;
 
-
+    // Schedule Calculator
     private final PROG_BLL_SchedulingCalculation ScheduleCalculator;
+
+    // Calculated Schedules
+    private LinkedList<PROG_DAL_A_Schedule> CalculatedScheduleList;
 
     /**
      * Constructor class
@@ -291,6 +300,30 @@ public class PROG_UI_C_SchedulePeopleScene {
         // ############################################################
 
 
+
+        // Calculate Schedule
+        // ############################################################
+        CALCULATE_Schedule = new Button("Calculate Schedule");
+        EventHandler<ActionEvent> CALCULATESCHEDULE = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Calculating schedule");
+
+            // TODO: Add Funcitonality
+            // RetrieveSchedule
+
+
+
+            // retrieved copy of calculated linked list
+            CalculatedScheduleList = new LinkedList<>(ScheduleCalculator.RetrieveSchedule());
+
+
+        };
+        CALCULATE_Schedule.setOnAction(CALCULATESCHEDULE);
+        // ############################################################
+
+
+
+
     } // ButtonCreation()
 
 
@@ -320,6 +353,7 @@ public class PROG_UI_C_SchedulePeopleScene {
         // time input + no time input checkbox
         InputTimePreference();
 
+        CalculateSchedule();
 
         this.VboxUIHolder.getChildren().addAll(
             // people Input
@@ -339,7 +373,11 @@ public class PROG_UI_C_SchedulePeopleScene {
             RESET_TimeInput,
 
             // reset preferences
-            RESET_ALLPreferences
+            RESET_ALLPreferences,
+
+            // Calculate schedule
+            HBoxCalculaeSchedule,
+            CALCULATE_Schedule
 
         );
 
@@ -385,6 +423,13 @@ public class PROG_UI_C_SchedulePeopleScene {
 
     private void InputTimePreference() {
         HBoxInputTimePreference = new HBox();
+
+        // TODO: create interface
+    }
+
+    private void CalculateSchedule() {
+        HBoxCalculaeSchedule = new HBox();
+
 
         // TODO: create interface
     }

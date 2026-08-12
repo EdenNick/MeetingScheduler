@@ -1,6 +1,9 @@
 package meeting_scheduler.PresentationLayer;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 // javaFX
 // animation
@@ -12,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -100,6 +104,7 @@ public class PROG_UI_C_SchedulePeopleScene {
     private Button      RESET_ALLPreferences;
     private Button      CALCULATE_Schedule;
     private Button      Input_SelectedDay;
+    private Button      AddTimeInput;
 
     // labels
     private Label       Label_inputDay;
@@ -297,8 +302,16 @@ public class PROG_UI_C_SchedulePeopleScene {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset days to schedule");
 
-            // TODO: Add Funcitonality
-            // resets the lsit for the combo box and gets tid of the text in the flowPane
+            // Resets the flowPanes current list of selected days to an empty string
+            this.OutputDays.getChildren().clear();
+            this.OutputDays.getChildren().add(new Text(""));
+
+            // Resets the ComboBox Input values to their original state
+            this.userInput_SelectDays.getItems().clear();
+            this.userInput_SelectDays.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
+
+            // resets the schedule calcualtor to look through everyday of the week
+            ScheduleCalculator.UpdateWeekDays(PROG_UI_D_DataVariables.WEEKDAYS); // input String[]
 
         };
         RESET_DaySelection.setOnAction(RESETDAYS);
@@ -605,7 +618,71 @@ public class PROG_UI_C_SchedulePeopleScene {
 
         // flowPane to hold and display text
         this.OutputDays = new FlowPane();
-        OutputDays.setPrefSize(150.0, 40.0);
+        this.OutputDays.setPrefSize(150.0, 40.0);
+        // 
+        this.OutputDays.getChildren().add(new Text(""));
+        this.OutputDays.getChildren().addListener((javafx.collections.ListChangeListener<Node>) change -> {
+
+            // ensures OutputDays has enough nodes to complete all operations without index out of bound errors
+            // Also exists due to reset button activating this listner -> do not remove the if statmenet
+            if (this.OutputDays.getChildren().size() > 1) {
+
+
+                // Incoming input, the day to be added to the list - should always be the second node (index 1)
+                String NewDay = ((Text) this.OutputDays.getChildren().get(1)).getText();
+
+                // exisitng days, days to be kept in the list - should always be the first node (index 0)
+                String[] CollectedDays = ((Text) this.OutputDays.getChildren().get(0)).getText().split(" ");
+
+                // NewDayList, the new list which contains all the days from the existing node and the incoming input
+                String[] NewDayList = PROG_UI_D_DataVariables.WEEKDAYS.clone();
+                
+                boolean hasDay;
+                int NewDayList_index = 0;
+
+                // iterate through every day of the week
+                for (String WeekDay: PROG_UI_D_DataVariables.WEEKDAYS) {
+                    
+                    hasDay = false;
+
+                    // for each day see if the current string[] of collected days has it or if the new one does
+                    for (int collectedDays_index = 0; collectedDays_index < CollectedDays.length; collectedDays_index++) {
+
+                        // if either are true set has day to true
+                        if ( (WeekDay.equals(CollectedDays[collectedDays_index])) || (WeekDay.equals(NewDay)) ) {
+                            hasDay = true;
+                            break;
+                        }
+
+                    } // for()
+
+                    if (hasDay == true) {
+                        // do nothing
+                    } else {
+                        // if the day is not contained in either variable, set the relevant day to null in the new list
+                        NewDayList[NewDayList_index] = null;
+                    }
+
+                    // incrment the new Day List index
+                    NewDayList_index++;
+
+                } // for()
+
+                // new text to be set to the flowPane
+                String NewTextString = Arrays.stream(NewDayList).filter(Objects::nonNull).collect(Collectors.joining(" "));
+
+                // remove incoming node
+                this.OutputDays.getChildren().remove(1);
+
+                // set existing node to new text
+                Text NewTextNode = (Text) this.OutputDays.getChildren().get(0);
+                NewTextNode.setText(NewTextString);
+
+                // Update scheduleing Object with new list of days
+                ScheduleCalculator.UpdateWeekDays(NewTextString.split(" ")); // input String[]
+
+            } // if()
+        });
         // ############################################################
 
 
@@ -625,9 +702,7 @@ public class PROG_UI_C_SchedulePeopleScene {
 
                 userInput_SelectDays.getItems().remove(SelectedDay);
 
-                OutputDays.getChildren().addAll(new Text(SelectedDay + " - "));
-
-                // TODO: formatting
+                OutputDays.getChildren().add(new Text(SelectedDay));
 
             } // if()
 
@@ -684,6 +759,10 @@ public class PROG_UI_C_SchedulePeopleScene {
         this.Label_inputTime.getStyleClass().add("default-label");
 
         // TODO: create interface
+
+
+
+        AddTimeInput = new Button("Add Time");
         // ############################################################
 
 

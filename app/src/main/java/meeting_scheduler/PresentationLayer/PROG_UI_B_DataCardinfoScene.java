@@ -53,7 +53,7 @@ import java.util.Iterator;
 
 
 
-public class PROG_UI_C_DataCardinfoScene {
+public class PROG_UI_B_DataCardinfoScene {
 
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
@@ -97,10 +97,10 @@ public class PROG_UI_C_DataCardinfoScene {
     private Label       LabelEndingTime;
 
     // TextFields
-    private TextField   userInput_EndingMinuteSeleciton;
-    private TextField   userInput_EndingHourSeleciton;
-    private TextField   userInput_BeginningMinuteSeleciton;
-    private TextField   userInput_BeginningHourSelection;
+    //private TextField   userInput_EndingMinuteSeleciton;
+    //private TextField   userInput_EndingHourSeleciton;
+    //private TextField   userInput_BeginningMinuteSeleciton;
+    //private TextField   userInput_BeginningHourSelection;
     private TextField   userInput_EmployeeID;
     private TextField   userInput_EmployeeName;
 
@@ -112,11 +112,11 @@ public class PROG_UI_C_DataCardinfoScene {
     private ParallelTransition  UnfadeMenuNodes;
 
     // ComboBox
-    private ComboBox<String>    userInput_WeekDaySelection;
+    //private ComboBox<String>    userInput_WeekDaySelection;
 
     // CheckBox
-    private ComboBox<String>    StartTimeAMPM;
-    private ComboBox<String>    EndTimeAMPM;
+    //private ComboBox<String>    StartTimeAMPM;
+    //private ComboBox<String>    EndTimeAMPM;
 
     // individual user Day/time preference
     private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
@@ -135,13 +135,15 @@ public class PROG_UI_C_DataCardinfoScene {
     private String[] Weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
     private PROG_DAL_B_JSONManager JsonManager;
+
+    private PROG_UI_C_UserTimeInput DataCard_UserTimeInputs;
     
 
 
     /**
      * Constructor class
      */
-    public PROG_UI_C_DataCardinfoScene(Stage stage) {
+    public PROG_UI_B_DataCardinfoScene(Stage stage) {
         
         this.ApplicationStage = stage;
 
@@ -150,6 +152,8 @@ public class PROG_UI_C_DataCardinfoScene {
         this.InfoInputPreferences = new LinkedList<>();
 
         this.JsonManager = new PROG_DAL_B_JSONManager();
+
+        this.DataCard_UserTimeInputs = new PROG_UI_C_UserTimeInput();
     }
 
 
@@ -204,6 +208,7 @@ public class PROG_UI_C_DataCardinfoScene {
 
         // Creates UI for user inputs
         UI_UserInputs();
+        DataCard_UserTimeInputs.UI_data_construction();
 
 
         // creates layour for the user input UI
@@ -295,13 +300,13 @@ public class PROG_UI_C_DataCardinfoScene {
         
         // if pm is selected for the starting time add 12 hours to the starting hour
         // and ending hour, (am can't occure before pm)
-        if (StartTimeAMPM.getValue().equals("PM")) {
+        if (DataCard_UserTimeInputs.Return_AMPM_StartTime().getValue().equals("PM")) {
             StartTimeFrame  = "PM";
             EndTimeFrame    = "PM";
         }
 
         // if pm is selected for the ending time add 12 hours to the ending time
-        if(EndTimeAMPM.getValue().equals("PM")) {
+        if(DataCard_UserTimeInputs.Return_AMPM_EndTime().getValue().equals("PM")) {
             EndTimeFrame    = "PM";
         }
 
@@ -439,12 +444,12 @@ public class PROG_UI_C_DataCardinfoScene {
         this.AddStartTime.getChildren().addAll(
 
             LabelBeginHour,
-            userInput_BeginningHourSelection,
+            DataCard_UserTimeInputs.Return_Hour_Begin(),
 
             LabelBeginMinute,
-            userInput_BeginningMinuteSeleciton,
+            DataCard_UserTimeInputs.Return_Minute_Begin(),
 
-            StartTimeAMPM
+            DataCard_UserTimeInputs.Return_AMPM_StartTime()
 
         );
         // ############################################################
@@ -466,12 +471,12 @@ public class PROG_UI_C_DataCardinfoScene {
         this.addEndingTime.getChildren().addAll(
 
             LabelEndHour,
-            userInput_EndingHourSeleciton,
+            DataCard_UserTimeInputs.Return_Hour_End(),
 
             LabelEndMinute,
-            userInput_EndingMinuteSeleciton,
+            DataCard_UserTimeInputs.Return_Minute_End(),
 
-            EndTimeAMPM
+            DataCard_UserTimeInputs.Return_AMPM_EndTime()
 
         );
         // ############################################################
@@ -497,7 +502,7 @@ public class PROG_UI_C_DataCardinfoScene {
         this.addTimeInfo_input.getChildren().addAll(
 
             LabelDay,
-            userInput_WeekDaySelection,
+            DataCard_UserTimeInputs.Return_WeekDay(),
             
             LabelBeginningTime,
             AddStartTime,
@@ -590,23 +595,23 @@ public class PROG_UI_C_DataCardinfoScene {
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
 
 
-            if (userInput_WeekDaySelection.getValue() == null)  { // Do nothing
+            if (        DataCard_UserTimeInputs.Return_WeekDay()        .getValue() == null)  { // Do nothing
                 // user has not submitted a weekday
                 System.out.println("user has not submitted a weekday");
 
-            } else if (userInput_BeginningHourSelection     .getText().isBlank())   { // Do nothing
+            } else if ( DataCard_UserTimeInputs.Return_Hour_Begin()     .getText().isBlank())   { // Do nothing
                 // user has not submitted a beginning hour
                 System.out.println("user has not submitted a beginning hour");
 
-            } else if (userInput_BeginningMinuteSeleciton   .getText().isBlank())   { // Do nothing
+            } else if ( DataCard_UserTimeInputs.Return_Minute_Begin()   .getText().isBlank())   { // Do nothing
                 // user has not submitted a beginning minute
                 System.out.println("user has not submitted a beginning minute");
 
-            } else if (userInput_EndingHourSeleciton        .getText().isBlank())   { // Do nothing
+            } else if ( DataCard_UserTimeInputs.Return_Hour_End()       .getText().isBlank())   { // Do nothing
                 // user has not submitted a ending hour
                 System.out.println("user has not submitted a ending hour");
 
-            } else if (userInput_EndingMinuteSeleciton      .getText().isBlank())   { // Do nothing
+            } else if ( DataCard_UserTimeInputs.Return_Minute_End()     .getText().isBlank())   { // Do nothing
                 // user has not submitted a ending minute
                 System.out.println("user has not submitted a ending minute");
             } else {
@@ -614,11 +619,11 @@ public class PROG_UI_C_DataCardinfoScene {
                 // Correct info has been submitted
                 System.out.println("Correct info has been submitted");
 
-                String  WeekDay     = userInput_WeekDaySelection                            .getValue();
-                int     BeginHour   = Integer.parseInt(userInput_BeginningHourSelection     .getText());
-                int     BeginMinute = Integer.parseInt(userInput_BeginningMinuteSeleciton   .getText());
-                int     EndHour     = Integer.parseInt(userInput_EndingHourSeleciton        .getText());
-                int     EndMinute   = Integer.parseInt(userInput_EndingMinuteSeleciton      .getText());
+                String  WeekDay     = DataCard_UserTimeInputs.Return_WeekDay()                      .getValue();
+                int     BeginHour   = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_Begin()  .getText());
+                int     BeginMinute = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_Begin().getText());
+                int     EndHour     = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_End()    .getText());
+                int     EndMinute   = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_End()  .getText());
 
                 // new user preference
                 PROG_DAL_A_TimeInput UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
@@ -898,185 +903,185 @@ public class PROG_UI_C_DataCardinfoScene {
 
 
 
-        // Weekday Input
-        // ############################################################
-        this.userInput_WeekDaySelection = new ComboBox<>();
-        this.userInput_WeekDaySelection.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
-        this.userInput_WeekDaySelection.setPrefSize(100, 25.0);
-        // ############################################################
+        // // Weekday Input
+        // // ############################################################
+        // this.userInput_WeekDaySelection = new ComboBox<>();
+        // this.userInput_WeekDaySelection.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
+        // this.userInput_WeekDaySelection.setPrefSize(100, 25.0);
+        // // ############################################################
 
 
 
-        // Beginning Hour Input
-        // ############################################################
-        this.userInput_BeginningHourSelection = new TextField();
-        this.userInput_BeginningHourSelection.setPrefSize(50, 25.0);
-        this.userInput_BeginningHourSelection.setTextFormatter(new TextFormatter<>(change -> {
+        // // Beginning Hour Input
+        // // ############################################################
+        // this.userInput_BeginningHourSelection = new TextField();
+        // this.userInput_BeginningHourSelection.setPrefSize(50, 25.0);
+        // this.userInput_BeginningHourSelection.setTextFormatter(new TextFormatter<>(change -> {
             
-            // User input text
-            String TextInput = change.getControlNewText();
+        //     // User input text
+        //     String TextInput = change.getControlNewText();
 
-            // if th etext is empty accept it
-            if (TextInput.isEmpty()) {
-                return change;
-            }
+        //     // if th etext is empty accept it
+        //     if (TextInput.isEmpty()) {
+        //         return change;
+        //     }
 
-            // test if the text is a valid int within a valid range
-            try {
-                int intValue = Integer.parseInt(TextInput);
+        //     // test if the text is a valid int within a valid range
+        //     try {
+        //         int intValue = Integer.parseInt(TextInput);
 
-                if (intValue >= 0 && intValue <= 12) {
-                    return change;
-                }
-            } catch (NumberFormatException e) {
-                // Invalid Input
-            }
+        //         if (intValue >= 0 && intValue <= 12) {
+        //             return change;
+        //         }
+        //     } catch (NumberFormatException e) {
+        //         // Invalid Input
+        //     }
 
-            return null;
-        }));
-        // ############################################################
+        //     return null;
+        // }));
+        // // ############################################################
 
 
 
-        // Beginning Minute Input
-        // ############################################################
-        this.userInput_BeginningMinuteSeleciton = new TextField();
-        this.userInput_BeginningMinuteSeleciton.setPrefSize(50, 25.0);
-        this.userInput_BeginningMinuteSeleciton.setTextFormatter(new TextFormatter<>(change -> {
+        // // Beginning Minute Input
+        // // ############################################################
+        // this.userInput_BeginningMinuteSeleciton = new TextField();
+        // this.userInput_BeginningMinuteSeleciton.setPrefSize(50, 25.0);
+        // this.userInput_BeginningMinuteSeleciton.setTextFormatter(new TextFormatter<>(change -> {
             
-            // User input text
-            String TextInput = change.getControlNewText();
+        //     // User input text
+        //     String TextInput = change.getControlNewText();
 
-            // if th etext is empty accept it
-            if (TextInput.isEmpty()) {
-                return change;
-            }
+        //     // if th etext is empty accept it
+        //     if (TextInput.isEmpty()) {
+        //         return change;
+        //     }
 
-            // test if the text is a valid int within a valid range
-            try {
-                int intValue = Integer.parseInt(TextInput);
+        //     // test if the text is a valid int within a valid range
+        //     try {
+        //         int intValue = Integer.parseInt(TextInput);
 
-                if (intValue >= 0 && intValue < 60) {
-                    return change;
-                }
-            } catch (NumberFormatException e) {
-                // Invalid Input
-            }
+        //         if (intValue >= 0 && intValue < 60) {
+        //             return change;
+        //         }
+        //     } catch (NumberFormatException e) {
+        //         // Invalid Input
+        //     }
 
-            return null;
-        }));
-        // ############################################################
-
-
-
-        // CheckBox for beginning AM/PM
-        // ############################################################
-        this.StartTimeAMPM = new ComboBox<>();
-        this.StartTimeAMPM.getItems().addAll("AM", "PM");
-        this.StartTimeAMPM.getSelectionModel().select("AM");
-        this.StartTimeAMPM.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-
-            if (newvalue.equals("PM")) {
-                this.EndTimeAMPM.getSelectionModel().select("PM");
-            }
-
-        });
-        // ############################################################
+        //     return null;
+        // }));
+        // // ############################################################
 
 
 
-        // Ending Hour Input
-        // ############################################################
-        this.userInput_EndingHourSeleciton = new TextField();
-        this.userInput_EndingHourSeleciton.setPrefSize(50, 25.0);
-        this.userInput_EndingHourSeleciton.setTextFormatter(new TextFormatter<>(change -> {
+        // // CheckBox for beginning AM/PM
+        // // ############################################################
+        // this.StartTimeAMPM = new ComboBox<>();
+        // this.StartTimeAMPM.getItems().addAll("AM", "PM");
+        // this.StartTimeAMPM.getSelectionModel().select("AM");
+        // this.StartTimeAMPM.valueProperty().addListener((observed, oldvalue, newvalue) -> {
+
+        //     if (newvalue.equals("PM")) {
+        //         this.EndTimeAMPM.getSelectionModel().select("PM");
+        //     }
+
+        // });
+        // // ############################################################
+
+
+
+        // // Ending Hour Input
+        // // ############################################################
+        // this.userInput_EndingHourSeleciton = new TextField();
+        // this.userInput_EndingHourSeleciton.setPrefSize(50, 25.0);
+        // this.userInput_EndingHourSeleciton.setTextFormatter(new TextFormatter<>(change -> {
             
-            // User input text
-            String TextInput = change.getControlNewText();
+        //     // User input text
+        //     String TextInput = change.getControlNewText();
 
-            // if th etext is empty accept it
-            if (TextInput.isEmpty()) {
-                return change;
-            }
+        //     // if th etext is empty accept it
+        //     if (TextInput.isEmpty()) {
+        //         return change;
+        //     }
 
-            // ensures end hour is never before the beginning hour
-            if (!userInput_BeginningHourSelection.getText().isBlank()) {
+        //     // ensures end hour is never before the beginning hour
+        //     if (!userInput_BeginningHourSelection.getText().isBlank()) {
 
-                if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) > Integer.parseInt(TextInput)) 
-                    && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
-                    userInput_EndingHourSeleciton.setText(userInput_BeginningHourSelection.getText());
-                }
+        //         if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) > Integer.parseInt(TextInput)) 
+        //             && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
+        //             userInput_EndingHourSeleciton.setText(userInput_BeginningHourSelection.getText());
+        //         }
 
-            }
+        //     }
 
-            // test if the text is a valid int within a valid range
-            try {
-                int intValue = Integer.parseInt(TextInput);
+        //     // test if the text is a valid int within a valid range
+        //     try {
+        //         int intValue = Integer.parseInt(TextInput);
 
-                if (intValue >= 0 && intValue <= 12) {
-                    return change;
-                }
-            } catch (NumberFormatException e) {
-                // Invalid Input
-            }
+        //         if (intValue >= 0 && intValue <= 12) {
+        //             return change;
+        //         }
+        //     } catch (NumberFormatException e) {
+        //         // Invalid Input
+        //     }
 
-            return null;
-        }));
-        // ############################################################
+        //     return null;
+        // }));
+        // // ############################################################
 
 
 
-        // Ending Minute Input
-        // ############################################################
-        this.userInput_EndingMinuteSeleciton = new TextField();
-        this.userInput_EndingMinuteSeleciton.setPrefSize(50, 25.0);
-        this.userInput_EndingMinuteSeleciton.setTextFormatter(new TextFormatter<>(change -> {
+        // // Ending Minute Input
+        // // ############################################################
+        // this.userInput_EndingMinuteSeleciton = new TextField();
+        // this.userInput_EndingMinuteSeleciton.setPrefSize(50, 25.0);
+        // this.userInput_EndingMinuteSeleciton.setTextFormatter(new TextFormatter<>(change -> {
             
-            // User input text
-            String TextInput = change.getControlNewText();
+        //     // User input text
+        //     String TextInput = change.getControlNewText();
 
-            // if th etext is empty accept it
-            if (TextInput.isEmpty()) {
-                return change;
-            }
+        //     // if th etext is empty accept it
+        //     if (TextInput.isEmpty()) {
+        //         return change;
+        //     }
 
-            // if both the beginning and ending hour are the same and at the same period (AM/PM) ensure the ending minute is always later
-            if ((!userInput_BeginningHourSelection.getText().isBlank()) && (!userInput_EndingHourSeleciton.getText().isBlank())) {
+        //     // if both the beginning and ending hour are the same and at the same period (AM/PM) ensure the ending minute is always later
+        //     if ((!userInput_BeginningHourSelection.getText().isBlank()) && (!userInput_EndingHourSeleciton.getText().isBlank())) {
 
-                // TODO: organize the nonsense
-                if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) == Integer.parseInt(userInput_EndingHourSeleciton.getText()) )
-                    && ( Integer.parseInt(TextInput) < Integer.parseInt(userInput_BeginningMinuteSeleciton.getText()) )
-                    && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
+        //         // TODO: organize the nonsense
+        //         if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) == Integer.parseInt(userInput_EndingHourSeleciton.getText()) )
+        //             && ( Integer.parseInt(TextInput) < Integer.parseInt(userInput_BeginningMinuteSeleciton.getText()) )
+        //             && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
 
-                    userInput_EndingMinuteSeleciton.setText(userInput_BeginningMinuteSeleciton.getText());
+        //             userInput_EndingMinuteSeleciton.setText(userInput_BeginningMinuteSeleciton.getText());
 
-                }
+        //         }
 
-            }
+        //     }
 
-            // test if the text is a valid int within a valid range
-            try {
-                int intValue = Integer.parseInt(TextInput);
+        //     // test if the text is a valid int within a valid range
+        //     try {
+        //         int intValue = Integer.parseInt(TextInput);
 
-                if (intValue >= 0 && intValue < 60) {
-                    return change;
-                }
+        //         if (intValue >= 0 && intValue < 60) {
+        //             return change;
+        //         }
 
-            } catch (NumberFormatException e) {
-                // Invalid Input
-            }
+        //     } catch (NumberFormatException e) {
+        //         // Invalid Input
+        //     }
 
-            return null;
-        }));
-        // ############################################################
+        //     return null;
+        // }));
+        // // ############################################################
 
 
-        // CheckBox for Ending AM/PM
-        // ############################################################
-        this.EndTimeAMPM = new ComboBox<>();
-        this.EndTimeAMPM.getItems().addAll("AM", "PM");
-        this.EndTimeAMPM.getSelectionModel().select("AM");
-        // ############################################################
+        // // CheckBox for Ending AM/PM
+        // // ############################################################
+        // this.EndTimeAMPM = new ComboBox<>();
+        // this.EndTimeAMPM.getItems().addAll("AM", "PM");
+        // this.EndTimeAMPM.getSelectionModel().select("AM");
+        // // ############################################################
 
     } // UI_UserInputs()
 

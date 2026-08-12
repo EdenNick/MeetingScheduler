@@ -57,7 +57,7 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 
 
 
-public class PROG_UI_C_SchedulePeopleScene {
+public class PROG_UI_B_SchedulePeopleScene {
 
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
@@ -104,7 +104,6 @@ public class PROG_UI_C_SchedulePeopleScene {
     private Button      RESET_ALLPreferences;
     private Button      CALCULATE_Schedule;
     private Button      Input_SelectedDay;
-    private Button      AddTimeInput;
 
     // labels
     private Label       Label_inputDay;
@@ -133,7 +132,7 @@ public class PROG_UI_C_SchedulePeopleScene {
     /**
      * Constructor class
      */
-    public PROG_UI_C_SchedulePeopleScene(Stage stage) {
+    public PROG_UI_B_SchedulePeopleScene(Stage stage) {
         this.ApplicationStage = stage;
         this.ScheduleCalculator = new PROG_BLL_SchedulingCalculation();
     }
@@ -761,8 +760,6 @@ public class PROG_UI_C_SchedulePeopleScene {
         // TODO: create interface
 
 
-
-        AddTimeInput = new Button("Add Time");
         // ############################################################
 
 

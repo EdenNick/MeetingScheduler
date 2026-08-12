@@ -14,9 +14,9 @@ public class PROG_UI_A_SceneManager {
 
     // Objects
     private final PROG_UI_B_MainMenuScene       MainMenu;
-    private final PROG_UI_C_DataCardinfoScene   DataCard;
-    private final PROG_UI_C_SchedulePeopleScene Schedule;
-    private final PROG_UI_C_InstructionsScene   Instructions;
+    private final PROG_UI_B_DataCardinfoScene   DataCard;
+    private final PROG_UI_B_SchedulePeopleScene Schedule;
+    private final PROG_UI_B_InstructionsScene   Instructions;
 
     // window size
     public static int WindowWidth;
@@ -35,9 +35,9 @@ public class PROG_UI_A_SceneManager {
 
         // Initialize objects used within the class
         MainMenu        = new PROG_UI_B_MainMenuScene(ApplicationStage);
-        DataCard        = new PROG_UI_C_DataCardinfoScene(ApplicationStage);
-        Schedule        = new PROG_UI_C_SchedulePeopleScene(ApplicationStage);
-        Instructions    = new PROG_UI_C_InstructionsScene(ApplicationStage);
+        DataCard        = new PROG_UI_B_DataCardinfoScene(ApplicationStage);
+        Schedule        = new PROG_UI_B_SchedulePeopleScene(ApplicationStage);
+        Instructions    = new PROG_UI_B_InstructionsScene(ApplicationStage);
 
         // Default Window width and height values
         PROG_UI_A_SceneManager.WindowWidth     = 900;

@@ -37,7 +37,7 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
 
 
 
-public class PROG_UI_C_InstructionsScene {
+public class PROG_UI_B_InstructionsScene {
     
     // file reader
     PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput("/PROG_UI_D_Instructions.txt");
@@ -73,7 +73,7 @@ public class PROG_UI_C_InstructionsScene {
     /**
      * Constructor class
      */
-    public PROG_UI_C_InstructionsScene(Stage stage) {
+    public PROG_UI_B_InstructionsScene(Stage stage) {
         this.ApplicationStage = stage;
     }
 

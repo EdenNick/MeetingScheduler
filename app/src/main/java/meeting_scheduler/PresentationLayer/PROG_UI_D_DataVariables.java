@@ -18,7 +18,11 @@ public final class PROG_UI_D_DataVariables {
      */
     public final static String[] WEEKDAYS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
+    public final static String[] AMPM = {"AM", "PM"};
 
+    public final static String AM = "AM";
+
+    public final static String PM = "PM";
 
 
 

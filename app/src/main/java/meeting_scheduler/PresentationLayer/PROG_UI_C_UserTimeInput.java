@@ -3,6 +3,7 @@ package meeting_scheduler.PresentationLayer;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 
 
 public class PROG_UI_C_UserTimeInput {
@@ -16,6 +17,8 @@ public class PROG_UI_C_UserTimeInput {
     private TextField Select_Minute_Begin;
     private TextField Select_Hour_End;
     private TextField Select_Minute_End;
+
+    private PROG_DAL_A_TimeInput UserPreference;
 
 
 
@@ -59,6 +62,10 @@ public class PROG_UI_C_UserTimeInput {
 
     public TextField Return_Minute_End() {
         return this.Select_Minute_End;
+    }
+
+    public PROG_DAL_A_TimeInput Return_UserPreference() {
+        return this.UserPreference;
     }
 
 
@@ -228,4 +235,47 @@ public class PROG_UI_C_UserTimeInput {
         // ############################################################
 
     } // UI_data_construction()
+
+
+    /**
+     * ButtonPressTimeInput()
+     * Description: checks to ensure all variables have been input then creates a user preference to return
+     */
+    public void ButtonPressTimeInput() {
+
+        if (Select_WeekDay.getValue() == null)  { // Do nothing
+                // user has not submitted a weekday
+                System.out.println("user has not submitted a weekday");
+
+            } else if (Select_Hour_Begin.getText().isBlank())   { // Do nothing
+                // user has not submitted a beginning hour
+                System.out.println("user has not submitted a beginning hour");
+
+            } else if (Select_Minute_Begin.getText().isBlank())   { // Do nothing
+                // user has not submitted a beginning minute
+                System.out.println("user has not submitted a beginning minute");
+
+            } else if (Select_Hour_End.getText().isBlank())   { // Do nothing
+                // user has not submitted a ending hour
+                System.out.println("user has not submitted a ending hour");
+
+            } else if (Select_Minute_End.getText().isBlank())   { // Do nothing
+                // user has not submitted a ending minute
+                System.out.println("user has not submitted a ending minute");
+            } else {
+
+                // Correct info has been submitted
+                System.out.println("Correct info has been submitted");
+
+                String  WeekDay     = Select_WeekDay.getValue();
+                int     BeginHour   = Integer.parseInt(Select_Hour_Begin.getText());
+                int     BeginMinute = Integer.parseInt(Select_Minute_Begin.getText());
+                int     EndHour     = Integer.parseInt(Select_Hour_End.getText());
+                int     EndMinute   = Integer.parseInt(Select_Minute_End.getText());
+
+                // new user preference
+                this.UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+
+            } // else ()
+    }
 }

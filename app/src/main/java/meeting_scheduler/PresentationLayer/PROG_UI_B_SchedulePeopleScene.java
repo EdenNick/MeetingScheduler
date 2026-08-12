@@ -126,6 +126,8 @@ public class PROG_UI_B_SchedulePeopleScene {
     // Schedule Calculator
     private final PROG_BLL_SchedulingCalculation ScheduleCalculator;
 
+    // Time Input
+    private PROG_UI_C_UserTimeInput Scheduler_UserTimeInputs;
     // Calculated Schedules
     private LinkedList<PROG_DAL_A_Schedule> CalculatedScheduleList;
 
@@ -134,7 +136,10 @@ public class PROG_UI_B_SchedulePeopleScene {
      */
     public PROG_UI_B_SchedulePeopleScene(Stage stage) {
         this.ApplicationStage = stage;
+        
         this.ScheduleCalculator = new PROG_BLL_SchedulingCalculation();
+
+        this.Scheduler_UserTimeInputs = new PROG_UI_C_UserTimeInput();
     }
 
 

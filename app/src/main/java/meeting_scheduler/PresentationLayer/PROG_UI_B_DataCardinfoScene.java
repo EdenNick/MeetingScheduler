@@ -134,8 +134,10 @@ public class PROG_UI_B_DataCardinfoScene {
     // string[] weekdays
     private String[] Weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
+    // Json file manager
     private PROG_DAL_B_JSONManager JsonManager;
 
+    // user tim input manager
     private PROG_UI_C_UserTimeInput DataCard_UserTimeInputs;
     
 
@@ -281,9 +283,9 @@ public class PROG_UI_B_DataCardinfoScene {
 
         int     Index       = (this.UserTimeInput.size() + 1);
         int     StartHour   = InputTime.PreferedHourBEGIN.getHour();
-        String     startMin    = Integer.toString(InputTime.PreferedHourBEGIN.getMinute());
+        String  startMin    = Integer.toString(InputTime.PreferedHourBEGIN.getMinute());
         int     EndHour     = InputTime.PreferedHourEND.getHour();
-        String     EndMin      = Integer.toString(InputTime.PreferedHourEND.getMinute());
+        String  EndMin      = Integer.toString(InputTime.PreferedHourEND.getMinute());
 
         // add a leading zero to the start minute
         if (Integer.parseInt(startMin) < 10) {
@@ -595,46 +597,49 @@ public class PROG_UI_B_DataCardinfoScene {
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
 
 
-            if (        DataCard_UserTimeInputs.Return_WeekDay()        .getValue() == null)  { // Do nothing
-                // user has not submitted a weekday
-                System.out.println("user has not submitted a weekday");
+            // if (        DataCard_UserTimeInputs.Return_WeekDay()        .getValue() == null)  { // Do nothing
+            //     // user has not submitted a weekday
+            //     System.out.println("user has not submitted a weekday");
 
-            } else if ( DataCard_UserTimeInputs.Return_Hour_Begin()     .getText().isBlank())   { // Do nothing
-                // user has not submitted a beginning hour
-                System.out.println("user has not submitted a beginning hour");
+            // } else if ( DataCard_UserTimeInputs.Return_Hour_Begin()     .getText().isBlank())   { // Do nothing
+            //     // user has not submitted a beginning hour
+            //     System.out.println("user has not submitted a beginning hour");
 
-            } else if ( DataCard_UserTimeInputs.Return_Minute_Begin()   .getText().isBlank())   { // Do nothing
-                // user has not submitted a beginning minute
-                System.out.println("user has not submitted a beginning minute");
+            // } else if ( DataCard_UserTimeInputs.Return_Minute_Begin()   .getText().isBlank())   { // Do nothing
+            //     // user has not submitted a beginning minute
+            //     System.out.println("user has not submitted a beginning minute");
 
-            } else if ( DataCard_UserTimeInputs.Return_Hour_End()       .getText().isBlank())   { // Do nothing
-                // user has not submitted a ending hour
-                System.out.println("user has not submitted a ending hour");
+            // } else if ( DataCard_UserTimeInputs.Return_Hour_End()       .getText().isBlank())   { // Do nothing
+            //     // user has not submitted a ending hour
+            //     System.out.println("user has not submitted a ending hour");
 
-            } else if ( DataCard_UserTimeInputs.Return_Minute_End()     .getText().isBlank())   { // Do nothing
-                // user has not submitted a ending minute
-                System.out.println("user has not submitted a ending minute");
-            } else {
+            // } else if ( DataCard_UserTimeInputs.Return_Minute_End()     .getText().isBlank())   { // Do nothing
+            //     // user has not submitted a ending minute
+            //     System.out.println("user has not submitted a ending minute");
+            // } else {
 
-                // Correct info has been submitted
-                System.out.println("Correct info has been submitted");
+            //     // Correct info has been submitted
+            //     System.out.println("Correct info has been submitted");
 
-                String  WeekDay     = DataCard_UserTimeInputs.Return_WeekDay()                      .getValue();
-                int     BeginHour   = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_Begin()  .getText());
-                int     BeginMinute = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_Begin().getText());
-                int     EndHour     = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_End()    .getText());
-                int     EndMinute   = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_End()  .getText());
+            //     String  WeekDay     = DataCard_UserTimeInputs.Return_WeekDay()                      .getValue();
+            //     int     BeginHour   = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_Begin()  .getText());
+            //     int     BeginMinute = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_Begin().getText());
+            //     int     EndHour     = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_End()    .getText());
+            //     int     EndMinute   = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_End()  .getText());
 
-                // new user preference
-                PROG_DAL_A_TimeInput UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+            //     // new user preference
+            //     PROG_DAL_A_TimeInput UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+
+                DataCard_UserTimeInputs.ButtonPressTimeInput();
+
 
                 // add preference to flowpane
-                UserInputGraphic(UserPreference);
+                UserInputGraphic(DataCard_UserTimeInputs.Return_UserPreference());
                 
                 // null for garbage collection
-                UserPreference = null;
+                // UserPreference = null;
 
-            } // else ()
+            //} // else ()
 
         };
 

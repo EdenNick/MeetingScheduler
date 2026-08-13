@@ -1,6 +1,7 @@
 package meeting_scheduler.PresentationLayer;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -44,6 +45,7 @@ import javafx.util.Duration;
 // schedule calculator
 import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 
 /**
  * PROG_UI_B_SchedulePeopleScene()
@@ -126,10 +128,20 @@ public class PROG_UI_B_SchedulePeopleScene {
     // Schedule Calculator
     private final PROG_BLL_SchedulingCalculation ScheduleCalculator;
 
-    // Time Input
+    // Time Input manager
     private PROG_UI_C_UserTimeInput Scheduler_UserTimeInputs;
+
     // Calculated Schedules
-    private LinkedList<PROG_DAL_A_Schedule> CalculatedScheduleList;
+    private LinkedList<PROG_DAL_A_Schedule>     CalculatedScheduleList;
+
+    // user input graphic variables
+    private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
+    private Iterator<VBox>                      VBOXIterator;
+    private LinkedList<VBox>                    VBOXUserPreferences;
+    private FlowPane                            userInputGraphic;
+
+
+
 
     /**
      * Constructor class
@@ -846,6 +858,162 @@ public class PROG_UI_B_SchedulePeopleScene {
 
     } // CalculateSchedule()
 
+
+    
+    /**
+     * UserInputGraphic()
+     * Descriiption: manages the visual output of the user submitted data.
+     */
+    private void UserInputGraphic(PROG_DAL_A_TimeInput InputTime) {
+
+        // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
+
+        // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
+
+        // VBOXUserPreferences  -   Cardlist of each VBox that holds a time -   private LinkedList<VBox>                    VBOXUserPreferences;
+
+        // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
+
+        if (userInputGraphic.getChildren().size() < 4) {
+
+            
+            // VBox creation and variables
+            VBox IndividualDataCard = new VBox();
+            IndividualDataCard.setPrefSize(100.0, 100.0);
+
+            int     Index       = (this.UserTimeInput.size() + 1);
+            int     StartHour   = InputTime.PreferedHourBEGIN.getHour();
+            String  startMin    = Integer.toString(InputTime.PreferedHourBEGIN.getMinute());
+            int     EndHour     = InputTime.PreferedHourEND.getHour();
+            String  EndMin      = Integer.toString(InputTime.PreferedHourEND.getMinute());
+
+            // add a leading zero to the start minute
+            if (Integer.parseInt(startMin) < 10) {
+                startMin = "0" + startMin;
+            }
+
+            // add a leading zero the end minute
+            if (Integer.parseInt(EndMin) < 10) {
+                EndMin = "0" + EndMin;
+            }
+
+            String  StartTimeFrame  = Scheduler_UserTimeInputs.Return_AMPM_StartTime().getValue(); //= "AM";
+
+            String  EndTimeFrame    = Scheduler_UserTimeInputs.Return_AMPM_EndTime().getValue();
+            
+            // if pm is selected for the starting time add 12 hours to the starting hour
+            // and ending hour, (am can't occure before pm)
+            // if (Scheduler_UserTimeInputs.Return_AMPM_StartTime().getValue().equals("PM")) {
+            //     StartTimeFrame  = "PM";
+            //     EndTimeFrame    = "PM";
+            // }
+
+            // // if pm is selected for the ending time add 12 hours to the ending time
+            // if(Scheduler_UserTimeInputs.Return_AMPM_EndTime().getValue().equals("PM")) {
+            //     EndTimeFrame    = "PM";
+            // }
+
+            Label   InputNumber = new Label("Input Number: " + Index);
+            InputNumber.setId("" + Index);
+
+            Label   WeekDay     = new Label("WeekDay: " + InputTime.WeekDay);        
+            Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
+
+
+
+            // Delete Card Button
+            // ############################################################
+            Button DeleteCard = new Button("Delete Card");
+
+            EventHandler<ActionEvent> DeleteInfoCard = (ActionEvent e) -> {
+                
+                // Deletes User Card
+                System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Deleteing Card");
+                
+                // remove all nodes in the current Vbox
+                //IndividualDataCard.getChildren().removeAll(InputNumber, WeekDay, TimeFrame, DeleteCard);
+                IndividualDataCard.getChildren().clear();
+
+                // Create new iterator to iterate over nodes in the linkedlist UserPreferences
+                VBOXIterator = VBOXUserPreferences.iterator();
+
+
+                // loop through list to remove empty Vbox node
+                int LinkedListIndex = 0;
+                while (VBOXIterator.hasNext()) {
+
+                    // next Vbox in iterator
+                    VBox tempBox = VBOXIterator.next();
+
+                    if (tempBox.getChildren().isEmpty()) {
+
+                        // removes empty Vbox from the linked list of preferences
+                        VBOXIterator.remove();
+
+                        //removes InputTime from UserTimeInput LinkedList
+                        UserTimeInput.remove(LinkedListIndex);
+
+                    } // if()
+
+                    LinkedListIndex++;
+
+                } // for()
+                
+                // removes node from the parent flowpane
+                userInputGraphic.getChildren().remove(IndividualDataCard);
+
+
+
+                /**
+                 * Update index number for each node
+                 */
+                int flowPaneIndex = 1;
+                for (Node node: userInputGraphic.getChildren()) {
+
+                    if (node instanceof VBox vbox) {
+                        Label newLabel = (Label) vbox.getChildren().get(0);   // lookup("#" + flowPaneIndex);
+                        if (newLabel != null) {
+                            newLabel.setText("Input Number: " + flowPaneIndex);
+                            flowPaneIndex++;
+                        }
+                    }
+
+                } // for()
+
+                System.out.println("UserTimeInput ammount" + UserTimeInput.size());
+
+            };
+
+            DeleteCard.setOnAction(DeleteInfoCard);
+            // ############################################################
+
+
+            // adds relevant nodes to the vbox
+            IndividualDataCard.getChildren().addAll(
+
+                InputNumber,    // Input number: ##
+
+                WeekDay,        // WeekDay: day
+
+                TimeFrame,      // Beginning time - ending time
+
+                DeleteCard      // Button to delete the card
+            );
+
+            // add to linked list of preferences
+            UserTimeInput.add(InputTime);
+            System.out.println("UserTimeInput ammount" + UserTimeInput.size());
+
+            // add to linked list Vbox
+            VBOXUserPreferences.add(IndividualDataCard);
+
+            // add vbox to flowpane
+            userInputGraphic.getChildren().add(IndividualDataCard);
+
+
+        } // if()
+    
+    } // UserInputGraphic
 
 
     /**

@@ -77,7 +77,7 @@ public class PROG_UI_B_DataCardinfoScene {
     private HBox        addEndingTime;
 
     // FlowPane 
-    private FlowPane    userInputGraphic;
+    private FlowPane    FlowPane_VBoxDisplay;
 
     // Buttons
     private Button      ReturnToMenu;
@@ -119,10 +119,10 @@ public class PROG_UI_B_DataCardinfoScene {
     //private ComboBox<String>    EndTimeAMPM;
 
     // individual user Day/time preference
-    private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
+    private LinkedList<PROG_DAL_A_TimeInput>    List_UserTimes;
 
     // cardlist
-    private LinkedList<VBox>                    VBOXUserPreferences;
+    private LinkedList<VBox>                    List_VBoxTimeInputs;
 
     // iterators
     private Iterator<VBox>                      VBOXIterator;
@@ -149,7 +149,7 @@ public class PROG_UI_B_DataCardinfoScene {
         
         this.ApplicationStage = stage;
 
-        this.UserTimeInput = new LinkedList<>();
+        this.List_UserTimes = new LinkedList<>();
 
         this.InfoInputPreferences = new LinkedList<>();
 
@@ -218,13 +218,13 @@ public class PROG_UI_B_DataCardinfoScene {
 
 
         // VBox user info linkedlist
-        VBOXUserPreferences = new LinkedList<>();
+        List_VBoxTimeInputs = new LinkedList<>();
 
         // Creates layout of user submitted info before submission
-        this.userInputGraphic = new FlowPane();
-        this.userInputGraphic.setPrefSize(600.0, 600.0);
-        this.userInputGraphic.setPadding(new Insets(10));
-        this.userInputGraphic.setStyle(
+        this.FlowPane_VBoxDisplay = new FlowPane();
+        this.FlowPane_VBoxDisplay.setPrefSize(600.0, 600.0);
+        this.FlowPane_VBoxDisplay.setPadding(new Insets(10));
+        this.FlowPane_VBoxDisplay.setStyle(
             "-fx-background-color: white;" +
             "-fx-border-color: Black;" +
             "-fx-border-width: 2;" +
@@ -240,13 +240,13 @@ public class PROG_UI_B_DataCardinfoScene {
         AnchorPane.setLeftAnchor(UserInterface_Input, 20.0);
 
         // Root Node - set uer cards
-        AnchorPane.setTopAnchor(userInputGraphic, 20.0);
-        AnchorPane.setRightAnchor(userInputGraphic, 20.0);
+        AnchorPane.setTopAnchor(FlowPane_VBoxDisplay, 20.0);
+        AnchorPane.setRightAnchor(FlowPane_VBoxDisplay, 20.0);
 
         //ResetUserTimePref
         
 
-        this.RootNode.getChildren().addAll(UserInterface_Input, ReturnToMenu, userInputGraphic);
+        this.RootNode.getChildren().addAll(UserInterface_Input, ReturnToMenu, FlowPane_VBoxDisplay);
         // ############################################################
 
         
@@ -272,7 +272,17 @@ public class PROG_UI_B_DataCardinfoScene {
      * UserInputGraphic()
      * Descriiption: manages the visual output of the user submitted data.
      */
-    private void UserInputGraphic(PROG_DAL_A_TimeInput InputTime) {
+    private void UserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime) {
+
+        // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
+
+        // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
+
+        // VBOXUserPreferences  -   List of each VBox that holds a time     -   private LinkedList<VBox>                    VBOXUserPreferences;
+
+        // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
+
+
 
         // System.out.println("UserInputGraphic");
         // userInputGraphic = new FlowPane();
@@ -281,11 +291,11 @@ public class PROG_UI_B_DataCardinfoScene {
         VBox IndividualDataCard = new VBox();
         IndividualDataCard.setPrefSize(100.0, 100.0);
 
-        int     Index       = (this.UserTimeInput.size() + 1);
-        int     StartHour   = InputTime.PreferedHourBEGIN.getHour();
-        String  startMin    = Integer.toString(InputTime.PreferedHourBEGIN.getMinute());
-        int     EndHour     = InputTime.PreferedHourEND.getHour();
-        String  EndMin      = Integer.toString(InputTime.PreferedHourEND.getMinute());
+        int     Index       = (this.List_UserTimes.size() + 1);
+        int     StartHour   = Input_UserTime.PreferedHourBEGIN.getHour();
+        String  startMin    = Integer.toString(Input_UserTime.PreferedHourBEGIN.getMinute());
+        int     EndHour     = Input_UserTime.PreferedHourEND.getHour();
+        String  EndMin      = Integer.toString(Input_UserTime.PreferedHourEND.getMinute());
 
         // add a leading zero to the start minute
         if (Integer.parseInt(startMin) < 10) {
@@ -297,25 +307,31 @@ public class PROG_UI_B_DataCardinfoScene {
             EndMin = "0" + EndMin;
         }
 
-        String  StartTimeFrame  = "AM";
-        String  EndTimeFrame    = "AM";
-        
-        // if pm is selected for the starting time add 12 hours to the starting hour
-        // and ending hour, (am can't occure before pm)
-        if (DataCard_UserTimeInputs.Return_AMPM_StartTime().getValue().equals("PM")) {
-            StartTimeFrame  = "PM";
-            EndTimeFrame    = "PM";
-        }
 
-        // if pm is selected for the ending time add 12 hours to the ending time
-        if(DataCard_UserTimeInputs.Return_AMPM_EndTime().getValue().equals("PM")) {
-            EndTimeFrame    = "PM";
-        }
+        String  StartTimeFrame  = DataCard_UserTimeInputs.Return_AMPM_StartTime().getValue(); //= "AM";
+
+        String  EndTimeFrame    = DataCard_UserTimeInputs.Return_AMPM_EndTime().getValue();
+
+
+        // String  StartTimeFrame  = "AM";
+        // String  EndTimeFrame    = "AM";
+        
+        // // if pm is selected for the starting time add 12 hours to the starting hour
+        // // and ending hour, (am can't occure before pm)
+        // if (DataCard_UserTimeInputs.Return_AMPM_StartTime().getValue().equals("PM")) {
+        //     StartTimeFrame  = "PM";
+        //     EndTimeFrame    = "PM";
+        // }
+
+        // // if pm is selected for the ending time add 12 hours to the ending time
+        // if(DataCard_UserTimeInputs.Return_AMPM_EndTime().getValue().equals("PM")) {
+        //     EndTimeFrame    = "PM";
+        // }
 
         Label   InputNumber = new Label("Input Number: " + Index);
         InputNumber.setId("" + Index);
 
-        Label   WeekDay     = new Label("WeekDay: " + InputTime.WeekDay);        
+        Label   WeekDay     = new Label("WeekDay: " + Input_UserTime.WeekDay);        
         Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
 
 
@@ -334,7 +350,7 @@ public class PROG_UI_B_DataCardinfoScene {
             IndividualDataCard.getChildren().clear();
 
             // Create new iterator to iterate over nodes in the linkedlist UserPreferences
-            VBOXIterator = VBOXUserPreferences.iterator();
+            VBOXIterator = List_VBoxTimeInputs.iterator();
 
 
             // loop through list to remove empty Vbox node
@@ -350,7 +366,7 @@ public class PROG_UI_B_DataCardinfoScene {
                     VBOXIterator.remove();
 
                     //removes InputTime from UserTimeInput LinkedList
-                    UserTimeInput.remove(LinkedListIndex);
+                    List_UserTimes.remove(LinkedListIndex);
 
                 } // if()
 
@@ -359,7 +375,7 @@ public class PROG_UI_B_DataCardinfoScene {
             } // for()
             
             // removes node from the parent flowpane
-            userInputGraphic.getChildren().remove(IndividualDataCard);
+            FlowPane_VBoxDisplay.getChildren().remove(IndividualDataCard);
 
 
 
@@ -367,7 +383,7 @@ public class PROG_UI_B_DataCardinfoScene {
              * Update index number for each node
              */
             int flowPaneIndex = 1;
-            for (Node node: userInputGraphic.getChildren()) {
+            for (Node node: FlowPane_VBoxDisplay.getChildren()) {
 
                 if (node instanceof VBox vbox) {
                     Label newLabel = (Label) vbox.getChildren().get(0);   // lookup("#" + flowPaneIndex);
@@ -379,7 +395,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
             } // for()
 
-            System.out.println("UserTimeInput ammount" + UserTimeInput.size());
+            System.out.println("UserTimeInput ammount" + List_UserTimes.size());
 
         };
 
@@ -403,14 +419,14 @@ public class PROG_UI_B_DataCardinfoScene {
         );
 
         // add to linked list of preferences
-        UserTimeInput.add(InputTime);
-        System.out.println("UserTimeInput ammount" + UserTimeInput.size());
+        List_UserTimes.add(Input_UserTime);
+        System.out.println("UserTimeInput ammount" + List_UserTimes.size());
 
         // add to linked list Vbox
-        VBOXUserPreferences.add(IndividualDataCard);
+        List_VBoxTimeInputs.add(IndividualDataCard);
 
         // add vbox to flowpane
-        userInputGraphic.getChildren().add(IndividualDataCard);
+        FlowPane_VBoxDisplay.getChildren().add(IndividualDataCard);
     
     } // UserInputGraphic
 
@@ -634,8 +650,10 @@ public class PROG_UI_B_DataCardinfoScene {
 
 
                 // add preference to flowpane
-                UserInputGraphic(DataCard_UserTimeInputs.Return_UserPreference());
-                
+                // UserInputGraphic(DataCard_UserTimeInputs.Return_UserPreference());
+                PROG_DAL_A_TimeInput TempUserPreferrence = DataCard_UserTimeInputs.Return_UserPreference();
+                DataCard_UserTimeInputs.UserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+
                 // null for garbage collection
                 // UserPreference = null;
 
@@ -668,7 +686,7 @@ public class PROG_UI_B_DataCardinfoScene {
                 // user has not submitted a valid name
                 System.out.println("user has not submitted a valid ID");
 
-            } else if   (UserTimeInput          .size() < 1)                { // Do nothing
+            } else if   (List_UserTimes         .size() < 1)                { // Do nothing
                 // user has not submitted valid user times
                 System.out.println("user has not submitted valid user times");
 
@@ -684,7 +702,7 @@ public class PROG_UI_B_DataCardinfoScene {
                 // iterate through weekdays first to ensure a weekday can only be matched once
                 for (String Day : PROG_UI_D_DataVariables.WEEKDAYS) {
 
-                    for (PROG_DAL_A_TimeInput preference : this.UserTimeInput) {
+                    for (PROG_DAL_A_TimeInput preference : this.List_UserTimes) {
                         if (preference.WeekDay == Day) {
 
                             preferredDaysList.add(Day); // each day should only be added once
@@ -703,7 +721,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
 
                 // PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
-                InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, this.UserTimeInput));
+                InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, this.List_UserTimes));
 
                 // testing
                 System.out.println(InfoInputPreferences.size());
@@ -744,7 +762,7 @@ public class PROG_UI_B_DataCardinfoScene {
         EventHandler<ActionEvent> ResetTimePreference = (ActionEvent e) -> {
 
             // linkedlist Vbox full of user preferences
-            RemoveAllVBOXIterator = VBOXUserPreferences.iterator();
+            RemoveAllVBOXIterator = List_VBoxTimeInputs.iterator();
             //int LinkedListIndex = 0;
 
             while (RemoveAllVBOXIterator.hasNext()) {
@@ -762,9 +780,9 @@ public class PROG_UI_B_DataCardinfoScene {
                     RemoveAllVBOXIterator.remove();
 
                     //removes InputTime from UserTimeInput LinkedList
-                    System.out.println("user Input :" + UserTimeInput.size());
+                    System.out.println("user Input :" + List_UserTimes.size());
                     // System.out.println("user Input index :" + LinkedListIndex);
-                    UserTimeInput.remove(0);
+                    List_UserTimes.remove(0);
 
                 } // if()
 
@@ -778,14 +796,14 @@ public class PROG_UI_B_DataCardinfoScene {
             /**
              * remove nodes from the flowpane
              */
-            for (Node node: userInputGraphic.getChildren()) {
+            for (Node node: FlowPane_VBoxDisplay.getChildren()) {
                 if (node instanceof VBox vbox) {
                     vbox.getChildren().clear();
                 }
 
             } // for()
 
-            userInputGraphic.getChildren().clear();
+            FlowPane_VBoxDisplay.getChildren().clear();
             
 
         };

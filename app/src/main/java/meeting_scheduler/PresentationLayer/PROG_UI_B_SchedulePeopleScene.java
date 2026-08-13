@@ -27,7 +27,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -54,6 +53,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 // data management objects
 import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 // ############################################################
@@ -62,31 +62,39 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 
 public class PROG_UI_B_SchedulePeopleScene {
 
+    // Apllication
+    // ############################################################
     // Reference of the application stage used for local operations
-    private final Stage ApplicationStage;
-
+    private final Stage         ApplicationStage;
     // Scene
-    private Scene       SchedulingScene;
+    private Scene               SchedulingScene;
+    // Stage width/height
+    private double              StageWidth;
+    private double              stageHeight;
+    // transitions
+    private ParallelTransition  fadeMenuNodes;
+    private ParallelTransition  UnfadeMenuNodes;
+    // ############################################################
 
+
+    // Nodes
+    // ############################################################
     // Root Node
     private AnchorPane  RootNode;
-
     // scrollpane
     private ScrollPane  UIInterfaceNode;
-
     //flowPane
     private FlowPane    OutputDays;
-
     // VBox
     private VBox        VboxUIHolder;
-
     // HBox
     private HBox        HBoxInputPeople;
     private HBox        HBoxInputListNumber;
     private HBox        HBoxInputDayPreference;
     private HBox        HBoxInputTimePreference;
     private HBox        HBoxCalculaeSchedule;
-
+    private HBox        UI_AddStartTime;
+    private HBox        UI_addEndingTime;
     // VBox
     private VBox        Holder_DayPreference;
     private VBox        Output_DayPreference;
@@ -94,10 +102,6 @@ public class PROG_UI_B_SchedulePeopleScene {
     private VBox        Holder_ListAmmount;
     private VBox        Holder_ListPeople;
     private VBox        Holder_Calculate;
-
-    // combo box
-    private ComboBox<String>    userInput_SelectDays;
-
     // Buttons
     private Button      ReturnToMenu;
     private Button      RESET_People;
@@ -107,41 +111,52 @@ public class PROG_UI_B_SchedulePeopleScene {
     private Button      RESET_ALLPreferences;
     private Button      CALCULATE_Schedule;
     private Button      Input_SelectedDay;
-
+    private Button      Add_TimePreferences;
     // labels
     private Label       Label_inputDay;
     private Label       Label_OutputDay;
     private Label       Label_inputTime;
     private Label       Label_inputNumber;
     private Label       Label_ScheduleNow;
+    private Label       LabelBeginHour;
+    private Label       LabelBeginMinute;
+    private Label       LabelEndHour;
+    private Label       LabelEndMinute;
 
     // userInputs
     private TextField   userInput_listAmmount;
+    // combo box
+    private ComboBox<String>    userInput_SelectDays;
+    // ############################################################
 
-    // Stage width/height
-    private double StageWidth;
-    private double stageHeight;
 
-    // transitions
-    private ParallelTransition fadeMenuNodes;
-    private ParallelTransition UnfadeMenuNodes;
-
+    // Data manager Objects
+    // ############################################################
     // Schedule Calculator
-    private final PROG_BLL_SchedulingCalculation ScheduleCalculator;
+    private final PROG_BLL_SchedulingCalculation    ScheduleCalculator;
+    // User Time Input manager
+    private final PROG_UI_C_UserTimeInput           Scheduler_UserTimeInputs;
+    // ############################################################
+    
 
-    // Time Input manager
-    private PROG_UI_C_UserTimeInput Scheduler_UserTimeInputs;
+    // user Time input graphic variables
+    // ############################################################
+    private FlowPane                            FlowPane_VBoxDisplay;   // dispalys time inputs
+
+    private LinkedList<PROG_DAL_A_TimeInput>    List_UserTimes;         // List of prefered times for an individual
+
+    private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
+
+    private Iterator<VBox>                      RemoveAllVBOXIterator;  // iterator to remove all added userpreferences
+
+    private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;   // linked list contianing a persons full info to be sent to the json file
+    // ############################################################
+
 
     // Calculated Schedules
+    // ############################################################
     private LinkedList<PROG_DAL_A_Schedule>     CalculatedScheduleList;
-
-    // user input graphic variables
-    private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
-    private Iterator<VBox>                      VBOXIterator;
-    private LinkedList<VBox>                    VBOXUserPreferences;
-    private FlowPane                            userInputGraphic;
-
-
+    // ############################################################
 
 
     /**
@@ -219,7 +234,20 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
         // create UI interface
+        List_UserTimes = new LinkedList<>();
+
+        List_VBoxTimeInputs = new LinkedList<>();
+
+        //RemoveAllVBOXIterator = new Iterator<>() {
+            
+        InfoInputPreferences = new LinkedList<>(); 
+
+
+
+
         SchedulingInterface();
+
+        Scheduler_UserTimeInputs.UI_data_construction();
 
 
         // create Schedule Display
@@ -351,6 +379,37 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
 
+        // Add Time info
+        // ############################################################
+        this.Add_TimePreferences = new Button("Add Info");
+
+        EventHandler<ActionEvent> AddTimeInfo = (ActionEvent e) -> {
+
+            // System Message
+            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
+
+            // checks to ensure all variables are input
+            //TODO: update size check
+            if ( (Scheduler_UserTimeInputs.ButtonPressPartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 3) ){
+
+                //
+                PROG_DAL_A_TimeInput TempUserPreferrence = Scheduler_UserTimeInputs.Return_PartialUserPreference();
+                Scheduler_UserTimeInputs.PartialUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+
+                // garbage Collection
+                TempUserPreferrence = null;
+
+                ScheduleCalculator.SetSpecificTime(List_UserTimes);
+
+            } else {
+                // Do nothing
+            }
+
+        };
+
+        this.Add_TimePreferences.setOnAction(AddTimeInfo);
+        // ############################################################
+
         // Reset all preferences
         // ############################################################
         RESET_ALLPreferences = new Button("Reseting all Preferences");
@@ -476,7 +535,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Create new HBox
         this.HBoxInputPeople = new HBox(10);
         this.HBoxInputPeople.getStyleClass().add("UserPreference-box");
-        this.HBoxInputPeople.setPrefSize(400.0, 100.0);
+        this.HBoxInputPeople.setPrefSize(500.0, 100.0);
         this.HBoxInputPeople.setPadding(new Insets(10));
 
 
@@ -516,7 +575,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Primary Node
         HBoxInputListNumber = new HBox(10);
         HBoxInputListNumber.getStyleClass().add("UserPreference-box");
-        HBoxInputListNumber.setPrefSize(400.0, 100.0);
+        HBoxInputListNumber.setPrefSize(500.0, 100.0);
         HBoxInputListNumber.setPadding(new Insets(10));
 
         // Secondary Node - Input
@@ -601,7 +660,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // HBox - primary Node
         this.HBoxInputDayPreference = new HBox(10);
         this.HBoxInputDayPreference.getStyleClass().add("UserPreference-box");
-        this.HBoxInputDayPreference.setPrefSize(400.0, 100.0);
+        this.HBoxInputDayPreference.setPrefSize(500.0, 100.0);
         this.HBoxInputDayPreference.setPadding(new Insets(10));
 
         // VBox - secondary node - input
@@ -757,7 +816,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Primary Node
         this.HBoxInputTimePreference = new HBox(10);
         this.HBoxInputTimePreference.getStyleClass().add("UserPreference-box");
-        this.HBoxInputTimePreference.setPrefSize(400.0, 100.0);
+        this.HBoxInputTimePreference.setPrefSize(500.0, 100.0);
         this.HBoxInputTimePreference.setPadding(new Insets(10));
 
         // Secodnary Node - input
@@ -775,8 +834,67 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.Label_inputTime = new Label("Input the times to schedule");
         this.Label_inputTime.getStyleClass().add("default-label");
 
-        // TODO: create interface
+        this.LabelBeginHour = new Label("Hour");
+        this.Label_inputTime.getStyleClass().add("default-label");
 
+        this.LabelBeginMinute = new Label("Minute");
+        this.Label_inputTime.getStyleClass().add("default-label");
+
+        this.LabelEndHour = new Label("Hour");
+        this.Label_inputTime.getStyleClass().add("default-label");
+
+        this.LabelEndMinute = new Label("Minute");
+        this.Label_inputTime.getStyleClass().add("default-label");
+
+
+        // HBox for beginning Hour/Min
+        this.UI_AddStartTime = new HBox(10);
+        //AddStartTime.setPrefSize(300.0, 500.0);
+        this.UI_AddStartTime.setPadding(new Insets(10));
+        this.UI_AddStartTime.setStyle(
+            "-fx-background-color: white;" +
+            "-fx-border-color: Black;" +
+            "-fx-border-width: 2;" +
+            "-fx-border-radius: 5;"
+        );
+        this.UI_AddStartTime.getChildren().addAll(
+
+            LabelBeginHour,
+            Scheduler_UserTimeInputs.Return_Hour_Begin(),
+
+            LabelBeginMinute,
+            Scheduler_UserTimeInputs.Return_Minute_Begin(),
+
+            Scheduler_UserTimeInputs.Return_AMPM_StartTime()
+
+        );
+        
+
+
+        // HBox for Ending Hour/Min
+        // ############################################################
+        this.UI_addEndingTime = new HBox(10);
+        //AddStartTime.setPrefSize(200.0, 400.0);
+        this.UI_addEndingTime.setPadding(new Insets(10));
+        this.UI_addEndingTime.setStyle(
+            "-fx-background-color: white;" +
+            "-fx-border-color: Black;" +
+            "-fx-border-width: 2;" +
+            "-fx-border-radius: 5;"
+        );
+
+        this.UI_addEndingTime.getChildren().addAll(
+
+            LabelEndHour,
+            Scheduler_UserTimeInputs.Return_Hour_End(),
+
+            LabelEndMinute,
+            Scheduler_UserTimeInputs.Return_Minute_End(),
+
+            Scheduler_UserTimeInputs.Return_AMPM_EndTime()
+
+        );
+        // ############################################################
 
         // ############################################################
 
@@ -785,6 +903,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Output Section
         // ############################################################
         // TODO: create Output Section
+        FlowPane_VBoxDisplay = new FlowPane();
         // ############################################################
 
 
@@ -796,7 +915,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
         // seconary node - input
-        this.Holder_TimePreference.getChildren().addAll(Label_inputTime);
+        this.Holder_TimePreference.getChildren().addAll(Label_inputTime, UI_AddStartTime, UI_addEndingTime, Add_TimePreferences);
 
         // primary node
         this.HBoxInputTimePreference.getChildren().addAll(Holder_TimePreference);
@@ -817,7 +936,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Primary Node
         this.HBoxCalculaeSchedule = new HBox(10);
         this.HBoxCalculaeSchedule.getStyleClass().add("UserPreference-box");
-        this.HBoxCalculaeSchedule.setPrefSize(400.0, 100.0);
+        this.HBoxCalculaeSchedule.setPrefSize(500.0, 100.0);
         this.HBoxCalculaeSchedule.setPadding(new Insets(10));
 
         // Secondary Node - input
@@ -861,160 +980,6 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
     
-    /**
-     * UserInputGraphic()
-     * Descriiption: manages the visual output of the user submitted data.
-     */
-    private void UserInputGraphic(PROG_DAL_A_TimeInput InputTime) {
-
-        // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
-
-        // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
-
-        // VBOXUserPreferences  -   Cardlist of each VBox that holds a time -   private LinkedList<VBox>                    VBOXUserPreferences;
-
-        // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
-
-        if (userInputGraphic.getChildren().size() < 4) {
-
-            
-            // VBox creation and variables
-            VBox IndividualDataCard = new VBox();
-            IndividualDataCard.setPrefSize(100.0, 100.0);
-
-            int     Index       = (this.UserTimeInput.size() + 1);
-            int     StartHour   = InputTime.PreferedHourBEGIN.getHour();
-            String  startMin    = Integer.toString(InputTime.PreferedHourBEGIN.getMinute());
-            int     EndHour     = InputTime.PreferedHourEND.getHour();
-            String  EndMin      = Integer.toString(InputTime.PreferedHourEND.getMinute());
-
-            // add a leading zero to the start minute
-            if (Integer.parseInt(startMin) < 10) {
-                startMin = "0" + startMin;
-            }
-
-            // add a leading zero the end minute
-            if (Integer.parseInt(EndMin) < 10) {
-                EndMin = "0" + EndMin;
-            }
-
-            String  StartTimeFrame  = Scheduler_UserTimeInputs.Return_AMPM_StartTime().getValue(); //= "AM";
-
-            String  EndTimeFrame    = Scheduler_UserTimeInputs.Return_AMPM_EndTime().getValue();
-            
-            // if pm is selected for the starting time add 12 hours to the starting hour
-            // and ending hour, (am can't occure before pm)
-            // if (Scheduler_UserTimeInputs.Return_AMPM_StartTime().getValue().equals("PM")) {
-            //     StartTimeFrame  = "PM";
-            //     EndTimeFrame    = "PM";
-            // }
-
-            // // if pm is selected for the ending time add 12 hours to the ending time
-            // if(Scheduler_UserTimeInputs.Return_AMPM_EndTime().getValue().equals("PM")) {
-            //     EndTimeFrame    = "PM";
-            // }
-
-            Label   InputNumber = new Label("Input Number: " + Index);
-            InputNumber.setId("" + Index);
-
-            Label   WeekDay     = new Label("WeekDay: " + InputTime.WeekDay);        
-            Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
-
-
-
-            // Delete Card Button
-            // ############################################################
-            Button DeleteCard = new Button("Delete Card");
-
-            EventHandler<ActionEvent> DeleteInfoCard = (ActionEvent e) -> {
-                
-                // Deletes User Card
-                System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Deleteing Card");
-                
-                // remove all nodes in the current Vbox
-                //IndividualDataCard.getChildren().removeAll(InputNumber, WeekDay, TimeFrame, DeleteCard);
-                IndividualDataCard.getChildren().clear();
-
-                // Create new iterator to iterate over nodes in the linkedlist UserPreferences
-                VBOXIterator = VBOXUserPreferences.iterator();
-
-
-                // loop through list to remove empty Vbox node
-                int LinkedListIndex = 0;
-                while (VBOXIterator.hasNext()) {
-
-                    // next Vbox in iterator
-                    VBox tempBox = VBOXIterator.next();
-
-                    if (tempBox.getChildren().isEmpty()) {
-
-                        // removes empty Vbox from the linked list of preferences
-                        VBOXIterator.remove();
-
-                        //removes InputTime from UserTimeInput LinkedList
-                        UserTimeInput.remove(LinkedListIndex);
-
-                    } // if()
-
-                    LinkedListIndex++;
-
-                } // for()
-                
-                // removes node from the parent flowpane
-                userInputGraphic.getChildren().remove(IndividualDataCard);
-
-
-
-                /**
-                 * Update index number for each node
-                 */
-                int flowPaneIndex = 1;
-                for (Node node: userInputGraphic.getChildren()) {
-
-                    if (node instanceof VBox vbox) {
-                        Label newLabel = (Label) vbox.getChildren().get(0);   // lookup("#" + flowPaneIndex);
-                        if (newLabel != null) {
-                            newLabel.setText("Input Number: " + flowPaneIndex);
-                            flowPaneIndex++;
-                        }
-                    }
-
-                } // for()
-
-                System.out.println("UserTimeInput ammount" + UserTimeInput.size());
-
-            };
-
-            DeleteCard.setOnAction(DeleteInfoCard);
-            // ############################################################
-
-
-            // adds relevant nodes to the vbox
-            IndividualDataCard.getChildren().addAll(
-
-                InputNumber,    // Input number: ##
-
-                WeekDay,        // WeekDay: day
-
-                TimeFrame,      // Beginning time - ending time
-
-                DeleteCard      // Button to delete the card
-            );
-
-            // add to linked list of preferences
-            UserTimeInput.add(InputTime);
-            System.out.println("UserTimeInput ammount" + UserTimeInput.size());
-
-            // add to linked list Vbox
-            VBOXUserPreferences.add(IndividualDataCard);
-
-            // add vbox to flowpane
-            userInputGraphic.getChildren().add(IndividualDataCard);
-
-
-        } // if()
-    
-    } // UserInputGraphic
 
 
     /**

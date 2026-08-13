@@ -31,8 +31,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -42,7 +40,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -116,7 +113,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
     
 
-    //User Data
+    // User Data
     // ############################################################
     private LinkedList<PROG_DAL_A_TimeInput>    List_UserTimes;         // List of prefered times for an individual
 
@@ -458,11 +455,12 @@ public class PROG_UI_B_DataCardinfoScene {
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
 
             // checks to ensure all variables are input
-            if (DataCard_UserTimeInputs.ButtonPressTimeInput() == 0) {
+            // TODO: update size check
+            if ( (DataCard_UserTimeInputs.ButtonPressFullTimeInput() == 0) && (List_VBoxTimeInputs.size() < 10) ){
 
                 //
-                PROG_DAL_A_TimeInput TempUserPreferrence = DataCard_UserTimeInputs.Return_UserPreference();
-                DataCard_UserTimeInputs.UserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+                PROG_DAL_A_TimeInput TempUserPreferrence = DataCard_UserTimeInputs.Return_FullUserPreference();
+                DataCard_UserTimeInputs.FullUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
 
                 // garbage Collection
                 TempUserPreferrence = null;

@@ -166,6 +166,8 @@ public class PROG_BLL_SchedulingCalculation {
         this.Pref_SpecificTimes         = true;
         this.Pref_UserTimes             = new LinkedList<PROG_DAL_A_TimeInput>(time);
 
+        System.out.println("Specific times size: " + this.Pref_UserTimes.size());
+
     }
 
 
@@ -401,6 +403,7 @@ public class PROG_BLL_SchedulingCalculation {
                         EndIntervalHour     = Interval.PreferedHourEND.getHour();
                         EndIntervalMin      = Interval.PreferedHourEND.getMinute();
 
+                        
                         for (PROG_DAL_A_InfoInput Person : Calc_People) { // 4. repeat this for all intervals that exist for that day
 
                             if (Person.TimeIntervals.get(Index).WeekDay.equals(Day)) {
@@ -412,9 +415,19 @@ public class PROG_BLL_SchedulingCalculation {
                                 EndMin      = Person.TimeIntervals.get(Index).PreferedHourEND.getMinute();
 
                                 // if persons interval lies between then its id is added to the list
-                                if ((BeginHour <= StartIntervalHour) && (BeginMIN <= StartIntervalMin) && (EndHour >= EndIntervalHour) && (EndMin >= EndIntervalMin)) {
+                                // Hours
+                                if ( (BeginHour > StartIntervalHour) && (EndHour < EndIntervalHour) ) {
+                                    System.out.println("Check");
                                     Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
                                 }
+
+
+                                // Same Hour
+                                if ( (BeginHour == StartIntervalHour) && (BeginMIN >= StartIntervalMin) && (EndHour == EndIntervalHour) && (EndMin <= EndIntervalMin) ) {
+                                    System.out.println("Check");
+                                    Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
+                                }
+
 
                             } // if (Person.TimeIntervals.get(Index).WeekDay.equals(Day))
 

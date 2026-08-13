@@ -1,9 +1,3 @@
-package meeting_scheduler.PresentationLayer;
-
-import java.io.File;
-
-import javafx.application.Application;
-
 /**
  * Project Name: Project Meeting Scheduler 
  * Created By: Nicholas Edenfield
@@ -13,6 +7,21 @@ import javafx.application.Application;
  * 
  * Description: main file
  */
+
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.PresentationLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// files
+import java.io.File;
+// application
+import javafx.application.Application;
+// ############################################################
+
+
 
 public class MeetingScheduler {
 

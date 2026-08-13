@@ -1,4 +1,3 @@
-package meeting_scheduler.DataAccessLayer;
 /**
  * PROG_DAL_C_TXTOutput.java
  * 
@@ -6,15 +5,22 @@ package meeting_scheduler.DataAccessLayer;
  * No locks or preventative measures need to be implemented as all methods are read only operations.
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.DataAccessLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// reader
 import java.io.BufferedReader;
 import java.io.IOException;
+// stream
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+// util
 import java.util.LinkedList;
-
+// ############################################################
 
 public class PROG_DAL_C_TXTOutput {
 

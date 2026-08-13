@@ -1,11 +1,21 @@
-package meeting_scheduler.PresentationLayer;
-
 /**
- * PROG_UI_A_SceneManager
+ * PROG_UI_A_SceneManager.java
+ * 
  * Description: Interface which manages scene transitions for the application
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.PresentationLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// Stage
 import javafx.stage.Stage;
+// ############################################################
+
+
 
 public class PROG_UI_A_SceneManager {
 

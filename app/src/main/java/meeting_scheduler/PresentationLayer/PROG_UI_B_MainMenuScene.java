@@ -1,5 +1,16 @@
-package meeting_scheduler.PresentationLayer;
+/**
+ * PROG_UI_B_MainMenuScene.java
+ * 
+ * Description: main menu scene of the application
+ */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.PresentationLayer;
+// ############################################################
+
+// Imports
+// ############################################################
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
@@ -22,6 +33,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+// ############################################################
 
 
 

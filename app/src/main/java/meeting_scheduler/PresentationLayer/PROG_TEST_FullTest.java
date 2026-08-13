@@ -1,23 +1,34 @@
-package meeting_scheduler.PresentationLayer;
 /**
  * TEST_ALL_FullTest.java
  * 
  * Description: File used to test various functions of the program.
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.PresentationLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// exceptions
 import java.io.IOException;
+// util
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
+// jackson - json file manager
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
-
+// data manager objects
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTInput;
+// ############################################################
+
+
 
 public class PROG_TEST_FullTest {
 

@@ -1,41 +1,39 @@
-package meeting_scheduler.DataAccessLayer;
 /**
  * PROG_DAL_C_TXTInput.java
  * 
  * Description: Inputs user submitted data to a selected file (write-only).
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.DataAccessLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// reader/writer
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+// exception
 import java.io.IOException;
+// file
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+// Util
 import java.util.ArrayList;
 import java.util.List;
+// ############################################################
+
+
 
 public class PROG_DAL_C_TXTInput {
 
-
-    /** 
-     * File Lists:
-     * 
-     * 1. UserScheduleStore.txt
-     * 2.
-     * 3.
-     * 
-     */
-
-
-    
     static Path     FilePath;
     static Path     TemporaryFilePath = Paths.get("src\\PROG_DATA_TempFile.txt");
     static boolean  Locked = false;
-    //List<String>    TextLines;
-
-
 
 
 

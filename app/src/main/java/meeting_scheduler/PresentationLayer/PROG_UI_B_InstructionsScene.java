@@ -1,4 +1,16 @@
+/**
+ * PROG_UI_B_InstructionsScene.java
+ * 
+ * Description: Application window scene which shows an "instructions" page
+ * Contains:
+ * a. back button       (scene change)
+ * b. instructions which show how to use the program
+ */
+
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.PresentationLayer;
+
 
 import java.util.LinkedList;
 
@@ -25,14 +37,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
 
-/**
- * PROG_UI_B_InstructionsScene()
- * 
- * Description: Application window scene which shows an "instructions" page
- * Contains:
- * a. back button       (scene change)
- * b. instructions which show how to use the program
- */
 
 
 

@@ -1,8 +1,22 @@
-package meeting_scheduler.PresentationLayer;
+/**
+ * PROG_UI_C_UserTimeInput.java
+ * 
+ * Description: Manager for user time inputs for both the data card scene and the scheduler scene
+ * 
+ */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.PresentationLayer;
+// ############################################################
+
+
+// Imports
+// ############################################################
+// Util
 import java.util.Iterator;
 import java.util.LinkedList;
-
+// Javafx
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -14,6 +28,8 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+// ############################################################
+
 
 
 public class PROG_UI_C_UserTimeInput {
@@ -253,27 +269,33 @@ public class PROG_UI_C_UserTimeInput {
      * ButtonPressTimeInput()
      * Description: checks to ensure all variables have been input then creates a user preference to return
      */
-    public void ButtonPressTimeInput() {
+    public int ButtonPressTimeInput() {
 
         if (Select_WeekDay.getValue() == null)  { // Do nothing
             // user has not submitted a weekday
             System.out.println("user has not submitted a weekday");
+            return 1;
 
         } else if (Select_Hour_Begin.getText().isBlank())   { // Do nothing
             // user has not submitted a beginning hour
             System.out.println("user has not submitted a beginning hour");
+            return 1;
 
         } else if (Select_Minute_Begin.getText().isBlank())   { // Do nothing
             // user has not submitted a beginning minute
             System.out.println("user has not submitted a beginning minute");
+            return 1;
 
         } else if (Select_Hour_End.getText().isBlank())   { // Do nothing
             // user has not submitted a ending hour
             System.out.println("user has not submitted a ending hour");
+            return 1;
 
         } else if (Select_Minute_End.getText().isBlank())   { // Do nothing
             // user has not submitted a ending minute
             System.out.println("user has not submitted a ending minute");
+            return 1;
+
         } else {
 
             // Correct info has been submitted
@@ -287,6 +309,8 @@ public class PROG_UI_C_UserTimeInput {
 
             // new user preference
             this.UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+            
+            return 0;
 
         } // else ()
 
@@ -429,7 +453,7 @@ public class PROG_UI_C_UserTimeInput {
         );
 
         // add to linked list of preferences
-        List_UserTimes.add(Input_UserTime);
+        List_UserTimes.add(new PROG_DAL_A_TimeInput(Input_UserTime));
         System.out.println("UserTimeInput ammount" + List_UserTimes.size());
 
         // add to linked list Vbox

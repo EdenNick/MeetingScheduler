@@ -1,10 +1,28 @@
+/**
+ * PROG_UI_B_DataCardinfoScene.java
+ * 
+ * Description: Application window scene which allows the user to add user datacards to the application
+ * Contains:
+ * a. back button       (scene change)
+ * b. UI interface allowing user to add info    (various buttons, text inputs etc)
+ */
+
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.PresentationLayer;
+// ############################################################
 
+
+
+// Imports
+// ############################################################
+// Util
+import java.util.Iterator;
 import java.util.LinkedList;
-
+// Jackson - json manager
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-
+// Javafx
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -34,58 +52,54 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+// data managing objects
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
-
+// exceptions
 import java.io.IOException;
-import java.util.Iterator;
-
-/**
- * PROG_UI_B_DataCardinfoScene()
- * 
- * Description: Application window scene which allows the user to add user datacards to the application
- * Contains:
- * a. back button       (scene change)
- * b. UI interface allowing user to add info    (various buttons, text inputs etc)
- */
-
+// ############################################################
 
 
 
 public class PROG_UI_B_DataCardinfoScene {
 
-    // Reference of the application stage used for local operations
-    private final Stage ApplicationStage;
-
-    // Scene
-    private Scene       DataCardScene;
-
+    // Application Window variables
+    // ############################################################
+    // Application stage
+    private final Stage         ApplicationStage;
     // Stage width/height
-    private double      StageWidth;
-    private double      stageHeight;
+    private double              StageWidth;
+    private double              stageHeight;
+    // Data Card Info Scene
+    private Scene               DataCardScene;
+    // Background
+    private BackgroundFill      backgroundFill;
+    // transitions
+    private ParallelTransition  fadeMenuNodes;
+    private ParallelTransition  UnfadeMenuNodes;
+    // ############################################################
 
+
+
+    // Nodes
+    // ############################################################
     // Root Node
-    private AnchorPane  RootNode;
-
+    private AnchorPane  RootNode;               // RootNode of the scene, contains all nodes
     // Vbox
-    private VBox        addTimeInfo_input;
-    private VBox        UserInterface_Input;
-
+    private VBox        UI_FullInterface;       // Contains all UI nodes
+    private VBox        UI_TimeInterface;       // COntains all Ui nodes for time input
     // Hbox
-    private HBox        AddStartTime;
-    private HBox        addEndingTime;
-
+    private HBox        UI_AddStartTime;        // UI for start time input
+    private HBox        UI_addEndingTime;       // UI for end time input
     // FlowPane 
-    private FlowPane    FlowPane_VBoxDisplay;
-
-    // Buttons
-    private Button      ReturnToMenu;
-    private Button      AddUserInfo;
-    private Button      SubmitUserInfo;
-    private Button      ResetUserTimePref;
-
-    // Labels
+    private FlowPane    FlowPane_VBoxDisplay;   // Displays Input user time preferences
+    // Button
+    private Button      ButtonReturn;           // Returns to the main menu scene
+    private Button      ButtonAddPreference;    // Adds input user times to preference
+    private Button      ButtonSubmitPref;       // Submits user preferences to the json file
+    private Button      ButtonResetPref;        // resets added preferences
+    // Label
     private Label       Labelname;
     private Label       LabelID;
     private Label       LabelDay;
@@ -95,51 +109,32 @@ public class PROG_UI_B_DataCardinfoScene {
     private Label       LabelEndMinute;
     private Label       LabelBeginningTime;
     private Label       LabelEndingTime;
-
     // TextFields
-    //private TextField   userInput_EndingMinuteSeleciton;
-    //private TextField   userInput_EndingHourSeleciton;
-    //private TextField   userInput_BeginningMinuteSeleciton;
-    //private TextField   userInput_BeginningHourSelection;
-    private TextField   userInput_EmployeeID;
-    private TextField   userInput_EmployeeName;
+    private TextField   userInput_EmployeeID;   // A persons Id
+    private TextField   userInput_EmployeeName; // A persons name
+    // ############################################################
 
-    // Background
-    private BackgroundFill      backgroundFill;
     
-    // transitions
-    private ParallelTransition  fadeMenuNodes;
-    private ParallelTransition  UnfadeMenuNodes;
 
-    // ComboBox
-    //private ComboBox<String>    userInput_WeekDaySelection;
+    //User Data
+    // ############################################################
+    private LinkedList<PROG_DAL_A_TimeInput>    List_UserTimes;         // List of prefered times for an individual
 
-    // CheckBox
-    //private ComboBox<String>    StartTimeAMPM;
-    //private ComboBox<String>    EndTimeAMPM;
+    private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
 
-    // individual user Day/time preference
-    private LinkedList<PROG_DAL_A_TimeInput>    List_UserTimes;
+    private Iterator<VBox>                      RemoveAllVBOXIterator;  // iterator to remove all added userpreferences
 
-    // cardlist
-    private LinkedList<VBox>                    List_VBoxTimeInputs;
+    private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;   // linked list contianing a persons full info to be sent to the json file
+    // ############################################################
 
-    // iterators
-    private Iterator<VBox>                      VBOXIterator;
-    private Iterator<VBox>                      RemoveAllVBOXIterator;
 
-    // User preferences
-    private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;
-
-    // string[] weekdays
-    private String[] Weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
+    // Data Manager Objects
+    // ############################################################
     // Json file manager
-    private PROG_DAL_B_JSONManager JsonManager;
-
+    private PROG_DAL_B_JSONManager JsonManager;                 // Manages json files
     // user tim input manager
-    private PROG_UI_C_UserTimeInput DataCard_UserTimeInputs;
-    
+    private PROG_UI_C_UserTimeInput DataCard_UserTimeInputs;    // manages time inputs and displays
+    // ############################################################
 
 
     /**
@@ -200,6 +195,7 @@ public class PROG_UI_B_DataCardinfoScene {
         // loads css styles
         RootNode.getStylesheets().add(getClass().getResource("/CSS_Styles.css").toExternalForm());
 
+
         // Creates Buttons for this scene
         ButtonCreation();
 
@@ -231,22 +227,22 @@ public class PROG_UI_B_DataCardinfoScene {
             "-fx-border-radius: 5;"
         );
 
+
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor(ReturnToMenu, 20.0);
-        AnchorPane.setRightAnchor(ReturnToMenu, 20.0);
+        AnchorPane.setBottomAnchor(ButtonReturn, 20.0);
+        AnchorPane.setRightAnchor(ButtonReturn, 20.0);
         
         // Root Node - set UI interface input
-        AnchorPane.setTopAnchor(UserInterface_Input, 20.0);
-        AnchorPane.setLeftAnchor(UserInterface_Input, 20.0);
+        AnchorPane.setTopAnchor(UI_FullInterface, 20.0);
+        AnchorPane.setLeftAnchor(UI_FullInterface, 20.0);
 
-        // Root Node - set uer cards
+        // Root Node - set user cards
         AnchorPane.setTopAnchor(FlowPane_VBoxDisplay, 20.0);
         AnchorPane.setRightAnchor(FlowPane_VBoxDisplay, 20.0);
-
-        //ResetUserTimePref
         
 
-        this.RootNode.getChildren().addAll(UserInterface_Input, ReturnToMenu, FlowPane_VBoxDisplay);
+        // Add all to root node
+        this.RootNode.getChildren().addAll(UI_FullInterface, ButtonReturn, FlowPane_VBoxDisplay);
         // ############################################################
 
         
@@ -260,7 +256,7 @@ public class PROG_UI_B_DataCardinfoScene {
         // fade all objects before the scene is set
         this.fadeMenuNodes.play();
         
-    }
+    } // ConstructCardManagerScene()
 
 
 
@@ -274,160 +270,15 @@ public class PROG_UI_B_DataCardinfoScene {
      */
     private void UserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime) {
 
-        // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
+        // TODO: remove later
+        // // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
 
-        // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
+        // // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
 
-        // VBOXUserPreferences  -   List of each VBox that holds a time     -   private LinkedList<VBox>                    VBOXUserPreferences;
+        // // VBOXUserPreferences  -   List of each VBox that holds a time     -   private LinkedList<VBox>                    VBOXUserPreferences;
 
-        // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
+        // // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
 
-
-
-        // System.out.println("UserInputGraphic");
-        // userInputGraphic = new FlowPane();
-
-        // VBox creation and variables
-        VBox IndividualDataCard = new VBox();
-        IndividualDataCard.setPrefSize(100.0, 100.0);
-
-        int     Index       = (this.List_UserTimes.size() + 1);
-        int     StartHour   = Input_UserTime.PreferedHourBEGIN.getHour();
-        String  startMin    = Integer.toString(Input_UserTime.PreferedHourBEGIN.getMinute());
-        int     EndHour     = Input_UserTime.PreferedHourEND.getHour();
-        String  EndMin      = Integer.toString(Input_UserTime.PreferedHourEND.getMinute());
-
-        // add a leading zero to the start minute
-        if (Integer.parseInt(startMin) < 10) {
-            startMin = "0" + startMin;
-        }
-
-        // add a leading zero the end minute
-        if (Integer.parseInt(EndMin) < 10) {
-            EndMin = "0" + EndMin;
-        }
-
-
-        String  StartTimeFrame  = DataCard_UserTimeInputs.Return_AMPM_StartTime().getValue(); //= "AM";
-
-        String  EndTimeFrame    = DataCard_UserTimeInputs.Return_AMPM_EndTime().getValue();
-
-
-        // String  StartTimeFrame  = "AM";
-        // String  EndTimeFrame    = "AM";
-        
-        // // if pm is selected for the starting time add 12 hours to the starting hour
-        // // and ending hour, (am can't occure before pm)
-        // if (DataCard_UserTimeInputs.Return_AMPM_StartTime().getValue().equals("PM")) {
-        //     StartTimeFrame  = "PM";
-        //     EndTimeFrame    = "PM";
-        // }
-
-        // // if pm is selected for the ending time add 12 hours to the ending time
-        // if(DataCard_UserTimeInputs.Return_AMPM_EndTime().getValue().equals("PM")) {
-        //     EndTimeFrame    = "PM";
-        // }
-
-        Label   InputNumber = new Label("Input Number: " + Index);
-        InputNumber.setId("" + Index);
-
-        Label   WeekDay     = new Label("WeekDay: " + Input_UserTime.WeekDay);        
-        Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
-
-
-
-        // Delete Card Button
-        // ############################################################
-        Button DeleteCard = new Button("Delete Card");
-
-        EventHandler<ActionEvent> DeleteInfoCard = (ActionEvent e) -> {
-            
-            // Deletes User Card
-            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Deleteing Card");
-            
-            // remove all nodes in the current Vbox
-            //IndividualDataCard.getChildren().removeAll(InputNumber, WeekDay, TimeFrame, DeleteCard);
-            IndividualDataCard.getChildren().clear();
-
-            // Create new iterator to iterate over nodes in the linkedlist UserPreferences
-            VBOXIterator = List_VBoxTimeInputs.iterator();
-
-
-            // loop through list to remove empty Vbox node
-            int LinkedListIndex = 0;
-            while (VBOXIterator.hasNext()) {
-
-                // next Vbox in iterator
-                VBox tempBox = VBOXIterator.next();
-
-                if (tempBox.getChildren().isEmpty()) {
-
-                    // removes empty Vbox from the linked list of preferences
-                    VBOXIterator.remove();
-
-                    //removes InputTime from UserTimeInput LinkedList
-                    List_UserTimes.remove(LinkedListIndex);
-
-                } // if()
-
-                LinkedListIndex++;
-
-            } // for()
-            
-            // removes node from the parent flowpane
-            FlowPane_VBoxDisplay.getChildren().remove(IndividualDataCard);
-
-
-
-            /**
-             * Update index number for each node
-             */
-            int flowPaneIndex = 1;
-            for (Node node: FlowPane_VBoxDisplay.getChildren()) {
-
-                if (node instanceof VBox vbox) {
-                    Label newLabel = (Label) vbox.getChildren().get(0);   // lookup("#" + flowPaneIndex);
-                    if (newLabel != null) {
-                        newLabel.setText("Input Number: " + flowPaneIndex);
-                        flowPaneIndex++;
-                    }
-                }
-
-            } // for()
-
-            System.out.println("UserTimeInput ammount" + List_UserTimes.size());
-
-        };
-
-        DeleteCard.setOnAction(DeleteInfoCard);
-        // ############################################################
-
-
-        // adds relevant nodes to the vbox
-        IndividualDataCard.getChildren().addAll(
-            // Input number: #
-            InputNumber,
-
-            // WeekDay: ##
-            WeekDay,
-
-            // Beginning time - ending time
-            TimeFrame,
-
-            // Button to delete the card
-            DeleteCard
-        );
-
-        // add to linked list of preferences
-        List_UserTimes.add(Input_UserTime);
-        System.out.println("UserTimeInput ammount" + List_UserTimes.size());
-
-        // add to linked list Vbox
-        List_VBoxTimeInputs.add(IndividualDataCard);
-
-        // add vbox to flowpane
-        FlowPane_VBoxDisplay.getChildren().add(IndividualDataCard);
-    
     } // UserInputGraphic
 
 
@@ -442,24 +293,19 @@ public class PROG_UI_B_DataCardinfoScene {
      */
     private void cardUIManagement() {
 
-
-        /**
-         * Node Management
-         */
-
         // HBox for beginning Hour/Min
         // ############################################################
-        this.AddStartTime = new HBox(10);
+        this.UI_AddStartTime = new HBox(10);
         //AddStartTime.setPrefSize(300.0, 500.0);
-        this.AddStartTime.setPadding(new Insets(10));
-        this.AddStartTime.setStyle(
+        this.UI_AddStartTime.setPadding(new Insets(10));
+        this.UI_AddStartTime.setStyle(
             "-fx-background-color: white;" +
             "-fx-border-color: Black;" +
             "-fx-border-width: 2;" +
             "-fx-border-radius: 5;"
         );
 
-        this.AddStartTime.getChildren().addAll(
+        this.UI_AddStartTime.getChildren().addAll(
 
             LabelBeginHour,
             DataCard_UserTimeInputs.Return_Hour_Begin(),
@@ -476,17 +322,17 @@ public class PROG_UI_B_DataCardinfoScene {
 
         // HBox for Ending Hour/Min
         // ############################################################
-        this.addEndingTime = new HBox(10);
+        this.UI_addEndingTime = new HBox(10);
         //AddStartTime.setPrefSize(200.0, 400.0);
-        this.addEndingTime.setPadding(new Insets(10));
-        this.addEndingTime.setStyle(
+        this.UI_addEndingTime.setPadding(new Insets(10));
+        this.UI_addEndingTime.setStyle(
             "-fx-background-color: white;" +
             "-fx-border-color: Black;" +
             "-fx-border-width: 2;" +
             "-fx-border-radius: 5;"
         );
 
-        this.addEndingTime.getChildren().addAll(
+        this.UI_addEndingTime.getChildren().addAll(
 
             LabelEndHour,
             DataCard_UserTimeInputs.Return_Hour_End(),
@@ -503,11 +349,10 @@ public class PROG_UI_B_DataCardinfoScene {
 
         // Vbox for adding time intervals
         // ############################################################
-
-        this.addTimeInfo_input = new VBox(10);
+        this.UI_TimeInterface = new VBox(10);
         //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
-        this.addTimeInfo_input.setPadding(new Insets(10));
-        this.addTimeInfo_input.setStyle(
+        this.UI_TimeInterface.setPadding(new Insets(10));
+        this.UI_TimeInterface.setStyle(
             "-fx-background-color: white;" +
             "-fx-border-color: Black;" +
             "-fx-border-width: 2;" +
@@ -517,20 +362,20 @@ public class PROG_UI_B_DataCardinfoScene {
         Region ButtonSpace = new Region();
         VBox.setVgrow(ButtonSpace, Priority.ALWAYS);
 
-        this.addTimeInfo_input.getChildren().addAll(
+        this.UI_TimeInterface.getChildren().addAll(
 
             LabelDay,
             DataCard_UserTimeInputs.Return_WeekDay(),
             
             LabelBeginningTime,
-            AddStartTime,
+            UI_AddStartTime,
 
             LabelEndingTime,
-            addEndingTime,
+            UI_addEndingTime,
 
             ButtonSpace,
 
-            AddUserInfo
+            ButtonAddPreference
 
         );
         // ############################################################
@@ -540,10 +385,10 @@ public class PROG_UI_B_DataCardinfoScene {
         // Vbox for UI
         // ############################################################
         // Create and set box parameters
-        this.UserInterface_Input = new VBox(10);
-        this.UserInterface_Input.setPrefSize(400.0, 600.0);
-        this.UserInterface_Input.setPadding(new Insets(10));
-        this.UserInterface_Input.setStyle(
+        this.UI_FullInterface = new VBox(10);
+        this.UI_FullInterface.setPrefSize(400.0, 600.0);
+        this.UI_FullInterface.setPadding(new Insets(10));
+        this.UI_FullInterface.setStyle(
             "-fx-background-color: white;" +
             "-fx-border-color: Black;" +
             "-fx-border-width: 2;" +
@@ -551,18 +396,18 @@ public class PROG_UI_B_DataCardinfoScene {
         );
 
         // add nodes to the box
-        this.UserInterface_Input.getChildren().addAll(
+        this.UI_FullInterface.getChildren().addAll(
             Labelname,
             userInput_EmployeeName, 
 
             LabelID,
             userInput_EmployeeID,
 
-            addTimeInfo_input, 
+            UI_TimeInterface, 
 
-            ResetUserTimePref,
+            ButtonResetPref,
 
-            SubmitUserInfo
+            ButtonSubmitPref
         );
         // ############################################################
 
@@ -583,7 +428,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
         // Return Home Button
         // ############################################################
-        this.ReturnToMenu = new Button("Return Home");
+        this.ButtonReturn = new Button("Return Home");
 
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
@@ -598,77 +443,44 @@ public class PROG_UI_B_DataCardinfoScene {
 
         };
 
-        this.ReturnToMenu.setOnAction(ReturnHome);
+        this.ButtonReturn.setOnAction(ReturnHome);
         // ############################################################
 
 
 
         // Add Info Button
         // ############################################################
-        this.AddUserInfo = new Button("Add Info");
+        this.ButtonAddPreference = new Button("Add Info");
 
         EventHandler<ActionEvent> AddInfo = (ActionEvent e) -> {
 
-            // adds user info - does not submit anything
+            // System Message
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
 
+            // checks to ensure all variables are input
+            if (DataCard_UserTimeInputs.ButtonPressTimeInput() == 0) {
 
-            // if (        DataCard_UserTimeInputs.Return_WeekDay()        .getValue() == null)  { // Do nothing
-            //     // user has not submitted a weekday
-            //     System.out.println("user has not submitted a weekday");
-
-            // } else if ( DataCard_UserTimeInputs.Return_Hour_Begin()     .getText().isBlank())   { // Do nothing
-            //     // user has not submitted a beginning hour
-            //     System.out.println("user has not submitted a beginning hour");
-
-            // } else if ( DataCard_UserTimeInputs.Return_Minute_Begin()   .getText().isBlank())   { // Do nothing
-            //     // user has not submitted a beginning minute
-            //     System.out.println("user has not submitted a beginning minute");
-
-            // } else if ( DataCard_UserTimeInputs.Return_Hour_End()       .getText().isBlank())   { // Do nothing
-            //     // user has not submitted a ending hour
-            //     System.out.println("user has not submitted a ending hour");
-
-            // } else if ( DataCard_UserTimeInputs.Return_Minute_End()     .getText().isBlank())   { // Do nothing
-            //     // user has not submitted a ending minute
-            //     System.out.println("user has not submitted a ending minute");
-            // } else {
-
-            //     // Correct info has been submitted
-            //     System.out.println("Correct info has been submitted");
-
-            //     String  WeekDay     = DataCard_UserTimeInputs.Return_WeekDay()                      .getValue();
-            //     int     BeginHour   = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_Begin()  .getText());
-            //     int     BeginMinute = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_Begin().getText());
-            //     int     EndHour     = Integer.parseInt(DataCard_UserTimeInputs.Return_Hour_End()    .getText());
-            //     int     EndMinute   = Integer.parseInt(DataCard_UserTimeInputs.Return_Minute_End()  .getText());
-
-            //     // new user preference
-            //     PROG_DAL_A_TimeInput UserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
-
-                DataCard_UserTimeInputs.ButtonPressTimeInput();
-
-
-                // add preference to flowpane
-                // UserInputGraphic(DataCard_UserTimeInputs.Return_UserPreference());
+                //
                 PROG_DAL_A_TimeInput TempUserPreferrence = DataCard_UserTimeInputs.Return_UserPreference();
                 DataCard_UserTimeInputs.UserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
 
-                // null for garbage collection
-                // UserPreference = null;
+                // garbage Collection
+                TempUserPreferrence = null;
 
-            //} // else ()
+            } else {
+                // Do nothing
+            }
 
         };
 
-        this.AddUserInfo.setOnAction(AddInfo);
+        this.ButtonAddPreference.setOnAction(AddInfo);
         // ############################################################
 
 
 
         // Submit UserInfo
         // ############################################################
-        this.SubmitUserInfo = new Button("Submit Info");
+        this.ButtonSubmitPref = new Button("Submit Info");
 
         EventHandler<ActionEvent> SubmitInfo = (ActionEvent e) -> {
             
@@ -676,8 +488,6 @@ public class PROG_UI_B_DataCardinfoScene {
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Submit User Info");
 
             // collect all info into the relvant linkedlist
-            // Employee name
-
             if          (userInput_EmployeeName .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
                 System.out.println("user has not submitted a valid name");
@@ -745,25 +555,23 @@ public class PROG_UI_B_DataCardinfoScene {
                 JsonManager.DiscardCard();
 
                 // clear linkedlist and any other data for a fresh start
-                // UserTimeInput           = new LinkedList<>();
                 InfoInputPreferences    = new LinkedList<>();
         }
 
         };
-        this.SubmitUserInfo.setOnAction(SubmitInfo);
+        this.ButtonSubmitPref.setOnAction(SubmitInfo);
         // ############################################################
 
 
 
         // reset usertimeinput
         // ############################################################
-        this.ResetUserTimePref = new Button("Reset added time preferences");
+        this.ButtonResetPref = new Button("Reset added time preferences");
 
         EventHandler<ActionEvent> ResetTimePreference = (ActionEvent e) -> {
 
             // linkedlist Vbox full of user preferences
             RemoveAllVBOXIterator = List_VBoxTimeInputs.iterator();
-            //int LinkedListIndex = 0;
 
             while (RemoveAllVBOXIterator.hasNext()) {
 
@@ -784,13 +592,9 @@ public class PROG_UI_B_DataCardinfoScene {
                     // System.out.println("user Input index :" + LinkedListIndex);
                     List_UserTimes.remove(0);
 
-                } // if()
+                } // if ()
 
-                
-
-                //LinkedListIndex++;
-
-            } // for()
+            } // for ()
 
 
             /**
@@ -807,7 +611,7 @@ public class PROG_UI_B_DataCardinfoScene {
             
 
         };
-        this.ResetUserTimePref.setOnAction(ResetTimePreference);
+        this.ButtonResetPref.setOnAction(ResetTimePreference);
 
     } // ButtonCreation()
 
@@ -868,7 +672,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.LabelEndMinute.getStyleClass().add("default-label");
 
 
-    }
+    } // UI_LabelCreation()
 
 
     
@@ -924,188 +728,6 @@ public class PROG_UI_B_DataCardinfoScene {
         }));
         // ############################################################
 
-
-
-        // // Weekday Input
-        // // ############################################################
-        // this.userInput_WeekDaySelection = new ComboBox<>();
-        // this.userInput_WeekDaySelection.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
-        // this.userInput_WeekDaySelection.setPrefSize(100, 25.0);
-        // // ############################################################
-
-
-
-        // // Beginning Hour Input
-        // // ############################################################
-        // this.userInput_BeginningHourSelection = new TextField();
-        // this.userInput_BeginningHourSelection.setPrefSize(50, 25.0);
-        // this.userInput_BeginningHourSelection.setTextFormatter(new TextFormatter<>(change -> {
-            
-        //     // User input text
-        //     String TextInput = change.getControlNewText();
-
-        //     // if th etext is empty accept it
-        //     if (TextInput.isEmpty()) {
-        //         return change;
-        //     }
-
-        //     // test if the text is a valid int within a valid range
-        //     try {
-        //         int intValue = Integer.parseInt(TextInput);
-
-        //         if (intValue >= 0 && intValue <= 12) {
-        //             return change;
-        //         }
-        //     } catch (NumberFormatException e) {
-        //         // Invalid Input
-        //     }
-
-        //     return null;
-        // }));
-        // // ############################################################
-
-
-
-        // // Beginning Minute Input
-        // // ############################################################
-        // this.userInput_BeginningMinuteSeleciton = new TextField();
-        // this.userInput_BeginningMinuteSeleciton.setPrefSize(50, 25.0);
-        // this.userInput_BeginningMinuteSeleciton.setTextFormatter(new TextFormatter<>(change -> {
-            
-        //     // User input text
-        //     String TextInput = change.getControlNewText();
-
-        //     // if th etext is empty accept it
-        //     if (TextInput.isEmpty()) {
-        //         return change;
-        //     }
-
-        //     // test if the text is a valid int within a valid range
-        //     try {
-        //         int intValue = Integer.parseInt(TextInput);
-
-        //         if (intValue >= 0 && intValue < 60) {
-        //             return change;
-        //         }
-        //     } catch (NumberFormatException e) {
-        //         // Invalid Input
-        //     }
-
-        //     return null;
-        // }));
-        // // ############################################################
-
-
-
-        // // CheckBox for beginning AM/PM
-        // // ############################################################
-        // this.StartTimeAMPM = new ComboBox<>();
-        // this.StartTimeAMPM.getItems().addAll("AM", "PM");
-        // this.StartTimeAMPM.getSelectionModel().select("AM");
-        // this.StartTimeAMPM.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-
-        //     if (newvalue.equals("PM")) {
-        //         this.EndTimeAMPM.getSelectionModel().select("PM");
-        //     }
-
-        // });
-        // // ############################################################
-
-
-
-        // // Ending Hour Input
-        // // ############################################################
-        // this.userInput_EndingHourSeleciton = new TextField();
-        // this.userInput_EndingHourSeleciton.setPrefSize(50, 25.0);
-        // this.userInput_EndingHourSeleciton.setTextFormatter(new TextFormatter<>(change -> {
-            
-        //     // User input text
-        //     String TextInput = change.getControlNewText();
-
-        //     // if th etext is empty accept it
-        //     if (TextInput.isEmpty()) {
-        //         return change;
-        //     }
-
-        //     // ensures end hour is never before the beginning hour
-        //     if (!userInput_BeginningHourSelection.getText().isBlank()) {
-
-        //         if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) > Integer.parseInt(TextInput)) 
-        //             && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
-        //             userInput_EndingHourSeleciton.setText(userInput_BeginningHourSelection.getText());
-        //         }
-
-        //     }
-
-        //     // test if the text is a valid int within a valid range
-        //     try {
-        //         int intValue = Integer.parseInt(TextInput);
-
-        //         if (intValue >= 0 && intValue <= 12) {
-        //             return change;
-        //         }
-        //     } catch (NumberFormatException e) {
-        //         // Invalid Input
-        //     }
-
-        //     return null;
-        // }));
-        // // ############################################################
-
-
-
-        // // Ending Minute Input
-        // // ############################################################
-        // this.userInput_EndingMinuteSeleciton = new TextField();
-        // this.userInput_EndingMinuteSeleciton.setPrefSize(50, 25.0);
-        // this.userInput_EndingMinuteSeleciton.setTextFormatter(new TextFormatter<>(change -> {
-            
-        //     // User input text
-        //     String TextInput = change.getControlNewText();
-
-        //     // if th etext is empty accept it
-        //     if (TextInput.isEmpty()) {
-        //         return change;
-        //     }
-
-        //     // if both the beginning and ending hour are the same and at the same period (AM/PM) ensure the ending minute is always later
-        //     if ((!userInput_BeginningHourSelection.getText().isBlank()) && (!userInput_EndingHourSeleciton.getText().isBlank())) {
-
-        //         // TODO: organize the nonsense
-        //         if ( (Integer.parseInt(userInput_BeginningHourSelection.getText()) == Integer.parseInt(userInput_EndingHourSeleciton.getText()) )
-        //             && ( Integer.parseInt(TextInput) < Integer.parseInt(userInput_BeginningMinuteSeleciton.getText()) )
-        //             && (StartTimeAMPM.getValue().equals(EndTimeAMPM.getValue())) ) {
-
-        //             userInput_EndingMinuteSeleciton.setText(userInput_BeginningMinuteSeleciton.getText());
-
-        //         }
-
-        //     }
-
-        //     // test if the text is a valid int within a valid range
-        //     try {
-        //         int intValue = Integer.parseInt(TextInput);
-
-        //         if (intValue >= 0 && intValue < 60) {
-        //             return change;
-        //         }
-
-        //     } catch (NumberFormatException e) {
-        //         // Invalid Input
-        //     }
-
-        //     return null;
-        // }));
-        // // ############################################################
-
-
-        // // CheckBox for Ending AM/PM
-        // // ############################################################
-        // this.EndTimeAMPM = new ComboBox<>();
-        // this.EndTimeAMPM.getItems().addAll("AM", "PM");
-        // this.EndTimeAMPM.getSelectionModel().select("AM");
-        // // ############################################################
-
     } // UI_UserInputs()
 
 
@@ -1116,11 +738,8 @@ public class PROG_UI_B_DataCardinfoScene {
      */
     private void SceneEffects() {
 
-        /**
-         * Scene edits
-         */
+        // Add background
         // ############################################################
-        // Add background gradient
         LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
             new Stop(0, Color.DARKBLUE), new Stop(1, Color.BEIGE)
         );
@@ -1128,8 +747,12 @@ public class PROG_UI_B_DataCardinfoScene {
         this.backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
 
         this.RootNode.setBackground(new Background(backgroundFill));
+        // ############################################################
 
-        // Transition to fade buttons
+
+
+        // Fade transition effect
+        // ############################################################
         this.fadeMenuNodes = new ParallelTransition();
 
         for (Node node : this.RootNode.getChildren()) {
@@ -1147,7 +770,8 @@ public class PROG_UI_B_DataCardinfoScene {
 
 
 
-        // Transition to Unfade buttons
+        // Unfade transition effect
+        // ############################################################
         this.UnfadeMenuNodes = new ParallelTransition();
 
         for (Node node : this.RootNode.getChildren()) {
@@ -1163,5 +787,8 @@ public class PROG_UI_B_DataCardinfoScene {
         }
         // ############################################################
 
-    }
-}
+    } // SceneEffects
+
+
+
+} // PROG_UI_B_DataCardinfoScene ()

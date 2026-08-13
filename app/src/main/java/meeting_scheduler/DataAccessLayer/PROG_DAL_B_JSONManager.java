@@ -1,21 +1,25 @@
-package meeting_scheduler.DataAccessLayer;
 /**
- * PROG_DAL_B_JSONManager
+ * PROG_DAL_B_JSONManager.java
+ * 
  * Description: Used to manage the Input and output of the json file containing user preferences.
  * 
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.DataAccessLayer;
+// ############################################################
+
+// Imports
+// ############################################################
 // Java.io
 import java.io.File;
 import java.io.IOException;
-
 // java.util
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Objects;
-
 // jackson (json file manager)
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
@@ -24,6 +28,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+// ############################################################
 
 
 

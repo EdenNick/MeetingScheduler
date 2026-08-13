@@ -1,4 +1,3 @@
-package meeting_scheduler.DataAccessLayer;
 /**
  * PROG_DAL_A_TimeInput.java
  * 
@@ -6,7 +5,18 @@ package meeting_scheduler.DataAccessLayer;
  * (Format: Begin -> End)
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.DataAccessLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// time
 import java.time.LocalTime;
+// ############################################################
+
+
 
 public class PROG_DAL_A_TimeInput {
 

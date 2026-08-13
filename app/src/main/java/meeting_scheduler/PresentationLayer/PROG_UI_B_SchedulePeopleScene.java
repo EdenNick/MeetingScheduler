@@ -1,13 +1,24 @@
+/**
+ * PROG_UI_B_SchedulePeopleScene()
+ * 
+ * Description: Application window scene which allows the user to make schedules based off of existing user card information
+ * Contains:
+ * a. back button       (scene change)
+ * b. UI interface allowing user to make schedules    (various buttons, text inputs etc)
+ */
+
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.PresentationLayer;
 
+// Imports
+// ############################################################
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 // javaFX
-// animation
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 // Scene
@@ -41,21 +52,11 @@ import javafx.geometry.Insets;
 import javafx.stage.Stage;
 // util
 import javafx.util.Duration;
-
-// schedule calculator
+// data management objects
 import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
-
-/**
- * PROG_UI_B_SchedulePeopleScene()
- * 
- * Description: Application window scene which allows the user to make schedules based off of existing user card information
- * Contains:
- * a. back button       (scene change)
- * b. UI interface allowing user to make schedules    (various buttons, text inputs etc)
- */
-
+// ############################################################
 
 
 

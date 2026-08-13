@@ -1,4 +1,3 @@
-package meeting_scheduler.BusinessLogiclayer;
 /**
  * PROG_BLL_SchedulingCalculation.java
  * 
@@ -10,16 +9,28 @@ package meeting_scheduler.BusinessLogiclayer;
  * Not scheduling meeting on specifed times or days.
  */
 
-import java.io.IOException;
-import java.util.LinkedList;
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.BusinessLogiclayer;
+// ############################################################
 
+// Imports
+// ############################################################
+// exception
+import java.io.IOException;
+// util
+import java.util.LinkedList;
+// jackson - json file manager
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-
+// data manager Objects
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+// ############################################################
+
+
 
 public class PROG_BLL_SchedulingCalculation {
 

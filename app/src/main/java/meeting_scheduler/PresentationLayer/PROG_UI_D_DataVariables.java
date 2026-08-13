@@ -1,9 +1,15 @@
-package meeting_scheduler.PresentationLayer;
 /**
  * PROG_UI_D_TextLabels()
  * 
  * Description: Holds the text values used for the various abels throughout the UI
  */
+
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.PresentationLayer;
+// ############################################################
+
+
 
 public final class PROG_UI_D_DataVariables {
 

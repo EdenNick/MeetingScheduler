@@ -1,10 +1,21 @@
-package meeting_scheduler.DataAccessLayer;
 /**
- * PROG_DAL_A_Schedule
+ * PROG_DAL_A_Schedule.java
+ * 
  * Description: Object that holds the calcualted scheduleinfo.
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.DataAccessLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// Util
 import java.util.LinkedList;
+// ############################################################
+
+
 
 public class PROG_DAL_A_Schedule {
 

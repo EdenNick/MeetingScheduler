@@ -1,4 +1,3 @@
-package meeting_scheduler.BusinessLogiclayer;
 /**
  * PROG_BLL_InfoFileWrite.java
  * 
@@ -15,15 +14,27 @@ package meeting_scheduler.BusinessLogiclayer;
  * "####################"
  */
 
-import java.io.IOException;
-import java.util.LinkedList;
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.BusinessLogiclayer;
+// ############################################################
 
+// Imports
+// ############################################################
+// exception
+import java.io.IOException;
+// util
+import java.util.LinkedList;
+// jackson - json manager
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-
+// Data manager objects
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+// ############################################################
+
+
 
 public class PROG_BLL_InfoFileWrite {
 

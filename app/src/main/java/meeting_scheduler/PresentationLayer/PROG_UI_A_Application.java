@@ -1,17 +1,23 @@
-package meeting_scheduler.PresentationLayer;
-
 /**
- * PROG_UI_A_Application
+ * PROG_UI_A_Application.java
  * 
  * Description: primary application class, handles the javafx thread creation and destruction if needed.
  */
 
+// Package  - DO Not Change
+// ############################################################
+package meeting_scheduler.PresentationLayer;
+// ############################################################
+
+// Imports
+// ############################################################
+// Javafx
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-// import javafx.scene.layout.StackPane;
+// ############################################################
 
 
 

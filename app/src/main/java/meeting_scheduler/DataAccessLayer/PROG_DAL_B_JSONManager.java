@@ -136,7 +136,7 @@ public class PROG_DAL_B_JSONManager {
     public int SetToFile() throws StreamReadException, DatabindException, IOException { // File
         
         if (ObjectReferenceSet == false) {
-            System.out.println("ERROR - PROG_FILE_JSONManager - SetToFile - object refence null or missing values");
+            System.out.println(PROG_DAL_D_SystemMessages.ERROR_SetToFile);
             return 1;
         }
 

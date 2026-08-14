@@ -102,6 +102,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private VBox        Holder_ListAmmount;
     private VBox        Holder_ListPeople;
     private VBox        Holder_Calculate;
+    private VBox        Holder_ListOutput;
     // Buttons
     private Button      ReturnToMenu;
     private Button      RESET_People;
@@ -112,6 +113,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private Button      CALCULATE_Schedule;
     private Button      Input_SelectedDay;
     private Button      Add_TimePreferences;
+    private Button      Input_SelectedNumber;
     // labels
     private Label       Label_inputDay;
     private Label       Label_OutputDay;
@@ -122,6 +124,8 @@ public class PROG_UI_B_SchedulePeopleScene {
     private Label       LabelBeginMinute;
     private Label       LabelEndHour;
     private Label       LabelEndMinute;
+    private Label       Label_OutputNumber;
+    private Label       Label_AmmountOutput;
 
     // userInputs
     private TextField   userInput_listAmmount;
@@ -332,7 +336,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset number of lists to output");
 
-            // TODO: Add Funcitonality
+            this.Label_OutputNumber.setText("");
 
         };
         RESET_ListNumber.setOnAction(RESETLISTS);
@@ -388,17 +392,37 @@ public class PROG_UI_B_SchedulePeopleScene {
             // System Message
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
 
-            // checks to ensure all variables are input
-            //TODO: update size check
-            if ( (Scheduler_UserTimeInputs.ButtonPressPartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 3) ){
+            // ButtonPressPartialTimeInput() ensures all variables have been input, returns 0 on success
+            // TODO: check VBox input size
+            if ( (Scheduler_UserTimeInputs.ButtonPressPartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 4) ){
 
-                //
-                PROG_DAL_A_TimeInput TempUserPreferrence = Scheduler_UserTimeInputs.Return_PartialUserPreference();
-                Scheduler_UserTimeInputs.PartialUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+                // Temp user preference created for clean seperation of object use
+                PROG_DAL_A_TimeInput TempUserPreferrence = Scheduler_UserTimeInputs.Return_TimeUserPreference();
+
+
+                /**
+                 * ############################################################
+                 * PROG_UI_C_UserTimeInput Scheduler_UserTimeInputs .TimeUserInputGraphic()
+                 * 
+                 * Inputs user preference to be displayed to the user as well as stored for eventual submission to file
+                 * 
+                 * PROG_DAL_A_TimeInput TempUserPreferrence         - individual time preference containing day. start and end times
+                 * 
+                 * LinkedList<PROG_DAL_A_TimeInput> List_UserTimes  - A list of all time preferences a person has. To be submitted to the scheduler for calculation
+                 * 
+                 * LinkedList<VBox> List_VBoxTimeInputs             - a copied list of all VBoxes stored in the flowpane display. Used to iterate, not to be displayed
+                 * 
+                 * FlowPane FlowPane_VBoxDisplay                    - A flowpane which displays the various Vboxs that hold user preferences. display only
+                 */
+                Scheduler_UserTimeInputs.TimeUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+                // ############################################################
+
 
                 // garbage Collection
                 TempUserPreferrence = null;
 
+
+                // update the scheduler to the updated list of user times
                 ScheduleCalculator.SetSpecificTime(List_UserTimes);
 
             } else {
@@ -535,7 +559,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Create new HBox
         this.HBoxInputPeople = new HBox(10);
         this.HBoxInputPeople.getStyleClass().add("UserPreference-box");
-        this.HBoxInputPeople.setPrefSize(500.0, 100.0);
+        this.HBoxInputPeople.setPrefSize(600.0, 100.0);
         this.HBoxInputPeople.setPadding(new Insets(10));
 
 
@@ -575,14 +599,14 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Primary Node
         HBoxInputListNumber = new HBox(10);
         HBoxInputListNumber.getStyleClass().add("UserPreference-box");
-        HBoxInputListNumber.setPrefSize(500.0, 100.0);
+        HBoxInputListNumber.setPrefSize(600.0, 100.0);
         HBoxInputListNumber.setPadding(new Insets(10));
 
         // Secondary Node - Input
         Holder_ListAmmount = new VBox(10);
 
         // Secodnary Node - output
-
+        Holder_ListOutput = new VBox(10);
         // ############################################################
         
 
@@ -624,6 +648,27 @@ public class PROG_UI_B_SchedulePeopleScene {
             return null;
 
         }));
+
+
+        // Button
+        Input_SelectedNumber = new Button("Input Selected Ammount");
+        EventHandler<ActionEvent> INPUTNumber = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected Ammount");
+
+            
+            if ((userInput_listAmmount.getText() != null) && (!userInput_listAmmount.getText().isBlank())) {
+
+                String SelectedAmmount = userInput_listAmmount.getText();
+
+                Label_OutputNumber.setText(SelectedAmmount);
+
+            } // if()
+
+
+        };
+        Input_SelectedNumber.setOnAction(INPUTNumber);
+
         // ############################################################
         
 
@@ -631,18 +676,22 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Output
         // ############################################################
         // TODO: possibly add label which displays number
+        Label_AmmountOutput = new Label("Ammount of schedules to be displayed");
+
+        // Stores the Ammount input variable
+        Label_OutputNumber = new Label("");
         // ############################################################
 
 
         // Add all to the nodes
         // ############################################################
         // Secondary Node - output
-
+        Holder_ListOutput.getChildren().addAll(Label_AmmountOutput, Label_OutputNumber);
         // secondary Node - Input
-        Holder_ListAmmount.getChildren().addAll(Label_inputNumber, userInput_listAmmount);
+        Holder_ListAmmount.getChildren().addAll(Label_inputNumber, userInput_listAmmount, Input_SelectedNumber);
 
         // Primary Node
-        HBoxInputListNumber.getChildren().addAll(Holder_ListAmmount);
+        HBoxInputListNumber.getChildren().addAll(Holder_ListAmmount, Holder_ListOutput);
         // ############################################################
 
     } // InputListNumber()
@@ -660,7 +709,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // HBox - primary Node
         this.HBoxInputDayPreference = new HBox(10);
         this.HBoxInputDayPreference.getStyleClass().add("UserPreference-box");
-        this.HBoxInputDayPreference.setPrefSize(500.0, 100.0);
+        this.HBoxInputDayPreference.setPrefSize(600.0, 100.0);
         this.HBoxInputDayPreference.setPadding(new Insets(10));
 
         // VBox - secondary node - input
@@ -816,14 +865,20 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Primary Node
         this.HBoxInputTimePreference = new HBox(10);
         this.HBoxInputTimePreference.getStyleClass().add("UserPreference-box");
-        this.HBoxInputTimePreference.setPrefSize(500.0, 100.0);
+        this.HBoxInputTimePreference.setPrefSize(620.0, 220.0);
         this.HBoxInputTimePreference.setPadding(new Insets(10));
 
         // Secodnary Node - input
         this.Holder_TimePreference = new VBox(10);
+        this.Holder_TimePreference.setPrefSize(300.0, 200.0);
 
         // Secondary Node - output
-
+        this.FlowPane_VBoxDisplay = new FlowPane();
+        this.FlowPane_VBoxDisplay.getStyleClass().add("UserPreference-box");
+        this.FlowPane_VBoxDisplay.setPrefSize(270.0, 190.0);
+        this.FlowPane_VBoxDisplay.setPadding(new Insets(10));
+        this.FlowPane_VBoxDisplay.setHgap(5.0);
+        this.FlowPane_VBoxDisplay.setVgap(5.0);
         // ############################################################
 
 
@@ -902,8 +957,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Output Section
         // ############################################################
-        // TODO: create Output Section
-        FlowPane_VBoxDisplay = new FlowPane();
+
         // ############################################################
 
 
@@ -918,7 +972,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.Holder_TimePreference.getChildren().addAll(Label_inputTime, UI_AddStartTime, UI_addEndingTime, Add_TimePreferences);
 
         // primary node
-        this.HBoxInputTimePreference.getChildren().addAll(Holder_TimePreference);
+        this.HBoxInputTimePreference.getChildren().addAll(Holder_TimePreference, FlowPane_VBoxDisplay);
         // ############################################################
 
     } // InputTimePreference()

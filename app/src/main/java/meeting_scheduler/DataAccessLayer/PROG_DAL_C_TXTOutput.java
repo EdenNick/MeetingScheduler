@@ -118,7 +118,7 @@ public class PROG_DAL_C_TXTOutput {
             
         } catch (IOException e) {
 
-            System.out.println("ERROR - PROG_FILE_TXTOutput - ReadFile() - try/catch error");
+            System.out.println(PROG_DAL_D_SystemMessages.ERROR_ReadFileTryCatch);
             FileText.add(InvalidText);
             return FileText;
 
@@ -171,7 +171,7 @@ public class PROG_DAL_C_TXTOutput {
             
         } catch (Exception e) {
 
-            System.out.println("ERROR - PROG_FILE_TXTOutput - ReadUser() - try/catch error");
+            System.out.println(PROG_DAL_D_SystemMessages.ERROR_ReadUsertryCatch);
             FileText.add(InvalidText);
             return FileText;
 

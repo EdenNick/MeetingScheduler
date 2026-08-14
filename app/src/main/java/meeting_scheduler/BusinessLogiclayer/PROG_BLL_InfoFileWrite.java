@@ -32,6 +32,8 @@ import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+// System Messages
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
 
 
@@ -42,11 +44,11 @@ public class PROG_BLL_InfoFileWrite {
     public  String                              Name;
     public  int                                 Id;
     public  String[]                            Days = new String[6];
-    public  LinkedList<PROG_DAL_A_TimeInput>     TimeIntervals;
-    private PROG_DAL_A_InfoInput                 UserDataCard;
-    private LinkedList<PROG_DAL_A_InfoInput>     AllDataCards;
+    public  LinkedList<PROG_DAL_A_TimeInput>    TimeIntervals;
+    private PROG_DAL_A_InfoInput                UserDataCard;
+    private LinkedList<PROG_DAL_A_InfoInput>    AllDataCards;
 
-    private PROG_DAL_B_JSONManager               JsonfileManager = new PROG_DAL_B_JSONManager();
+    private PROG_DAL_B_JSONManager              JsonfileManager = new PROG_DAL_B_JSONManager();
 
 
     /**
@@ -65,7 +67,7 @@ public class PROG_BLL_InfoFileWrite {
 
         for (PROG_DAL_A_InfoInput Person : AllDataCards) {
             if (id == Person.EmployeeID) {
-                System.out.println("INVALID INPUT - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - id already input");
+                System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoIDInput);
                 return 0;
             }
         }
@@ -75,7 +77,7 @@ public class PROG_BLL_InfoFileWrite {
         if (!name.isBlank()) {
             Name = name;
         } else {
-            System.out.println("Error - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid name, blank or white space");
+            System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidName);
             return 1;
         }
 
@@ -85,7 +87,7 @@ public class PROG_BLL_InfoFileWrite {
         if (id >= -1) {
             Id = id;
         } else {
-            System.out.println("Error - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid id, less than -1");
+            System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidID);
             return 1;
         }
 
@@ -96,7 +98,7 @@ public class PROG_BLL_InfoFileWrite {
             if (!days[day].isBlank()) {
 
             } else {
-                System.out.println("Error - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid Day, String blank at position: " + day);
+                System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidDay + day);
                 return 1;
             }
         }
@@ -117,34 +119,34 @@ public class PROG_BLL_InfoFileWrite {
 
 
             if (Day.isBlank()) {
-                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid interval, missing day at position: " + intervalPosition);
+                System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidInterval + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < BeginHour) || !(BeginHour < 24)) {
-                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid Begin Hour, Hour above or below interval limit at position: " + intervalPosition);
+                System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidStartHour + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < BeginMIN) || !(BeginHour < 60)) {
-                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid Begin Min, Min above or below interval limit at position: " + intervalPosition);
+                System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidStartMin + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < EndHour) || !(EndHour < 24)) {
-                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid End Hour, Hour above or below interval limit at position: " + intervalPosition);
+                System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidEndHour + intervalPosition);
                 return 1;
             }
 
             if (!(-1 < EndMin) || !(EndMin < 60)) {
-                System.out.println("ERROR - PROG_INFO_InfoFileWrite - ReceiveUserInfo() - invalid End Min, Min above or below interval limit at position: " + intervalPosition);
+                System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidEndmin + intervalPosition);
                 return 1;
             }
 
 
         }
 
-        System.out.println("Success - ReceiveUserInfo - All inputs valid");
+        System.out.println(PROG_DAL_D_SystemMessages.PASS_CheckUserInfoValidInputs);
         
         // Assign Data
         //Create USer Data card

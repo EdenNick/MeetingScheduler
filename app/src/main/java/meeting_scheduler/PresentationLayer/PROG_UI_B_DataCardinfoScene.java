@@ -458,9 +458,26 @@ public class PROG_UI_B_DataCardinfoScene {
             // TODO: update size check
             if ( (DataCard_UserTimeInputs.ButtonPressFullTimeInput() == 0) && (List_VBoxTimeInputs.size() < 10) ){
 
-                //
-                PROG_DAL_A_TimeInput TempUserPreferrence = DataCard_UserTimeInputs.Return_FullUserPreference();
-                DataCard_UserTimeInputs.FullUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+                // Temp user preference created for clean seperation of object use
+                PROG_DAL_A_TimeInput TempUserPreferrence = DataCard_UserTimeInputs.Return_FileReadyUserPreference();
+
+                /**
+                 * ############################################################
+                 * PROG_UI_C_UserTimeInput DataCard_UserTimeInputs .FileReadyUserInputGraphic()
+                 * 
+                 * Inputs user preference to be displayed to the user as well as stored for eventual submission to file
+                 * 
+                 * PROG_DAL_A_TimeInput TempUserPreferrence         - individual time preference containing day. start and end times
+                 * 
+                 * LinkedList<PROG_DAL_A_TimeInput> List_UserTimes  - A list of all time preferences a person has. To be submitted to the json file not displayed
+                 * 
+                 * LinkedList<VBox> List_VBoxTimeInputs             - a copied list of all VBoxes stored in the flowpane display. Used to iterate, not to be displayed
+                 * 
+                 * FlowPane FlowPane_VBoxDisplay                    - A flowpane which displays the various Vboxs that hold user preferences. display only
+                 */
+                DataCard_UserTimeInputs.FileReadyUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+                // ############################################################
+
 
                 // garbage Collection
                 TempUserPreferrence = null;
@@ -528,10 +545,18 @@ public class PROG_UI_B_DataCardinfoScene {
                 }
 
 
-                // PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
+                /**
+                 * ############################################################
+                 * LinkedList<PROG_DAL_A_InfoInput> InfoInputPreferences    - full list of all preferences where each index is a persons full preferences
+                 * 
+                 * PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
+                 */
                 InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, this.List_UserTimes));
+                // ############################################################
+
 
                 // testing
+                // TODO: Remove later
                 System.out.println(InfoInputPreferences.size());
                 System.out.println(InfoInputPreferences.getLast().EmployeeMEETINGDAYS);
 
@@ -553,8 +578,9 @@ public class PROG_UI_B_DataCardinfoScene {
                 JsonManager.DiscardCard();
 
                 // clear linkedlist and any other data for a fresh start
-                InfoInputPreferences    = new LinkedList<>();
-        }
+                InfoInputPreferences = new LinkedList<>();
+
+            } // if/else ()
 
         };
         this.ButtonSubmitPref.setOnAction(SubmitInfo);
@@ -587,7 +613,6 @@ public class PROG_UI_B_DataCardinfoScene {
 
                     //removes InputTime from UserTimeInput LinkedList
                     System.out.println("user Input :" + List_UserTimes.size());
-                    // System.out.println("user Input index :" + LinkedListIndex);
                     List_UserTimes.remove(0);
 
                 } // if ()

@@ -19,6 +19,8 @@ import java.util.LinkedList;
 // Javafx
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -51,6 +53,9 @@ public class PROG_UI_C_UserTimeInput {
 
 
 
+    /**
+     * Constructor
+     */
     public PROG_UI_C_UserTimeInput() {
 
         this.Select_AMPM_StartTime  = new ComboBox<>();
@@ -64,40 +69,48 @@ public class PROG_UI_C_UserTimeInput {
 
     }
 
-
+    // Returns the start time AMPM selection ComboBox
     public ComboBox<String> Return_AMPM_StartTime() {
         return this.Select_AMPM_StartTime;
     }
 
+    // Returns the end time AMPM selection ComboBox
     public ComboBox<String> Return_AMPM_EndTime() {
         return this.Select_AMPM_EndTime;
     }
 
+    // Returns the WeekDay selection ComboBox
     public ComboBox<String> Return_WeekDay() {
         return this.Select_WeekDay;
     }
 
+    // Returns start hour input TextField
     public TextField Return_Hour_Begin() {
         return this.Select_Hour_Begin;
     }
 
+    // Returns start minute input TextField
     public TextField Return_Minute_Begin() {
         return this.Select_Minute_Begin;
     }
 
+    // Returns end hour input TextField
     public TextField Return_Hour_End() {
         return this.Select_Hour_End;
     }
 
+    // Returns end minute input TextField
     public TextField Return_Minute_End() {
         return this.Select_Minute_End;
     }
 
-    public PROG_DAL_A_TimeInput Return_FullUserPreference() {
+    // Returns user preferences meant for input into Json File
+    public PROG_DAL_A_TimeInput Return_FileReadyUserPreference() {
         return this.FullUserPreference;
     }
 
-    public PROG_DAL_A_TimeInput Return_PartialUserPreference() {
+    // Returns user preferences meant for Schedule Calculation
+    public PROG_DAL_A_TimeInput Return_TimeUserPreference() {
         return this.PartialUserPreference;
     }
 
@@ -327,7 +340,7 @@ public class PROG_UI_C_UserTimeInput {
      * UserInputGraphicCalculation()
      * Descriiption: manages the visual output of the user submitted data for card info input
      */
-    public void FullUserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay) {
+    public void FileReadyUserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay) {
 
 
 
@@ -457,8 +470,42 @@ public class PROG_UI_C_UserTimeInput {
             DeleteCard
         );
 
-        // add to linked list of preferences
-        List_UserTimes.add(new PROG_DAL_A_TimeInput(Input_UserTime));
+
+        /**
+         * Due to formatting, hours must be adjusted when they are input into the List_UserTimes LinkedList
+         * 
+         * In this case the file format requires weekday so it is input
+         * 
+         * if any of the times are set to PM, the hour should be incremented by + 12, since the object holds military time, and can't differentiate between AM/PM by itself
+         */
+
+        // Variables to be input into List_UserTimes
+        String  NewWeekday  = Input_UserTime.WeekDay;
+        int     NewStartHour;
+        int     NewStartMin = Input_UserTime.PreferedHourBEGIN.getMinute();
+
+        int     NewEndHour;
+        int     NewEndMin   = Input_UserTime.PreferedHourEND.getMinute();
+
+        // if Pm is selected and the time isn't 12, incremented by + 12, else just use the normal time
+        if ( (StartTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourBEGIN.getHour() < 12) ) {
+            NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour() + 12;
+        } else {
+            NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour();
+        }
+
+        // if Pm is selected, incremented by + 12, else just use the normal time
+        if ( (EndTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourEND.getHour() < 12) ){
+            NewEndHour      = Input_UserTime.PreferedHourEND.getHour() + 12;
+        } else {
+            NewEndHour      = Input_UserTime.PreferedHourEND.getHour();
+        }
+
+        // List_UserTimes - list to be sent to the scheduler
+        List_UserTimes.add(new PROG_DAL_A_TimeInput(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
+        
+        // // add to linked list of preferences
+        // List_UserTimes.add(new PROG_DAL_A_TimeInput(Input_UserTime));
         System.out.println("UserTimeInput ammount" + List_UserTimes.size());
 
         // add to linked list Vbox
@@ -519,10 +566,11 @@ public class PROG_UI_C_UserTimeInput {
 
 
     /**
+     * TODO: possible merge with the above code useing a boolean to differentiate
      * UserInputGraphicCalculation()
      * Descriiption: manages the visual output of the user submitted data for card info input
      */
-    public void PartialUserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay) {
+    public void TimeUserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay) {
 
 
 
@@ -537,7 +585,9 @@ public class PROG_UI_C_UserTimeInput {
 
         // VBox creation and preference set
         VBox IndividualDataCard = new VBox();
-        IndividualDataCard.setPrefSize(100.0, 100.0);
+        IndividualDataCard.setPrefSize(120.0, 80.0);
+        IndividualDataCard.setPadding(new Insets(2,2,2,4));
+        IndividualDataCard.getStyleClass().add("UserPreference-box");
 
         // index position
         int Index = (List_UserTimes.size() + 1);
@@ -652,33 +702,47 @@ public class PROG_UI_C_UserTimeInput {
             DeleteCard
         );
 
-        // add to linked list of preferences
-        String  Weekday     = "N/A";
+        IndividualDataCard.setAlignment(Pos.CENTER);
+        
+
+        /**
+         * Due to formatting, hours must be adjusted when they are input into the List_UserTimes LinkedList
+         * 
+         * In this case the scheduler doesn't require a weekdsay so it can be set to N/A
+         * 
+         * if any of the times are set to PM, the hour should be incremented by + 12, since the object holds military time, and can't differentiate between AM/PM by itself
+         */
+
+        // Variables to be input into List_UserTimes
+        String  NewWeekday  = "N/A";
         int     NewStartHour;
         int     NewStartMin = Input_UserTime.PreferedHourBEGIN.getMinute();
 
         int     NewEndHour;
         int     NewEndMin   = Input_UserTime.PreferedHourEND.getMinute();
 
-        if (StartTimeFrame.equals("PM")) {
+        // if Pm is selected and the time isn't 12, incremented by + 12, else just use the normal time
+        if ( (StartTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourBEGIN.getHour() < 12) ) {
             NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour() + 12;
         } else {
             NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour();
         }
 
-        if (EndTimeFrame.equals("PM")) {
+        // if Pm is selected, incremented by + 12, else just use the normal time
+        if ( (EndTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourEND.getHour() < 12) ){
             NewEndHour      = Input_UserTime.PreferedHourEND.getHour() + 12;
         } else {
-            NewEndHour      = Input_UserTime.PreferedHourBEGIN.getHour();
+            NewEndHour      = Input_UserTime.PreferedHourEND.getHour();
         }
 
-        List_UserTimes.add(new PROG_DAL_A_TimeInput(Weekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
+        // List_UserTimes - list to be sent to the scheduler
+        List_UserTimes.add(new PROG_DAL_A_TimeInput(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
         System.out.println("UserTimeInput ammount" + List_UserTimes.size());
 
-        // add to linked list Vbox
+        // List of VBoxes that are displayed in the flowpane, meant for iteration not display
         List_VBoxTimeInputs.add(IndividualDataCard);
 
-        // add vbox to flowpane
+        // Flowpane containing the displayed list of user inputs for the scheduler. meant for display
         FlowPane_VBoxDisplay.getChildren().add(IndividualDataCard);
     
     } // UserInputGraphic()

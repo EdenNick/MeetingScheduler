@@ -318,6 +318,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             
             // Returns to the home page
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Returning to home page");
+            System.out.println("");
 
             fadeMenuNodes.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.MainMenu();
@@ -337,8 +338,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> RESETPEOPLE = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset people to schedule");
+            System.out.println("");
 
-            
             // remove all text from the flowpane
             this.AddedPeople.getChildren().clear();
 
@@ -361,6 +362,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> RESETLISTS = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset number of lists to output");
+            System.out.println("");
 
             this.Label_OutputNumber.setText("");
 
@@ -376,6 +378,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> RESETDAYS = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset days to schedule");
+            System.out.println("");
 
             // Resets the flowPanes current list of selected days to an empty string
             this.OutputDays.getChildren().clear();
@@ -400,6 +403,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> RESETTIMES = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset time input");
+            System.out.println("");
 
             // Reset List_UserTimes - clearing all elements in the Linked list
             this.List_UserTimes.clear();
@@ -443,6 +447,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
             // System Message
             System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
+            System.out.println("");
 
             // ButtonPressPartialTimeInput() ensures all variables have been input, returns 0 on success
             // TODO: check VBox input size
@@ -493,8 +498,66 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> RESETALLPREFERENCES = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reseting all Preferences");
+            System.out.println("");
 
-            // TODO: Add Funcitonality
+            // Reset Selected Names
+            // ############################################################
+            // remove all text from the flowpane
+            this.AddedPeople.getChildren().clear();
+
+            // clear the comboBox of all items
+            this.ComboBoxPersonList.getItems().clear();
+
+            // Reset the comboBox with the full List
+            ComboBoxPersonList.getItems().addAll(PersonList);
+            // ############################################################
+
+
+
+            // Reset List Number
+            // ############################################################
+            this.Label_OutputNumber.setText("");
+            // ############################################################
+
+
+
+            // Reset Days
+            // ############################################################
+            // Resets the flowPanes current list of selected days to an empty string
+            this.OutputDays.getChildren().clear();
+            this.OutputDays.getChildren().add(new Text(""));
+            // Resets the ComboBox Input values to their original state
+            this.userInput_SelectDays.getItems().clear();
+            this.userInput_SelectDays.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
+            // resets the schedule calcualtor to look through everyday of the week
+            ScheduleCalculator.UpdateWeekDays(PROG_UI_D_DataVariables.WEEKDAYS); // input String[]
+            // ############################################################
+
+
+
+            // Reset Times
+            // ############################################################
+            // Reset List_UserTimes - clearing all elements in the Linked list
+            this.List_UserTimes.clear();
+            // Reset List_VBoxTimeInputs
+            // clear all nodes in each Vbox
+            for (VBox vbox : List_VBoxTimeInputs) {
+                vbox.getChildren().clear();
+            }
+            // clear all the elements in the linked list
+            this.List_VBoxTimeInputs.clear();
+            // Reset FlowPane_VBoxDisplay
+            // clear all elements in each node fo the flowpane
+            for (Node node: FlowPane_VBoxDisplay.getChildren()) {
+                if (node instanceof VBox vbox) {
+                    vbox.getChildren().clear();
+                }
+
+            } // for()
+            // Clear all node in the FlowPane
+            FlowPane_VBoxDisplay.getChildren().clear();
+            // ############################################################
+
 
         };
         RESET_ALLPreferences.setOnAction(RESETALLPREFERENCES);
@@ -508,7 +571,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> CALCULATESCHEDULE = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Calculating schedule");
-
+            System.out.println("");
             // TODO: Add Funcitonality
             // RetrieveSchedule
 
@@ -668,6 +731,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> INPUTPeople = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected People");
+            System.out.println("");
 
             
             if ((ComboBoxPersonList.getValue() != null) && (!ComboBoxPersonList.getValue().isBlank())) {
@@ -777,6 +841,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> INPUTNumber = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected Ammount");
+            System.out.println("");
 
             
             if ((userInput_listAmmount.getText() != null) && (!userInput_listAmmount.getText().isBlank())) {
@@ -941,6 +1006,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         EventHandler<ActionEvent> INPUTDAY = (ActionEvent e) -> {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected Day");
+            System.out.println("");
 
             
             if ((userInput_SelectDays.getValue() != null) && (!userInput_SelectDays.getValue().isBlank())) {

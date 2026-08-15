@@ -57,8 +57,8 @@ public class PROG_DAL_D_SystemMessages {
     // PROG_BLL_SchedulingCalculation.java
     public static final String ERROR_CalculateSchedulePeopleSet     = "ERROR  - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - PeopleSet is false.";
     public static final String ERROR_CalculateScheduleBoolean       = "ERROR  - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - if/else loop UserTimes not true or false";
-    public static final String INFO_CalculateScheduleNoTimePref     = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Specifc time preference NOT set.";
-    public static final String INFO_CalculateScheduleTimePref       = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Specifc time preference set.";
+    public static final String INFO_CalculateScheduleStartCalc      = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Scheduling Calculation has started";
+    public static final String INFO_CalculateScheduleTimePref       = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Specifc time preference set: ";
     public static final String INFO_CalculateSchedulePersonDay      = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Persons preference Matches Day, ID: ";
     public static final String INFO_CalculateScheduleIDAdded        = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - A ID was successfully added to Calc_AvailableIDs";
     public static final String PASS_CalculateScheduleCompleteCalc   = "PASS   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Complete Schedule Calculation.";

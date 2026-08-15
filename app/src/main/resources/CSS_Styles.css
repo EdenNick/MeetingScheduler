@@ -26,8 +26,18 @@
 }
 
 .UserPreference-box {
-        -fx-background-color: white;
-        -fx-border-color: Black;
-        -fx-border-width: 2;
-        -fx-border-radius: 5;
+    -fx-background-color: white;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+.flowBox-names {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+
 }

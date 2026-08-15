@@ -11,6 +11,7 @@
 // ############################################################
 package meeting_scheduler.PresentationLayer;
 
+import java.io.IOException;
 // Imports
 // ############################################################
 import java.util.Arrays;
@@ -56,6 +57,7 @@ import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 // ############################################################
 
 
@@ -85,6 +87,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private ScrollPane  UIInterfaceNode;
     //flowPane
     private FlowPane    OutputDays;
+    private FlowPane    AddedPeople;
     // VBox
     private VBox        VboxUIHolder;
     // HBox
@@ -103,6 +106,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private VBox        Holder_ListPeople;
     private VBox        Holder_Calculate;
     private VBox        Holder_ListOutput;
+    private VBox        Output_ListPeople;
     // Buttons
     private Button      ReturnToMenu;
     private Button      RESET_People;
@@ -114,6 +118,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private Button      Input_SelectedDay;
     private Button      Add_TimePreferences;
     private Button      Input_SelectedNumber;
+    private Button      Input_SelectedPeople;
     // labels
     private Label       Label_inputDay;
     private Label       Label_OutputDay;
@@ -131,6 +136,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private TextField   userInput_listAmmount;
     // combo box
     private ComboBox<String>    userInput_SelectDays;
+    private ComboBox<String>    ComboBoxPersonList;
     // ############################################################
 
 
@@ -140,6 +146,8 @@ public class PROG_UI_B_SchedulePeopleScene {
     private final PROG_BLL_SchedulingCalculation    ScheduleCalculator;
     // User Time Input manager
     private final PROG_UI_C_UserTimeInput           Scheduler_UserTimeInputs;
+    // Json File
+    private final PROG_DAL_B_JSONManager            Scheduler_fileReader;
     // ############################################################
     
 
@@ -155,6 +163,13 @@ public class PROG_UI_B_SchedulePeopleScene {
 
     private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;   // linked list contianing a persons full info to be sent to the json file
     // ############################################################
+
+    // File User Info
+    // ############################################################
+    private LinkedList<PROG_DAL_A_InfoInput>    FileUserInfo;
+    private LinkedList<String>                  PersonList;
+    // ############################################################
+
 
 
     // Calculated Schedules
@@ -172,6 +187,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.ScheduleCalculator = new PROG_BLL_SchedulingCalculation();
 
         this.Scheduler_UserTimeInputs = new PROG_UI_C_UserTimeInput();
+
+        this.Scheduler_fileReader = new PROG_DAL_B_JSONManager();
     }
 
 
@@ -321,7 +338,16 @@ public class PROG_UI_B_SchedulePeopleScene {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset people to schedule");
 
-            // TODO: Add Funcitonality
+            
+            // remove all text from the flowpane
+            this.AddedPeople.getChildren().clear();
+
+            // clear the comboBox of all items
+            this.ComboBoxPersonList.getItems().clear();
+
+            // Reset the comboBox with the full List
+            ComboBoxPersonList.getItems().addAll(PersonList);
+
 
         };
         RESET_People.setOnAction(RESETPEOPLE);
@@ -375,7 +401,33 @@ public class PROG_UI_B_SchedulePeopleScene {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset time input");
 
-            // TODO: Add Funcitonality
+            // Reset List_UserTimes - clearing all elements in the Linked list
+            this.List_UserTimes.clear();
+
+            // Reset List_VBoxTimeInputs
+
+            // clear all nodes in each Vbox
+            for (VBox vbox : List_VBoxTimeInputs) {
+                vbox.getChildren().clear();
+            }
+
+            // clear all the elements in the linked list
+            this.List_VBoxTimeInputs.clear();
+
+            // Reset FlowPane_VBoxDisplay
+            
+            // clear all elements in each node fo the flowpane
+            for (Node node: FlowPane_VBoxDisplay.getChildren()) {
+                if (node instanceof VBox vbox) {
+                    vbox.getChildren().clear();
+                }
+
+            } // for()
+
+            // Clear all node in the FlowPane
+            FlowPane_VBoxDisplay.getChildren().clear();
+
+
 
         };
         RESET_TimeInput.setOnAction(RESETTIMES);
@@ -430,9 +482,10 @@ public class PROG_UI_B_SchedulePeopleScene {
             }
 
         };
-
         this.Add_TimePreferences.setOnAction(AddTimeInfo);
         // ############################################################
+
+
 
         // Reset all preferences
         // ############################################################
@@ -556,33 +609,102 @@ public class PROG_UI_B_SchedulePeopleScene {
      */
     private void InputPeople() {
 
-        // Create new HBox
+        // Node Creation
+        // ############################################################
+        // Primary Node
         this.HBoxInputPeople = new HBox(10);
         this.HBoxInputPeople.getStyleClass().add("UserPreference-box");
         this.HBoxInputPeople.setPrefSize(600.0, 100.0);
         this.HBoxInputPeople.setPadding(new Insets(10));
+        // Secondary Node - Input
+        this.Holder_ListPeople = new VBox(10);
+        // Secodnary Node - output
+        this.Output_ListPeople = new VBox(2);
+        this.AddedPeople = new FlowPane();
+        this.AddedPeople.setPrefSize(600.0, 100.0);
+        this.AddedPeople.getStyleClass().add("flowBox-names");
+        this.AddedPeople.setPadding(new Insets(2));
+        this.AddedPeople.setHgap(5.0);
+        this.AddedPeople.setVgap(2.0);
+        // ############################################################
 
 
 
-        // TODO: create interface
+        // Input
+        // ############################################################
+        Label Label_inputPeople = new Label("Input the people to schedule");
+        Label_inputPeople.getStyleClass().add("default-label");
+
+        // comboBox to display the names
+        ComboBoxPersonList = new ComboBox<>();
+
 
         // button to update list
         // scroll through people in the file (id + name)
 
         // clicking a person adds them to a seperate scroll list that they can also be taken off of
+        try {
+            Scheduler_fileReader.RetrieveFromFile();
+        } catch (IOException e) {
+            // ERROR
+            e.printStackTrace();
+        }
 
-
-
-        // VBox for formatting
-        Holder_ListPeople = new VBox(10);
-        Label Label_inputPeople = new Label("Input the people to schedule");
-        Label_inputPeople.getStyleClass().add("default-label");
-
-        this.Holder_ListPeople.getChildren().addAll(Label_inputPeople);
+        // Full list of all Datacards in the file
+        FileUserInfo = new LinkedList<>(Scheduler_fileReader.ReturnFile());
         
-        
-        // Add to HBox Node
-        this.HBoxInputPeople.getChildren().addAll(Holder_ListPeople);
+        // LinkedList of all people in the file showing both ID and full name
+        this.PersonList = new LinkedList<>();
+
+        for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
+            PersonList.add("| ID: " + FilePerson.EmployeeID + " Name: " + FilePerson.EmployeeName + " |");
+        }
+
+        // add list to combobox
+        ComboBoxPersonList.getItems().addAll(PersonList);
+
+        // Button
+        Input_SelectedPeople = new Button("Input Selected Ammount");
+        EventHandler<ActionEvent> INPUTPeople = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected People");
+
+            
+            if ((ComboBoxPersonList.getValue() != null) && (!ComboBoxPersonList.getValue().isBlank())) {
+
+                System.out.println("Check");
+
+                String SelectedPerson = ComboBoxPersonList.getValue();
+
+                ComboBoxPersonList.getItems().remove(SelectedPerson);
+
+                AddedPeople.getChildren().add(new Text(SelectedPerson));
+
+            } // if()
+
+
+        };
+        Input_SelectedPeople.setOnAction(INPUTPeople);
+        // ############################################################
+
+
+
+        // Output
+        // ############################################################
+        Label       addedPeopleLabel = new Label("Selected People to Schedule");
+        // ############################################################
+
+
+
+        // Add all to the nodes
+        // ############################################################
+        // Secondary Node - output
+        this.Output_ListPeople.getChildren().addAll(addedPeopleLabel, AddedPeople);
+        // Secondary Node - Input
+        this.Holder_ListPeople.getChildren().addAll(Label_inputPeople, ComboBoxPersonList, Input_SelectedPeople);
+        // Primary Node
+        this.HBoxInputPeople.getChildren().addAll(Holder_ListPeople, Output_ListPeople);
+        // ############################################################
 
     } // InputPeople()
 

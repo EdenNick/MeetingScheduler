@@ -10,10 +10,15 @@
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.PresentationLayer;
+// ############################################################
 
 
+
+// Imports
+// ############################################################
+// util
 import java.util.LinkedList;
-
+// javafx
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -35,8 +40,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+// Data Managing Objects
 import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
-
+// System messages
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+// ############################################################
 
 
 
@@ -44,7 +52,7 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
 public class PROG_UI_B_InstructionsScene {
     
     // file reader
-    PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput("/PROG_UI_D_Instructions.txt");
+    PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput(PROG_UI_D_DataVariables.DOC_Instructions);
 
     LinkedList<String> InstructionFileText;
     
@@ -121,7 +129,7 @@ public class PROG_UI_B_InstructionsScene {
         RootNode = new AnchorPane();
 
         // Import styles
-        RootNode.getStylesheets().add(getClass().getResource("/CSS_Styles.css").toExternalForm());
+        RootNode.getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
 
         /// Button Creation
         ButtonCreation();
@@ -165,15 +173,6 @@ public class PROG_UI_B_InstructionsScene {
         double ScrollPanHeight = PROG_UI_A_SceneManager.WindowHeight / 1.5;
         this.instructionScrollPane.setPrefWidth(ScrollPaneWidth);
         this.instructionScrollPane.setPrefHeight(ScrollPanHeight);
-
-
-        // this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
-        //     instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
-        // });
-
-        // this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
-        //     instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
-        // });
 
 
 
@@ -230,7 +229,7 @@ public class PROG_UI_B_InstructionsScene {
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
             // Exits the program
-            System.out.println("BUTTON CLICK    - INSTRUCTION PAGE  - Returning to home page");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Instruction_returnHome);
 
             fadeMenuNodes.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.MainMenu();

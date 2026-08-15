@@ -31,6 +31,7 @@ public class PROG_DAL_D_SystemMessages {
     public static final String ERROR_DeleteDataCheckState           = "ERROR - PROG_DAL_C_TXTInput              - DeleteData()          - Check state failed";
     public static final String ERROR_DeleteDataFileReadWrite        = "ERROR - PROG_DAL_C_TXTInput              - DeleteData()          - try/catch error";
     public static final String ERROR_OrganizeDataCheckState         = "ERROR - PROG_DAL_C_TXTInput              - OrganizeData()        - Check state failed";
+    public static final String ERROR_OrganizeDataTRYCATCH           = "ERROR - PROG_DAL_C_TXTInput              - OrganizeData()        - try/catch error file read";
 
     // PROG_DAL_C_TXTOutput.java
     public static final String ERROR_ReadFileTryCatch               = "ERROR - PROG_DAL_C_TXTOutput             - ReadFile()            - try/catch error";
@@ -42,29 +43,51 @@ public class PROG_DAL_D_SystemMessages {
     // Business Logic Layer
     // ############################################################
     // PROG_INFO_InfoFileWrite.java
-    public static final String ERROR_CheckUserInfoIDInput           = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - id already input";
-    public static final String ERROR_CheckUserInfoInvalidName       = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid name, blank or white space";
-    public static final String ERROR_CheckUserInfoInvalidID         = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid id, less than -1";
-    public static final String ERROR_CheckUserInfoInvalidDay        = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid Day, String blank at position: ";
-    public static final String ERROR_CheckUserInfoInvalidInterval   = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid interval, missing day at position: ";
-    public static final String ERROR_CheckUserInfoInvalidStartHour  = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid Begin Hour, Hour above or below interval limit at position: ";
-    public static final String ERROR_CheckUserInfoInvalidStartMin   = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid Begin Min, Min above or below interval limit at position: ";
-    public static final String ERROR_CheckUserInfoInvalidEndHour    = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid End Hour, Hour above or below interval limit at position: ";
-    public static final String ERROR_CheckUserInfoInvalidEndmin     = "ERROR - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - invalid End Min, Min above or below interval limit at position: ";
-    public static final String PASS_CheckUserInfoValidInputs        = "PASS  - PROG_BLL_InfoFileWrite           - CheckUserInfo()       - All inputs valid";
+    public static final String ERROR_CheckUserInfoIDInput           = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - id already input";
+    public static final String ERROR_CheckUserInfoInvalidName       = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid name, blank or white space";
+    public static final String ERROR_CheckUserInfoInvalidID         = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid id, less than -1";
+    public static final String ERROR_CheckUserInfoInvalidDay        = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid Day, String blank at position: ";
+    public static final String ERROR_CheckUserInfoInvalidInterval   = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid interval, missing day at position: ";
+    public static final String ERROR_CheckUserInfoInvalidStartHour  = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid Begin Hour, Hour above or below interval limit at position: ";
+    public static final String ERROR_CheckUserInfoInvalidStartMin   = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid Begin Min, Min above or below interval limit at position: ";
+    public static final String ERROR_CheckUserInfoInvalidEndHour    = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid End Hour, Hour above or below interval limit at position: ";
+    public static final String ERROR_CheckUserInfoInvalidEndmin     = "ERROR  - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - invalid End Min, Min above or below interval limit at position: ";
+    public static final String PASS_CheckUserInfoValidInputs        = "PASS   - PROG_BLL_InfoFileWrite          - CheckUserInfo()       - All inputs valid";
 
     // PROG_BLL_SchedulingCalculation.java
-    public static final String ERROR_CalculateSchedulePeopleSet     = "ERROR - PROG_BLL_SchedulingCalculation   - CalculateSchedule()   - PeopleSet is false.";
-    public static final String ERROR_CalculateScheduleBoolean       = "ERROR - PROG_BLL_SchedulingCalculation   - CalculateSchedule()   - if/else loop UserTimes not true or false";
-    public static final String INFO_CalculateScheduleNoTimePref     = "INFO  - PROG_BLL_SchedulingCalculation   - CalculateSchedule()   - Specifc time preference NOT set.";
-    public static final String INFO_CalculateScheduleTimePref       = "INFO  - PROG_BLL_SchedulingCalculation   - CalculateSchedule()   - Specifc time preference set.";
-    public static final String INFO_CalculateSchedulePersonDay      = "INFO  - PROG_BLL_SchedulingCalculation   - CalculateSchedule()   - Persons preference Matches Day, ID: ";
-    public static final String INFO_CalculateScheduleIDAdded        = "INFO  - PROG_BLL_SchedulingCalculation   - CalculateSchedule()   - A ID was successfully added to Calc_AvailableIDs";
-    public static final String PASS_CalculateScheduleCompleteCalc   = "PASS  - PROG_BLL_SchedulingCalculation   - CalculateSchedule()   - Complete Schedule Calculation.";
+    public static final String ERROR_CalculateSchedulePeopleSet     = "ERROR  - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - PeopleSet is false.";
+    public static final String ERROR_CalculateScheduleBoolean       = "ERROR  - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - if/else loop UserTimes not true or false";
+    public static final String INFO_CalculateScheduleNoTimePref     = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Specifc time preference NOT set.";
+    public static final String INFO_CalculateScheduleTimePref       = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Specifc time preference set.";
+    public static final String INFO_CalculateSchedulePersonDay      = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Persons preference Matches Day, ID: ";
+    public static final String INFO_CalculateScheduleIDAdded        = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - A ID was successfully added to Calc_AvailableIDs";
+    public static final String PASS_CalculateScheduleCompleteCalc   = "PASS   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Complete Schedule Calculation.";
     // ############################################################
 
 
 
+    // Application Layer
+    // ############################################################
+    // PROG_UI_B_DataCardinfoScene.java
+    public static final String BUTTON_DataCard_returnHome           = "BUTTON - PROG_UI_B_DataCardinfoScene     - CARD MANAGER PAGE     - Return to home page";
+    public static final String BUTTON_DataCard_AddInfo              = "BUTTON - PROG_UI_B_DataCardinfoScene     - CARD MANAGER PAGE     - Add User Info";
+    public static final String BUTTON_DataCard_SubmitInfo           = "BUTTON - PROG_UI_B_DataCardinfoScene     - CARD MANAGER PAGE     - Submit User Info";
+    public static final String INFO_DataCard_InvalidName            = "INFO   - PROG_UI_B_DataCardinfoScene     - CARD MANAGER PAGE     - user has not submitted a valid name";
+    public static final String INFO_DataCard_InvalidID              = "INFO   - PROG_UI_B_DataCardinfoScene     - CARD MANAGER PAGE     - user has not submitted a valid ID";
+    public static final String INFO_DataCard_InvalidTimes           = "INFO   - PROG_UI_B_DataCardinfoScene     - CARD MANAGER PAGE     - user has not submitted valid user times";
+    // PROG_UI_B_InstructionsScene.java
+    public static final String BUTTON_Instruction_returnHome        = "BUTTON - PROG_UI_B_InstructionsScene     - INSTRUCTION PAGE      - Returning to home page";
+    // PROG_UI_B_MainMenuScene.java
+    public static final String BUTTON_MainMenu_end                  = "BUTTON - PROG_UI_B_MainMenuScene         - MAIN MENU             - Program Ending";
+    public static final String BUTTON_MainMenu_ToDataCard           = "BUTTON - PROG_UI_B_MainMenuScene         - MAIN MENU             - Scene changing to datacard management";
+    public static final String BUTTON_MainMenu_ToSchedule           = "BUTTON - PROG_UI_B_MainMenuScene         - MAIN MENU             - Scene changing to schedule management";
+    public static final String BUTTON_MainMenu_ToInstructions       = "BUTTON - PROG_UI_B_MainMenuScene         - MAIN MENU             - Scene changing to Instructions";
+    // PROG_UI_B_SchedulePeopleScene
+
+    // ############################################################
+
+
+    
     private PROG_DAL_D_SystemMessages() {
         // Do nothing
     }

@@ -25,6 +25,8 @@ import java.nio.file.StandardOpenOption;
 // Util
 import java.util.ArrayList;
 import java.util.List;
+// System Data
+import meeting_scheduler.PresentationLayer.PROG_UI_D_DataVariables;
 // ############################################################
 
 
@@ -32,7 +34,7 @@ import java.util.List;
 public class PROG_DAL_C_TXTInput {
 
     static Path     FilePath;
-    static Path     TemporaryFilePath = Paths.get("src\\PROG_DATA_TempFile.txt");
+    static Path     TemporaryFilePath = Paths.get(PROG_UI_D_DataVariables.TXT_InputTempFile);
     static boolean  Locked = false;
 
 
@@ -232,7 +234,7 @@ public class PROG_DAL_C_TXTInput {
 
         } catch (IOException e) {
 
-            System.out.println("ERROR - PROG_FILE_TXTInput - OrganizeData() - try/catch error");
+            System.out.println(PROG_DAL_D_SystemMessages.ERROR_OrganizeDataTRYCATCH);
             return 1;
 
         }

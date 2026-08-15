@@ -53,6 +53,8 @@ import javafx.util.Duration;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+// System Messages
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // exceptions
 import java.io.IOException;
 // ############################################################
@@ -139,15 +141,12 @@ public class PROG_UI_B_DataCardinfoScene {
      */
     public PROG_UI_B_DataCardinfoScene(Stage stage) {
         
-        this.ApplicationStage = stage;
+        this.ApplicationStage           = stage;
+        this.List_UserTimes             = new LinkedList<>();
+        this.InfoInputPreferences       = new LinkedList<>();
+        this.JsonManager                = new PROG_DAL_B_JSONManager();
+        this.DataCard_UserTimeInputs    = new PROG_UI_C_UserTimeInput();
 
-        this.List_UserTimes = new LinkedList<>();
-
-        this.InfoInputPreferences = new LinkedList<>();
-
-        this.JsonManager = new PROG_DAL_B_JSONManager();
-
-        this.DataCard_UserTimeInputs = new PROG_UI_C_UserTimeInput();
     }
 
 
@@ -190,7 +189,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.RootNode = new AnchorPane();
         
         // loads css styles
-        RootNode.getStylesheets().add(getClass().getResource("/CSS_Styles.css").toExternalForm());
+        RootNode.getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
 
 
         // Creates Buttons for this scene
@@ -430,7 +429,7 @@ public class PROG_UI_B_DataCardinfoScene {
         EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
             
             // Exits the program
-            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Returning to home page");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_returnHome);
             
             fadeMenuNodes.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.MainMenu();
@@ -452,7 +451,7 @@ public class PROG_UI_B_DataCardinfoScene {
         EventHandler<ActionEvent> AddInfo = (ActionEvent e) -> {
 
             // System Message
-            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_AddInfo);
 
             // checks to ensure all variables are input
             // TODO: update size check
@@ -500,20 +499,20 @@ public class PROG_UI_B_DataCardinfoScene {
         EventHandler<ActionEvent> SubmitInfo = (ActionEvent e) -> {
             
             // Submits USer info
-            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Submit User Info");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_SubmitInfo);
 
             // collect all info into the relvant linkedlist
             if          (userInput_EmployeeName .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
-                System.out.println("user has not submitted a valid name");
+                System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidName);
 
             } else if   (userInput_EmployeeID   .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
-                System.out.println("user has not submitted a valid ID");
+                System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidID);
 
             } else if   (List_UserTimes         .size() < 1)                { // Do nothing
                 // user has not submitted valid user times
-                System.out.println("user has not submitted valid user times");
+                System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidTimes);
 
             } else {
 
@@ -714,7 +713,7 @@ public class PROG_UI_B_DataCardinfoScene {
         // Name Input
         // ############################################################
         this.userInput_EmployeeName = new TextField();
-        this.userInput_EmployeeName.setPromptText("Enter Full Name");
+        this.userInput_EmployeeName.setPromptText(PROG_UI_D_DataVariables.Prompt_Name2);
         this.userInput_EmployeeName.setPrefSize(50, 25.0);
         // ############################################################
 
@@ -723,7 +722,7 @@ public class PROG_UI_B_DataCardinfoScene {
         // Enter ID Input
         // ############################################################
         this.userInput_EmployeeID = new TextField();
-        this.userInput_EmployeeID.setPromptText("Enter ID");
+        this.userInput_EmployeeID.setPromptText(PROG_UI_D_DataVariables.Prompt_ID2);
         this.userInput_EmployeeID.setPrefSize(50, 25.0);
         this.userInput_EmployeeID.setTextFormatter(new TextFormatter<>(change -> {
             

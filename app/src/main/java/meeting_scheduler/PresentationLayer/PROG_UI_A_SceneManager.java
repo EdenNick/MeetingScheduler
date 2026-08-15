@@ -50,8 +50,8 @@ public class PROG_UI_A_SceneManager {
         Instructions    = new PROG_UI_B_InstructionsScene(ApplicationStage);
 
         // Default Window width and height values
-        PROG_UI_A_SceneManager.WindowWidth     = 900;
-        PROG_UI_A_SceneManager.WindowHeight    = 700;
+        PROG_UI_A_SceneManager.WindowWidth     = PROG_UI_D_DataVariables.WindowStartWidth;
+        PROG_UI_A_SceneManager.WindowHeight    = PROG_UI_D_DataVariables.WindowStartHeight;
 
     }
 

@@ -44,7 +44,7 @@ public class MeetingScheduler {
 
             //FULL_TEST.FullTest();
 
-            File file = new File("src\\main\\resources\\PROG_DATA_A_JsonTestFile.json");
+            File file = new File(PROG_UI_D_DataVariables.JSON_TestFile);
 
             System.out.println(file.getAbsolutePath());
             System.out.println(file.getParentFile().exists());

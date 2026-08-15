@@ -28,6 +28,8 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+// System Data
+import meeting_scheduler.PresentationLayer.PROG_UI_D_DataVariables;
 // ############################################################
 
 
@@ -38,7 +40,7 @@ public class PROG_DAL_B_JSONManager {
     // Class parameters
     // ############################################################
     // File path
-    private static final File PROG_DATA_UserDataCard = new File("src\\main\\resources\\PROG_DATA_A_UserDataCard.json");
+    private static final File PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_UserDataCard);
 
     // read/write to json file
     private ObjectMapper JsonObjectMapper;
@@ -54,7 +56,7 @@ public class PROG_DAL_B_JSONManager {
     private ListIterator<PROG_DAL_A_InfoInput>  IncomingCardIterator;
 
     // arrays
-    private final   String[] Weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private final   String[] Weekdays = PROG_UI_D_DataVariables.WEEKDAYS.clone();
     private         String[] tempDays;
 
     // boolean
@@ -67,7 +69,7 @@ public class PROG_DAL_B_JSONManager {
     // Testing parameters
     // ############################################################
     // file path
-    private static final File TestFile = new File("src\\main\\resources\\PROG_DATA_A_JsonTestFile.json");
+    private static final File TestFile = new File(PROG_UI_D_DataVariables.JSON_TestFile);
 
     private static  String                              TestName                = "John Smith";
     private static  int                                 TestID                  = 1;

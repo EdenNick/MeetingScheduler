@@ -33,6 +33,8 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+// System Messages
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
 
 
@@ -180,7 +182,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> closeProgram = (ActionEvent e) -> {
             
             // Exits the program
-            System.out.println("BUTTON CLICK    - MAIN MENU         - Program Ending");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_end);
             
             fadeMenuNodes.setOnFinished(event -> {
                 Platform.exit();
@@ -200,7 +202,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> DatacardScenechange = (ActionEvent e) -> {
             
             // changes scene to data card management
-            System.out.println("BUTTON CLICK    - MAIN MENU         - Scene changing to datacard management");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToDataCard);
 
             fadeMenuNodes.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.DataCardManage();
@@ -220,7 +222,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> ScheduleSceneChange = (ActionEvent e) -> {
             
             // Chnages the scene to schedule managment
-            System.out.println("BUTTON CLICK    - MAIN MENU         - Scene changing to schedule management");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToSchedule);
 
             fadeMenuNodes.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.Schedule();
@@ -239,7 +241,7 @@ public class PROG_UI_B_MainMenuScene {
         EventHandler<ActionEvent> InstructionSceneChange = (ActionEvent e) -> {
             
             // Chnages the scene to schedule managment
-            System.out.println("BUTTON CLICK    - MAIN MENU         - Scene changing to Instructions");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToInstructions);
 
             fadeMenuNodes.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.Instructions();

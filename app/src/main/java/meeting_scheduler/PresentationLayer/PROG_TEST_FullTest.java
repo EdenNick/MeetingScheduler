@@ -57,11 +57,11 @@ public class PROG_TEST_FullTest {
     /**
      * Testing Parameters
      */
-    static String                           TestName = "John Smith";
-    static int                              TestID = 1;
-    static String[]                         TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static LinkedList<PROG_DAL_A_TimeInput>  TestTimeInterval = new LinkedList<>();
-    PROG_DAL_A_InfoInput                     staticInfo;
+    static  String                              TestName                = "John Smith";
+    static  int                                 TestID                  = 1;
+    static  String[]                            TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
+    static  LinkedList<PROG_DAL_A_TimeInput>    TestTimeInterval        = new LinkedList<>();
+    private PROG_DAL_A_InfoInput                staticInfo;
 
 
     // Constructor - Fills objects with parameters for testing

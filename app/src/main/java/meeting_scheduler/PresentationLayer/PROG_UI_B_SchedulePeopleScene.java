@@ -471,7 +471,7 @@ public class PROG_UI_B_SchedulePeopleScene {
                  * 
                  * FlowPane FlowPane_VBoxDisplay                    - A flowpane which displays the various Vboxs that hold user preferences. display only
                  */
-                Scheduler_UserTimeInputs.TimeUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+                Scheduler_UserTimeInputs.UserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay, false);
                 // ############################################################
 
 
@@ -572,10 +572,6 @@ public class PROG_UI_B_SchedulePeopleScene {
             
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Calculating schedule");
             System.out.println("");
-            // TODO: Add Funcitonality
-            // RetrieveSchedule
-
-
 
             // retrieved copy of calculated linked list
             CalculatedScheduleList = new LinkedList<>(ScheduleCalculator.RetrieveSchedule());
@@ -862,7 +858,6 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Output
         // ############################################################
-        // TODO: possibly add label which displays number
         Label_AmmountOutput = new Label("Ammount of schedules to be displayed");
 
         // Stores the Ammount input variable
@@ -1231,6 +1226,16 @@ public class PROG_UI_B_SchedulePeopleScene {
     private void SchedulingDisplay() {
 
         // TODO: create Display
+
+
+        // scroll pane
+
+        // for each schedule
+
+        // schedule should be a rectanglar box containg from left to right
+        // - full list boolean - day - time frame - list of people
+
+        
 
     } // SchedulingDisplay()
 

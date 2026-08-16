@@ -260,22 +260,22 @@ public class PROG_UI_B_DataCardinfoScene {
 
 
 
-    /**
-     * UserInputGraphic()
-     * Descriiption: manages the visual output of the user submitted data.
-     */
-    private void UserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime) {
+    // /**
+    //  * UserInputGraphic()
+    //  * Descriiption: manages the visual output of the user submitted data.
+    //  */
+    // private void UserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime) {
 
-        // TODO: remove later
-        // // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
+    //     // TODO: remove later
+    //     // // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
 
-        // // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
+    //     // // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
 
-        // // VBOXUserPreferences  -   List of each VBox that holds a time     -   private LinkedList<VBox>                    VBOXUserPreferences;
+    //     // // VBOXUserPreferences  -   List of each VBox that holds a time     -   private LinkedList<VBox>                    VBOXUserPreferences;
 
-        // // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
+    //     // // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
 
-    } // UserInputGraphic
+    // } // UserInputGraphic
 
 
 
@@ -474,7 +474,7 @@ public class PROG_UI_B_DataCardinfoScene {
                  * 
                  * FlowPane FlowPane_VBoxDisplay                    - A flowpane which displays the various Vboxs that hold user preferences. display only
                  */
-                DataCard_UserTimeInputs.FileReadyUserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay);
+                DataCard_UserTimeInputs.UserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay, true);
                 // ############################################################
 
 

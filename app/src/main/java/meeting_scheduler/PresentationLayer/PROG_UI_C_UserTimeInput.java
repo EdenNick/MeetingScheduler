@@ -31,6 +31,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 // ############################################################
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 
 
 
@@ -289,41 +290,41 @@ public class PROG_UI_C_UserTimeInput {
      */
     public int ButtonPressFullTimeInput() {
 
-        if (Select_WeekDay.getValue() == null)  { // Do nothing
+        if (Select_WeekDay.getValue() == null)  {               // Error Return
             // user has not submitted a weekday
-            System.out.println("user has not submitted a weekday");
+            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_weekday);
             return 1;
 
-        } else if (Select_Hour_Begin.getText().isBlank())   { // Do nothing
+        } else if (Select_Hour_Begin.getText().isBlank())   {   // Error Return
             // user has not submitted a beginning hour
-            System.out.println("user has not submitted a beginning hour");
+            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartHour);
             return 1;
 
-        } else if (Select_Minute_Begin.getText().isBlank())   { // Do nothing
+        } else if (Select_Minute_Begin.getText().isBlank()) {   // Error Return
             // user has not submitted a beginning minute
-            System.out.println("user has not submitted a beginning minute");
+            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartMin);
             return 1;
 
-        } else if (Select_Hour_End.getText().isBlank())   { // Do nothing
+        } else if (Select_Hour_End.getText().isBlank())     {   // Error Return
             // user has not submitted a ending hour
-            System.out.println("user has not submitted a ending hour");
+            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndHour);
             return 1;
 
-        } else if (Select_Minute_End.getText().isBlank())   { // Do nothing
+        } else if (Select_Minute_End.getText().isBlank())   {   // Error Return
             // user has not submitted a ending minute
-            System.out.println("user has not submitted a ending minute");
+            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndMin);
             return 1;
 
-        } else {
+        } else {                                                // No Error return
 
             // Correct info has been submitted
-            System.out.println("Correct info has been submitted");
+            System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
 
             String  WeekDay     = Select_WeekDay.getValue();
-            int     BeginHour   = Integer.parseInt(Select_Hour_Begin.getText());
-            int     BeginMinute = Integer.parseInt(Select_Minute_Begin.getText());
-            int     EndHour     = Integer.parseInt(Select_Hour_End.getText());
-            int     EndMinute   = Integer.parseInt(Select_Minute_End.getText());
+            int     BeginHour   = Integer.parseInt(Select_Hour_Begin    .getText());
+            int     BeginMinute = Integer.parseInt(Select_Minute_Begin  .getText());
+            int     EndHour     = Integer.parseInt(Select_Hour_End      .getText());
+            int     EndMinute   = Integer.parseInt(Select_Minute_End    .getText());
 
             // new user preference
             this.FullUserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
@@ -340,23 +341,30 @@ public class PROG_UI_C_UserTimeInput {
      * UserInputGraphicCalculation()
      * Descriiption: manages the visual output of the user submitted data for card info input
      */
-    public void FileReadyUserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay) {
+    public void UserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay, boolean FullInput) {
 
 
+        // PROG_DAL_A_TimeInput Input_UserTime              - Input time being processed and formatted correctly
 
-        // PROG_DAL_A_TimeInput InputTime                   - Input time being processed and formatted correctly
+        // LinkedList<PROG_DAL_A_TimeInput> List_UserTimes  - holds the preferred times of each user
 
-        // LinkedList<PROG_DAL_A_TimeInput> UserTimeInput   - holds the preferred times of each user
+        // LinkedList<VBox> List_VBoxTimeInputs             - holds a list of vboxes containing user time preferences, used only to iterate over the vboxes safely
 
-        // LinkedList<VBox> VBOXUserPreferences             - holds a list of vboxes containing user time preferences, used only to iterate over the vboxes safely
+        // FlowPane FlowPane_VBoxDisplay                    - The flowpane that holds the vboxes that will actually be displayed, should contain the same vboxes that VBOXUserPreferences has
+        
+        // boolean FullInput                                - boolean for if the weekday needs to be input or not, true for datacard info, false for scheduling
 
-        // FlowPane userInputGraphic                        - The flowpane that holds the vboxes that will actually be displayed, should contain the same vboxes that VBOXUserPreferences has
 
 
         // VBox creation and preference set
+        // ############################################################
         VBox IndividualDataCard = new VBox();
         IndividualDataCard.setPrefSize(100.0, 100.0);
+        // ############################################################
 
+
+        // VBox data variable creation
+        // ############################################################
         // index position
         int Index = (List_UserTimes.size() + 1);
 
@@ -370,23 +378,27 @@ public class PROG_UI_C_UserTimeInput {
         int     EndHour         = Input_UserTime.PreferedHourEND.getHour();
         String  EndMin          = Integer.toString(Input_UserTime.PreferedHourEND.getMinute());
 
-        // Add a leading zero to the start of the minute input if it is less than 10
-        if (Integer.parseInt(startMin) < 10) {
+        // Add a leading zero to the start of the minute inputs if it is less than 10
+        if (Integer.parseInt(startMin)  < 10) {
             startMin = "0" + startMin;
         }
 
-        if (Integer.parseInt(EndMin) < 10) {
+        if (Integer.parseInt(EndMin)    < 10) {
             EndMin = "0" + EndMin;
         }
+        // ############################################################
 
 
-        // fromatting the displayed text for the VBox
+        // Text Labels for the Vbox
+        // ############################################################
+        // Input number
         Label   InputNumber = new Label("Input Number: " + Index);
-                InputNumber.setId("" + Index);
-
-        Label   WeekDay     = new Label("WeekDay: " + Input_UserTime.WeekDay);        
+        InputNumber.setId("" + Index);
+        // weekday
+        Label   WeekDay     = new Label("WeekDay: " + Input_UserTime.WeekDay);
+        // Timeframe
         Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
-
+        // ############################################################
 
 
         // Delete Card Button   -   Handles deleting the Vbox
@@ -455,38 +467,72 @@ public class PROG_UI_C_UserTimeInput {
         // ############################################################
 
 
-        // adds relevant nodes to the vbox
-        IndividualDataCard.getChildren().addAll(
-            // Input number: #
-            InputNumber,
 
-            // WeekDay: ##
-            WeekDay,
 
-            // Beginning time - ending time
-            TimeFrame,
 
-            // Button to delete the card
-            DeleteCard
-        );
+        // VBox add the relevant nodes
+        // ############################################################
+        if (FullInput == true) {
+
+            IndividualDataCard.getChildren().addAll(
+                // Input number: #
+                InputNumber,
+
+                // WeekDay: ##
+                WeekDay,
+
+                // Beginning time - ending time
+                TimeFrame,
+
+                // Button to delete the card
+                DeleteCard
+            );
+
+        } else {
+
+            IndividualDataCard.getChildren().addAll(
+                // Input number: #
+                InputNumber,
+
+                // WeekDay: ##
+                // WeekDay,
+
+                // Beginning time - ending time
+                TimeFrame,
+
+                // Button to delete the card
+                DeleteCard
+            );
+
+        }
+        // ############################################################
+
+
 
 
         /**
          * Due to formatting, hours must be adjusted when they are input into the List_UserTimes LinkedList
          * 
-         * In this case the file format requires weekday so it is input
-         * 
          * if any of the times are set to PM, the hour should be incremented by + 12, since the object holds military time, and can't differentiate between AM/PM by itself
          */
 
-        // Variables to be input into List_UserTimes
-        String  NewWeekday  = Input_UserTime.WeekDay;
+        // User prefered time inputs
+        // ############################################################
+
+        // time input preferences
+        String  NewWeekday;
         int     NewStartHour;
-        int     NewStartMin = Input_UserTime.PreferedHourBEGIN.getMinute();
-
+        int     NewStartMin;
         int     NewEndHour;
-        int     NewEndMin   = Input_UserTime.PreferedHourEND.getMinute();
+        int     NewEndMin;
 
+        if (FullInput == false) {
+            NewWeekday      = Input_UserTime.WeekDay;
+        } else {
+            NewWeekday      = "N/A";
+        }
+
+        // Start Hour
         // if Pm is selected and the time isn't 12, incremented by + 12, else just use the normal time
         if ( (StartTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourBEGIN.getHour() < 12) ) {
             NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour() + 12;
@@ -494,6 +540,10 @@ public class PROG_UI_C_UserTimeInput {
             NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour();
         }
 
+        // Start Minute
+        NewStartMin         = Input_UserTime.PreferedHourBEGIN.getMinute();
+
+        // End Hour
         // if Pm is selected, incremented by + 12, else just use the normal time
         if ( (EndTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourEND.getHour() < 12) ){
             NewEndHour      = Input_UserTime.PreferedHourEND.getHour() + 12;
@@ -501,18 +551,31 @@ public class PROG_UI_C_UserTimeInput {
             NewEndHour      = Input_UserTime.PreferedHourEND.getHour();
         }
 
-        // List_UserTimes - list to be sent to the scheduler
-        List_UserTimes.add(new PROG_DAL_A_TimeInput(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
-        
-        // // add to linked list of preferences
-        // List_UserTimes.add(new PROG_DAL_A_TimeInput(Input_UserTime));
-        System.out.println("UserTimeInput ammount" + List_UserTimes.size());
+        // Ends Minute
+        NewEndMin           = Input_UserTime.PreferedHourEND.getMinute();
+        // ############################################################
 
-        // add to linked list Vbox
+
+
+        // List_UserTimes - list of all timeinputs
+        // ############################################################
+        List_UserTimes.add(new PROG_DAL_A_TimeInput(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
+        System.out.println("UserTimeInput ammount" + List_UserTimes.size());
+        // ############################################################
+
+
+
+        // add to VBox to linkedlist of all Vboxes
+        // ############################################################
         List_VBoxTimeInputs.add(IndividualDataCard);
+        // ############################################################
+
+
 
         // add vbox to flowpane
+        // ############################################################
         FlowPane_VBoxDisplay.getChildren().add(IndividualDataCard);
+        // ############################################################
     
     } // UserInputGraphic()
 
@@ -565,185 +628,5 @@ public class PROG_UI_C_UserTimeInput {
 
 
 
-    /**
-     * TODO: possible merge with the above code useing a boolean to differentiate
-     * UserInputGraphicCalculation()
-     * Descriiption: manages the visual output of the user submitted data for card info input
-     */
-    public void TimeUserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay) {
-
-
-
-        // PROG_DAL_A_TimeInput InputTime                   - Input time being processed and formatted correctly
-
-        // LinkedList<PROG_DAL_A_TimeInput> UserTimeInput   - holds the preferred times of each user
-
-        // LinkedList<VBox> VBOXUserPreferences             - holds a list of vboxes containing user time preferences, used only to iterate over the vboxes safely
-
-        // FlowPane userInputGraphic                        - The flowpane that holds the vboxes that will actually be displayed, should contain the same vboxes that VBOXUserPreferences has
-
-
-        // VBox creation and preference set
-        VBox IndividualDataCard = new VBox();
-        IndividualDataCard.setPrefSize(120.0, 80.0);
-        IndividualDataCard.setPadding(new Insets(2,2,2,4));
-        IndividualDataCard.getStyleClass().add("UserPreference-box");
-
-        // index position
-        int Index = (List_UserTimes.size() + 1);
-
-        // Starting Time
-        String  StartTimeFrame  = this.Select_AMPM_StartTime.getValue();
-        int     StartHour       = Input_UserTime.PreferedHourBEGIN.getHour();
-        String  startMin        = Integer.toString(Input_UserTime.PreferedHourBEGIN.getMinute());
-
-        // Edning Time
-        String  EndTimeFrame    = this.Select_AMPM_EndTime.getValue();
-        int     EndHour         = Input_UserTime.PreferedHourEND.getHour();
-        String  EndMin          = Integer.toString(Input_UserTime.PreferedHourEND.getMinute());
-
-        // Add a leading zero to the start of the minute input if it is less than 10
-        if (Integer.parseInt(startMin) < 10) {
-            startMin = "0" + startMin;
-        }
-
-        if (Integer.parseInt(EndMin) < 10) {
-            EndMin = "0" + EndMin;
-        }
-
-
-        // fromatting the displayed text for the VBox
-        Label   InputNumber = new Label("Input Number: " + Index);
-                InputNumber.setId("" + Index);
-
-        // Label   WeekDay     = new Label("WeekDay: " + Input_UserTime.WeekDay);        
-        Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
-
-
-
-        // Delete Card Button   -   Handles deleting the Vbox
-        // ############################################################
-        Button DeleteCard = new Button("Delete Card");
-
-        EventHandler<ActionEvent> DeleteInfoCard = (ActionEvent e) -> {
-            
-            // System Message
-            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Deleteing Card");
-            
-            // remove all nodes in the current Vbox
-            IndividualDataCard.getChildren().clear();
-
-            // Create new iterator to iterate over nodes in the linkedlist UserPreferences
-            VBOXIterator = List_VBoxTimeInputs.iterator();
-
-
-            // loop through list to remove empty Vbox node
-            int LinkedListIndex = 0;
-            while (VBOXIterator.hasNext()) {
-
-                // next Vbox in iterator
-                VBox tempBox = VBOXIterator.next();
-
-                // if the Vbox is empty remove it from the list and remove the relevant time preference from UserTimeInput
-                if (tempBox.getChildren().isEmpty()) {
-
-                    // removes empty Vbox from the linked list List_VBoxTimeInputs
-                    VBOXIterator.remove();
-
-                    // removes InputTime from UserTimeInput LinkedList
-                    List_UserTimes.remove(LinkedListIndex);
-
-                } // if()
-
-                LinkedListIndex++;
-
-            } // for()
-            
-
-            // removes the VBox node from the flowPane
-            FlowPane_VBoxDisplay.getChildren().remove(IndividualDataCard);
-
-
-
-            // Update the Index number for each node everytime the flowPane changes
-            int flowPaneIndex = 1;
-            for (Node node: FlowPane_VBoxDisplay.getChildren()) {
-
-                if (node instanceof VBox vbox) {
-                    Label newLabel = (Label) vbox.getChildren().get(0);   // lookup("#" + flowPaneIndex);
-                    if (newLabel != null) {
-                        newLabel.setText("Input Number: " + flowPaneIndex);
-                        flowPaneIndex++;
-                    }
-                }
-
-            } // for()
-
-            System.out.println("UserTimeInput ammount: " + List_UserTimes.size());
-
-        }; // Event Handler
-
-        DeleteCard.setOnAction(DeleteInfoCard);
-        // ############################################################
-
-
-        // adds relevant nodes to the vbox
-        IndividualDataCard.getChildren().addAll(
-            // Input number: #
-            InputNumber,
-
-            // WeekDay: ##
-            // WeekDay,
-
-            // Beginning time - ending time
-            TimeFrame,
-
-            // Button to delete the card
-            DeleteCard
-        );
-
-        IndividualDataCard.setAlignment(Pos.CENTER);
-        
-
-        /**
-         * Due to formatting, hours must be adjusted when they are input into the List_UserTimes LinkedList
-         * 
-         * In this case the scheduler doesn't require a weekdsay so it can be set to N/A
-         * 
-         * if any of the times are set to PM, the hour should be incremented by + 12, since the object holds military time, and can't differentiate between AM/PM by itself
-         */
-
-        // Variables to be input into List_UserTimes
-        String  NewWeekday  = "N/A";
-        int     NewStartHour;
-        int     NewStartMin = Input_UserTime.PreferedHourBEGIN.getMinute();
-
-        int     NewEndHour;
-        int     NewEndMin   = Input_UserTime.PreferedHourEND.getMinute();
-
-        // if Pm is selected and the time isn't 12, incremented by + 12, else just use the normal time
-        if ( (StartTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourBEGIN.getHour() < 12) ) {
-            NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour() + 12;
-        } else {
-            NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour();
-        }
-
-        // if Pm is selected, incremented by + 12, else just use the normal time
-        if ( (EndTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourEND.getHour() < 12) ){
-            NewEndHour      = Input_UserTime.PreferedHourEND.getHour() + 12;
-        } else {
-            NewEndHour      = Input_UserTime.PreferedHourEND.getHour();
-        }
-
-        // List_UserTimes - list to be sent to the scheduler
-        List_UserTimes.add(new PROG_DAL_A_TimeInput(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
-        System.out.println("UserTimeInput ammount" + List_UserTimes.size());
-
-        // List of VBoxes that are displayed in the flowpane, meant for iteration not display
-        List_VBoxTimeInputs.add(IndividualDataCard);
-
-        // Flowpane containing the displayed list of user inputs for the scheduler. meant for display
-        FlowPane_VBoxDisplay.getChildren().add(IndividualDataCard);
     
-    } // UserInputGraphic()
 }

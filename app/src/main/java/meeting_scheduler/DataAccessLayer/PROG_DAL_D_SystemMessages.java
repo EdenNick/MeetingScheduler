@@ -66,7 +66,7 @@ public class PROG_DAL_D_SystemMessages {
 
 
 
-    // Application Layer
+    // Presentation Layer
     // ############################################################
     // PROG_UI_B_DataCardinfoScene.java
     public static final String BUTTON_DataCard_returnHome           = "BUTTON - PROG_UI_B_DataCardinfoScene     - CARD MANAGER PAGE     - Return to home page";
@@ -84,6 +84,13 @@ public class PROG_DAL_D_SystemMessages {
     public static final String BUTTON_MainMenu_ToInstructions       = "BUTTON - PROG_UI_B_MainMenuScene         - MAIN MENU             - Scene changing to Instructions";
     // PROG_UI_B_SchedulePeopleScene
 
+    // PROG_UI_C_UserTimeInput.java
+    public static final String INFO_PreferenceInput_weekday         = "INFO   - PROG_UI_C_UserTimeInput         - Time Input            - User has not submitted a weekday";
+    public static final String INFO_PreferenceInput_StartHour       = "INFO   - PROG_UI_C_UserTimeInput         - Time Input            - User has not submitted a beginning hour";
+    public static final String INFO_PreferenceInput_StartMin        = "INFO   - PROG_UI_C_UserTimeInput         - Time Input            - User has not submitted a beginning minute";
+    public static final String INFO_PreferenceInput_EndHour         = "INFO   - PROG_UI_C_UserTimeInput         - Time Input            - User has not submitted a ending hour";
+    public static final String INFO_PreferenceInput_EndMin          = "INFO   - PROG_UI_C_UserTimeInput         - Time Input            - User has not submitted a ending minute";
+    public static final String PASS_PreferenceInput_CorrectInput    = "INFO   - PROG_UI_C_UserTimeInput         - Time Input            - Correct info has been submitted";
     // ############################################################
 
 

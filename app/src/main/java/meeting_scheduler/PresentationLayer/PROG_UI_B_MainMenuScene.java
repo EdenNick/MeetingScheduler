@@ -45,30 +45,30 @@ public class PROG_UI_B_MainMenuScene {
     private final Stage ApplicationStage;
 
     // Scene
-    private Scene       menuScene;
+    private Scene   Menu_Scene;
 
     // Root Node
-    private AnchorPane  RootNode;
+    private AnchorPane  Menu_RootNode;
 
     // Format Nodes
-    private VBox        menuButtonHolderNode;
+    private VBox    Menu_UI_ButtonHolder;
 
     // Buttons
-    private Button EndProgramButton;
-    private Button SchedulePageButton;
-    private Button DatacardPageButton;
-    private Button InstructionButton;
+    private Button  Button_EndProgram;
+    private Button  Button_SchedulePage;
+    private Button  Button_DataCardPage;
+    private Button  InstructionButton;
 
     // transitions
-    private ParallelTransition fadeMenuNodes;
-    private ParallelTransition UnfadeMenuNodes;
+    private ParallelTransition Transition_fadeMenu;
+    private ParallelTransition Transition_UnFadeMenu;
 
     //graphics
-    private Circle circleDecoration;
+    private Circle  circleDecoration;
 
     // Stage width/height
-    private double StageWidth;
-    private double stageHeight;
+    private double  StageWidth;
+    private double  stageHeight;
 
 
 
@@ -88,81 +88,107 @@ public class PROG_UI_B_MainMenuScene {
      * Description: Public method meant to be called outside the class in order to set the scene to the main menu scene
      */
     public void ChangeToMainMenu() {
-
-        // unfades nodes
-        UnfadeMenuNodes.play();
         
         // Gets the current size of the stage
         this.StageWidth   = this.ApplicationStage.getWidth();
         this.stageHeight  = this.ApplicationStage.getHeight();
 
-        // Sets the stage to the main menu scene
-        this.ApplicationStage.setScene(this.menuScene);
-
         // sets the correct size for the stage
-        this.ApplicationStage.setWidth(StageWidth);
-        this.ApplicationStage.setHeight(stageHeight);
+        this.ApplicationStage.setWidth  (StageWidth);
+        this.ApplicationStage.setHeight (stageHeight);
+
+        // Sets the stage to the main menu scene
+        this.ApplicationStage.setScene  (this.Menu_Scene);
 
         // Shows the change
         this.ApplicationStage.show();
 
-    }
+        // Unfades the stage
+        Transition_UnFadeMenu.play();
+
+    } // ChangeToMainMenu()
 
 
 
     /**
      * ConstructMainMenuStage()
-     * Description: Performs the necessary operations in order to build the various nodes/components of the stage.
+     * Description: Performs the necessary operations in order to build the various nodes/components of the stage. Should only ever be called once
      */
     public void ConstructMainMenuScene() {
 
+
+        // Nodes
+        // ############################################################
         // Root Node
-        RootNode = new AnchorPane();
-
+        Menu_RootNode           = new AnchorPane();
         // menu button holder node
-        menuButtonHolderNode = new VBox(20);
-
+        Menu_UI_ButtonHolder    = new VBox(PROG_UI_D_DataVariables.MENU_UI_Spacing);
+        Menu_UI_ButtonHolder    .setAlignment(Pos.CENTER);
+        // ############################################################
 
         
+
         // Button Creation
+        // ############################################################
         MainMenuButtons();
-
-
-        // Main Menu graphics
-        mainMenuGraphics();
-
-
-
-        // menu button holder node - set menu button positions
-        menuButtonHolderNode.setAlignment(Pos.CENTER);
-        menuButtonHolderNode.getChildren().addAll(DatacardPageButton, SchedulePageButton, InstructionButton);
-        
-
-        // Root Node - set end program button position
-        AnchorPane.setBottomAnchor(EndProgramButton, 20.0);
-        AnchorPane.setRightAnchor(EndProgramButton, 20.0);
-        
-
-        // Root Node - set Menu buttons position
-        AnchorPane.setTopAnchor(menuButtonHolderNode, 30.0);
-        AnchorPane.setLeftAnchor(menuButtonHolderNode, 30.0);
         // ############################################################
 
 
-        // Root Node - add buttons to the node
-        RootNode.getChildren().addAll(circleDecoration, menuButtonHolderNode, EndProgramButton);
 
-        // Scene transitions - must be called after all nodes have been added to root node or it won't work properly
+        // Graphics creation
+        // ############################################################
+        mainMenuGraphics();
+        // ############################################################
+
+
+        // menu button holder node - set menu button positions
+        // Menu_UI_ButtonHolder.setAlignment(Pos.CENTER);
+        
+
+        // Node Position setting
+        // ############################################################
+        // Root Node - set Menu buttons position
+        AnchorPane.setTopAnchor     (Menu_UI_ButtonHolder,  PROG_UI_D_DataVariables.MENU_UI_TopAnchor);
+        AnchorPane.setLeftAnchor    (Menu_UI_ButtonHolder,  PROG_UI_D_DataVariables.MENU_UI_LeftAnchor);
+        // Root Node - set end program button position
+        AnchorPane.setBottomAnchor  (Button_EndProgram,     PROG_UI_D_DataVariables.MENU_EndProg_BottomAnchor);
+        AnchorPane.setRightAnchor   (Button_EndProgram,     PROG_UI_D_DataVariables.MENU_EndProg_RightAnchor);
+        // ############################################################
+
+
+
+        // Combine Nodes
+        // ############################################################
+        // menu UI - add scene transition buttons
+        Menu_UI_ButtonHolder    .getChildren().addAll(Button_DataCardPage, Button_SchedulePage, InstructionButton);
+        // Root Node - UI components and background effects
+        Menu_RootNode           .getChildren().addAll(circleDecoration, Menu_UI_ButtonHolder, Button_EndProgram);
+        // ############################################################
+
+
+
+        // Scene transition creation- must be called after all nodes have been added to root node or it won't work properly
+        // ############################################################
         MainMenuSceneTransitions();
-
-        // create menu scene with the current node layout
-        this.menuScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        // ############################################################
 
 
-        // fade all objects before the scene is set
-        fadeMenuNodes.play();
 
-    }
+        // Scene Creation with Root Node Menu_RootNode
+        // ############################################################
+        this.Menu_Scene = new Scene(Menu_RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        // ############################################################
+
+
+
+        // Fade all nodes - required so when the program starts the scene can fade in
+        // ############################################################
+        Transition_fadeMenu.play();
+        // ############################################################
+
+
+
+    } // ConstructMainMenuScene()
 
 
 
@@ -178,61 +204,62 @@ public class PROG_UI_B_MainMenuScene {
 
         // End program button
         // ############################################################
-        EndProgramButton = new Button("End program");
+        Button_EndProgram = new Button("End program");
         EventHandler<ActionEvent> closeProgram = (ActionEvent e) -> {
             
             // Exits the program
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_end);
             
-            fadeMenuNodes.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event -> {
                 Platform.exit();
             });
 
-            fadeMenuNodes.play();
+            Transition_fadeMenu.play();
 
         };
-        EndProgramButton.setOnAction(closeProgram);
+        Button_EndProgram.setOnAction(closeProgram);
         // ############################################################
 
 
 
         // Data card page button
         // ############################################################
-        DatacardPageButton = new Button("Manage Data Cards");
+        Button_DataCardPage = new Button("Manage Data Cards");
         EventHandler<ActionEvent> DatacardScenechange = (ActionEvent e) -> {
             
             // changes scene to data card management
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToDataCard);
 
-            fadeMenuNodes.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.DataCardManage();
             });
 
-            fadeMenuNodes.play();
+            Transition_fadeMenu.play();
 
         };
-        DatacardPageButton.setOnAction(DatacardScenechange);
+        Button_DataCardPage.setOnAction(DatacardScenechange);
         // ############################################################
         
 
 
         // Schedule page button
         // ############################################################
-        SchedulePageButton = new Button("Schedule");
+        Button_SchedulePage = new Button("Schedule");
         EventHandler<ActionEvent> ScheduleSceneChange = (ActionEvent e) -> {
             
             // Chnages the scene to schedule managment
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToSchedule);
 
-            fadeMenuNodes.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.Schedule();
             });
 
-            fadeMenuNodes.play();
+            Transition_fadeMenu.play();
 
         };  
-        SchedulePageButton.setOnAction(ScheduleSceneChange);
+        Button_SchedulePage.setOnAction(ScheduleSceneChange);
         // ############################################################
+
 
 
         // Schedule page button
@@ -243,11 +270,11 @@ public class PROG_UI_B_MainMenuScene {
             // Chnages the scene to schedule managment
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToInstructions);
 
-            fadeMenuNodes.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event -> {
                 PROG_UI_A_Application.SceneManager.Instructions();
             });
 
-            fadeMenuNodes.play();
+            Transition_fadeMenu.play();
 
         };  
         InstructionButton.setOnAction(InstructionSceneChange);
@@ -268,6 +295,8 @@ public class PROG_UI_B_MainMenuScene {
      */
     private void mainMenuGraphics() {
 
+
+        // TODO: finish graphics once program functionality achieved
         // Background Creation
         // ############################################################
         LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 
@@ -276,7 +305,7 @@ public class PROG_UI_B_MainMenuScene {
 
         BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
 
-        RootNode.setBackground(new Background(backgroundFill));
+        Menu_RootNode.setBackground(new Background(backgroundFill));
 
         // "earth"
         circleDecoration = new Circle(1500);
@@ -304,18 +333,18 @@ public class PROG_UI_B_MainMenuScene {
 
         // Transition to fade button
         // ############################################################
-        fadeMenuNodes = new ParallelTransition();
+        Transition_fadeMenu = new ParallelTransition();
 
-        for (Node node : RootNode.getChildren()) {
+        for (Node MenuNode : Menu_RootNode.getChildren()) {
             
             FadeTransition NodeFade = new FadeTransition(
-                Duration.seconds(2),
-                node
+                Duration.seconds(PROG_UI_D_DataVariables.MENU_FadeTime),
+                MenuNode
             );
 
-            NodeFade.setToValue(0);
+            NodeFade.setToValue(PROG_UI_D_DataVariables.MENU_FadeOpacity);
             
-            fadeMenuNodes.getChildren().addAll(NodeFade);
+            Transition_fadeMenu.getChildren().addAll(NodeFade);
         }
         // ############################################################
 
@@ -323,18 +352,18 @@ public class PROG_UI_B_MainMenuScene {
 
         // Transition to Unfade button
         // ############################################################
-        UnfadeMenuNodes = new ParallelTransition();
+        Transition_UnFadeMenu = new ParallelTransition();
 
-        for (Node node : RootNode.getChildren()) {
+        for (Node MenuNode : Menu_RootNode.getChildren()) {
             
             FadeTransition NodeUnFade = new FadeTransition(
-                Duration.seconds(2),
-                node
+                Duration.seconds(PROG_UI_D_DataVariables.MENU_UnFadeTime),
+                MenuNode
             );
 
-            NodeUnFade.setToValue(1);
+            NodeUnFade.setToValue(PROG_UI_D_DataVariables.MENU_UnFadeOpacity);
             
-            UnfadeMenuNodes.getChildren().addAll(NodeUnFade);
+            Transition_UnFadeMenu.getChildren().addAll(NodeUnFade);
         }
         // ############################################################
 

@@ -176,7 +176,13 @@ public class PROG_UI_B_InstructionsScene {
         // ############################################################
 
 
-        
+        // Scene Creation with Root Node Instruction_RootNode
+        // ############################################################
+        this.InstructionScene = new Scene(Instruction_RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        // ############################################################
+
+
+
         // Scene transition
         // ############################################################
         // create trnasitions

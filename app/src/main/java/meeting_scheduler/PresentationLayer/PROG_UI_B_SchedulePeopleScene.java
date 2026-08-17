@@ -22,6 +22,9 @@ import java.util.stream.Collectors;
 // javaFX
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 // Scene
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -48,6 +51,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 //geometry
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 // stage
 import javafx.stage.Stage;
 // util
@@ -85,6 +89,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private AnchorPane  RootNode;
     // scrollpane
     private ScrollPane  UIInterfaceNode;
+    private ScrollPane  ScheduleDisplayScroll;
     //flowPane
     private FlowPane    OutputDays;
     private FlowPane    AddedPeople;
@@ -95,7 +100,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private HBox        HBoxInputListNumber;
     private HBox        HBoxInputDayPreference;
     private HBox        HBoxInputTimePreference;
-    private HBox        HBoxCalculaeSchedule;
+    private HBox        HBoxCalculateSchedule;
     private HBox        UI_AddStartTime;
     private HBox        UI_addEndingTime;
     // VBox
@@ -107,6 +112,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private VBox        Holder_Calculate;
     private VBox        Holder_ListOutput;
     private VBox        Output_ListPeople;
+    private VBox        ScheduleDisplayVBox;
     // Buttons
     private Button      ReturnToMenu;
     private Button      RESET_People;
@@ -119,6 +125,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private Button      Add_TimePreferences;
     private Button      Input_SelectedNumber;
     private Button      Input_SelectedPeople;
+    private Button      ClearSchedules;
     // labels
     private Label       Label_inputDay;
     private Label       Label_OutputDay;
@@ -168,6 +175,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     // ############################################################
     private LinkedList<PROG_DAL_A_InfoInput>    FileUserInfo;
     private LinkedList<String>                  PersonList;
+    private LinkedList<PROG_DAL_A_InfoInput>    FilePeople;
     // ############################################################
 
 
@@ -175,6 +183,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     // Calculated Schedules
     // ############################################################
     private LinkedList<PROG_DAL_A_Schedule>     CalculatedScheduleList;
+    private ObservableList<PROG_DAL_A_Schedule> Schedules;
     // ############################################################
 
 
@@ -284,7 +293,11 @@ public class PROG_UI_B_SchedulePeopleScene {
         AnchorPane.setTopAnchor(UIInterfaceNode, 20.0);
         AnchorPane.setLeftAnchor(UIInterfaceNode, 20.0);
 
-        RootNode.getChildren().addAll(UIInterfaceNode, ReturnToMenu);
+        // Root Node - set Schedule Display position
+        AnchorPane.setTopAnchor(ScheduleDisplayScroll, 20.0);
+        AnchorPane.setRightAnchor(ScheduleDisplayScroll, 20.0);
+
+        RootNode.getChildren().addAll(UIInterfaceNode, ScheduleDisplayScroll,  ReturnToMenu);
 
 
         // Background creation
@@ -576,12 +589,35 @@ public class PROG_UI_B_SchedulePeopleScene {
             // retrieved copy of calculated linked list
             CalculatedScheduleList = new LinkedList<>(ScheduleCalculator.RetrieveSchedule());
 
+            for (int CalcScheduleIndex = 0; CalcScheduleIndex < CalculatedScheduleList.size(); CalcScheduleIndex++) {
+                Schedules.add(CalculatedScheduleList.get(CalcScheduleIndex));
+            }
 
         };
         CALCULATE_Schedule.setOnAction(CALCULATESCHEDULE);
         // ############################################################
 
 
+
+        // Return Home Button
+        // ############################################################
+        ClearSchedules = new Button("Clear Schedules");
+        EventHandler<ActionEvent> ClearSchedule = (ActionEvent e) -> {
+            
+            // clears all calculated schedules
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Clearing calculated Schedules");
+           
+            for (Node node : ScheduleDisplayVBox.getChildren()) {
+                if (node instanceof HBox hbox) {
+                    hbox.getChildren().clear();
+                }
+            }
+
+            ScheduleDisplayVBox.getChildren().clear();
+
+        };
+        ClearSchedules.setOnAction(ClearSchedule);
+        // ############################################################
 
 
     } // ButtonCreation()
@@ -636,8 +672,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             RESET_ALLPreferences,
 
             // Calculate schedule
-            HBoxCalculaeSchedule,
-            CALCULATE_Schedule
+            HBoxCalculateSchedule
 
         );
 
@@ -1171,10 +1206,10 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node Creation
         // ############################################################
         // Primary Node
-        this.HBoxCalculaeSchedule = new HBox(10);
-        this.HBoxCalculaeSchedule.getStyleClass().add("UserPreference-box");
-        this.HBoxCalculaeSchedule.setPrefSize(500.0, 100.0);
-        this.HBoxCalculaeSchedule.setPadding(new Insets(10));
+        this.HBoxCalculateSchedule = new HBox(10);
+        this.HBoxCalculateSchedule.getStyleClass().add("UserPreference-box");
+        this.HBoxCalculateSchedule.setPrefSize(500.0, 100.0);
+        this.HBoxCalculateSchedule.setPadding(new Insets(10));
 
         // Secondary Node - input
         this.Holder_Calculate = new VBox(10);
@@ -1210,7 +1245,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.Holder_Calculate.getChildren().addAll(Label_ScheduleNow);
 
         // primary node
-        this.HBoxCalculaeSchedule.getChildren().addAll(Holder_Calculate);
+        this.HBoxCalculateSchedule.getChildren().addAll(Holder_Calculate, CALCULATE_Schedule, ClearSchedules);
         // ############################################################
 
     } // CalculateSchedule()
@@ -1227,14 +1262,156 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // TODO: create Display
 
-
-        // scroll pane
+        // CalculatedScheduleList
 
         // for each schedule
-
         // schedule should be a rectanglar box containg from left to right
         // - full list boolean - day - time frame - list of people
 
+
+        // Vbox to display each schedule
+        this.ScheduleDisplayVBox = new VBox(5);
+        // ScheduleDisplayVBox.getStyleClass().add("UserPreference-box");
+
+        // scroll pane for scrolling between the vbox nodes
+        this.ScheduleDisplayScroll = new ScrollPane();
+        this.ScheduleDisplayScroll.setContent(ScheduleDisplayVBox);
+
+        // sets default interface dimensions
+        this.ScheduleDisplayScroll.setPrefWidth((PROG_UI_A_SceneManager.WindowWidth / 2) - 80.0);
+        this.ScheduleDisplayScroll.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight - 100.0);
+
+        // updates interface dimensions
+        this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
+            ScheduleDisplayScroll.setPrefWidth((newWidth.intValue() / 2) - 80.0);
+        });
+
+        this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
+            ScheduleDisplayScroll.setPrefHeight(newHeight.intValue() - 100.0);
+        });
+
+        // observablelist to hold each schedule
+        this.Schedules = FXCollections.observableArrayList();
+
+
+        Schedules.addListener((ListChangeListener<PROG_DAL_A_Schedule>) change -> {
+
+            while (change.next()) {
+
+                if (change.wasAdded()) {
+                    // esnure lsit of people is up to date
+                    try {
+                        Scheduler_fileReader.RetrieveFromFile();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+
+                    HBox ScheduleHBox = new HBox(2);
+                    ScheduleHBox.setPrefSize((PROG_UI_A_SceneManager.WindowWidth / 2) - 100.0, 40.0);
+                    ScheduleHBox.getStyleClass().add("ScheduleList-HBox");
+                    ScheduleHBox.setAlignment(Pos.CENTER_LEFT); 
+
+                    // retrieves the boolean value denoting if the schedule contains all selected people or not (true for yes false otherwise)
+                    Label FullList = new Label("Full List: " + String.valueOf(Schedules.getLast().Schedule) + " | ");
+
+                    // Day of the schedule
+                    Label ScheduleDay = new Label("Day: " + String.valueOf(Schedules.getLast().WeekDay) + " | ");
+
+
+
+                    String StartingAMPM     = "AM";
+                    String EndingAMPM       = "AM";
+
+                    // Time frame of the schedule
+                    int StartHour       = Schedules.getLast().Interval.PreferedHourBEGIN.getHour();
+                    String startMinute  = Integer.toString(Schedules.getLast().Interval.PreferedHourBEGIN.getMinute());
+
+                    int Endhour         = Schedules.getLast().Interval.PreferedHourEND.getHour();
+                    String EndMinute    = Integer.toString(Schedules.getLast().Interval.PreferedHourEND.getMinute());
+
+                    // Convert to PM if necessary
+                    if (StartHour > 12) {
+                        StartHour -= 12;
+                        StartingAMPM = "PM";
+                    }
+
+                    // Convert to PM if necessary
+                    if (Endhour > 12) {
+                        Endhour -= 12;
+                        StartingAMPM = "PM";
+                    }
+
+                    // Add a leading zero to the start of the minute inputs if it is less than 10
+                    if (Integer.parseInt(startMinute)  < 10) {
+                        startMinute = "0" + startMinute;
+                    }
+
+                    if (Integer.parseInt(EndMinute)    < 10) {
+                        EndMinute = "0" + EndMinute;
+                    }
+
+                    Label ScheduletimeFrame = new Label("Time Frame: " + StartHour + ":" + startMinute + " " + StartingAMPM + 
+                    " - " + Endhour + ":" + EndMinute + " " + EndingAMPM + " | ");
+
+
+
+                    // List of people
+                    FlowPane SchedulePeopleList = new FlowPane();
+
+                    //int PersonAmmount = Schedules.getLast().USERIDs.size();
+
+                    this.FilePeople = new LinkedList<>(Scheduler_fileReader.ReturnFile());
+
+
+                    for (String ScheduleID : Schedules.getLast().USERIDs) {
+
+                        for (int FileIndex = 0; FileIndex < FilePeople.size(); FileIndex++) {
+
+                            if (ScheduleID.equals(Integer.toString(FilePeople.get(FileIndex).EmployeeID))) {
+
+                                // add name to the flowpane list
+                                SchedulePeopleList.getChildren().add(
+                                    new Label(" |ID: " + ScheduleID + " - " + "Name: " + FilePeople.get(FileIndex).EmployeeName + "|")
+                                );
+
+                                // breaks out of for loop
+                                break;
+
+                            } // if ()
+
+                        } // for (int FileIndex = 0; FileIndex < FilePeople.size(); FileIndex++)
+
+                    } // for (String ScheduleID : Schedules.getLast().USERIDs)
+
+
+                    // TODO: maybe add delete Button?
+
+                    ScheduleHBox.getChildren().addAll(
+
+                        FullList,
+
+                        ScheduleDay,
+
+                        ScheduletimeFrame,
+
+                        SchedulePeopleList
+                    );
+
+
+                    this.ScheduleDisplayVBox.getChildren().add(
+                        ScheduleHBox
+                    );
+
+
+                } // if (change.wasAdded())
+
+
+            } // while (change.next)
+
+
+        }); // event listner
         
 
     } // SchedulingDisplay()

@@ -1260,7 +1260,6 @@ public class PROG_UI_B_SchedulePeopleScene {
      */
     private void SchedulingDisplay() {
 
-        // TODO: create Display
 
         // CalculatedScheduleList
 
@@ -1303,7 +1302,7 @@ public class PROG_UI_B_SchedulePeopleScene {
                     try {
                         Scheduler_fileReader.RetrieveFromFile();
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                        // error
                         e.printStackTrace();
                     }
 

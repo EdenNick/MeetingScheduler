@@ -126,6 +126,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private Button      Input_SelectedNumber;
     private Button      Input_SelectedPeople;
     private Button      ClearSchedules;
+    private Button      REMOVELastPerson;
     // labels
     private Label       Label_inputDay;
     private Label       Label_OutputDay;
@@ -182,6 +183,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
     // Calculated Schedules
     // ############################################################
+    private LinkedList<String>                  IDToSchedule;
     private LinkedList<PROG_DAL_A_Schedule>     CalculatedScheduleList;
     private ObservableList<PROG_DAL_A_Schedule> Schedules;
     // ############################################################
@@ -198,6 +200,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.Scheduler_UserTimeInputs = new PROG_UI_C_UserTimeInput();
 
         this.Scheduler_fileReader = new PROG_DAL_B_JSONManager();
+
+        this.IDToSchedule = new LinkedList<>();
     }
 
 
@@ -360,11 +364,50 @@ public class PROG_UI_B_SchedulePeopleScene {
             this.ComboBoxPersonList.getItems().clear();
 
             // Reset the comboBox with the full List
-            ComboBoxPersonList.getItems().addAll(PersonList);
+            this.ComboBoxPersonList.getItems().addAll(PersonList);
 
+            ScheduleCalculator.ResetPeopleToSchedule();
+
+            this.IDToSchedule = new LinkedList<>();
 
         };
         RESET_People.setOnAction(RESETPEOPLE);
+        // ############################################################
+
+
+
+        // People to schedule reset button
+        // ############################################################
+        REMOVELastPerson = new Button("Remove last person");
+        EventHandler<ActionEvent> RemoveLastPerson = (ActionEvent e) -> {
+            
+            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Remove last person");
+            System.out.println("");
+
+            // remove all text from the flowpane
+            if ((this.AddedPeople.getChildren().size()) > 0) {
+                String LastPerson = ((Text) this.AddedPeople.getChildren().getLast()).getText();
+
+                this.AddedPeople.getChildren().removeLast();
+                // clear the comboBox of all items
+                //this.ComboBoxPersonList.getItems().clear();
+
+                // Reset the comboBox with the full List
+                this.ComboBoxPersonList.getItems().add(LastPerson);
+
+                if (IDToSchedule.size() > 1) {
+                    this.IDToSchedule.removeLast();
+                
+                    ScheduleCalculator.UpdatePeopleToSchedule(IDToSchedule);
+                } else {
+                    ScheduleCalculator.ResetPeopleToSchedule();
+
+                    this.IDToSchedule = new LinkedList<>();
+                }
+            }
+
+        };
+        REMOVELastPerson.setOnAction(RemoveLastPerson);
         // ############################################################
 
 
@@ -522,7 +565,11 @@ public class PROG_UI_B_SchedulePeopleScene {
             this.ComboBoxPersonList.getItems().clear();
 
             // Reset the comboBox with the full List
-            ComboBoxPersonList.getItems().addAll(PersonList);
+            this.ComboBoxPersonList.getItems().addAll(PersonList);
+
+            ScheduleCalculator.ResetPeopleToSchedule();
+
+            this.IDToSchedule = new LinkedList<>();
             // ############################################################
 
 
@@ -655,6 +702,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             // people Input
             HBoxInputPeople,
             RESET_People,
+            REMOVELastPerson,
 
             // List number
             HBoxInputListNumber,
@@ -751,7 +799,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.PersonList = new LinkedList<>();
 
         for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
-            PersonList.add("| ID: " + FilePerson.EmployeeID + " Name: " + FilePerson.EmployeeName + " |");
+            PersonList.add("|ID: " + FilePerson.EmployeeID + " Name: " + FilePerson.EmployeeName + "|");
         }
 
         // add list to combobox
@@ -769,11 +817,23 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                 System.out.println("Check");
 
+                // gets the person selected from the combobox
                 String SelectedPerson = ComboBoxPersonList.getValue();
 
+                // removes that person from the combobox
                 ComboBoxPersonList.getItems().remove(SelectedPerson);
 
+                // adds them to the seleted list of people
                 AddedPeople.getChildren().add(new Text(SelectedPerson));
+
+                // gets the user if od the selected person
+                String[] getID = SelectedPerson.split("\\s+");
+
+                // adds the id to the list of people to schedule
+                IDToSchedule.add(getID[1]); // add id as string
+                
+                // updates the scheduler with the updated list
+                ScheduleCalculator.UpdatePeopleToSchedule(IDToSchedule);
 
             } // if()
 
@@ -1269,7 +1329,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
         // Vbox to display each schedule
-        this.ScheduleDisplayVBox = new VBox(5);
+        this.ScheduleDisplayVBox = new VBox(10);
         // ScheduleDisplayVBox.getStyleClass().add("UserPreference-box");
 
         // scroll pane for scrolling between the vbox nodes
@@ -1307,17 +1367,17 @@ public class PROG_UI_B_SchedulePeopleScene {
                     }
 
 
-                    HBox ScheduleHBox = new HBox(2);
-                    ScheduleHBox.setPrefSize((PROG_UI_A_SceneManager.WindowWidth / 2) - 100.0, 40.0);
+                    HBox ScheduleHBox = new HBox(10);
+                    ScheduleHBox.setPrefSize((PROG_UI_A_SceneManager.WindowWidth / 2) - 90.0, 50.0);
                     ScheduleHBox.getStyleClass().add("ScheduleList-HBox");
-                    ScheduleHBox.setAlignment(Pos.CENTER_LEFT); 
+                    //ScheduleHBox.setAlignment(Pos.CENTER_LEFT); 
 
                     // retrieves the boolean value denoting if the schedule contains all selected people or not (true for yes false otherwise)
                     Label FullList = new Label("Full List: " + String.valueOf(Schedules.getLast().Schedule) + " | ");
-
+                    FullList.setPrefSize(100, 50);
                     // Day of the schedule
                     Label ScheduleDay = new Label("Day: " + String.valueOf(Schedules.getLast().WeekDay) + " | ");
-
+                    ScheduleDay.setPrefSize(75,50);
 
 
                     String StartingAMPM     = "AM";
@@ -1331,15 +1391,20 @@ public class PROG_UI_B_SchedulePeopleScene {
                     String EndMinute    = Integer.toString(Schedules.getLast().Interval.PreferedHourEND.getMinute());
 
                     // Convert to PM if necessary
-                    if (StartHour > 12) {
-                        StartHour -= 12;
+                    if (StartHour >= 12) {
                         StartingAMPM = "PM";
                     }
 
+                    if (StartHour > 12) {
+                        StartHour -= 12;
+                    }
+
                     // Convert to PM if necessary
+                    if (Endhour >= 12) {
+                        EndingAMPM = "PM";
+                    }
                     if (Endhour > 12) {
                         Endhour -= 12;
-                        StartingAMPM = "PM";
                     }
 
                     // Add a leading zero to the start of the minute inputs if it is less than 10
@@ -1354,11 +1419,12 @@ public class PROG_UI_B_SchedulePeopleScene {
                     Label ScheduletimeFrame = new Label("Time Frame: " + StartHour + ":" + startMinute + " " + StartingAMPM + 
                     " - " + Endhour + ":" + EndMinute + " " + EndingAMPM + " | ");
 
+                    ScheduletimeFrame.setPrefSize(200,50);
 
 
                     // List of people
                     FlowPane SchedulePeopleList = new FlowPane();
-
+                    SchedulePeopleList.setPrefSize(200,50);
                     //int PersonAmmount = Schedules.getLast().USERIDs.size();
 
                     this.FilePeople = new LinkedList<>(Scheduler_fileReader.ReturnFile());

@@ -61,6 +61,7 @@ public class PROG_DAL_D_SystemMessages {
     public static final String INFO_CalculateScheduleTimePref       = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Specifc time preference set: ";
     public static final String INFO_CalculateSchedulePersonDay      = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Persons preference Matches Day, ID: ";
     public static final String INFO_CalculateScheduleIDAdded        = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - A ID was successfully added to Calc_AvailableIDs";
+    public static final String INFO_CalculateSchedulePersonAdded    = "INFO   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - A PROG_DAL_A_InfoInput Person was successfully added to CALC_AvailablePeople";
     public static final String PASS_CalculateScheduleCompleteCalc   = "PASS   - PROG_BLL_SchedulingCalculation  - CalculateSchedule()   - Complete Schedule Calculation.";
     // ############################################################
 

@@ -58,7 +58,16 @@ public final class PROG_UI_D_DataVariables {
 
     // Scheduling Page
     // ############################################################
+    // Return to Main Menu Button
+    public static final double  SCHEDULE_Return_RightAnchor         = 20.0;
+    public static final double  SCHEDULE_Return_BottomAnchor        = 20.0;
+    // Left side - Scheduler UI Input ScrollPane
+    public static final double  SCHEDULE_UIInput_LeftAnchor         = 20.0;
+    public static final double  SCHEDULE_UIInput_TopAnchor          = 20.0;
 
+    // right side - Scheduler UI Output ScrollPane
+    public static final double  SCHEDULE_UIOutput_RightAnchor       = 20.0;
+    public static final double  SCHEDULE_UIOutput_TopAnchor         = 20.0;
     // ############################################################
 
 

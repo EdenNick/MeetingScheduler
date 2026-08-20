@@ -359,7 +359,7 @@ public class PROG_UI_C_UserTimeInput {
         // VBox creation and preference set
         // ############################################################
         VBox IndividualDataCard = new VBox();
-        IndividualDataCard.setPrefSize(100.0, 100.0);
+        IndividualDataCard.setPrefSize(100.0, 70.0);
         // ############################################################
 
 

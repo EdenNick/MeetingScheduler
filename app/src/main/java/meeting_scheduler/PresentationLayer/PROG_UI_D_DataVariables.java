@@ -77,7 +77,7 @@ public final class PROG_UI_D_DataVariables {
     // Default Spacing
     public static final int SCHEDULE_UIINPUT_PREFSpacing            = 10;
     // Default Insents
-    public static final int SCHEDULE_UIINPUT_PREFInsents            = 10;
+    public static final int SCHEDULE_UIINPUT_PREFInsets            = 10;
 
     // Default primary node 1 width/height
     public static final double SCHEDULE_PrimaryNode1_PREFWidth       = 250.0;
@@ -111,13 +111,12 @@ public final class PROG_UI_D_DataVariables {
      * General variables 
      * 
      */
-    public static final String[] WEEKDAYS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
-    public static final String[] AMPM = {"AM", "PM"};
-
-    public static final String AM = "AM";
-
-    public static final String PM = "PM";
+    public static final String[]    WEEKDAYS        = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    public static final String[]    AMPM            = {"AM", "PM"};
+    public static final String      AM              = "AM";
+    public static final String      PM              = "PM";
+    public static final String      EmptyText       = "";
+    public static final int         MAXListAmmount  = 20;
 
 
     /**

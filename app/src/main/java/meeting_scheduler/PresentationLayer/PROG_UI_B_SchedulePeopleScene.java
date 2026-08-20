@@ -90,6 +90,8 @@ public class PROG_UI_B_SchedulePeopleScene {
     // Primary UI ScrollPanes
     private ScrollPane  UIInput_FullUIHolder_ScrollPane;
     private ScrollPane  UIOutput_FullUIHolder_scrollPane;
+
+    private ScrollPane ListofScheduledPeople;
     //flowPane
     private FlowPane    OutputDays;
     private FlowPane    AddedPeople;
@@ -109,14 +111,9 @@ public class PROG_UI_B_SchedulePeopleScene {
     private HBox        UI_AddStartTime;
     private HBox        UI_addEndingTime;
     // VBox
-    // private VBox        Holder_DayPreference;
-    // private VBox        Output_DayPreference;
-    private VBox        Holder_TimePreference;
-    //private VBox        Holder_ListAmmount;
-    // private VBox        Holder_ListPeople;
-    private VBox        Holder_Calculate;
-    // private VBox        Holder_ListOutput;
-    // private VBox        Output_ListPeople;
+    // private VBox        Holder_TimePreference;
+    // private VBox        Holder_Calculate;
+
     // Buttons
     private Button      RETURN_ToMenu;
 
@@ -151,18 +148,22 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
     // Events
-    private EventHandler<ActionEvent> EVENT_RETURN_HOME = null;
-    private EventHandler<ActionEvent> EVENT_RESET_People = null;
-    private EventHandler<ActionEvent> EVENT_REMOVE_Person = null;
-    private EventHandler<ActionEvent> EVENT_RESET_List = null;
-    private EventHandler<ActionEvent> EVENT_RESET_days = null;
-    private EventHandler<ActionEvent> EVENT_RESET_Times = null;
-    private EventHandler<ActionEvent> EVENT_ADD_timeInput = null;
-    private EventHandler<ActionEvent> EVENT_CALCULATE_Schedule = null;
-    private EventHandler<ActionEvent> EVENT_CLEAR_schedule = null;
-    private EventHandler<ActionEvent> EVENT_ADD_People = null;
-    private EventHandler<ActionEvent> EVENT_ADD_List = null;
-    private EventHandler<ActionEvent> EVENT_ADD_Days = null;
+    private EventHandler<ActionEvent> EVENT_RETURN_HOME         = null;
+
+    private EventHandler<ActionEvent> EVENT_RESET_People        = null;
+    private EventHandler<ActionEvent> EVENT_RESET_List          = null;
+    private EventHandler<ActionEvent> EVENT_RESET_days          = null;
+    private EventHandler<ActionEvent> EVENT_RESET_Times         = null;
+
+    private EventHandler<ActionEvent> EVENT_ADD_timeInput       = null;
+    private EventHandler<ActionEvent> EVENT_ADD_People          = null;
+    private EventHandler<ActionEvent> EVENT_ADD_List            = null;
+    private EventHandler<ActionEvent> EVENT_ADD_Days            = null;
+
+    private EventHandler<ActionEvent> EVENT_REMOVE_Person       = null;
+
+    private EventHandler<ActionEvent> EVENT_CALCULATE_Schedule  = null;
+    private EventHandler<ActionEvent> EVENT_CLEAR_schedule      = null;
 
 
     // userInputs
@@ -386,58 +387,58 @@ public class PROG_UI_B_SchedulePeopleScene {
         
         // Contains All UI Input nodes and elements
         // ############################################################
-        this.UIInput_FullUI_VBOX = new VBox(10);
-        this.UIInput_FullUI_VBOX.setPadding(new Insets(10));
+        this.UIInput_FullUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_FullUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsents));
         // ############################################################
 
 
 
         // Contains All UI Input for selecting People
         // ############################################################
-        this.UIInput_PeopleUI_VBOX = new VBox(10);
-        this.UIInput_PeopleUI_VBOX.getStyleClass().add("UserPreference-box");
-        this.UIInput_PeopleUI_VBOX.setPrefSize(600.0, 100.0);
-        this.UIInput_PeopleUI_VBOX.setPadding(new Insets(10));
+        this.UIInput_PeopleUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_PeopleUI_VBOX.getStyleClass().add("ScheduleInputUI-mainBoxes");
+        this.UIInput_PeopleUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_PeopleUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsents));
         // ############################################################
 
 
 
         // Contains all UI Inputs for selected the schedule List ammount
         // ############################################################
-        this.UIInput_ListUI_VBOX = new VBox(10);
-        this.UIInput_ListUI_VBOX.getStyleClass().add("UserPreference-box");
-        this.UIInput_ListUI_VBOX.setPrefSize(600.0, 100.0);
-        this.UIInput_ListUI_VBOX.setPadding(new Insets(10));
+        this.UIInput_ListUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_ListUI_VBOX.getStyleClass().add("ScheduleInputUI-mainBoxes");
+        this.UIInput_ListUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_ListUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsents));
         // ############################################################
 
 
 
         // Contains all UI inputs for selecting days for the schedule
         // ############################################################
-        this.UIInput_DayUI_VBOX = new VBox(10);
-        this.UIInput_DayUI_VBOX.getStyleClass().add("UserPreference-box");
-        this.UIInput_DayUI_VBOX.setPrefSize(600.0, 100.0);
-        this.UIInput_DayUI_VBOX.setPadding(new Insets(10));
+        this.UIInput_DayUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_DayUI_VBOX.getStyleClass().add("ScheduleInputUI-mainBoxes");
+        this.UIInput_DayUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_DayUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsents));
         // ############################################################
 
 
 
         // Contains all UI nodes for selecting times for the scheudle
         // ############################################################
-        this.UIInput_TimeUI_VBOX = new VBox(10);
-        this.UIInput_TimeUI_VBOX.getStyleClass().add("UserPreference-box");
-        this.UIInput_TimeUI_VBOX.setPrefSize(620.0, 220.0);
-        this.UIInput_TimeUI_VBOX.setPadding(new Insets(10));
+        this.UIInput_TimeUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_TimeUI_VBOX.getStyleClass().add("ScheduleInputUI-mainBoxes");
+        this.UIInput_TimeUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_TimeUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsents));
         // ############################################################
 
 
 
         // Contains all UI nodes for calculating the schedule
         // ############################################################
-        this.UIInput_CalculateUI_VBOX = new VBox(10);
-        this.UIInput_CalculateUI_VBOX.getStyleClass().add("UserPreference-box");
-        this.UIInput_CalculateUI_VBOX.setPrefSize(500.0, 100.0);
-        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(10));
+        this.UIInput_CalculateUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_CalculateUI_VBOX.getStyleClass().add("ScheduleInputUI-mainBoxes");
+        this.UIInput_CalculateUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsents));
         // ############################################################
 
 
@@ -450,6 +451,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Contains all schedule nodes
         // ############################################################
         this.UIOutput_FullUI_VBOX = new VBox(10);
+        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(10));
         // ############################################################
     }
 
@@ -790,6 +792,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RETURN_ToMenu          = new Button("Return Home");
         this.RETURN_ToMenu.setOnAction(this.EVENT_RETURN_HOME);
+        this.RETURN_ToMenu.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -800,18 +803,21 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RESET_People           = new Button("Reset people to schedule");
         this.RESET_People.setOnAction(this.EVENT_RESET_People);
+        this.RESET_People.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // Add people to schedule Button
         // ############################################################
         this.Input_SelectedPeople   = new Button("Input Selected Ammount");
         this.Input_SelectedPeople.setOnAction(EVENT_ADD_People);
+        this.Input_SelectedPeople.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // People to schedule reset button
         // ############################################################
         this.REMOVELastPerson       = new Button("Remove last person");
         this.REMOVELastPerson.setOnAction(EVENT_REMOVE_Person);
+        this.REMOVELastPerson.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -820,14 +826,16 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // number of lists reset button
         // ############################################################
-        this.RESET_ListNumber       = new Button("Reset number of lists to output");
+        this.RESET_ListNumber       = new Button("Reset number of lists");
         this.RESET_ListNumber.setOnAction(EVENT_RESET_List);
+        this.RESET_ListNumber.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // Input number of schedule lists to display
         // ############################################################
         this.INPUT_SelectedNumber = new Button("Input Selected Ammount");
         this.INPUT_SelectedNumber.setOnAction(this.EVENT_ADD_List);
+        this.INPUT_SelectedNumber.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -837,12 +845,14 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RESET_DaySelection     = new Button("Reset days to schedule");
         this.RESET_DaySelection.setOnAction(EVENT_RESET_days);
+        this.RESET_DaySelection.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // Input selected day
         // ############################################################
-        INPUT_SelectedDay = new Button("Input Selected Day");
-        INPUT_SelectedDay.setOnAction(this.EVENT_ADD_Days);
+        this.INPUT_SelectedDay = new Button("Input Selected Day");
+        this.INPUT_SelectedDay.setOnAction(this.EVENT_ADD_Days);
+        this.INPUT_SelectedDay.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -851,6 +861,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RESET_TimeInput        = new Button("Reset time input");
         this.RESET_TimeInput.setOnAction(EVENT_RESET_Times);
+        this.RESET_TimeInput.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -859,6 +870,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.INPUT_TimePreferences  = new Button("Add Info");
         this.INPUT_TimePreferences.setOnAction(EVENT_ADD_timeInput);
+        this.INPUT_TimePreferences.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -870,6 +882,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_List);
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_days);
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_Times);
+        this.RESET_ALLPreferences.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -878,6 +891,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.CALCULATE_Schedule     = new Button("Calculate Schedule");
         this.CALCULATE_Schedule.setOnAction(EVENT_CALCULATE_Schedule);
+        this.CALCULATE_Schedule.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -886,6 +900,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.CLEAR_Schedules        = new Button("Clear Schedule list");
         this.CLEAR_Schedules.setOnAction(EVENT_CLEAR_schedule);
+        this.CLEAR_Schedules.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -990,24 +1005,31 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         // Primary Node - holds User input
         HBox UIPeopleInput = new HBox();
-        UIPeopleInput.getStyleClass().add("UserPreference-box");
-        UIPeopleInput.setPrefSize(600.0, 100.0);
-        UIPeopleInput.setPadding(new Insets(10));
-        // Secondary Node - Holds Reset Button
-        HBox UIPeopleReset = new HBox();
+
+
         // Primary Node Input   - Input for user
         VBox Holder_ListPeople = new VBox(10);
+        Holder_ListPeople.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
+
+
         // Primary Node Output  - output of selected choiced
-        VBox Output_ListPeople = new VBox(2);
-        // flowpane node to hold te name list
+        VBox Output_ListPeople = new VBox(10);
+        Output_ListPeople.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
+
+
+        // Secondary Node - Holds Reset Button
+        VBox UIPeopleReset = new VBox(10);
+
+        // flowpane node to hold te name list - part of primary node
         this.AddedPeople = new FlowPane();
-        this.AddedPeople.setPrefSize(600.0, 100.0);
+        this.AddedPeople.setPrefSize(100.0, 100.0);
         this.AddedPeople.getStyleClass().add("flowBox-names");
         this.AddedPeople.setPadding(new Insets(2));
         this.AddedPeople.setHgap(5.0);
         this.AddedPeople.setVgap(2.0);
         // comboBox to display the names
         this.ComboBoxPersonList = new ComboBox<>();
+        this.ComboBoxPersonList.setMaxSize(PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefHeightLarge);
         // ############################################################
 
 
@@ -1058,14 +1080,14 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Primary Node output
         Output_ListPeople   .getChildren().addAll(Label_addedPeople, AddedPeople);
         // Primary Node Input
-        Holder_ListPeople   .getChildren().addAll(Label_inputPeople, ComboBoxPersonList, this.Input_SelectedPeople);
+        Holder_ListPeople   .getChildren().addAll(Label_inputPeople, ComboBoxPersonList, this.Input_SelectedPeople, this.REMOVELastPerson);
         // Primary Node
         UIPeopleInput       .getChildren().addAll(Holder_ListPeople, Output_ListPeople);
         // ############################################################
 
         // Add all to the Secondary node
         // ############################################################
-        UIPeopleReset       .getChildren().addAll(this.REMOVELastPerson, this.RESET_People );
+        UIPeopleReset       .getChildren().addAll(this.RESET_People );
         // ############################################################
 
 
@@ -1091,9 +1113,11 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Primary Node Input
         VBox Holder_ListAmmount     = new VBox(10);
+        Holder_ListAmmount.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
 
         // Primary Node Output
         VBox Holder_ListOutput      = new VBox(10);
+        Holder_ListOutput.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
 
         // Secondary Node
         HBox INputListResetButtons  = new HBox(10);
@@ -1117,7 +1141,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // textfield Input
         this.userInput_listAmmount = new TextField();
         this.userInput_listAmmount.setPromptText("Enter List Ammount");
-        this.userInput_listAmmount.setPrefSize(150.0, 40.0);
+        this.userInput_listAmmount.setMaxSize(PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefHeightLarge);
         this.userInput_listAmmount.setTextFormatter(new TextFormatter<>(change -> {
             
             // User input text
@@ -1195,9 +1219,11 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Primary Node input
         VBox Holder_DayPreference   = new VBox(10);
+        Holder_DayPreference.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
 
         // Primary Node output
         VBox Output_DayPreference   = new VBox(10);
+        Output_DayPreference.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
 
         // secondary node
         HBox DayPrefReset           = new HBox(10);
@@ -1336,8 +1362,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         HBox TimeInputUI = new HBox(10);
         
         // Primary Node input
-        this.Holder_TimePreference = new VBox(10);
-        this.Holder_TimePreference.setPrefSize(300.0, 200.0);
+        VBox Holder_TimePreference = new VBox(10);
+        Holder_TimePreference.setPrefSize(300.0, 200.0);
 
         // Primary Node output
         this.FlowPane_VBoxDisplay = new FlowPane();
@@ -1427,7 +1453,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
 
         // primary node input
-        this.Holder_TimePreference.getChildren().addAll(Label_inputTime, UI_AddStartTime, UI_addEndingTime, this.INPUT_TimePreferences);
+        Holder_TimePreference.getChildren().addAll(Label_inputTime, UI_AddStartTime, UI_addEndingTime, this.INPUT_TimePreferences);
 
         // primary node output
         // FlowPane_VBoxDisplay
@@ -1463,7 +1489,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // primary node
         HBox CalculateButtons = new HBox(10);
         // Secondary Node - input
-        this.Holder_Calculate = new VBox(10);
+        VBox Holder_Calculate = new VBox(10);
 
         // ############################################################
 
@@ -1482,7 +1508,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         
         // seconary node - input
-        this.Holder_Calculate.getChildren().addAll(Label_ScheduleNow);
+        Holder_Calculate.getChildren().addAll(Label_ScheduleNow);
 
         // primary node
         CalculateButtons.getChildren().addAll(Holder_Calculate, this.CALCULATE_Schedule, this.CLEAR_Schedules);

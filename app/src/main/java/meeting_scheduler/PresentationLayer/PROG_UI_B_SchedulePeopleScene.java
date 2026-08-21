@@ -462,8 +462,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         // TODO: finsih
         // Contains all schedule nodes
         // ############################################################
-        this.UIOutput_FullUI_VBOX = new VBox(10);
-        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(10));
+        this.UIOutput_FullUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFSpacing);
+        this.UIOutput_FullUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
         // ############################################################
     }
 
@@ -1520,7 +1520,6 @@ public class PROG_UI_B_SchedulePeopleScene {
         // scroll pane for scrolling between the vbox nodes
         this.UIOutput_FullUIHolder_scrollPane = new ScrollPane();
         this.UIOutput_FullUIHolder_scrollPane.setContent(UIOutput_FullUI_VBOX);
-
         // sets default interface dimensions
         this.UIOutput_FullUIHolder_scrollPane.setPrefWidth((PROG_UI_A_SceneManager.WindowWidth / 2) - 80.0);
         this.UIOutput_FullUIHolder_scrollPane.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight - 100.0);
@@ -1557,14 +1556,15 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                     // Node Creation
                     // ############################################################
-                    // primary Box conatining All Info
-                    HBox ScheduleBox_primary = new HBox(10);
-                    ScheduleBox_primary.setId(Integer.toString(ScheduleNumber)); // sets Id to the list number
-                    // List of people
-                    FlowPane SchedulePeopleList = new FlowPane();
+                    // primary Box conatining schedule Info and user list
+                    VBox        ScheduleBox_Primary     = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFSpacing);
+                    // secondary box containing only the schedule info
+                    HBox        ScheduleBox_Secondary   = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFSpacing);
+                    // List of people in schedule
+                    FlowPane    SchedulePeopleList      = new FlowPane();
                     // deletion Button
-                    Button DeleteList = new Button("Delete schedule");
-                    DeleteList.setId(Integer.toString(ScheduleNumber)); // sets Id to the list number
+                    Button      DeleteList              = new Button("X");
+                    // DeleteList.setId(Integer.toString(ScheduleNumber)); // sets Id to the list number
                     // ############################################################
 
 
@@ -1619,7 +1619,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                                 // add name to the flowpane list
                                 SchedulePeopleList.getChildren().add(
-                                    new Label(" |ID: " + ScheduleID + " - " + "Name: " + FilePeople.get(FileIndex).EmployeeName + "|")
+                                    new Label(" |ID: " + ScheduleID + " - " + "Name: " + FilePeople.get(FileIndex).EmployeeName)
                                 );
 
                                 // breaks out of for loop
@@ -1638,59 +1638,79 @@ public class PROG_UI_B_SchedulePeopleScene {
                     // labels
                     // ############################################################
                     // denotes if the list contains all desired people
-                    Label FullList          = new Label("Full List: " + String.valueOf(Schedules.getLast().Schedule) + " | ");
-                    Label ScheduleDay       = new Label("Day: " + String.valueOf(Schedules.getLast().WeekDay) + " | ");
-                    Label ScheduletimeFrame = new Label("Time Frame: " + StartHour + ":" + startMinute + " " + StartingAMPM + 
-                    " - " + Endhour + ":" + EndMinute + " " + EndingAMPM + " | ");
+                    Label FullList          = new Label("| Full List: " + String.valueOf(Schedules.getLast().Schedule));
+                    Label ScheduleDay       = new Label("| Day: " + String.valueOf(Schedules.getLast().WeekDay));
+                    Label ScheduletimeFrame = new Label("| Time Frame: " + StartHour + ":" + startMinute + " " + StartingAMPM + 
+                    " - " + Endhour + ":" + EndMinute + " " + EndingAMPM);
                     // ############################################################
 
 
                     // Styling
                     // ############################################################
-                    ScheduleBox_primary .setPrefSize((PROG_UI_A_SceneManager.WindowWidth / 2) - 90.0, 50.0);
-                    ScheduleBox_primary .getStyleClass().add("ScheduleList-HBox");
-                    // ScheduleBox_primary.setAlignment(Pos.CENTER_LEFT)
-
-                    SchedulePeopleList  .setPrefSize(200,50);
-
+                    // VBox
+                    ScheduleBox_Primary     .setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
+                    ScheduleBox_Primary     .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_primarywidth,     PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_primaryheight);
+                    ScheduleBox_Primary     .getStyleClass().add("ScheduleList-HBox");
+                    // HBox
+                    ScheduleBox_Secondary   .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth1,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight1);
+                    ScheduleBox_Secondary   .setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
+                    ScheduleBox_Secondary   .getStyleClass().add("ScheduleList-HBox");
+                    ScheduleBox_Secondary   .setAlignment(Pos.CENTER_LEFT);
+                    // flowPane
+                    SchedulePeopleList      .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth1,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight1);
 
                     // labels
-                    FullList            .setPrefSize(100, 50);
-                    ScheduleDay         .setPrefSize(75,50);
-                    ScheduletimeFrame   .setPrefSize(200,50);
+                    FullList                .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth2,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight2);
+                    ScheduleDay             .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth3,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight3);
+                    ScheduletimeFrame       .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth4,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight4);
+
+                    // button
+                    DeleteList              .setMaxSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_DeleteButtonWidth, PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_DeleteButtonHeight);
                     // ############################################################
 
 
 
                     // Button logic implementation
+
+
                     DeleteList.setOnAction(event -> {
 
                         // clear all info in the node
-                        ScheduleBox_primary.getChildren().clear();
+                        ScheduleBox_Primary.getChildren().clear();
 
                         // remove node from the list
-                        UIOutput_FullUI_VBOX.getChildren().remove(ScheduleBox_primary);
+                        UIOutput_FullUI_VBOX.getChildren().remove(ScheduleBox_Primary);
 
                     });
 
 
 
-                    ScheduleBox_primary.getChildren().addAll(
+                    ScheduleBox_Secondary.getChildren().addAll(
+                        
+                        DeleteList,
 
                         FullList,
 
                         ScheduleDay,
 
-                        ScheduletimeFrame,
+                        ScheduletimeFrame
 
-                        SchedulePeopleList,
-
-                        DeleteList
+                        //SchedulePeopleList
                     );
 
 
-                    this.UIOutput_FullUI_VBOX.getChildren().add(
-                        ScheduleBox_primary
+                    ScheduleBox_Primary.getChildren().addAll(
+
+                        ScheduleBox_Secondary,
+
+                        SchedulePeopleList
+                    );
+
+
+                    this.UIOutput_FullUI_VBOX.getChildren().addAll(
+
+                        ScheduleBox_Primary
+
                     );
 
 

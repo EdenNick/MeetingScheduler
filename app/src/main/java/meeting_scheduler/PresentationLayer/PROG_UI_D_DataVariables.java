@@ -78,29 +78,48 @@ public final class PROG_UI_D_DataVariables {
     public static final int SCHEDULE_UIINPUT_PREFSpacing            = 10;
     // Default Insents
     public static final int SCHEDULE_UIINPUT_PREFInsets             = 10;
-
     // Default primary node 1 width/height
     public static final double SCHEDULE_PrimaryNode1_PREFWidth      = 250.0;
     public static final double SCHEDULE_PrimaryNode1_PREFHeight     = 100.0;
-
     // Default primary node 2 width/height
     public static final double SCHEDULE_PrimaryNode2_PREFWidth      = 330.0;
     public static final double SCHEDULE_PrimaryNode2_PREFHeight     = 100.0;
-
     // Button Sizing
     public static final double SCHEDULE_Button_PrefWidthSmall       = 80.0;
     public static final double SCHEDULE_Button_PrefHeightSmall      = 30.0;
-
     public static final double SCHEDULE_Button_PrefWidthMed         = 100.0;
     public static final double SCHEDULE_Button_PrefHeightMed        = 30.0;
-
     public static final double SCHEDULE_Button_PrefWidthLarge       = 150.0;
     public static final double SCHEDULE_Button_PrefHeightLarge      = 30.0;
-
     // Input Sizing
-
     public static final double SCHEDULE_INPUT_PrefWidthLarge        = 240.0;
     public static final double SCHEDULE_INPUT_PrefHeightLarge       = 30.0;
+
+
+
+    // UI Output Components
+    // Default Spacing
+    public static final int     SCHEDULE_UIOUTPUT_PREFSpacing       = 10;
+    // Default Insents
+    public static final int     SCHEDULE_UIOUTPUT_PREFInsets        = 10;
+    // primaryBox
+    public static final double  SCHEDULE_OUTPUT_primaryheight       = 120.0;
+    public static final double  SCHEDULE_OUTPUT_primarywidth        = 800.0;
+
+    public static final double  SCHEDULE_OUTPUT_Secondaryheight1       = 90.0;
+    public static final double  SCHEDULE_OUTPUT_Secondarywidth1        = 600.0;
+
+    public static final double  SCHEDULE_OUTPUT_Secondaryheight2     = 50.0;
+    public static final double  SCHEDULE_OUTPUT_Secondarywidth2      = 120.0;
+
+    public static final double  SCHEDULE_OUTPUT_Secondaryheight3     = 50.0;
+    public static final double  SCHEDULE_OUTPUT_Secondarywidth3      = 100.0;
+
+    public static final double  SCHEDULE_OUTPUT_Secondaryheight4     = 50.0;
+    public static final double  SCHEDULE_OUTPUT_Secondarywidth4      = 220.0;
+
+    public static final double  SCHEDULE_OUTPUT_DeleteButtonWidth     = 50.0;
+    public static final double  SCHEDULE_OUTPUT_DeleteButtonHeight    = 50.0;
 
     // 
     // ############################################################

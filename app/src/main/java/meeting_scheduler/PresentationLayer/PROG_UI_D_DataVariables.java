@@ -15,7 +15,7 @@ public final class PROG_UI_D_DataVariables {
 
 
     private PROG_UI_D_DataVariables() {
-        
+
     }
 
     /**
@@ -77,15 +77,15 @@ public final class PROG_UI_D_DataVariables {
     // Default Spacing
     public static final int SCHEDULE_UIINPUT_PREFSpacing            = 10;
     // Default Insents
-    public static final int SCHEDULE_UIINPUT_PREFInsets            = 10;
+    public static final int SCHEDULE_UIINPUT_PREFInsets             = 10;
 
     // Default primary node 1 width/height
-    public static final double SCHEDULE_PrimaryNode1_PREFWidth       = 250.0;
-    public static final double SCHEDULE_PrimaryNode1_PREFHeight      = 100.0;
+    public static final double SCHEDULE_PrimaryNode1_PREFWidth      = 250.0;
+    public static final double SCHEDULE_PrimaryNode1_PREFHeight     = 100.0;
 
     // Default primary node 2 width/height
-    public static final double SCHEDULE_PrimaryNode2_PREFWidth       = 330.0;
-    public static final double SCHEDULE_PrimaryNode2_PREFHeight      = 100.0;
+    public static final double SCHEDULE_PrimaryNode2_PREFWidth      = 330.0;
+    public static final double SCHEDULE_PrimaryNode2_PREFHeight     = 100.0;
 
     // Button Sizing
     public static final double SCHEDULE_Button_PrefWidthSmall       = 80.0;
@@ -99,8 +99,8 @@ public final class PROG_UI_D_DataVariables {
 
     // Input Sizing
 
-    public static final double SCHEDULE_INPUT_PrefWidthLarge       = 240.0;
-    public static final double SCHEDULE_INPUT_PrefHeightLarge      = 30.0;
+    public static final double SCHEDULE_INPUT_PrefWidthLarge        = 240.0;
+    public static final double SCHEDULE_INPUT_PrefHeightLarge       = 30.0;
 
     // 
     // ############################################################

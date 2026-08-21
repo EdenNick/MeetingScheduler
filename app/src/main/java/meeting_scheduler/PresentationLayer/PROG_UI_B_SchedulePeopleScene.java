@@ -231,7 +231,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // linked list of current user inputed people they want to include in the schedule(s) - used to update the schedule calculator
         this.SCHEDULE_IDS       = new LinkedList<>();
         // ammount fo schedules the user wants displayed
-        this.SCHEDULE_LIST      = 0;
+        this.SCHEDULE_LIST      = PROG_UI_D_DataVariables.MAXListAmmount;
         // String[] containg all user selected days
         this.SCHEDULE_DAYS      = new String[7];
         // holds a list of prefered times input by the user - max 4
@@ -301,7 +301,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Create Node
         Schedule_RootNode = new AnchorPane();
         // get the CSS styles for the sub-nodes
-        Schedule_RootNode.getStylesheets().add(getClass().getResource("/CSS_Styles.css").toExternalForm());
+        Schedule_RootNode.getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
         // ############################################################
 
 
@@ -1516,18 +1516,7 @@ public class PROG_UI_B_SchedulePeopleScene {
      */
     private void SchedulingDisplay() {
 
-        // TODO: complete logic + formatting
-        // CalculatedScheduleList
-
-        // for each schedule
-        // schedule should be a rectanglar box containg from left to right
-        // - full list boolean - day - time frame - list of people
-
-
-        // Vbox to display each schedule
-        // this.UIOutput_FullUI_VBOX = new VBox(10);
-        // ScheduleDisplayVBox.getStyleClass().add("UserPreference-box");
-
+        
         // scroll pane for scrolling between the vbox nodes
         this.UIOutput_FullUIHolder_scrollPane = new ScrollPane();
         this.UIOutput_FullUIHolder_scrollPane.setContent(UIOutput_FullUI_VBOX);
@@ -1551,10 +1540,14 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         Schedules.addListener((ListChangeListener<PROG_DAL_A_Schedule>) change -> {
 
-            while (change.next()) {
+            int ScheduleNumber = 0;
+
+            while ((change.next()) && (ScheduleNumber < this.SCHEDULE_LIST) ) {
 
                 if (change.wasAdded()) {
-                    // esnure lsit of people is up to date
+
+
+                    // ensure list of people is up to date
                     try {
                         Scheduler_fileReader.RetrieveFromFile();
                     } catch (IOException e) {
@@ -1562,23 +1555,23 @@ public class PROG_UI_B_SchedulePeopleScene {
                         e.printStackTrace();
                     }
 
-
-                    HBox ScheduleHBox = new HBox(10);
-                    ScheduleHBox.setPrefSize((PROG_UI_A_SceneManager.WindowWidth / 2) - 90.0, 50.0);
-                    ScheduleHBox.getStyleClass().add("ScheduleList-HBox");
-                    //ScheduleHBox.setAlignment(Pos.CENTER_LEFT); 
-
-                    // retrieves the boolean value denoting if the schedule contains all selected people or not (true for yes false otherwise)
-                    Label FullList = new Label("Full List: " + String.valueOf(Schedules.getLast().Schedule) + " | ");
-                    FullList.setPrefSize(100, 50);
-
-                    // Day of the schedule
-                    Label ScheduleDay = new Label("Day: " + String.valueOf(Schedules.getLast().WeekDay) + " | ");
-                    ScheduleDay.setPrefSize(75,50);
+                    // Node Creation
+                    // ############################################################
+                    // primary Box conatining All Info
+                    HBox ScheduleBox_primary = new HBox(10);
+                    ScheduleBox_primary.setId(Integer.toString(ScheduleNumber)); // sets Id to the list number
+                    // List of people
+                    FlowPane SchedulePeopleList = new FlowPane();
+                    // deletion Button
+                    Button DeleteList = new Button("Delete schedule");
+                    DeleteList.setId(Integer.toString(ScheduleNumber)); // sets Id to the list number
+                    // ############################################################
 
 
-                    String StartingAMPM     = "AM";
-                    String EndingAMPM       = "AM";
+                    // schedule creation functions
+                    // ############################################################
+                    String StartingAMPM = "AM";
+                    String EndingAMPM   = "AM";
 
                     // Time frame of the schedule
                     int StartHour       = Schedules.getLast().Interval.PreferedHourBEGIN.getHour();
@@ -1610,22 +1603,13 @@ public class PROG_UI_B_SchedulePeopleScene {
                     }
 
                     if (Integer.parseInt(EndMinute)    < 10) {
-                        EndMinute = "0" + EndMinute;
+                        EndMinute   = "0" + EndMinute;
                     }
 
-                    Label ScheduletimeFrame = new Label("Time Frame: " + StartHour + ":" + startMinute + " " + StartingAMPM + 
-                    " - " + Endhour + ":" + EndMinute + " " + EndingAMPM + " | ");
 
-                    ScheduletimeFrame.setPrefSize(200,50);
-
-
-                    // List of people
-                    FlowPane SchedulePeopleList = new FlowPane();
-                    SchedulePeopleList.setPrefSize(200,50);
                     //int PersonAmmount = Schedules.getLast().USERIDs.size();
 
                     this.FilePeople = new LinkedList<>(Scheduler_fileReader.ReturnFile());
-
 
                     for (String ScheduleID : Schedules.getLast().USERIDs) {
 
@@ -1647,10 +1631,51 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                     } // for (String ScheduleID : Schedules.getLast().USERIDs)
 
+                    // ############################################################
 
-                    // TODO: maybe add delete Button?
 
-                    ScheduleHBox.getChildren().addAll(
+
+                    // labels
+                    // ############################################################
+                    // denotes if the list contains all desired people
+                    Label FullList          = new Label("Full List: " + String.valueOf(Schedules.getLast().Schedule) + " | ");
+                    Label ScheduleDay       = new Label("Day: " + String.valueOf(Schedules.getLast().WeekDay) + " | ");
+                    Label ScheduletimeFrame = new Label("Time Frame: " + StartHour + ":" + startMinute + " " + StartingAMPM + 
+                    " - " + Endhour + ":" + EndMinute + " " + EndingAMPM + " | ");
+                    // ############################################################
+
+
+                    // Styling
+                    // ############################################################
+                    ScheduleBox_primary .setPrefSize((PROG_UI_A_SceneManager.WindowWidth / 2) - 90.0, 50.0);
+                    ScheduleBox_primary .getStyleClass().add("ScheduleList-HBox");
+                    // ScheduleBox_primary.setAlignment(Pos.CENTER_LEFT)
+
+                    SchedulePeopleList  .setPrefSize(200,50);
+
+
+                    // labels
+                    FullList            .setPrefSize(100, 50);
+                    ScheduleDay         .setPrefSize(75,50);
+                    ScheduletimeFrame   .setPrefSize(200,50);
+                    // ############################################################
+
+
+
+                    // Button logic implementation
+                    DeleteList.setOnAction(event -> {
+
+                        // clear all info in the node
+                        ScheduleBox_primary.getChildren().clear();
+
+                        // remove node from the list
+                        UIOutput_FullUI_VBOX.getChildren().remove(ScheduleBox_primary);
+
+                    });
+
+
+
+                    ScheduleBox_primary.getChildren().addAll(
 
                         FullList,
 
@@ -1658,14 +1683,21 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                         ScheduletimeFrame,
 
-                        SchedulePeopleList
+                        SchedulePeopleList,
+
+                        DeleteList
                     );
 
 
                     this.UIOutput_FullUI_VBOX.getChildren().add(
-                        ScheduleHBox
+                        ScheduleBox_primary
                     );
 
+
+
+
+                    // increment schedule number ammount
+                    ScheduleNumber++;
 
                 } // if (change.wasAdded())
 

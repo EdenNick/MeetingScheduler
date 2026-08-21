@@ -64,22 +64,22 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 // ############################################################
 
-
+// TODO: finsih system messages
 
 public class PROG_UI_B_SchedulePeopleScene {
 
     // Apllication
     // ############################################################
     // Reference of the application stage used for local operations
-    private final Stage         ApplicationStage;
+    private final   Stage               ApplicationStage;
     // Scene
-    private Scene               SchedulingScene;
+    private         Scene               SchedulingScene;
     // Stage width/height
-    private double              StageWidth;
-    private double              stageHeight;
+    private         double              StageWidth;
+    private         double              stageHeight;
     // transitions
-    private ParallelTransition  fadeMenuNodes;
-    private ParallelTransition  UnfadeMenuNodes;
+    private         ParallelTransition  fadeMenuNodes;
+    private         ParallelTransition  UnfadeMenuNodes;
     // ############################################################
 
 
@@ -138,45 +138,6 @@ public class PROG_UI_B_SchedulePeopleScene {
     // ############################################################
 
 
-    // Data manager Objects
-    // ############################################################
-    // Schedule Calculator
-    private final PROG_BLL_SchedulingCalculation    ScheduleCalculator;
-    // User Time Input manager
-    private final PROG_UI_C_UserTimeInput           Scheduler_UserTimeInputs;
-    // Json File
-    private final PROG_DAL_B_JSONManager            Scheduler_fileReader;
-    // ############################################################
-    
-
-    // user input variables
-    // ############################################################
-    // People to schedule
-    private ComboBox<String>                    ComboBoxPersonList;     // Contains the list of all people that can be added to the schedule
-    private LinkedList<String>                  IDsToSchedule;          // list of selected ids the user wants scheduled
-    private FlowPane                            AddedPeople;            // list of people the user selected to schedule
-    private ScrollPane                          ListofScheduledPeople;  // holds the flowpane of scheduledpeople so it can be scrolled
-
-    // list ammount
-    private Label                               Label_OutputNumber;     // label containing the selected list ammount for visual display
-    private TextField                           userInput_listAmmount;  // user input for list ammount
-    private int                                 DisplayScheduleAmmount; // int ammount stored for actual calculations
-
-    // Day
-    private ComboBox<String>                    userInput_SelectDays;   // combobox for the user to select which days they want to scheudle on
-    private FlowPane                            OutputDays;             // flowpane ontains the input days the user wants selected
-
-    // time
-    private FlowPane                            FlowPane_VBoxDisplay;   // dispalys time inputs
-    private LinkedList<PROG_DAL_A_TimeInput>    List_UserTimes;         // List of prefered times for an individual
-    private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
-    // ############################################################
-
-
-
-
-
-
     // File User Info
     // ############################################################
     private LinkedList<PROG_DAL_A_InfoInput>    FileUserInfo;
@@ -185,7 +146,48 @@ public class PROG_UI_B_SchedulePeopleScene {
     // ############################################################
 
 
-    // Calculating Schedules
+    // Data manager Objects
+    // ############################################################
+    // Schedule Calculator
+    private final PROG_BLL_SchedulingCalculation    ScheduleCalculator;
+    // User Time Input manager
+    private final PROG_UI_C_UserTimeInput           Scheduler_UserTimeInputs;
+    // Json File manager
+    private final PROG_DAL_B_JSONManager            Scheduler_fileReader;
+    // ############################################################
+    
+
+    // user input nodes and variables
+    // ############################################################
+    // People to schedule input
+    private ScrollPane                          ScrollAddedPeople;  // holds the flowpane of scheduledpeople so it can be scrolled
+    private FlowPane                            AddedPeople;            // list of people the user selected to schedule
+    private ComboBox<String>                    Selectable_PersonList;     // Contains the list of all people that can be added to the schedule
+    // People to schedule output
+    private LinkedList<String>                  SCHEDULE_IDS;          // list of selected ids the user wants scheduled
+
+    // list ammount input
+    private Label                               Label_OutputNumber;     // label containing the selected list ammount for visual display
+    private TextField                           userInput_listAmmount;  // user input for list ammount
+    // list ammount output
+    private int                                 SCHEDULE_LIST; // int ammount stored for actual calculations
+
+    // Day input
+    private ComboBox<String>                    userInput_SelectDays;   // combobox for the user to select which days they want to scheudle on
+    private FlowPane                            OutputDays;             // flowpane ontains the input days the user wants selected
+    // day output
+    private String[]                            SCHEDULE_DAYS;
+
+
+    // time input 
+    private FlowPane                            FlowPane_VBoxDisplay;   // dispalys time inputs
+    private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
+    // time output
+    private LinkedList<PROG_DAL_A_TimeInput>    SCHEDULE_TIMES;         // List of prefered times for an individual
+    // ############################################################
+
+
+    // Calculated Schedules
     // ############################################################
     private LinkedList<PROG_DAL_A_Schedule>     CalculatedScheduleList;
     private ObservableList<PROG_DAL_A_Schedule> Schedules;
@@ -224,20 +226,20 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
 
 
-        // user Time input graphic variables
+        // user Inputs for the schedule calculation
         // ############################################################
-        // holds a list of prefered times input by the user - max 4
-        this.List_UserTimes             = new LinkedList<>();
-        // holds a list of VBoxes containg the user prefered times - used for safe iteration
-        this.List_VBoxTimeInputs        = new LinkedList<>();
-        // ############################################################
-
-
-        // TODO: finsih organizing
         // linked list of current user inputed people they want to include in the schedule(s) - used to update the schedule calculator
-        this.IDsToSchedule              = new LinkedList<>();
+        this.SCHEDULE_IDS       = new LinkedList<>();
+        // ammount fo schedules the user wants displayed
+        this.SCHEDULE_LIST      = 0;
+        // String[] containg all user selected days
+        this.SCHEDULE_DAYS      = new String[7];
+        // holds a list of prefered times input by the user - max 4
+        this.SCHEDULE_TIMES     = new LinkedList<>();
+        // ############################################################
+
             
-    }
+    } // PROG_UI_B_SchedulePeopleScene(Stage stage)
 
 
     
@@ -264,7 +266,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Shows the change
         this.ApplicationStage.show();
         
-    }
+    } // changetoSchedulingScene
 
 
 
@@ -325,48 +327,61 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
 
-
+        // UI Creation              - Creates the UI layout and other inputs for the user to input preferences and create schedules
+        // ############################################################
         SchedulingInterface();
-
         Scheduler_UserTimeInputs.UI_data_construction();
+        // ############################################################
 
 
-        // create Schedule Display
+        // create Schedule Display  = Creates the output UI displaying created schedules for the user
+        // ############################################################
         SchedulingDisplay();
+        // ############################################################
 
 
         // Set Node position within Root Node
-
+        // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor  (RETURN_ToMenu,          PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
-        AnchorPane.setRightAnchor   (RETURN_ToMenu,          PROG_UI_D_DataVariables.SCHEDULE_Return_RightAnchor);
+        AnchorPane.setBottomAnchor  (RETURN_ToMenu,                     PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
+        AnchorPane.setRightAnchor   (RETURN_ToMenu,                     PROG_UI_D_DataVariables.SCHEDULE_Return_RightAnchor);
 
         // Root Node - set UI interface position
-        AnchorPane.setTopAnchor     (UIInput_FullUIHolder_ScrollPane,       PROG_UI_D_DataVariables.SCHEDULE_UIInput_TopAnchor);
-        AnchorPane.setLeftAnchor    (UIInput_FullUIHolder_ScrollPane,       PROG_UI_D_DataVariables.SCHEDULE_UIInput_LeftAnchor);
+        AnchorPane.setTopAnchor     (UIInput_FullUIHolder_ScrollPane,   PROG_UI_D_DataVariables.SCHEDULE_UIInput_TopAnchor);
+        AnchorPane.setLeftAnchor    (UIInput_FullUIHolder_ScrollPane,   PROG_UI_D_DataVariables.SCHEDULE_UIInput_LeftAnchor);
 
         // Root Node - set Schedule Display position
-        AnchorPane.setTopAnchor     (UIOutput_FullUIHolder_scrollPane, PROG_UI_D_DataVariables.SCHEDULE_UIOutput_TopAnchor);
-        AnchorPane.setRightAnchor   (UIOutput_FullUIHolder_scrollPane, PROG_UI_D_DataVariables.SCHEDULE_UIOutput_RightAnchor);
+        AnchorPane.setTopAnchor     (UIOutput_FullUIHolder_scrollPane,  PROG_UI_D_DataVariables.SCHEDULE_UIOutput_TopAnchor);
+        AnchorPane.setRightAnchor   (UIOutput_FullUIHolder_scrollPane,  PROG_UI_D_DataVariables.SCHEDULE_UIOutput_RightAnchor);
+        // ############################################################
 
-
-        // Add UI tot eh root node
+        // Add UI to each root node
+        // ############################################################
         Schedule_RootNode.getChildren().addAll(UIInput_FullUIHolder_ScrollPane, UIOutput_FullUIHolder_scrollPane,  RETURN_ToMenu);
+        // ############################################################
 
 
-        // Background creation
+        // Background creation and application to the root node
+        // ############################################################
         SetBackground();
+        // ############################################################
 
 
         // Fade Transitions - must be called after every node is added to the root node
         fadeTransitions();
+        // ############################################################
 
         
-        // create menu scene with the current node layout
+        // Scene creation to be set to the current scene
+        // ############################################################
         this.SchedulingScene = new Scene(Schedule_RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        // ############################################################
+
 
         // fade all objects before the scene is set
+        // ############################################################
         fadeMenuNodes.play();
+        // ############################################################
 
     }
 
@@ -444,7 +459,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // UIOutput_FullUIHolder_scrollPane
         // ############################################################
-
+        // TODO: finsih
         // Contains all schedule nodes
         // ############################################################
         this.UIOutput_FullUI_VBOX = new VBox(10);
@@ -459,6 +474,7 @@ public class PROG_UI_B_SchedulePeopleScene {
      * Description: creates various events used within this scene.
      */
     private void EventHandlerCreation() {
+
 
         // return to the Home page
         // ############################################################
@@ -481,16 +497,16 @@ public class PROG_UI_B_SchedulePeopleScene {
             this.AddedPeople.getChildren().clear();
 
             // clear the comboBox of all items
-            this.ComboBoxPersonList.getItems().clear();
+            this.Selectable_PersonList.getItems().clear();
 
             // Reset the comboBox with the full List
-            this.ComboBoxPersonList.getItems().addAll(PersonList);
+            this.Selectable_PersonList.getItems().addAll(PersonList);
 
             // Reset the schedule calculator
             ScheduleCalculator.ResetPeopleToSchedule();
 
             // reset the linked list of user ids
-            this.IDsToSchedule = new LinkedList<>();
+            this.SCHEDULE_IDS = new LinkedList<>();
 
         };
         // ############################################################
@@ -505,15 +521,15 @@ public class PROG_UI_B_SchedulePeopleScene {
             System.out.println("");
 
             
-            if ((ComboBoxPersonList.getValue() != null) && (!ComboBoxPersonList.getValue().isBlank())) {
+            if ((Selectable_PersonList.getValue() != null) && (!Selectable_PersonList.getValue().isBlank())) {
 
                 System.out.println("Check");
 
                 // gets the person selected from the combobox
-                String SelectedPerson = ComboBoxPersonList.getValue();
+                String SelectedPerson = Selectable_PersonList.getValue();
 
                 // removes that person from the combobox
-                this.ComboBoxPersonList.getItems().remove(SelectedPerson);
+                this.Selectable_PersonList.getItems().remove(SelectedPerson);
 
                 // adds them to the seleted list of people
                 this.AddedPeople.getChildren().add(new Text(SelectedPerson));
@@ -522,10 +538,10 @@ public class PROG_UI_B_SchedulePeopleScene {
                 String[] getID = SelectedPerson.split("\\s+");
 
                 // adds the id to the list of people to schedule
-                IDsToSchedule.add(getID[1]); // add id as string
+                SCHEDULE_IDS.add(getID[1]); // add id as string
                 
                 // updates the scheduler with the updated list
-                ScheduleCalculator.UpdatePeopleToSchedule(IDsToSchedule);
+                ScheduleCalculator.UpdatePeopleToSchedule(SCHEDULE_IDS);
 
             } // if()
 
@@ -543,24 +559,26 @@ public class PROG_UI_B_SchedulePeopleScene {
 
             // remove all text from the flowpane
             if ((this.AddedPeople.getChildren().size()) > 0) {
+
+                // gets the text of the last person added to the flowpane
                 String LastPerson = ((Text) this.AddedPeople.getChildren().getLast()).getText();
 
+                // removes last person from the flowpane
                 this.AddedPeople.getChildren().removeLast();
-                // clear the comboBox of all items
-                //this.ComboBoxPersonList.getItems().clear();
 
                 // Reset the comboBox with the full List
-                this.ComboBoxPersonList.getItems().add(LastPerson);
+                this.Selectable_PersonList.getItems().add(LastPerson);
 
                 // if the list of people is more than 1 remove them if less, reset the list
-                if (IDsToSchedule.size() > 1) {
-                    this.IDsToSchedule.removeLast();
-                
-                    ScheduleCalculator.UpdatePeopleToSchedule(IDsToSchedule);
-                } else {
-                    ScheduleCalculator.ResetPeopleToSchedule();
+                if (SCHEDULE_IDS.size() > 1) {
 
-                    this.IDsToSchedule = new LinkedList<>();
+                    this.SCHEDULE_IDS.removeLast();
+                    ScheduleCalculator.UpdatePeopleToSchedule(SCHEDULE_IDS);
+
+                } else {
+
+                    ScheduleCalculator.ResetPeopleToSchedule();
+                    this.SCHEDULE_IDS = new LinkedList<>();
                 }
 
             } // if ((this.AddedPeople.getChildren().size()) > 0)
@@ -615,10 +633,13 @@ public class PROG_UI_B_SchedulePeopleScene {
 
             // Resets the ComboBox Input values to their original state
             this.userInput_SelectDays.getItems().clear();
-            this.userInput_SelectDays.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
+            this.userInput_SelectDays.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS.clone());
+
+            // resets the list of user selected days
+            this.SCHEDULE_DAYS  = new String[7];
 
             // resets the schedule calcualtor to look through everyday of the week
-            ScheduleCalculator.UpdateWeekDays(PROG_UI_D_DataVariables.WEEKDAYS); // input String[]
+            ScheduleCalculator.UpdateWeekDays(PROG_UI_D_DataVariables.WEEKDAYS.clone()); // input String[]
 
         };
         // ############################################################
@@ -633,11 +654,35 @@ public class PROG_UI_B_SchedulePeopleScene {
             
             if ((userInput_SelectDays.getValue() != null) && (!userInput_SelectDays.getValue().isBlank())) {
 
-                String SelectedDay = userInput_SelectDays.getValue();
+                // retireves the selected user value
+                String UserInput_day = userInput_SelectDays.getValue();
 
-                userInput_SelectDays.getItems().remove(SelectedDay);
+                // removes the selected day from the combobox
+                this.userInput_SelectDays.getItems().remove(UserInput_day);
 
-                OutputDays.getChildren().add(new Text(SelectedDay));
+
+                // adds the day to the string[] containing all selected user days
+                for (int WeekdayIndex = 0; WeekdayIndex < PROG_UI_D_DataVariables.WEEKDAYS.length; WeekdayIndex++) {
+
+                    if (UserInput_day.equals(PROG_UI_D_DataVariables.WEEKDAYS[WeekdayIndex])) {
+                        this.SCHEDULE_DAYS[WeekdayIndex] = UserInput_day;
+                    }
+
+                } // for (int WeekdayIndex = 0; WeekdayIndex < PROG_UI_D_DataVariables.WEEKDAYS.length; WeekdayIndex++)
+                
+                
+
+                // removes the null values from the string[] 
+                String[] SelectedDays_SchedulerInput = Arrays.stream(this.SCHEDULE_DAYS).filter(Objects::nonNull).toArray(String[]::new);
+
+                // string to be displayed as text in the flowpane
+                String DisplayText_days = String.join(" - ", SelectedDays_SchedulerInput);
+
+                // sets the output text in the flowpane
+                OutputDays.getChildren().set(0, (new Text(DisplayText_days)) );
+
+                // scheduler is updated with the new list of selected days
+                ScheduleCalculator.UpdateWeekDays(SelectedDays_SchedulerInput);
 
             } // if()
 
@@ -652,7 +697,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset time input");
 
             // Reset List_UserTimes - clearing all elements in the Linked list
-            this.List_UserTimes.clear();
+            this.SCHEDULE_TIMES.clear();
 
             // Reset List_VBoxTimeInputs
 
@@ -707,13 +752,13 @@ public class PROG_UI_B_SchedulePeopleScene {
                  * 
                  * PROG_DAL_A_TimeInput TempUserPreferrence         - individual time preference containing day. start and end times
                  * 
-                 * LinkedList<PROG_DAL_A_TimeInput> List_UserTimes  - A list of all time preferences a person has. To be submitted to the scheduler for calculation
+                 * LinkedList<PROG_DAL_A_TimeInput> SCHEDULE_TIMES  - A list of all time preferences a person has. To be submitted to the scheduler for calculation
                  * 
                  * LinkedList<VBox> List_VBoxTimeInputs             - a copied list of all VBoxes stored in the flowpane display. Used to iterate, not to be displayed
                  * 
                  * FlowPane FlowPane_VBoxDisplay                    - A flowpane which displays the various Vboxs that hold user preferences. display only
                  */
-                Scheduler_UserTimeInputs.UserInputGraphic(TempUserPreferrence, List_UserTimes, List_VBoxTimeInputs, FlowPane_VBoxDisplay, false);
+                Scheduler_UserTimeInputs.UserInputGraphic(TempUserPreferrence, SCHEDULE_TIMES, List_VBoxTimeInputs, FlowPane_VBoxDisplay, false);
                 // ############################################################
 
 
@@ -722,7 +767,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
                 // update the scheduler to the updated list of user times
-                ScheduleCalculator.SetSpecificTime(List_UserTimes);
+                ScheduleCalculator.SetSpecificTime(SCHEDULE_TIMES);
 
             } else {
                 // Do nothing
@@ -1002,24 +1047,24 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Secondary Node       - Holds Reset Button
         VBox Secondary_InputPeople  = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
         // comboBox to display the names available to select
-        this.ComboBoxPersonList     = new ComboBox<>();
+        this.Selectable_PersonList  = new ComboBox<>();
         // flowpane node to hold te name list of selected people
         this.AddedPeople            = new FlowPane();
         // scrollpane to hold the flowpane AddedPeople
-        ListofScheduledPeople       = new ScrollPane(this.AddedPeople);
+        ScrollAddedPeople           = new ScrollPane(this.AddedPeople);
         // ############################################################
 
 
         // Node set sizing
         // ############################################################
-        Input_InputPeople       .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
-        Output_InputPeople      .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
-        this.ComboBoxPersonList .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefWidthLarge,     PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefHeightLarge);
-        this.AddedPeople        .setPrefSize(100.0, 100.0);
+        Input_InputPeople           .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
+        Output_InputPeople          .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
+        this.Selectable_PersonList  .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefWidthLarge,     PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefHeightLarge);
+        this.AddedPeople            .setPrefSize(100.0, 100.0);
         // this.AddedPeople         .getStyleClass().add("flowBox-names");
-        this.AddedPeople        .setPadding(new Insets(2));
-        this.AddedPeople        .setHgap(5.0);
-        this.AddedPeople        .setVgap(2.0);
+        this.AddedPeople            .setPadding(new Insets(2));
+        this.AddedPeople            .setHgap(5.0);
+        this.AddedPeople            .setVgap(2.0);
         // ############################################################
 
 
@@ -1049,10 +1094,10 @@ public class PROG_UI_B_SchedulePeopleScene {
         }
 
         // Retrieve the list from the file reader
-        this.FileUserInfo = new LinkedList<>(Scheduler_fileReader.ReturnFile());
+        this.FileUserInfo   = new LinkedList<>(Scheduler_fileReader.ReturnFile());
         
         // LinkedList of all people in the file showing both ID and full name
-        this.PersonList = new LinkedList<>();
+        this.PersonList     = new LinkedList<>();
 
         // Add people to the list
         for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
@@ -1060,16 +1105,16 @@ public class PROG_UI_B_SchedulePeopleScene {
         }
 
         // add list to combobox
-        this.ComboBoxPersonList.getItems().addAll(PersonList);
+        this.Selectable_PersonList.getItems().addAll(PersonList);
         // ############################################################
 
 
         // Add all to the primary Node
         // ############################################################
         // Primary Node output
-        Output_InputPeople          .getChildren().addAll(Label_addedPeople, ListofScheduledPeople); // AddedPeople
+        Output_InputPeople          .getChildren().addAll(Label_addedPeople, ScrollAddedPeople); // AddedPeople
         // Primary Node Input
-        Input_InputPeople           .getChildren().addAll(Label_inputPeople, ComboBoxPersonList, this.Input_SelectedPeople, this.REMOVELastPerson);
+        Input_InputPeople           .getChildren().addAll(Label_inputPeople, Selectable_PersonList, this.Input_SelectedPeople, this.REMOVELastPerson);
         // Primary Node
         Primary_InputPeople         .getChildren().addAll(Input_InputPeople, Output_InputPeople);
         // ############################################################
@@ -1256,69 +1301,16 @@ public class PROG_UI_B_SchedulePeopleScene {
         // add defualt text to output
         this.OutputDays.getChildren().add(new Text(PROG_UI_D_DataVariables.EmptyText));
 
-        this.OutputDays.getChildren().addListener((javafx.collections.ListChangeListener<Node>) change -> {
+        // this.OutputDays.getChildren().addListener((javafx.collections.ListChangeListener<Node>) change -> {
 
-            // ensures OutputDays has enough nodes to complete all operations without index out of bound errors
-            // Also exists due to reset button activating this listner -> do not remove the if statmenet
-            if (this.OutputDays.getChildren().size() > 1) {
+        //     // ensures OutputDays has enough nodes to complete all operations without index out of bound errors
+        //     // Also exists due to reset button activating this listner -> do not remove the if statmenet
+        //     if (this.OutputDays.getChildren().size() > 1) {
 
 
-                // Incoming input, the day to be added to the list - should always be the second node (index 1)
-                String NewDay = ((Text) this.OutputDays.getChildren().get(1)).getText();
-
-                // exisitng days, days to be kept in the list - should always be the first node (index 0)
-                String[] CollectedDays = ((Text) this.OutputDays.getChildren().get(0)).getText().split(" ");
-
-                // NewDayList, the new list which contains all the days from the existing node and the incoming input
-                String[] NewDayList = PROG_UI_D_DataVariables.WEEKDAYS.clone();
-                
-                boolean hasDay;
-                int NewDayList_index = 0;
-
-                // iterate through every day of the week
-                for (String WeekDay: PROG_UI_D_DataVariables.WEEKDAYS) {
-                    
-                    hasDay = false;
-
-                    // for each day see if the current string[] of collected days has it or if the new one does
-                    for (int collectedDays_index = 0; collectedDays_index < CollectedDays.length; collectedDays_index++) {
-
-                        // if either are true set has day to true
-                        if ( (WeekDay.equals(CollectedDays[collectedDays_index])) || (WeekDay.equals(NewDay)) ) {
-                            hasDay = true;
-                            break;
-                        }
-
-                    } // for()
-
-                    if (hasDay == true) {
-                        // do nothing
-                    } else {
-                        // if the day is not contained in either variable, set the relevant day to null in the new list
-                        NewDayList[NewDayList_index] = null;
-                    }
-
-                    // incrment the new Day List index
-                    NewDayList_index++;
-
-                } // for()
-
-                // new text to be set to the flowPane
-                String NewTextString = Arrays.stream(NewDayList).filter(Objects::nonNull).collect(Collectors.joining(" "));
-
-                // remove incoming node
-                this.OutputDays.getChildren().remove(1);
-
-                // set existing node to new text
-                Text NewTextNode = (Text) this.OutputDays.getChildren().get(0);
-                NewTextNode.setText(NewTextString);
-
-                // Update scheduleing Object with new list of days
-                ScheduleCalculator.UpdateWeekDays(NewTextString.split(" ")); // input String[]
-
-            } // if()
-        });
-        // ############################################################
+        //     } // if()
+        // });
+        // // ############################################################
 
 
 
@@ -1327,23 +1319,23 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Add all to the primary node
         // ############################################################
         // Primary Node Output
-        Output_InputDay.getChildren().addAll(Label_OutputDay, OutputDays);
+        Output_InputDay         .getChildren().addAll(Label_OutputDay, OutputDays);
         // Primary Node Input
-        Input_InputDay.getChildren().addAll(Label_inputDay, userInput_SelectDays, this.INPUT_SelectedDay);
+        Input_InputDay          .getChildren().addAll(Label_inputDay, userInput_SelectDays, this.INPUT_SelectedDay);
         // Primary Node
-        Primary_InputDay.getChildren().addAll(Input_InputDay, Output_InputDay);
+        Primary_InputDay        .getChildren().addAll(Input_InputDay, Output_InputDay);
         // ############################################################
 
         // add all to the secondary node
         // ############################################################
-        Secondary_InputDay.getChildren().addAll(RESET_DaySelection);
+        Secondary_InputDay      .getChildren().addAll(RESET_DaySelection);
         // ############################################################
         
 
 
         // Input all into UI Day Input this.UIInput_DayUI_VBOX.
         // ############################################################
-        this.UIInput_DayUI_VBOX.getChildren().addAll(Primary_InputDay, Secondary_InputDay);
+        this.UIInput_DayUI_VBOX .getChildren().addAll(Primary_InputDay, Secondary_InputDay);
         // ############################################################
 
     } // InputDayPreference()
@@ -1370,6 +1362,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         HBox Add_EndTime            = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
         // flowpane to hold time output boxes   -   NOTE: must be declared within class to work not method
         this.FlowPane_VBoxDisplay   = new FlowPane();
+        // linkedlist for input VBoxes  - used for iteration only
+        this.List_VBoxTimeInputs    = new LinkedList<>();
         // ############################################################
 
 
@@ -1446,22 +1440,22 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Add all to the nodes
         // ############################################################
         // primary node output
-    //  FlowPane_VBoxDisplay
+        // - FlowPane_VBoxDisplay
         // primary node input
-        Input_InputTime.getChildren().addAll(Label_inputTime, Add_StartTime, Add_EndTime, this.INPUT_TimePreferences);
+        Input_InputTime             .getChildren().addAll(Label_inputTime, Add_StartTime, Add_EndTime, this.INPUT_TimePreferences);
         // primary node
-        Primary_InputTime.getChildren().addAll(Input_InputTime, FlowPane_VBoxDisplay);
+        Primary_InputTime           .getChildren().addAll(Input_InputTime, this.FlowPane_VBoxDisplay);
         // ############################################################
 
         // Secondary Node
         // ############################################################
-        Secondary_InputTime.getChildren().addAll(this.RESET_TimeInput);
+        Secondary_InputTime         .getChildren().addAll(this.RESET_TimeInput);
         // ############################################################
 
 
         // add all to Time Ui holder UIInput_TimeUI_VBOX
         // ############################################################
-        this.UIInput_TimeUI_VBOX.getChildren().addAll(Primary_InputTime, Secondary_InputTime);
+        this.UIInput_TimeUI_VBOX    .getChildren().addAll(Primary_InputTime, Secondary_InputTime);
         // ############################################################
 
     } // InputTimePreference()
@@ -1477,9 +1471,9 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node Creation
         // ############################################################
         // primary node
-        HBox CalculateButtons = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox CalculateButtons   = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
         // Secondary Node - input
-        VBox Holder_Calculate = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Holder_Calculate   = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
         // ############################################################
 
 
@@ -1495,18 +1489,19 @@ public class PROG_UI_B_SchedulePeopleScene {
         Label_ScheduleNow.getStyleClass().add("default-label");
         // ############################################################
 
+
         // Add all to the nodes
         // ############################################################
         // seconary node input
-        Holder_Calculate.getChildren().addAll(Label_ScheduleNow);
+        Holder_Calculate                .getChildren().addAll(Label_ScheduleNow);
         // primary node
-        CalculateButtons.getChildren().addAll(Holder_Calculate, this.CALCULATE_Schedule, this.CLEAR_Schedules);
+        CalculateButtons                .getChildren().addAll(Holder_Calculate, this.CALCULATE_Schedule, this.CLEAR_Schedules);
         // ############################################################
 
 
         // input all into the schedule UI
         // ############################################################
-        this.UIInput_CalculateUI_VBOX.getChildren().addAll(CalculateButtons);
+        this.UIInput_CalculateUI_VBOX   .getChildren().addAll(CalculateButtons);
         // ############################################################
 
     } // CalculateSchedule()

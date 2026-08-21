@@ -15,7 +15,7 @@ public final class PROG_UI_D_DataVariables {
 
 
     private PROG_UI_D_DataVariables() {
-
+        
     }
 
     /**

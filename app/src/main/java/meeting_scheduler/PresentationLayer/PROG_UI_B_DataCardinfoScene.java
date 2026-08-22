@@ -84,7 +84,7 @@ public class PROG_UI_B_DataCardinfoScene {
     // Nodes
     // ############################################################
     // Root Node
-    private AnchorPane  RootNode;               // RootNode of the scene, contains all nodes
+    private AnchorPane  DataCard_RootNode;               // RootNode of the scene, contains all nodes
     // Vbox
     private VBox        UI_FullInterface;       // Contains all UI nodes
     private VBox        UI_TimeInterface;       // COntains all Ui nodes for time input
@@ -113,7 +113,15 @@ public class PROG_UI_B_DataCardinfoScene {
     private TextField   userInput_EmployeeName; // A persons name
     // ############################################################
 
-    
+    // Action Events
+    // ############################################################
+    private EventHandler<ActionEvent> ReturnHome = null;
+    private EventHandler<ActionEvent> AddInfo = null;
+    private EventHandler<ActionEvent> SubmitInfo = null;
+    private EventHandler<ActionEvent> ResetTimePreference = null;
+    // ############################################################
+
+
 
     // User Data
     // ############################################################
@@ -146,6 +154,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.InfoInputPreferences       = new LinkedList<>();
         this.JsonManager                = new PROG_DAL_B_JSONManager();
         this.DataCard_UserTimeInputs    = new PROG_UI_C_UserTimeInput();
+        this.List_VBoxTimeInputs        = new LinkedList<>();
 
     }
 
@@ -184,46 +193,57 @@ public class PROG_UI_B_DataCardinfoScene {
      */
     public void ConstructCardManagerScene() {
 
-        // Root Node
+        // Root Node construction
+        // ############################################################
         // - must be called first
-        this.RootNode = new AnchorPane();
-        
+        this.DataCard_RootNode = new AnchorPane();
         // loads css styles
-        RootNode.getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
+        this.DataCard_RootNode.getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
+        // ############################################################
+
+
+        // handles event creation
+        // ############################################################
+        DatacardEventHandler();
+        // ############################################################
 
 
         // Creates Buttons for this scene
+        // ############################################################
         ButtonCreation();
+        // ############################################################
 
 
         // Creates label for this scene
+        // ############################################################
         UI_LabelCreation();
+        // ############################################################
 
 
         // Creates UI for user inputs
+        // ############################################################
         UI_UserInputs();
         DataCard_UserTimeInputs.UI_data_construction();
+        // ############################################################
 
 
         // creates layour for the user input UI
+        // ############################################################
         cardUIManagement();
+        // ############################################################
 
-
-        // VBox user info linkedlist
-        List_VBoxTimeInputs = new LinkedList<>();
 
         // Creates layout of user submitted info before submission
+        // ############################################################
         this.FlowPane_VBoxDisplay = new FlowPane();
         this.FlowPane_VBoxDisplay.setPrefSize(600.0, 600.0);
         this.FlowPane_VBoxDisplay.setPadding(new Insets(10));
-        this.FlowPane_VBoxDisplay.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-border-color: Black;" +
-            "-fx-border-width: 2;" +
-            "-fx-border-radius: 5;"
-        );
+        this.FlowPane_VBoxDisplay.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimePref);
+        // ############################################################
 
 
+        // Anchor position set
+        // ############################################################
         // Root Node - set return home button position
         AnchorPane.setBottomAnchor(ButtonReturn, 20.0);
         AnchorPane.setRightAnchor(ButtonReturn, 20.0);
@@ -235,22 +255,31 @@ public class PROG_UI_B_DataCardinfoScene {
         // Root Node - set user cards
         AnchorPane.setTopAnchor(FlowPane_VBoxDisplay, 20.0);
         AnchorPane.setRightAnchor(FlowPane_VBoxDisplay, 20.0);
+        // ############################################################
         
 
         // Add all to root node
-        this.RootNode.getChildren().addAll(UI_FullInterface, ButtonReturn, FlowPane_VBoxDisplay);
+        // ############################################################
+        this.DataCard_RootNode.getChildren().addAll(UI_FullInterface, ButtonReturn, FlowPane_VBoxDisplay);
         // ############################################################
 
         
         // Set Graphical Effects
+        // ############################################################
         SceneEffects();
+        // ############################################################
 
 
         // create menu scene with the current node layout
-        this.DataCardScene = new Scene(RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        // ############################################################
+        this.DataCardScene = new Scene(DataCard_RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        // ############################################################
+
 
         // fade all objects before the scene is set
+        // ############################################################
         this.fadeMenuNodes.play();
+        // ############################################################
         
     } // ConstructCardManagerScene(
 
@@ -267,12 +296,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.UI_AddStartTime = new HBox(10);
         //AddStartTime.setPrefSize(300.0, 500.0);
         this.UI_AddStartTime.setPadding(new Insets(10));
-        this.UI_AddStartTime.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-border-color: Black;" +
-            "-fx-border-width: 2;" +
-            "-fx-border-radius: 5;"
-        );
+        this.UI_AddStartTime.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimePref);
 
         this.UI_AddStartTime.getChildren().addAll(
 
@@ -294,13 +318,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.UI_addEndingTime = new HBox(10);
         //AddStartTime.setPrefSize(200.0, 400.0);
         this.UI_addEndingTime.setPadding(new Insets(10));
-        this.UI_addEndingTime.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-border-color: Black;" +
-            "-fx-border-width: 2;" +
-            "-fx-border-radius: 5;"
-        );
-
+        this.UI_addEndingTime.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimePref);
         this.UI_addEndingTime.getChildren().addAll(
 
             LabelEndHour,
@@ -321,12 +339,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.UI_TimeInterface = new VBox(10);
         //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
         this.UI_TimeInterface.setPadding(new Insets(10));
-        this.UI_TimeInterface.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-border-color: Black;" +
-            "-fx-border-width: 2;" +
-            "-fx-border-radius: 5;"
-        );
+        this.UI_TimeInterface.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimePref);
 
         Region ButtonSpace = new Region();
         VBox.setVgrow(ButtonSpace, Priority.ALWAYS);
@@ -357,12 +370,8 @@ public class PROG_UI_B_DataCardinfoScene {
         this.UI_FullInterface = new VBox(10);
         this.UI_FullInterface.setPrefSize(400.0, 600.0);
         this.UI_FullInterface.setPadding(new Insets(10));
-        this.UI_FullInterface.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-border-color: Black;" +
-            "-fx-border-width: 2;" +
-            "-fx-border-radius: 5;"
-        );
+        this.UI_FullInterface.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_DefaultUI);
+
 
         // add nodes to the box
         this.UI_FullInterface.getChildren().addAll(
@@ -398,21 +407,7 @@ public class PROG_UI_B_DataCardinfoScene {
         // Return Home Button
         // ############################################################
         this.ButtonReturn = new Button("Return Home");
-
-        EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
-            
-            // Exits the program
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_returnHome);
-            
-            fadeMenuNodes.setOnFinished(event -> {
-                PROG_UI_A_Application.SceneManager.MainMenu();
-            });
-
-            fadeMenuNodes.play();
-
-        };
-
-        this.ButtonReturn.setOnAction(ReturnHome);
+        this.ButtonReturn.setOnAction(this.ReturnHome);
         // ############################################################
 
 
@@ -420,14 +415,58 @@ public class PROG_UI_B_DataCardinfoScene {
         // Add Info Button
         // ############################################################
         this.ButtonAddPreference = new Button("Add Info");
+        this.ButtonAddPreference.setOnAction(this.AddInfo);
+        // ############################################################
 
-        EventHandler<ActionEvent> AddInfo = (ActionEvent e) -> {
 
-            // System Message
+
+        // Submit UserInfo
+        // ############################################################
+        this.ButtonSubmitPref = new Button("Submit Info");
+        this.ButtonSubmitPref.setOnAction(this.SubmitInfo);
+        // ############################################################
+
+
+
+        // reset usertimeinput
+        // ############################################################
+        this.ButtonResetPref = new Button("Reset added time preferences");
+        this.ButtonResetPref.setOnAction(this.ResetTimePreference);
+
+    } // ButtonCreation()
+
+
+
+    /**
+     * DatacardEventHandler()
+     * Description: handles the creation of various event handlers for the scene
+     */
+    private void DatacardEventHandler() {
+
+        // Returns to the main menu
+        // ############################################################
+        this.ReturnHome = event -> {
+            
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_returnHome);
+            
+            fadeMenuNodes.setOnFinished(event2 -> {
+                PROG_UI_A_Application.SceneManager.MainMenu();
+            });
+
+            fadeMenuNodes.play();
+
+        };
+        // ############################################################
+
+
+
+        // Adds a user preference to their datacard
+        // ############################################################
+        this.AddInfo = event -> {
+
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_AddInfo);
 
             // checks to ensure all variables are input
-            // TODO: update size check
             if ( (DataCard_UserTimeInputs.ButtonPressFullTimeInput() == 0) && (List_VBoxTimeInputs.size() < PROG_UI_D_DataVariables.MAXTimeInputs) ){
 
                 // Temp user preference created for clean seperation of object use
@@ -459,17 +498,13 @@ public class PROG_UI_B_DataCardinfoScene {
             }
 
         };
-
-        this.ButtonAddPreference.setOnAction(AddInfo);
         // ############################################################
 
 
-
-        // Submit UserInfo
+        
+        // Submits the added user preferences to the relevant json file
         // ############################################################
-        this.ButtonSubmitPref = new Button("Submit Info");
-
-        EventHandler<ActionEvent> SubmitInfo = (ActionEvent e) -> {
+        this.SubmitInfo = event -> {
             
             // Submits USer info
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_SubmitInfo);
@@ -555,16 +590,13 @@ public class PROG_UI_B_DataCardinfoScene {
             } // if/else ()
 
         };
-        this.ButtonSubmitPref.setOnAction(SubmitInfo);
         // ############################################################
 
 
 
-        // reset usertimeinput
+        // Resets all input time preferences
         // ############################################################
-        this.ButtonResetPref = new Button("Reset added time preferences");
-
-        EventHandler<ActionEvent> ResetTimePreference = (ActionEvent e) -> {
+        this.ResetTimePreference = event -> {
 
             // linkedlist Vbox full of user preferences
             RemoveAllVBOXIterator = List_VBoxTimeInputs.iterator();
@@ -604,11 +636,12 @@ public class PROG_UI_B_DataCardinfoScene {
 
             FlowPane_VBoxDisplay.getChildren().clear();
             
-
         };
-        this.ButtonResetPref.setOnAction(ResetTimePreference);
+        // ############################################################
 
-    } // ButtonCreation()
+
+
+    } // DatacardEventHandler()
 
 
 
@@ -624,47 +657,47 @@ public class PROG_UI_B_DataCardinfoScene {
 
         // Label - Name Prompt
         this.Labelname          = new Label(PROG_UI_D_DataVariables.Prompt_Name);
-        this.Labelname.getStyleClass().add("default-label");
+        this.Labelname.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - ID Prompt
         this.LabelID            = new Label(PROG_UI_D_DataVariables.Prompt_ID);
-        this.LabelID.getStyleClass().add("default-label");
+        this.LabelID.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - Weekday Prompt
         this.LabelDay           = new Label(PROG_UI_D_DataVariables.Prompt_Day);
-        this.LabelDay.getStyleClass().add("default-label");
+        this.LabelDay.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - Beginning time Prompt
         this.LabelBeginningTime = new Label(PROG_UI_D_DataVariables.Prompt_BeginningTime);
-        this.LabelBeginningTime.getStyleClass().add("default-label");
+        this.LabelBeginningTime.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - Beginning Hour Label
         this.LabelBeginHour     = new Label(PROG_UI_D_DataVariables.Prompt_HourLabel);
-        this.LabelBeginHour.getStyleClass().add("default-label");
+        this.LabelBeginHour.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - Beginning Minute Label
         this.LabelBeginMinute   = new Label(PROG_UI_D_DataVariables.Prompt_MinuteLabel);
-        this.LabelBeginMinute.getStyleClass().add("default-label");
+        this.LabelBeginMinute.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - Ending time Prompt
         this.LabelEndingTime    = new Label(PROG_UI_D_DataVariables.Prompt_EndingTime);
-        this.LabelEndingTime.getStyleClass().add("default-label");
+        this.LabelEndingTime.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - Ending hour Label
         this.LabelEndHour       = new Label(PROG_UI_D_DataVariables.Prompt_HourLabel);
-        this.LabelEndHour.getStyleClass().add("default-label");
+        this.LabelEndHour.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
         // Label - Ending Minute Label
         this.LabelEndMinute     = new Label(PROG_UI_D_DataVariables.Prompt_MinuteLabel);
-        this.LabelEndMinute.getStyleClass().add("default-label");
+        this.LabelEndMinute.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
 
 
     } // UI_LabelCreation()
@@ -741,7 +774,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
         this.backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
 
-        this.RootNode.setBackground(new Background(backgroundFill));
+        this.DataCard_RootNode.setBackground(new Background(backgroundFill));
         // ############################################################
 
 
@@ -750,7 +783,7 @@ public class PROG_UI_B_DataCardinfoScene {
         // ############################################################
         this.fadeMenuNodes = new ParallelTransition();
 
-        for (Node node : this.RootNode.getChildren()) {
+        for (Node node : this.DataCard_RootNode.getChildren()) {
             
             FadeTransition NodeFade = new FadeTransition(
                 Duration.seconds(2),
@@ -769,7 +802,7 @@ public class PROG_UI_B_DataCardinfoScene {
         // ############################################################
         this.UnfadeMenuNodes = new ParallelTransition();
 
-        for (Node node : this.RootNode.getChildren()) {
+        for (Node node : this.DataCard_RootNode.getChildren()) {
             
             FadeTransition NodeUnFade = new FadeTransition(
                 Duration.seconds(2),

@@ -127,8 +127,12 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         // Root Node
         Menu_RootNode           = new AnchorPane();
+        Menu_RootNode           .getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
         // menu button holder node
         Menu_UI_ButtonHolder    = new VBox(PROG_UI_D_DataVariables.MENU_UI_Spacing);
+        Menu_UI_ButtonHolder    .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_MENU_MenuOptions);
+        Menu_UI_ButtonHolder    .setPrefWidth(PROG_UI_A_SceneManager.WindowWidth / 1.5);
+        Menu_UI_ButtonHolder    .setPrefHeight(PROG_UI_A_SceneManager.WindowHeight / 1.5);
         Menu_UI_ButtonHolder    .setAlignment(Pos.CENTER);
         // ############################################################
 
@@ -151,6 +155,17 @@ public class PROG_UI_B_MainMenuScene {
 
         
 
+        // Combine Nodes
+        // ############################################################
+        // menu UI - add scene transition buttons
+        Menu_UI_ButtonHolder    .getChildren().addAll(Button_DataCardPage, Button_SchedulePage, InstructionButton);
+        // Root Node - UI components and background effects
+        Menu_RootNode           .getChildren().addAll(circleDecoration, Menu_UI_ButtonHolder, Button_EndProgram);
+        // ############################################################
+
+
+
+
         // Node Position setting
         // ############################################################
         // Root Node - set Menu buttons position
@@ -159,16 +174,6 @@ public class PROG_UI_B_MainMenuScene {
         // Root Node - set end program button position
         AnchorPane.setBottomAnchor  (Button_EndProgram,     PROG_UI_D_DataVariables.MENU_EndProg_BottomAnchor);
         AnchorPane.setRightAnchor   (Button_EndProgram,     PROG_UI_D_DataVariables.MENU_EndProg_RightAnchor);
-        // ############################################################
-
-
-
-        // Combine Nodes
-        // ############################################################
-        // menu UI - add scene transition buttons
-        Menu_UI_ButtonHolder    .getChildren().addAll(Button_DataCardPage, Button_SchedulePage, InstructionButton);
-        // Root Node - UI components and background effects
-        Menu_RootNode           .getChildren().addAll(circleDecoration, Menu_UI_ButtonHolder, Button_EndProgram);
         // ############################################################
 
 
@@ -192,8 +197,6 @@ public class PROG_UI_B_MainMenuScene {
         Transition_fadeMenu.play();
         // ############################################################
 
-
-
     } // ConstructMainMenuScene()
 
 
@@ -212,6 +215,9 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         Button_EndProgram = new Button("End program");
         Button_EndProgram.setOnAction(this.closeProgram);
+        Button_EndProgram.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_MENU_Endprogram);
+        Button_EndProgram.setPrefWidth(PROG_UI_D_DataVariables.MENU_endButtonWidth);
+        Button_EndProgram.setPrefHeight(PROG_UI_D_DataVariables.MENU_endButtonHeight);
         // ############################################################
 
 
@@ -219,6 +225,8 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         Button_DataCardPage = new Button("Manage Data Cards");
         Button_DataCardPage.setOnAction(this.DatacardScenechange);
+        //Button_DataCardPage.setPrefWidth(PROG_UI_D_DataVariables.MENU_ButtonWidth);
+        //Button_DataCardPage.setPrefHeight(PROG_UI_D_DataVariables.MENU_ButtonHeight);
         // ############################################################
         
 
@@ -226,6 +234,8 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         Button_SchedulePage = new Button("Schedule"); 
         Button_SchedulePage.setOnAction(this.ScheduleSceneChange);
+        Button_SchedulePage.setPrefWidth(PROG_UI_D_DataVariables.MENU_ButtonWidth);
+        Button_SchedulePage.setPrefHeight(PROG_UI_D_DataVariables.MENU_ButtonHeight);
         // ############################################################
 
 
@@ -233,6 +243,8 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         InstructionButton = new Button("Instructions");
         InstructionButton.setOnAction(this.InstructionSceneChange);
+        InstructionButton.setPrefWidth(PROG_UI_D_DataVariables.MENU_ButtonWidth);
+        InstructionButton.setPrefHeight(PROG_UI_D_DataVariables.MENU_ButtonHeight);
         // ############################################################
 
 

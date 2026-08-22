@@ -1,36 +1,112 @@
 /* DataCardInfo Scene formats */
+
+/* Default Style */
 .default-label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
-
 }
 
-/* Main Menu */
 
 
-/* Instructions scene formats */
-.instructions-text {
-    -fx-font-size: 12px;
-    -fx-font-family: "Elephant";
-    -fx-fill: black;
-}
 
-.instructions-title {
+
+/* Main Menu Styles*/
+
+/* Style for the main menu button options -fx-fill: black; */
+.MainMenu_UI_MenuOptions {
     -fx-font-size: 24px;
     -fx-font-family: "Impact";
     -fx-font-weight: bold;
-    -fx-fill: black;
+    -fx-text-fill: black;
+
+    -fx-background-color: #8b8a824d;
+
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0px;
 }
 
-.instructions-scrollPane {
+/* style for the main menu exit program button */
+.MainMenu_Button_Endprogram {
+    -fx-font-size: 24px;
+    -fx-font-family: "Elephant";
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+
+    -fx-border-width: 2;
+    -fx-border-radius: 10px;
+}
+
+
+
+
+
+/* Instructions scene formats */
+
+/* style for the instructional text holder*/
+.Instructions_UI_TextHolder {
+    -fx-font-size: 12px;
+    -fx-font-family: "Elephant";
+    -fx-text-fill: black;
+
+    -fx-background-color: #8b8a824d;
+    
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0px;
+}
+
+/* style for the instructions title */
+.Instructions_UI_TextTitle {
+    -fx-font-size: 24px;
+    -fx-font-family: "Impact";
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+/* style for the scrollpane holding the text */
+.Instructions_UI_ScrollPane {
     -fx-background-color:   rgba(210,220,220,0.8);
     -fx-border-color:       rgba(110,195,210,0.8);
-
 }
 
-/* Scheduler */
 
-.ScheduleInputUI-mainBoxes {
+
+
+
+/* Data Card scene format */
+
+/* style for the ui components containing the time input */
+.DataCard_UI_TimePref {
+    -fx-background-color: white;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+/* Style for the default input UI */
+.DataCard_UI_DefaultInputUI {
+    -fx-background-color: white;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+
+/* Scheduler Scene format*/
+
+/* style for the UI containers */
+.Schedule_UI_Base {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: #8b8a824d;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0px;
+}
+
+/* style for the main UI Inputs */
+.Schedule_UI_MainInputs {
     -fx-background-color: #61dee257;
     -fx-background-radius: 5px;
     -fx-border-color: Black;
@@ -38,14 +114,16 @@
     -fx-border-radius: 5px;
 }
 
-.UserPreference-box {
+/* syle for the individual input boxes*/
+.Schedule_UI_IndividualInput {
     -fx-background-color: white;
     -fx-border-color: Black;
     -fx-border-width: 2;
     -fx-border-radius: 5;
 }
 
-.flowBox-names {
+/* style for the flowboxes containing peoples names/IDs */
+.Schedule_UI_NameFlowBox {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-background-color: white;
@@ -54,29 +132,12 @@
     -fx-border-radius: 5;
 }
 
-.ScheduleList-VBox {
+/* style for the boxes containing the calculated schedules */
+.Schedule_UI_ScheduleListBox {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-background-color: white;
     -fx-border-color: Black;
     -fx-border-width: 2;
     -fx-border-radius: 5;
-}
-
-.ScheduleList-HBox {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-background-color: white;
-    -fx-border-color: Black;
-    -fx-border-width: 2;
-    -fx-border-radius: 5;
-}
-
-.ScheduleUI-Base {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-background-color: #8b8a824d;
-    -fx-border-color: Black;
-    -fx-border-width: 2;
-    -fx-border-radius: 0px;
 }

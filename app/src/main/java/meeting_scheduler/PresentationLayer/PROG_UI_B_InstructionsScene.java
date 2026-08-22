@@ -51,43 +51,63 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 
 public class PROG_UI_B_InstructionsScene {
     
-    // file reader
-    PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput(PROG_UI_D_DataVariables.DOC_Instructions);
 
-    LinkedList<String> InstructionFileText;
-    
+
+    // Application
+    // ############################################################
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
-
     // Scene
     private Scene       InstructionScene;
-
-    //Root Node
-    private AnchorPane  Instruction_RootNode;
-
-    //textflow
-    private TextFlow    InstructionTextFlow;
-
-    // scrollpane
-    private ScrollPane  instructionScrollPane;
-
-    // Buttons
-    private Button      Button_ReturnToMenu;
-
     // Stage width/height
-    private double StageWidth;
-    private double stageHeight;
+    private double      StageWidth;
+    private double      stageHeight;
+    // ############################################################
 
+    // Nodes
+    // ############################################################
+    // Root Node
+    private AnchorPane          Instruction_RootNode;
+    // scrollpane
+    private ScrollPane          instructionScrollPane;
+    // Textflow
+    private TextFlow            InstructionTextFlow;
+    // Buttons
+    private Button              Button_ReturnToMenu;
     // transitions
-    private ParallelTransition Transition_FadeNodes;
-    private ParallelTransition Transition_UnFadeNodes;
+    private ParallelTransition  Transition_FadeNodes;
+    private ParallelTransition  Transition_UnFadeNodes;
+    // ############################################################
+
+    // event handlers
+    // ############################################################
+    private EventHandler<ActionEvent> ReturnHome = null;
+    // ############################################################
+
+    // File manager
+    // ############################################################
+    PROG_DAL_C_TXTOutput fileReader;
+    // ############################################################
+
+    // data management
+    // ############################################################
+    LinkedList<String> InstructionFileText;
+    // ############################################################
+
+
+
+
 
     /**
      * Constructor class
      */
     public PROG_UI_B_InstructionsScene(Stage stage) {
+        // set the stage
         this.ApplicationStage = stage;
-    }
+        // create the fiel reader object and set it to read from the instructions file
+        this.fileReader = new PROG_DAL_C_TXTOutput(PROG_UI_D_DataVariables.DOC_Instructions);
+
+    } // PROG_UI_B_InstructionsScene(Stage stage)
 
 
     
@@ -114,7 +134,7 @@ public class PROG_UI_B_InstructionsScene {
         // unfades nodes
         Transition_UnFadeNodes.play();
         
-    }
+    } // changetoInstructionsScene
 
 
 
@@ -136,12 +156,16 @@ public class PROG_UI_B_InstructionsScene {
         // ############################################################
 
 
+        // event handler creation
+        // ############################################################
+        instructionsEventhandler();
+        // ############################################################
+
 
         // Button Creation
         // ############################################################
         ButtonCreation();
         // ############################################################
-
 
 
         // Instruction Creation
@@ -150,12 +174,10 @@ public class PROG_UI_B_InstructionsScene {
         // ############################################################
 
 
-
         // Background creation
         // ############################################################
         BackgroundManagement();
         // ############################################################
-
 
 
         // Node Visual formatting
@@ -182,7 +204,6 @@ public class PROG_UI_B_InstructionsScene {
         // ############################################################
 
 
-
         // Scene transition
         // ############################################################
         // create trnasitions
@@ -205,22 +226,31 @@ public class PROG_UI_B_InstructionsScene {
         // Return Home Button
         // ############################################################
         Button_ReturnToMenu = new Button("Return Home");
-        EventHandler<ActionEvent> ReturnHome = (ActionEvent e) -> {
+        Button_ReturnToMenu.setOnAction(this.ReturnHome);
+        // ############################################################
+
+    } // ButtonCreation()
+
+
+
+    private void instructionsEventhandler() {
+
+        // Returns to the main menu
+        // ############################################################
+        this.ReturnHome = event -> {
             
-            // Exits the program
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Instruction_returnHome);
 
-            Transition_FadeNodes.setOnFinished(event -> {
+            Transition_FadeNodes.setOnFinished(event2 -> {
                 PROG_UI_A_Application.SceneManager.MainMenu();
             });
 
             Transition_FadeNodes.play();
 
         };
-        Button_ReturnToMenu.setOnAction(ReturnHome);
         // ############################################################
 
-    } // ButtonCreation()
+    } // instructionsEventhandler
 
 
 
@@ -254,9 +284,9 @@ public class PROG_UI_B_InstructionsScene {
         this.InstructionTextFlow.setPadding(new Insets(5));
         this.InstructionTextFlow.setLineSpacing(1);
         // set style for general text
-        this.InstructionTextFlow.getStyleClass().add("instructions-text");
+        this.InstructionTextFlow.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_INSTRUCTION_TextHolder);
         // set style for title should always be the first node
-        this.InstructionTextFlow.getChildren().get(0).getStyleClass().add("instructions-title");
+        this.InstructionTextFlow.getChildren().get(0).getStyleClass().add(PROG_UI_D_DataVariables.STYLE_INSTRUCTION_TextTitle);
         // ############################################################
 
 
@@ -266,7 +296,9 @@ public class PROG_UI_B_InstructionsScene {
         // Create scrollpane
         this.instructionScrollPane = new ScrollPane(this.InstructionTextFlow);
         // set style
-        this.instructionScrollPane.getStyleClass().add("instructions-scrollPane");
+        this.instructionScrollPane.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_INSTRUCTION_ScrollPane);
+        this.instructionScrollPane.setFitToHeight(true);
+        this.instructionScrollPane.setFitToWidth(true);
         // set width/height
         this.instructionScrollPane.setPrefWidth(PROG_UI_A_SceneManager.WindowWidth / 1.5);
         this.instructionScrollPane.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight / 1.5);
@@ -285,7 +317,7 @@ public class PROG_UI_B_InstructionsScene {
         });
         // ############################################################
 
-    }
+    } // InstructionCreation
 
 
 
@@ -304,7 +336,7 @@ public class PROG_UI_B_InstructionsScene {
 
         Instruction_RootNode.setBackground(new Background(backgroundFill));
 
-    }
+    } // BackgroundManagement
 
 
 
@@ -348,6 +380,8 @@ public class PROG_UI_B_InstructionsScene {
         }
         // ############################################################
 
-    }
+    } // SceneTransitions
+
+
     
-}
+} // PROG_UI_B_InstructionsScene

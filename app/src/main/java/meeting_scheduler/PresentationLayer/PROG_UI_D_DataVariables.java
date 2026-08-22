@@ -27,11 +27,11 @@ public final class PROG_UI_D_DataVariables {
 
     // Main Menu
     // ############################################################
-    // UI button holder
+    // UI Spacing
     public static final int     MENU_UI_Spacing             = 20;
+    // UI anchor positioning
     public static final double  MENU_UI_TopAnchor           = 30.0;
     public static final double  MENU_UI_LeftAnchor          = 30.0;
-    // End program Button
     public static final double  MENU_EndProg_BottomAnchor   = 20.0;
     public static final double  MENU_EndProg_RightAnchor    = 20.0;
     // Fade transitions - seconds
@@ -39,14 +39,18 @@ public final class PROG_UI_D_DataVariables {
     public static final int     MENU_UnFadeTime             = 2;
     public static final int     MENU_FadeOpacity            = 0;
     public static final int     MENU_UnFadeOpacity          = 1;
+    // button sizing
+    public static final double  MENU_ButtonWidth            = 222.0;
+    public static final double  MENU_ButtonHeight           = 45.0;
+    public static final double  MENU_endButtonWidth         = 100.0;
+    public static final double  MENU_endButtonHeight        = 50.0;
     // ############################################################
 
     // Instruciton Page
     // ############################################################
-    // Return to Main Menu Button
+    // UI anchor positioning
     public static final double  INSTRUCTION_Return_RightAnchor      = 20.0;
     public static final double  INSTRUCTION_Return_BottomAnchor     = 20.0;
-    // Instruction Text Position
     public static final double  INSTRUCTION_Instruction_TopAnchor   = 20.0;
     public static final double  INSTRUCTION_Instruction_LeftAnchor  = 20.0;
     // Fade transitions - seconds
@@ -58,15 +62,11 @@ public final class PROG_UI_D_DataVariables {
 
     // Scheduling Page
     // ############################################################
-
-    // Primary components
-    // Return to Main Menu Button
+    // UI anchor positioning
     public static final double  SCHEDULE_Return_RightAnchor         = 10.0;
     public static final double  SCHEDULE_Return_BottomAnchor        = 10.0;
-    // Left side - Scheduler UI Input ScrollPane
     public static final double  SCHEDULE_UIInput_LeftAnchor         = 20.0;
     public static final double  SCHEDULE_UIInput_TopAnchor          = 20.0;
-    // right side - Scheduler UI Output ScrollPane
     public static final double  SCHEDULE_UIOutput_RightAnchor       = 20.0;
     public static final double  SCHEDULE_UIOutput_TopAnchor         = 20.0;
 
@@ -120,8 +120,24 @@ public final class PROG_UI_D_DataVariables {
 
     public static final double  SCHEDULE_OUTPUT_DeleteButtonWidth   = 50.0;
     public static final double  SCHEDULE_OUTPUT_DeleteButtonHeight  = 50.0;
+    // ############################################################
 
-    // 
+
+    // Style variable names
+    // ############################################################
+    public static final String STYLE_DEFAULT                    = "default-label";
+    public static final String STYLE_MENU_MenuOptions           = "MainMenu_UI_MenuOptions";
+    public static final String STYLE_MENU_Endprogram            = "MainMenu_Button_Endprogram";
+    public static final String STYLE_DATACARD_TimePref          = "DataCard_UI_TimePref";
+    public static final String STYLE_DATACARD_DefaultUI         = "DataCard_UI_DefaultInputUI";
+    public static final String STYLE_INSTRUCTION_TextHolder     = "Instructions_UI_TextHolder";
+    public static final String STYLE_INSTRUCTION_TextTitle      = "Instructions_UI_TextTitle";
+    public static final String STYLE_INSTRUCTION_ScrollPane     = "Instructions_UI_ScrollPane";
+    public static final String STYLE_SCHEDULLE_Base             = "Schedule_UI_Base";
+    public static final String STYLE_SCHEDULLE_MainInputs       = "Schedule_UI_MainInputs";
+    public static final String STYLE_SCHEDULLE_IndividualInput  = "Schedule_UI_IndividualInput";
+    public static final String STYLE_SCHEDULLE_NameFlowBox      = "Schedule_UI_NameFlowBox";
+    public static final String STYLE_SCHEDULLE_ScheduleListBox  = "Schedule_UI_ScheduleListBox";
     // ############################################################
 
 

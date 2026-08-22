@@ -62,6 +62,8 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+// System messages
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
 
 // TODO: finsih system messages
@@ -171,6 +173,7 @@ public class PROG_UI_B_SchedulePeopleScene {
     private TextField                           userInput_listAmmount;  // user input for list ammount
     // list ammount output
     private int                                 SCHEDULE_LIST; // int ammount stored for actual calculations
+    private int                                 PrintedLists;
 
     // Day input
     private ComboBox<String>                    userInput_SelectDays;   // combobox for the user to select which days they want to scheudle on
@@ -232,6 +235,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.SCHEDULE_IDS       = new LinkedList<>();
         // ammount fo schedules the user wants displayed
         this.SCHEDULE_LIST      = PROG_UI_D_DataVariables.MAXListAmmount;
+        this.PrintedLists       = 0;
         // String[] containg all user selected days
         this.SCHEDULE_DAYS      = new String[7];
         // holds a list of prefered times input by the user - max 4
@@ -400,6 +404,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Contains All UI Input nodes and elements
         // ############################################################
         this.UIInput_FullUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_FullUI_VBOX.getStyleClass().add("ScheduleUI-Base");
         this.UIInput_FullUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsets));
         // ############################################################
 
@@ -459,10 +464,12 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // UIOutput_FullUIHolder_scrollPane
         // ############################################################
-        // TODO: finsih
+
         // Contains all schedule nodes
         // ############################################################
         this.UIOutput_FullUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFSpacing);
+        this.UIOutput_FullUI_VBOX.getStyleClass().add("ScheduleUI-Base");
+        this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         this.UIOutput_FullUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
         // ############################################################
     }
@@ -480,7 +487,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_RETURN_HOME = event1 -> {
             // Returns to the home page
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Returning to home page");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_returnHome);
             fadeMenuNodes.play();
         };
         // ############################################################
@@ -491,7 +498,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_RESET_People = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset people to schedule");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetPeople);
 
             // remove all text from the flowpane
             this.AddedPeople.getChildren().clear();
@@ -517,13 +524,10 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         EVENT_ADD_People = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected People");
-            System.out.println("");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputPeople);
 
             
             if ((Selectable_PersonList.getValue() != null) && (!Selectable_PersonList.getValue().isBlank())) {
-
-                System.out.println("Check");
 
                 // gets the person selected from the combobox
                 String SelectedPerson = Selectable_PersonList.getValue();
@@ -555,7 +559,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_REMOVE_Person = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Remove last person");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_RemovePerson);
 
             // remove all text from the flowpane
             if ((this.AddedPeople.getChildren().size()) > 0) {
@@ -592,7 +596,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_RESET_List = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset number of lists to output");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetListNum);
             
             // Text value set to nothing
             this.Label_OutputNumber.setText(PROG_UI_D_DataVariables.EmptyText);
@@ -606,13 +610,15 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_ADD_List = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected Ammount");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputListNum);
 
             if ((userInput_listAmmount.getText() != null) && (!userInput_listAmmount.getText().isBlank())) {
 
                 String SelectedAmmount = userInput_listAmmount.getText();
 
                 Label_OutputNumber.setText(SelectedAmmount);
+
+                SCHEDULE_LIST = Integer.parseInt(SelectedAmmount);
 
             } // if()
 
@@ -625,7 +631,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_RESET_days = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset days to schedule");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetDays);
 
             // Resets the flowPanes current list of selected days to an empty string
             this.OutputDays.getChildren().clear();
@@ -650,7 +656,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_ADD_Days = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Input Selected Day");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputDays);
             
             if ((userInput_SelectDays.getValue() != null) && (!userInput_SelectDays.getValue().isBlank())) {
 
@@ -694,7 +700,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_RESET_Times = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Reset time input");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetTime);
 
             // Reset List_UserTimes - clearing all elements in the Linked list
             this.SCHEDULE_TIMES.clear();
@@ -734,8 +740,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.EVENT_ADD_timeInput = event -> {
 
             // System Message
-            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Add User Info");
-            System.out.println("");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputTime);
 
             // ButtonPressPartialTimeInput() ensures all variables have been input, returns 0 on success
             if ( (Scheduler_UserTimeInputs.ButtonPressPartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 4) ){
@@ -783,16 +788,21 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.EVENT_CALCULATE_Schedule = event -> {
             
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Calculating schedule");
-            System.out.println("");
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_Calculate);
 
             // retrieved copy of calculated linked list
             this.CalculatedScheduleList = new LinkedList<>(ScheduleCalculator.RetrieveSchedule());
 
-            for (int CalcScheduleIndex = 0; CalcScheduleIndex < CalculatedScheduleList.size(); CalcScheduleIndex++) {
-                Schedules.add(CalculatedScheduleList.get(CalcScheduleIndex));
-            }
+            this.PrintedLists = 0;
 
+            while (this.PrintedLists < this.SCHEDULE_LIST) {
+
+                for (int CalcScheduleIndex = 0; CalcScheduleIndex < CalculatedScheduleList.size(); CalcScheduleIndex++) {
+                    Schedules.add(CalculatedScheduleList.get(CalcScheduleIndex));
+                }
+
+                this.PrintedLists++;
+            }
         };
         // ############################################################
 
@@ -803,8 +813,10 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.EVENT_CLEAR_schedule = event -> {
             
             // clears all calculated schedules
-            System.out.println("BUTTON CLICK    - SCHEDULE PAGE     - Clearing calculated Schedules");
-           
+            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_clear);
+            
+            PrintedLists = 0;
+
             for (Node node : UIOutput_FullUI_VBOX.getChildren()) {
                 if (node instanceof HBox hbox) {
                     hbox.getChildren().clear();
@@ -993,8 +1005,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             // day preference
             UIInput_DayUI_VBOX,
 
-            // time input + no time input checkbox 
-            // TODO: input checkbox
+            // time input
             UIInput_TimeUI_VBOX,
 
             // reset preferences
@@ -1010,11 +1021,13 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // sets the UI Input within the scrllPane and adjusts preferences
         // ############################################################
-        UIInput_FullUIHolder_ScrollPane = new ScrollPane(this.UIInput_FullUI_VBOX);
-
+        this.UIInput_FullUIHolder_ScrollPane = new ScrollPane(this.UIInput_FullUI_VBOX);
         // sets default interface dimensions
         this.UIInput_FullUIHolder_ScrollPane.setPrefWidth((PROG_UI_A_SceneManager.WindowWidth / 2) - 80.0);
         this.UIInput_FullUIHolder_ScrollPane.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight - 100.0);
+
+        this.UIInput_FullUIHolder_ScrollPane.setFitToHeight(true);
+        this.UIInput_FullUIHolder_ScrollPane.setFitToWidth(true);
 
         // updates interface dimensions
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
@@ -1520,6 +1533,10 @@ public class PROG_UI_B_SchedulePeopleScene {
         // scroll pane for scrolling between the vbox nodes
         this.UIOutput_FullUIHolder_scrollPane = new ScrollPane();
         this.UIOutput_FullUIHolder_scrollPane.setContent(UIOutput_FullUI_VBOX);
+        this.UIOutput_FullUIHolder_scrollPane.setFitToWidth(true);
+        this.UIOutput_FullUIHolder_scrollPane.setFitToHeight(true);
+        //this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
         // sets default interface dimensions
         this.UIOutput_FullUIHolder_scrollPane.setPrefWidth((PROG_UI_A_SceneManager.WindowWidth / 2) - 80.0);
         this.UIOutput_FullUIHolder_scrollPane.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight - 100.0);
@@ -1536,6 +1553,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // observablelist to hold each schedule
         this.Schedules = FXCollections.observableArrayList();
 
+       //this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         Schedules.addListener((ListChangeListener<PROG_DAL_A_Schedule>) change -> {
 
@@ -1650,12 +1668,14 @@ public class PROG_UI_B_SchedulePeopleScene {
                     // VBox
                     ScheduleBox_Primary     .setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
                     ScheduleBox_Primary     .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_primarywidth,     PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_primaryheight);
-                    ScheduleBox_Primary     .getStyleClass().add("ScheduleList-HBox");
+                    ScheduleBox_Primary     .getStyleClass().add("ScheduleList-VBox");
+
                     // HBox
                     ScheduleBox_Secondary   .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth1,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight1);
                     ScheduleBox_Secondary   .setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
                     ScheduleBox_Secondary   .getStyleClass().add("ScheduleList-HBox");
                     ScheduleBox_Secondary   .setAlignment(Pos.CENTER_LEFT);
+
                     // flowPane
                     SchedulePeopleList      .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth1,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight1);
 
@@ -1670,7 +1690,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
 
-                    // Button logic implementation
+                    // schedule logic implementation
 
 
                     DeleteList.setOnAction(event -> {
@@ -1695,7 +1715,6 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                         ScheduletimeFrame
 
-                        //SchedulePeopleList
                     );
 
 
@@ -1737,6 +1756,7 @@ public class PROG_UI_B_SchedulePeopleScene {
      * Description: Sets the scene background
      */
     private void SetBackground() {
+        // TODO: finish background
 
         // Add background gradient
         LinearGradient BackgroundGradient = new LinearGradient(0, 0, 300, 300, false, CycleMethod.NO_CYCLE, 

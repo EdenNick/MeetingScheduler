@@ -252,36 +252,9 @@ public class PROG_UI_B_DataCardinfoScene {
         // fade all objects before the scene is set
         this.fadeMenuNodes.play();
         
-    } // ConstructCardManagerScene()
+    } // ConstructCardManagerScene(
 
-
-
-
-
-
-
-    // /**
-    //  * UserInputGraphic()
-    //  * Descriiption: manages the visual output of the user submitted data.
-    //  */
-    // private void UserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime) {
-
-    //     // TODO: remove later
-    //     // // UserTimeInput        -   individual user Day/time preference     -   private LinkedList<PROG_DAL_A_TimeInput>    UserTimeInput;
-
-    //     // // VBOXIterator         -   iterates over nodes in Vbox             -   private Iterator<VBox>                      VBOXIterator;
-
-    //     // // VBOXUserPreferences  -   List of each VBox that holds a time     -   private LinkedList<VBox>                    VBOXUserPreferences;
-
-    //     // // userInputGraphic     -   FlowPane that stores all the Vboxes     -   private FlowPane                            userInputGraphic;
-
-    // } // UserInputGraphic
-
-
-
-
-
-
+    
 
     /**
      * cardUIManagement()
@@ -455,7 +428,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
             // checks to ensure all variables are input
             // TODO: update size check
-            if ( (DataCard_UserTimeInputs.ButtonPressFullTimeInput() == 0) && (List_VBoxTimeInputs.size() < 10) ){
+            if ( (DataCard_UserTimeInputs.ButtonPressFullTimeInput() == 0) && (List_VBoxTimeInputs.size() < PROG_UI_D_DataVariables.MAXTimeInputs) ){
 
                 // Temp user preference created for clean seperation of object use
                 PROG_DAL_A_TimeInput TempUserPreferrence = DataCard_UserTimeInputs.Return_FileReadyUserPreference();

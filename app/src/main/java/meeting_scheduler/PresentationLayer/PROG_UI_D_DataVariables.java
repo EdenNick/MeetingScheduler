@@ -136,6 +136,7 @@ public final class PROG_UI_D_DataVariables {
     public static final String      PM              = "PM";
     public static final String      EmptyText       = "";
     public static final int         MAXListAmmount  = 20;
+    public static final int         MAXTimeInputs   = 30;
 
 
     /**

@@ -5,6 +5,9 @@
 
 }
 
+/* Main Menu */
+
+
 /* Instructions scene formats */
 .instructions-text {
     -fx-font-size: 12px;
@@ -25,11 +28,14 @@
 
 }
 
+/* Scheduler */
+
 .ScheduleInputUI-mainBoxes {
-    -fx-background-color: #61DEE2;
+    -fx-background-color: #61dee257;
+    -fx-background-radius: 5px;
     -fx-border-color: Black;
-    -fx-border-width: 2;
-    -fx-border-radius: 5;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
 }
 
 .UserPreference-box {
@@ -48,6 +54,15 @@
     -fx-border-radius: 5;
 }
 
+.ScheduleList-VBox {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
 .ScheduleList-HBox {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
@@ -55,4 +70,13 @@
     -fx-border-color: Black;
     -fx-border-width: 2;
     -fx-border-radius: 5;
+}
+
+.ScheduleUI-Base {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: #8b8a824d;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0px;
 }

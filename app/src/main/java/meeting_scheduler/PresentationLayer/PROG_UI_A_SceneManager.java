@@ -67,10 +67,10 @@ public class PROG_UI_A_SceneManager {
      */
     public void StartUp() {
 
-        this.MainMenu.ConstructMainMenuScene();
-        this.DataCard.ConstructCardManagerScene();
-        this.Schedule.ConstructSchedulingScene();
-        this.Instructions.ConstructInstructionsScene();
+        this.MainMenu       .ConstructMainMenuScene();
+        this.DataCard       .ConstructCardManagerScene();
+        this.Schedule       .ConstructSchedulingScene();
+        this.Instructions   .ConstructInstructionsScene();
 
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
             PROG_UI_A_SceneManager.WindowWidth = newWidth.intValue();

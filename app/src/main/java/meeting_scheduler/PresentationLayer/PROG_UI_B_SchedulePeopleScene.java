@@ -485,7 +485,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // return to the Home page
         // ############################################################
-        this.EVENT_RETURN_HOME = event1 -> {
+        this.EVENT_RETURN_HOME = event -> {
             // Returns to the home page
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_returnHome);
             fadeMenuNodes.play();

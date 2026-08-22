@@ -71,6 +71,12 @@ public class PROG_UI_B_MainMenuScene {
     private double  stageHeight;
 
 
+    // Action events
+    private EventHandler<ActionEvent> closeProgram              = null;
+    private EventHandler<ActionEvent> DatacardScenechange       = null;
+    private EventHandler<ActionEvent> ScheduleSceneChange       = null;
+    private EventHandler<ActionEvent> InstructionSceneChange    = null;
+
 
 
 
@@ -126,7 +132,11 @@ public class PROG_UI_B_MainMenuScene {
         Menu_UI_ButtonHolder    .setAlignment(Pos.CENTER);
         // ############################################################
 
-        
+        // event handler creation
+        // ############################################################
+        MainMenuEventHandlers();
+        // ############################################################
+
 
         // Button Creation
         // ############################################################
@@ -134,15 +144,11 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
 
 
-
         // Graphics creation
         // ############################################################
         mainMenuGraphics();
         // ############################################################
 
-
-        // menu button holder node - set menu button positions
-        // Menu_UI_ButtonHolder.setAlignment(Pos.CENTER);
         
 
         // Node Position setting
@@ -205,84 +211,104 @@ public class PROG_UI_B_MainMenuScene {
         // End program button
         // ############################################################
         Button_EndProgram = new Button("End program");
-        EventHandler<ActionEvent> closeProgram = (ActionEvent e) -> {
+        Button_EndProgram.setOnAction(this.closeProgram);
+        // ############################################################
+
+
+        // Data card page button
+        // ############################################################
+        Button_DataCardPage = new Button("Manage Data Cards");
+        Button_DataCardPage.setOnAction(this.DatacardScenechange);
+        // ############################################################
+        
+
+        // Schedule page button
+        // ############################################################
+        Button_SchedulePage = new Button("Schedule"); 
+        Button_SchedulePage.setOnAction(this.ScheduleSceneChange);
+        // ############################################################
+
+
+        // Schedule page button
+        // ############################################################
+        InstructionButton = new Button("Instructions");
+        InstructionButton.setOnAction(this.InstructionSceneChange);
+        // ############################################################
+
+
+    } // MainMenuButtons()
+
+
+    /**
+     * MainMenuEventHandlers
+     * Description: handles the creation of the various event handlers used for the main menu
+     */
+    private void MainMenuEventHandlers() {
+
+        // Exits the program
+        // ############################################################
+        this.closeProgram = event -> {
             
-            // Exits the program
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_end);
             
-            Transition_fadeMenu.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event2 -> {
                 Platform.exit();
             });
 
             Transition_fadeMenu.play();
 
         };
-        Button_EndProgram.setOnAction(closeProgram);
         // ############################################################
 
 
-
-        // Data card page button
+        // changes scene to data card management
         // ############################################################
-        Button_DataCardPage = new Button("Manage Data Cards");
-        EventHandler<ActionEvent> DatacardScenechange = (ActionEvent e) -> {
+        this.DatacardScenechange = event -> {
             
-            // changes scene to data card management
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToDataCard);
 
-            Transition_fadeMenu.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event2 -> {
                 PROG_UI_A_Application.SceneManager.DataCardManage();
             });
 
             Transition_fadeMenu.play();
 
         };
-        Button_DataCardPage.setOnAction(DatacardScenechange);
         // ############################################################
-        
 
 
-        // Schedule page button
+        // changes the scene to schedule managment
         // ############################################################
-        Button_SchedulePage = new Button("Schedule");
-        EventHandler<ActionEvent> ScheduleSceneChange = (ActionEvent e) -> {
+        this.ScheduleSceneChange = event -> {
             
-            // Chnages the scene to schedule managment
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToSchedule);
 
-            Transition_fadeMenu.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event2 -> {
                 PROG_UI_A_Application.SceneManager.Schedule();
             });
 
             Transition_fadeMenu.play();
 
-        };  
-        Button_SchedulePage.setOnAction(ScheduleSceneChange);
+        };
         // ############################################################
 
 
-
-        // Schedule page button
+        // changes the scene to schedule managment
         // ############################################################
-        InstructionButton = new Button("Instructions");
-        EventHandler<ActionEvent> InstructionSceneChange = (ActionEvent e) -> {
+        this.InstructionSceneChange = event -> {
             
-            // Chnages the scene to schedule managment
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToInstructions);
 
-            Transition_fadeMenu.setOnFinished(event -> {
+            Transition_fadeMenu.setOnFinished(event2 -> {
                 PROG_UI_A_Application.SceneManager.Instructions();
             });
 
             Transition_fadeMenu.play();
 
-        };  
-        InstructionButton.setOnAction(InstructionSceneChange);
+        };
         // ############################################################
 
-
-    } // MainMenuButtons()
-
+    }
 
 
 

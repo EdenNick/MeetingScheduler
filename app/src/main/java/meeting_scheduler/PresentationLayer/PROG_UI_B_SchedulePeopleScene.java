@@ -793,16 +793,17 @@ public class PROG_UI_B_SchedulePeopleScene {
             // retrieved copy of calculated linked list
             this.CalculatedScheduleList = new LinkedList<>(ScheduleCalculator.RetrieveSchedule());
 
-            this.PrintedLists = 0;
+            // displays list up to SCHEDULE_LIST size
+            for (int CalcScheduleIndex = 0; CalcScheduleIndex < this.SCHEDULE_LIST; CalcScheduleIndex++) {
 
-            while (this.PrintedLists < this.SCHEDULE_LIST) {
-
-                for (int CalcScheduleIndex = 0; CalcScheduleIndex < CalculatedScheduleList.size(); CalcScheduleIndex++) {
+                // esnures no out of bound exceptions occur
+                if (CalcScheduleIndex < CalculatedScheduleList.size()) {
+                    
                     Schedules.add(CalculatedScheduleList.get(CalcScheduleIndex));
-                }
 
-                this.PrintedLists++;
-            }
+                } // if (CalcScheduleIndex < CalculatedScheduleList.size())
+
+            } // for (int CalcScheduleIndex = 0; CalcScheduleIndex < this.SCHEDULE_LIST; CalcScheduleIndex++)
         };
         // ############################################################
 

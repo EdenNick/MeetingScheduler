@@ -11,196 +11,216 @@ import com.fasterxml.jackson.databind.DatabindException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
 import meeting_scheduler.BusinessLogiclayer.PROG_BLL_InfoFileWrite;
+import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
+import meeting_scheduler.PresentationLayer.PROG_UI_A_SceneManager;
+import meeting_scheduler.PresentationLayer.PROG_UI_D_DataVariables;
+
 
 class AppTest {
 
-    /**
-     * Format for method naming
-     * 
-     * TEST_(TypeOfTest)_(basicTestDescription)
-     * 
-     * INFO     - Idicates test directly ties to user data variables
-     * FILE     - Indicates test focuses on file management/manipulation
-     * BLL      - Tests the business logic layer operations
-     * UI       - Indicates test focusing on UI functinality
-     * GRAPH    - Indicates visual test for graphical elements
-     */
+
+    // INFO
+    // ############################################################
+    // DAL - Data access layer
+    // BLL - Business logic layer
+    // UI  - presentation layer
+    // ############################################################
 
 
+
+
+    // Testing Parameters
+    // ############################################################
+    private final String[]                          WEEKDays = new String[] {"Mon", "Tue", "Wed"};
+    private final String[]                          Day = {"Mon"};
+    private final LinkedList<String>                TEST_IDs;
+
+    private final PROG_DAL_A_Schedule               TEST_Schedule;
+    private final PROG_DAL_A_TimeInput              TEST_TimeInterval;
+    private final PROG_DAL_A_TimeInput              TEST_TimeInterval2;
+    private final PROG_DAL_A_InfoInput              TEST_InfoInputPerson;
+    private final LinkedList<PROG_DAL_A_TimeInput>  TEST_TimeInputIntervals;
+
+
+    private final PROG_DAL_B_JSONManager            TEST_JsonFilemanager;
+    private final PROG_BLL_SchedulingCalculation    ScheduleCalculationTester;
+    // ############################################################
 
     /**
      * Constructor
      */
     public AppTest() {
 
+        this.TEST_IDs                   = new LinkedList<>();
+        this.TEST_IDs.add("1");
 
-    }
+
+        this.TEST_TimeInterval          = new PROG_DAL_A_TimeInput("Mon", 3, 50, 14, 07);
+        this.TEST_TimeInterval2         = new PROG_DAL_A_TimeInput("Mon", 8, 0, 12, 0);
+        this.TEST_TimeInputIntervals    = new LinkedList<PROG_DAL_A_TimeInput>();
+        this.TEST_TimeInputIntervals.add(TEST_TimeInterval);
+
+
+        this.TEST_InfoInputPerson       = new PROG_DAL_A_InfoInput("John Smith", 1, WEEKDays, TEST_TimeInputIntervals);
+
+        this.TEST_Schedule              = new PROG_DAL_A_Schedule("Mon", TEST_TimeInterval, TEST_IDs, true);
+
+        this.TEST_JsonFilemanager       = new PROG_DAL_B_JSONManager();
+        this.ScheduleCalculationTester  = new PROG_BLL_SchedulingCalculation();
+    }   
 
 
     
     /**
-     * INFO Test Section
-     * Description: This section tests user data such as objects that hold user card info
+     * DAL Testing
+     * Description: This section tests user data storage
      */
-    @Test void TEST_TimeInput() {
-        
-        PROG_DAL_A_TimeInput test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
+    // ############################################################
 
-        // Object not null
-        assertNotNull(test_TimeInterval);
-
-        // day is correct
-        assertEquals(test_TimeInterval.WeekDay, "Mon");
-
-        // Beginning hour and minute correct
-        assertEquals(test_TimeInterval.PreferedHourBEGIN.getHour(), 03);
-        assertEquals(test_TimeInterval.PreferedHourBEGIN.getMinute(), 50);
-
-        // Ending hour and minute correct
-        assertEquals(test_TimeInterval.PreferedHourEND.getHour(), 14);
-        assertEquals(test_TimeInterval.PreferedHourEND.getMinute(), 07);
-
-        test_TimeInterval = null;
-    }
-
-
+    // Tests PROG_DAL_A_InfoInput object storage
     @Test void TEST_InfoInput() {
-
-        // Test object build parameter
-        String[]                            Week = new String[] {"Mon", "Wed", "Thu"};
-        LinkedList<PROG_DAL_A_TimeInput>    test_timeintervals = new LinkedList<PROG_DAL_A_TimeInput>();
-        PROG_DAL_A_TimeInput                test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
         
-        test_timeintervals.add(test_TimeInterval);
-
-
-
-        // Object being tested
-        PROG_DAL_A_InfoInput Test_person = new PROG_DAL_A_InfoInput("John Smith", 1007, Week, test_timeintervals);
-
         // Object not null
-        assertNotNull(Test_person);
+        assertNotNull(TEST_InfoInputPerson);
 
-        // name is correct
-        assertEquals(Test_person.EmployeeName, "John Smith");
+        // Name is correct
+        assertEquals(TEST_InfoInputPerson.EmployeeName  , "John Smith");
 
         // ID is correct
-        assertEquals(Test_person.EmployeeID, 1007);
+        assertEquals(TEST_InfoInputPerson.EmployeeID    , 1);
 
-        // weekday is correct
-        assertEquals(Test_person.TimeIntervals.get(0).WeekDay, "Mon");
+        // Weekday is correct
+        assertEquals(TEST_InfoInputPerson.TimeIntervals.get(0).WeekDay, "Mon");
 
         // Beginning hour and minute correct
-        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourBEGIN.getHour(), 03);
-        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourBEGIN.getMinute(), 50);
+        assertEquals(TEST_InfoInputPerson.TimeIntervals.get(0).PreferedHourBEGIN.getHour()  , 03);
+        assertEquals(TEST_InfoInputPerson.TimeIntervals.get(0).PreferedHourBEGIN.getMinute(), 50);
 
         // Ending hour and minute correct
-        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourEND.getHour(), 14);
-        assertEquals(Test_person.TimeIntervals.get(0).PreferedHourEND.getMinute(), 07);
+        assertEquals(TEST_InfoInputPerson.TimeIntervals.get(0).PreferedHourEND.getHour()    , 14);
+        assertEquals(TEST_InfoInputPerson.TimeIntervals.get(0).PreferedHourEND.getMinute()  , 07);
+
+    } // TEST_InfoInput()
 
 
 
-        // garbage collection
-        test_TimeInterval   = null;
-        test_timeintervals  = null;
-        Test_person         = null;
-
-    }
-
-
+    // tests the PROG_DAL_A_Schedule object, ensuring it contains correctly formatted schedules
     @Test void TEST_Schedule() {
 
-        PROG_DAL_A_TimeInput test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
 
-        LinkedList<String> test_Ids = new LinkedList<>();
+        assertNotNull(TEST_Schedule);
 
-        test_Ids.add("1007");
-
-
-        // Object being testec
-        PROG_DAL_A_Schedule test_schedule = new PROG_DAL_A_Schedule("Mon", test_TimeInterval, test_Ids, true);
-
-        assertNotNull(test_schedule);
-
-        assertEquals(test_schedule.WeekDay, "Mon");
 
         // weekday is correct
-        assertEquals(test_schedule.WeekDay, "Mon");
+        assertEquals(TEST_Schedule.WeekDay, "Mon");
 
         // Beginning hour and minute correct
-        assertEquals(test_schedule.Interval.PreferedHourBEGIN.getHour(), 03);
-        assertEquals(test_schedule.Interval.PreferedHourBEGIN.getMinute(), 50);
+        assertEquals(TEST_Schedule.Interval.PreferedHourBEGIN.getHour()     , 03);
+        assertEquals(TEST_Schedule.Interval.PreferedHourBEGIN.getMinute()   , 50);
 
         // Ending hour and minute correct
-        assertEquals(test_schedule.Interval.PreferedHourEND.getHour(), 14);
-        assertEquals(test_schedule.Interval.PreferedHourEND.getMinute(), 07);
+        assertEquals(TEST_Schedule.Interval.PreferedHourEND.getHour()       , 14);
+        assertEquals(TEST_Schedule.Interval.PreferedHourEND.getMinute()     , 07);
 
-    }
+    } // TEST_Schedule()
 
 
+    // tests PROG_DAL_A_TimeInput object storage
+    @Test void TEST_TimeInput() {
+        
+        // Object not null
+        assertNotNull(TEST_TimeInterval);
 
-    /**
-     * FILE Test Section
-     * Description: This section tests file reading writing and organization operations
-     * @throws IOException 
-     * @throws DatabindException 
-     * @throws StreamWriteException 
-     */
+        // day is correct
+        assertEquals(TEST_TimeInterval.WeekDay, "Mon");
+
+        // Beginning hour and minute correct
+        assertEquals(TEST_TimeInterval.PreferedHourBEGIN.getHour()  , 03);
+        assertEquals(TEST_TimeInterval.PreferedHourBEGIN.getMinute(), 50);
+
+        // Ending hour and minute correct
+        assertEquals(TEST_TimeInterval.PreferedHourEND.getHour()    , 14);
+        assertEquals(TEST_TimeInterval.PreferedHourEND.getMinute()  , 07);
+
+    } // TEST_TimeInput
+
+
+    // tests retrieving data from json files
     @Test void TEST_JsonManager() throws StreamWriteException, DatabindException, IOException {
 
-        // // week days
-        // String[]                            Week = new String[] {"Mon", "Wed", "Thu"};
-        // // time intervals
-        // LinkedList<PROG_DAL_A_TimeInput>    test_timeintervals = new LinkedList<PROG_DAL_A_TimeInput>();
-        // // single time interval
-        // PROG_DAL_A_TimeInput                test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
-        // // add time interval to list
-        // test_timeintervals.add(test_TimeInterval);
+        // checks if the object is null
+        assertNotNull(TEST_JsonFilemanager);
 
-        // // person
-        // PROG_DAL_A_InfoInput                Test_person = new PROG_DAL_A_InfoInput("John Smith", 1007, Week, test_timeintervals);
+        // sets the file manager to use the testing file instead of the datacard .json file
+        TEST_JsonFilemanager.SetTest(true);
 
-        // //list of people
-        // LinkedList<PROG_DAL_A_InfoInput>    test_peopleList = new LinkedList<>();
+        // retireves the data from the file
+        TEST_JsonFilemanager.RetrieveFromFile();
 
-        // // add person to list
-        // test_peopleList.add(Test_person);
+        // stores the retrieved data in a local variable
+        LinkedList<PROG_DAL_A_InfoInput> ReturnFileInfo = TEST_JsonFilemanager.ReturnFile();
 
 
-        PROG_DAL_B_JSONManager test_JsonFilemanager = new PROG_DAL_B_JSONManager();
+        // Assertions
+        assertEquals(ReturnFileInfo.get(0).EmployeeName, "John Smith");
 
-        // test_JsonFilemanager.SetUserCards(test_peopleList);
+        assertEquals(ReturnFileInfo.get(0).EmployeeID, 1);
 
-        assertNotNull(test_JsonFilemanager);
+        System.out.println("Employee meeting days" + ReturnFileInfo.get(0).EmployeeMEETINGDAYS[0]);
 
-        test_JsonFilemanager.JsonWriteTest2();
+        String ReturnFileDays = String.join(" ", ReturnFileInfo.get(0).EmployeeMEETINGDAYS);
 
-    }
+        String comparedDays = String.join(" ", WEEKDays);
+
+
+        assertEquals(ReturnFileDays, comparedDays);
+
+        //assertEquals(ReturnFileInfo.get(0).TimeIntervals.get(0), TEST_TimeInterval2);
+
+
+    } // TEST_JsonManager()
+
+
 
     @Test void TEST_TXTInput() {
-
+        // currently not in use no test needed
     }
 
     @Test void TEST_TXTOutput() {
+        
+        // file reader object
+        PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput(PROG_UI_D_DataVariables.DOC_Instructions);
 
+        // retrieve text from the instructions file
+        LinkedList<String> InstructionFileText = new LinkedList<>(fileReader.ReadFile());
+
+        // assert index 1 is the title, (index 0 is the file name)
+        assertEquals(InstructionFileText.get(1), "Meeting Scheduler Instructions");
     }
+    // ############################################################
+
+
+
 
 
     /**
-     * BLL Test Section
-     * Description: This section tests the Businesslogiclayer
-     * @throws IOException 
-     * @throws DatabindException 
-     * @throws StreamReadException 
+     * BLL Testing
+     * Description: this section tests retrieval and movement of formatted data
      */
+    // ############################################################
+
+
+    // tests formatted writing to the json file through the json file manager
     @Test void TEST_InfoFileWrite() throws StreamReadException, DatabindException, IOException {
 
         // Test object build parameter
@@ -210,7 +230,6 @@ class AppTest {
         
         test_timeintervals.add(test_TimeInterval);
 
-
         //Object being tested
         PROG_BLL_InfoFileWrite test_InfoFileWrite = new PROG_BLL_InfoFileWrite();
 
@@ -218,45 +237,47 @@ class AppTest {
         assertNotNull(test_InfoFileWrite);
 
         // adding info returns without error
-        assertEquals(test_InfoFileWrite.CheckUserInfo("John Smith", 1007, Week, test_timeintervals), 0);
+        assertEquals(test_InfoFileWrite.CheckUserInfo("John Smith", 1, Week, test_timeintervals), 0);
 
         // WriteUserInfo
         assertEquals(test_InfoFileWrite.WriteUserInfo(), 0);
     }
 
+    // tests calculating schedules
     @Test void TEST_SchedulingCalculation() {
 
+        LinkedList<String> Test_IDs2 = new LinkedList<>();
+        Test_IDs2.add("-1");
+
+        // set list of people to schedule
+        ScheduleCalculationTester.UpdatePeopleToSchedule(Test_IDs2);
+
+        ScheduleCalculationTester.UpdateWeekDays(this.Day);
+
+        ScheduleCalculationTester.SetSpecificTime(TEST_TimeInputIntervals);
+
+        LinkedList<PROG_DAL_A_Schedule> calculatedSchedule = new LinkedList<>(ScheduleCalculationTester.RetrieveSchedule());
+
+        System.out.println("WEEKDAY" + calculatedSchedule.get(0).WeekDay);
+
+        assertEquals(calculatedSchedule.get(0).WeekDay, "Mon");
+
+        assertEquals(calculatedSchedule.get(0).Schedule, true);
+
+        assertEquals(calculatedSchedule.get(0).USERIDs, Test_IDs2);
+
+
+        assertEquals(calculatedSchedule.get(0).Interval.WeekDay, TEST_TimeInterval2.WeekDay);
+
+        assertEquals(calculatedSchedule.get(0).Interval.PreferedHourBEGIN.getHour(), TEST_TimeInterval2.PreferedHourBEGIN.getHour());
+
+        assertEquals(calculatedSchedule.get(0).Interval.PreferedHourBEGIN.getMinute(), TEST_TimeInterval2.PreferedHourBEGIN.getMinute());
+
+        assertEquals(calculatedSchedule.get(0).Interval.PreferedHourEND.getHour(), TEST_TimeInterval2.PreferedHourEND.getHour());
+
+        assertEquals(calculatedSchedule.get(0).Interval.PreferedHourEND.getMinute(), TEST_TimeInterval2.PreferedHourEND.getMinute());
+
     }
 
-
-    /**
-     * UI Test Section
-     * Description: Tests the user interface
-     */
-
-
-
-    /**
-     * Full Test section
-     * Description: this ection is meant for the full testing of all major components of a certain type
-     * as well as full testing of the full application.
-     */
-    @Test void TEST_ALL_Info() {
-
-    }
-
-    @Test void TEST_ALL_File() {
-
-    }
-
-    @Test void FULLTEST_UI() {
-
-    }
 
 } // TEST_ALL_FullTest
-
-
-    // @Test void appHasAGreeting() {
-    //     MeetingScheduler classUnderTest = new MeetingScheduler();
-    //     assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    // }

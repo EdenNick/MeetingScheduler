@@ -19,8 +19,6 @@ import java.util.LinkedList;
 // Javafx
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -320,11 +318,11 @@ public class PROG_UI_C_UserTimeInput {
             // Correct info has been submitted
             System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
 
-            String  WeekDay     = Select_WeekDay.getValue();
-            int     BeginHour   = Integer.parseInt(Select_Hour_Begin    .getText());
-            int     BeginMinute = Integer.parseInt(Select_Minute_Begin  .getText());
-            int     EndHour     = Integer.parseInt(Select_Hour_End      .getText());
-            int     EndMinute   = Integer.parseInt(Select_Minute_End    .getText());
+            String  WeekDay     = this.Select_WeekDay.getValue();
+            int     BeginHour   = Integer.parseInt(this.Select_Hour_Begin    .getText());
+            int     BeginMinute = Integer.parseInt(this.Select_Minute_Begin  .getText());
+            int     EndHour     = Integer.parseInt(this.Select_Hour_End      .getText());
+            int     EndMinute   = Integer.parseInt(this.Select_Minute_End    .getText());
 
             // new user preference
             this.FullUserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
@@ -526,7 +524,7 @@ public class PROG_UI_C_UserTimeInput {
         int     NewEndHour;
         int     NewEndMin;
 
-        if (FullInput == false) {
+        if (FullInput == true) {
             NewWeekday      = Input_UserTime.WeekDay;
         } else {
             NewWeekday      = "N/A";

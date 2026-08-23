@@ -15,10 +15,8 @@ import java.io.IOException;
 // Imports
 // ############################################################
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
-import java.util.stream.Collectors;
 // javaFX
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -66,7 +64,7 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
 
-// TODO: finsih system messages
+
 
 public class PROG_UI_B_SchedulePeopleScene {
 
@@ -173,7 +171,6 @@ public class PROG_UI_B_SchedulePeopleScene {
     private TextField                           userInput_listAmmount;  // user input for list ammount
     // list ammount output
     private int                                 SCHEDULE_LIST; // int ammount stored for actual calculations
-    private int                                 PrintedLists;
 
     // Day input
     private ComboBox<String>                    userInput_SelectDays;   // combobox for the user to select which days they want to scheudle on
@@ -235,7 +232,6 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.SCHEDULE_IDS       = new LinkedList<>();
         // ammount fo schedules the user wants displayed
         this.SCHEDULE_LIST      = PROG_UI_D_DataVariables.MAXListAmmount;
-        this.PrintedLists       = 0;
         // String[] containg all user selected days
         this.SCHEDULE_DAYS      = new String[7];
         // holds a list of prefered times input by the user - max 4
@@ -821,7 +817,6 @@ public class PROG_UI_B_SchedulePeopleScene {
             // clears all calculated schedules
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_clear);
             
-            PrintedLists = 0;
 
             for (Node node : UIOutput_FullUI_VBOX.getChildren()) {
                 if (node instanceof HBox hbox) {

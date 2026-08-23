@@ -524,6 +524,8 @@ public class PROG_BLL_SchedulingCalculation {
                                 RefinedHourRange[validHour] = 1;
                             }
                             
+
+                            //TODO: remove ones where people can't meet
                             // sets the latest start time for this starting hour
                             if (RefinedMinStartRange[PREF_BeginHour] < PREF_BeginMIN) {
                                 RefinedMinStartRange[PREF_BeginHour] = PREF_BeginMIN;
@@ -707,7 +709,7 @@ public class PROG_BLL_SchedulingCalculation {
                                     System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
                                     Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
 
-                                    break BreakPerson2;
+                                    // break BreakPerson2;
                                     
                                 // if the starting hours are the same but ending hours arn't
                                 } else if ( (PREF_BeginHour == Interval_HourStart) && (PREF_BeginMIN > Interval_MinStart) 
@@ -717,7 +719,7 @@ public class PROG_BLL_SchedulingCalculation {
                                     System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
                                     Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
 
-                                    break BreakPerson2;
+                                    // break BreakPerson2;
                                     
                                 // if the ending hours are the same but starting hours arn't
                                 } else if ( (PREF_BeginHour > Interval_HourStart) && (PREF_EndHour == Interval_HourEnd) 
@@ -727,7 +729,7 @@ public class PROG_BLL_SchedulingCalculation {
                                     System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
                                     Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
 
-                                    break BreakPerson2;
+                                    // break BreakPerson2;
 
                                 // if both the starting and ending hours are the same
                                 } else if ( (PREF_BeginHour == Interval_HourStart) && (PREF_BeginMIN >= Interval_MinStart) 
@@ -737,7 +739,7 @@ public class PROG_BLL_SchedulingCalculation {
                                     System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
                                     Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
 
-                                    break BreakPerson2;
+                                    // break BreakPerson2;
 
                                 }
 

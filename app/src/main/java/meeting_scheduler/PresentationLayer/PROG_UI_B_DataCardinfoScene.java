@@ -53,6 +53,7 @@ import javafx.util.Duration;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+import meeting_scheduler.BusinessLogiclayer.PROG_BLL_InfoFileWrite;
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // exceptions
@@ -137,6 +138,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
     // Data Manager Objects
     // ############################################################
+    private PROG_BLL_InfoFileWrite INFOFileWrite;
     // Json file manager
     private PROG_DAL_B_JSONManager JsonManager;                 // Manages json files
     // user tim input manager
@@ -144,6 +146,8 @@ public class PROG_UI_B_DataCardinfoScene {
     // ############################################################
 
 
+
+    
     /**
      * Constructor class
      */
@@ -155,6 +159,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.JsonManager                = new PROG_DAL_B_JSONManager();
         this.DataCard_UserTimeInputs    = new PROG_UI_C_UserTimeInput();
         this.List_VBoxTimeInputs        = new LinkedList<>();
+        this.INFOFileWrite              = new PROG_BLL_InfoFileWrite();
 
     }
 
@@ -506,36 +511,45 @@ public class PROG_UI_B_DataCardinfoScene {
         // ############################################################
         this.SubmitInfo = event -> {
             
+            // todo: use filewrite
             // Submits USer info
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_SubmitInfo);
 
             // collect all info into the relvant linkedlist
-            if          (userInput_EmployeeName .getText().isBlank())       { // Do nothing
+            if          (this.userInput_EmployeeName .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
                 System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidName);
 
-            } else if   (userInput_EmployeeID   .getText().isBlank())       { // Do nothing
+            } else if   (this.userInput_EmployeeID   .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
                 System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidID);
 
-            } else if   (List_UserTimes         .size() < 1)                { // Do nothing
+            } else if   (this.List_UserTimes         .size() < 1)                { // Do nothing
                 // user has not submitted valid user times
                 System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidTimes);
 
             } else {
 
+                // Employee Name
+                // ############################################################
+                String name = userInput_EmployeeName.getText();
+                // ############################################################
 
-                String name    = userInput_EmployeeName.getText();
-                int    id      = Integer.parseInt(userInput_EmployeeID.getText());
+                // Employee ID is not blank
+                // ############################################################
+                int id = Integer.parseInt(userInput_EmployeeID.getText());
+                // ############################################################
 
                 // preferred week days linked list
+                // Format Input Days to a string
+                // ############################################################
                 LinkedList<String> preferredDaysList = new LinkedList<>();
 
                 // iterate through weekdays first to ensure a weekday can only be matched once
                 for (String Day : PROG_UI_D_DataVariables.WEEKDAYS) {
 
                     for (PROG_DAL_A_TimeInput preference : this.List_UserTimes) {
-                        if (preference.WeekDay == Day) {
+                        if (preference.WeekDay.equals(Day)) {
 
                             preferredDaysList.add(Day); // each day should only be added once
                             break; // should break to the first for loop
@@ -550,42 +564,66 @@ public class PROG_UI_B_DataCardinfoScene {
                 for (int index = 0; index < preferredDaysList.size(); index++) {
                     preferredDays[index] = preferredDaysList.get(index);
                 }
-
-
-                /**
-                 * ############################################################
-                 * LinkedList<PROG_DAL_A_InfoInput> InfoInputPreferences    - full list of all preferences where each index is a persons full preferences
-                 * 
-                 * PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
-                 */
-                InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, this.List_UserTimes));
                 // ############################################################
 
 
-                // testing
-                // TODO: Remove later
-                System.out.println(InfoInputPreferences.size());
-                System.out.println(InfoInputPreferences.getLast().EmployeeMEETINGDAYS);
 
-                // 1. set user card so file can be updated
-                JsonManager.SetUserCards(InfoInputPreferences);
 
-                // 2. set to file
+
+                // checks user submitted info
+                // ############################################################
+                INFOFileWrite.CheckUserInfo(name, id, preferredDays, this.List_UserTimes);
+                // ############################################################
+
+
+                // writes to file
+                // ############################################################
                 try {
-                    JsonManager.SetToFile(); // submit linkedlist of peoples preferences
-                } catch (StreamReadException e1)    {
-                    e1.printStackTrace();
-                } catch (DatabindException e1)      {
-                    e1.printStackTrace();
-                } catch (IOException e1)            {
-                    e1.printStackTrace();
+                    INFOFileWrite.WriteUserInfo();
+                } catch (StreamReadException e) {
+                    e.printStackTrace();
+                } catch (DatabindException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                // ############################################################
 
-                // 3. reset Json Manager
-                JsonManager.DiscardCard();
 
-                // clear linkedlist and any other data for a fresh start
-                InfoInputPreferences = new LinkedList<>();
+                // /**
+                //  * ############################################################
+                //  * LinkedList<PROG_DAL_A_InfoInput> InfoInputPreferences    - full list of all preferences where each index is a persons full preferences
+                //  * 
+                //  * PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
+                //  */
+                // InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, this.List_UserTimes));
+                // // ############################################################
+
+
+                // // testing
+                // // TODO: Remove later
+                // System.out.println(InfoInputPreferences.size());
+                // System.out.println(InfoInputPreferences.getLast().EmployeeMEETINGDAYS);
+
+                // // 1. set user card so file can be updated
+                // JsonManager.SetUserCards(InfoInputPreferences);
+
+                // // 2. set to file
+                // try {
+                //     JsonManager.SetToFile(); // submit linkedlist of peoples preferences
+                // } catch (StreamReadException e1)    {
+                //     e1.printStackTrace();
+                // } catch (DatabindException e1)      {
+                //     e1.printStackTrace();
+                // } catch (IOException e1)            {
+                //     e1.printStackTrace();
+                // }
+
+                // // 3. reset Json Manager
+                // JsonManager.DiscardCard();
+
+                // // clear linkedlist and any other data for a fresh start
+                // InfoInputPreferences = new LinkedList<>();
 
             } // if/else ()
 
@@ -714,7 +752,6 @@ public class PROG_UI_B_DataCardinfoScene {
      */
     private void UI_UserInputs() {
 
-        //TODO: make sure inputs are erased after submission
 
         // Name Input
         // ############################################################

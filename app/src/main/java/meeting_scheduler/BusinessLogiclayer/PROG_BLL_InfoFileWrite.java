@@ -41,15 +41,20 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 public class PROG_BLL_InfoFileWrite {
 
     public  boolean                             Input = false;
-    public  String                              Name;
-    public  int                                 Id;
-    public  String[]                            Days = new String[6];
-    public  LinkedList<PROG_DAL_A_TimeInput>    TimeIntervals;
+    private String                              Name;
+    private int                                 Id;
+    private String[]                            Days;
+    private LinkedList<PROG_DAL_A_TimeInput>    TimeIntervals;
     private PROG_DAL_A_InfoInput                UserDataCard;
     private LinkedList<PROG_DAL_A_InfoInput>    AllDataCards;
 
     private PROG_DAL_B_JSONManager              JsonfileManager = new PROG_DAL_B_JSONManager();
 
+    
+    public PROG_BLL_InfoFileWrite() {
+
+        AllDataCards = new LinkedList<>();
+    }
 
     /**
      * CheckUserInfo()
@@ -68,14 +73,14 @@ public class PROG_BLL_InfoFileWrite {
         for (PROG_DAL_A_InfoInput Person : AllDataCards) {
             if (id == Person.EmployeeID) {
                 System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoIDInput);
-                return 0;
+                return 1;
             }
         }
 
 
         // Check Name to ensure it contains at least one character
         if (!name.isBlank()) {
-            Name = name;
+            this.Name = name;
         } else {
             System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidName);
             return 1;
@@ -85,7 +90,7 @@ public class PROG_BLL_InfoFileWrite {
 
         // Check Id to ensure it is a valid positive number or the default id (-1)
         if (id >= -1) {
-            Id = id;
+            this.Id = id;
         } else {
             System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidID);
             return 1;
@@ -94,7 +99,7 @@ public class PROG_BLL_InfoFileWrite {
 
 
         // Check Days to ensure each array position contains a string that isn't blank
-        for (int day = 0; day < 6; day++) {
+        for (int day = 0; day < days.length; day++) {
             if (!days[day].isBlank()) {
 
             } else {
@@ -103,6 +108,7 @@ public class PROG_BLL_InfoFileWrite {
             }
         }
 
+        this.Days = days.clone();
 
 
         // Check TimeIntervals
@@ -123,22 +129,22 @@ public class PROG_BLL_InfoFileWrite {
                 return 1;
             }
 
-            if (!(-1 < BeginHour) || !(BeginHour < 24)) {
+            if ((BeginHour < 0) || (BeginHour > 24)) {
                 System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidStartHour + intervalPosition);
                 return 1;
             }
 
-            if (!(-1 < BeginMIN) || !(BeginHour < 60)) {
+            if ((BeginMIN < 0)  || (BeginHour > 60)) {
                 System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidStartMin + intervalPosition);
                 return 1;
             }
 
-            if (!(-1 < EndHour) || !(EndHour < 24)) {
+            if ((EndHour < 0)   || (EndHour > 24)) {
                 System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidEndHour + intervalPosition);
                 return 1;
             }
 
-            if (!(-1 < EndMin) || !(EndMin < 60)) {
+            if ((EndMin < 0)    || (EndMin > 60)) {
                 System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoInvalidEndmin + intervalPosition);
                 return 1;
             }
@@ -146,11 +152,13 @@ public class PROG_BLL_InfoFileWrite {
 
         }
 
+        TimeIntervals = new LinkedList<>(intervals);
+
         System.out.println(PROG_DAL_D_SystemMessages.PASS_CheckUserInfoValidInputs);
         
         // Assign Data
         //Create USer Data card
-        this.UserDataCard = new PROG_DAL_A_InfoInput(Name, Id, Days, TimeIntervals);
+        this.UserDataCard = new PROG_DAL_A_InfoInput(this.Name , this.Id, this.Days, this.TimeIntervals);
         // Assign Card to the DataCard list
         this.AllDataCards.add(UserDataCard);
         return 0;
@@ -181,6 +189,10 @@ public class PROG_BLL_InfoFileWrite {
         JsonfileManager.SetUserCards(AllDataCards);
 
         JsonfileManager.SetToFile();
+
+        JsonfileManager.DiscardCard();
+
+        AllDataCards = new LinkedList<>();
 
         return 0;
     }

@@ -40,7 +40,7 @@ public class PROG_DAL_B_JSONManager {
     // Class parameters
     // ############################################################
     // File path
-    private static final File PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_UserDataCard);
+    private static File PROG_DATA_UserDataCard;
 
     // read/write to json file
     private ObjectMapper JsonObjectMapper;
@@ -84,10 +84,21 @@ public class PROG_DAL_B_JSONManager {
         this.JsonObjectMapper = new ObjectMapper();
         this.JsonObjectMapper.registerModule(new JavaTimeModule());
         this.JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        PROG_DAL_B_JSONManager.PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_UserDataCard);
     }
 
 
 
+    public void SetTest(boolean SetTest) {
+
+        if (SetTest == true) {
+            PROG_DAL_B_JSONManager.PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_TestFile);
+        } else if (SetTest == false) {
+            PROG_DAL_B_JSONManager.PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_UserDataCard);
+        }
+
+    }
 
 
     /**

@@ -19,6 +19,7 @@ package meeting_scheduler.BusinessLogiclayer;
 // exception
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 // util
 import java.util.LinkedList;
 // jackson - json file manager
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 // data manager Objects
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_ScheduleTimeInterval;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 // System Messages
@@ -79,7 +81,7 @@ public class PROG_BLL_SchedulingCalculation {
      */
     private LinkedList<String>                  Calc_AvailableIDs;          // LinkedList that holds the list of available people for each viable interval.
 
-    private LinkedList<PROG_DAL_A_InfoInput>    CALC_AvailablePeople;
+    private LinkedList<PROG_DAL_A_ScheduleTimeInterval>    CALC_AvailablePeople;
     private LinkedList<PROG_DAL_A_InfoInput>    Calc_People;                // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
     private boolean                             Calc_PeopleSet     = false; // false if the linkedlist peopele has not been set. false as default. 
 
@@ -300,13 +302,13 @@ public class PROG_BLL_SchedulingCalculation {
         System.out.println("");
 
         /**
-         * Step 1. Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
+         * Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
          */
         Calc_FullScheduleList   = new LinkedList<PROG_DAL_A_Schedule>();     // List of possible schedules
 
 
         /**
-         * Step 2. LinkedList variable People is created and set with retireved user card information to be used in calculations, a check is sued to ensure this happened
+         * LinkedList variable People is created and set with retireved user card information to be used in calculations, a check is sued to ensure this happened
          */
         RetrieveUserCards(); // retrieves user info
         if (Calc_PeopleSet == false) {
@@ -316,7 +318,7 @@ public class PROG_BLL_SchedulingCalculation {
 
         
         /**
-         * Step 3. For each Person in the People linkedlist the size of the timeIntervals LinkedList each stores is found, the size of the largest one is kept
+         * For each Person in the People linkedlist the size of the timeIntervals LinkedList each stores is found, the size of the largest one is kept
          * This ensures all indexes in each TimeIntervals LinkedList is covered.
          */
         int MaxSize = 0;
@@ -329,7 +331,6 @@ public class PROG_BLL_SchedulingCalculation {
 
 
         /**
-         * Step 4.
          * Iterate over each day the user selected, at least one at most every day of the week
          */
         // ############################################################
@@ -338,7 +339,6 @@ public class PROG_BLL_SchedulingCalculation {
 
 
             /**
-             * Step 5.
              * for each day iterate through every user selected time inteval they want to make a schedule for.
              * If they did not submit any preferences create a schedule for the full hours of the day
              */
@@ -392,7 +392,7 @@ public class PROG_BLL_SchedulingCalculation {
 
 
         /**
-         * Step 11. All possbile lists with the selected user parameters have been created, it is ready to be used at this point.
+         * All possbile lists with the selected user parameters have been created, it is ready to be used at this point.
          */
         System.out.println("");
         System.out.println(PROG_DAL_D_SystemMessages.PASS_CalculateScheduleCompleteCalc);
@@ -479,9 +479,9 @@ public class PROG_BLL_SchedulingCalculation {
 
 
 
-        // TODO: change system messages
         // Step 1 & 2:
-        // for each interval cheack if each person can be scheduled for that interval
+        // For each interval the user has submitted, check who can be scheduled within that interval, saving both the person and the interval personal preference interval
+        // that lies within the interval
         // ############################################################
         // BreakPerson1:   // BREAK
         for (PROG_DAL_A_InfoInput Person : Calc_People) {
@@ -493,7 +493,6 @@ public class PROG_BLL_SchedulingCalculation {
                 if (Person.TimeIntervals.size() > Person_timeIntervalIndex) {
 
                     /**
-                     * Step 6.
                      * If the persons time preference lies on the selected interval, check it.
                      * if its valid, add it to the lsit of valid ids.
                      */
@@ -508,98 +507,42 @@ public class PROG_BLL_SchedulingCalculation {
                         PREF_EndHour    = Person.TimeIntervals.get(Person_timeIntervalIndex).PreferedHourEND.getHour();
                         PREF_EndMin     = Person.TimeIntervals.get(Person_timeIntervalIndex).PreferedHourEND.getMinute();
 
-                        // Step 7.
-                        // If persons interval lies between then its id is added to the list
+
+                        // If persons interval lies between then they're added to the list of available people
 
                         // interval lies between the hours
-                        if ( (PREF_BeginHour > Interval_HourStart) && (PREF_EndHour < Interval_HourEnd) ) {
+                        if ( !(PREF_BeginHour > Interval_HourStart) && !(PREF_EndHour < Interval_HourEnd) ) {
                                 
-                            System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                            //Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
-                            CALC_AvailablePeople.add(Person);
-
-                            // for each person
-                            // marks a range of valid intervals with 1
-                            for (int validHour = PREF_BeginHour; validHour <= PREF_EndHour; validHour++) {
-                                RefinedHourRange[validHour] = 1;
-                            }
-                            
-
-                            //TODO: remove ones where people can't meet
-                            // sets the latest start time for this starting hour
-                            if (RefinedMinStartRange[PREF_BeginHour] < PREF_BeginMIN) {
-                                RefinedMinStartRange[PREF_BeginHour] = PREF_BeginMIN;
-                            }
-                            
-                            // sets the earliest end time for this ending hour
-                            if (RefinedMinEndRange[PREF_EndHour] > PREF_EndMin) {
-                                RefinedMinEndRange[PREF_EndHour] = PREF_EndMin;
-                            }
-                            
-                            // break BreakPerson1;
+                            // Do nothing
                             
                         // if the starting hours are the same but ending hours arn't
-                        } else if ( (PREF_BeginHour == Interval_HourStart) && (PREF_BeginMIN > Interval_MinStart) 
-                            && (PREF_EndHour < Interval_HourEnd) 
+                        } else if ( !(PREF_BeginHour == Interval_HourStart) && !(PREF_BeginMIN > Interval_MinStart) 
+                            && !(PREF_EndHour < Interval_HourEnd) 
                         ) {
 
-                            System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                            //Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
-                            CALC_AvailablePeople.add(Person);
-
-                            // for each person
-                            // marks a range of valid intervals with 1
-                            for (int validHour = PREF_BeginHour; validHour <= PREF_EndHour; validHour++) {
-                                RefinedHourRange[validHour] = 1;
-                            }
-                            
-                            // sets the latest start time for this starting hour
-                            if (RefinedMinStartRange[PREF_BeginHour] < PREF_BeginMIN) {
-                                RefinedMinStartRange[PREF_BeginHour] = PREF_BeginMIN;
-                            }
-                            
-                            // sets the earliest end time for this ending hour
-                            if (RefinedMinEndRange[PREF_EndHour] > PREF_EndMin) {
-                                RefinedMinEndRange[PREF_EndHour] = PREF_EndMin;
-                            }
-
-                            // break BreakPerson1;
+                            // Do nothing
                             
                         // if the ending hours are the same but starting hours arn't
-                        } else if ( (PREF_BeginHour > Interval_HourStart) && (PREF_EndHour == Interval_HourEnd) 
-                            && (PREF_EndMin <= Interval_MinEnd) 
+                        } else if ( !(PREF_BeginHour > Interval_HourStart) && !(PREF_EndHour == Interval_HourEnd) 
+                            && !(PREF_EndMin <= Interval_MinEnd) 
                         ) {
 
-                            System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                            //Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
-                            CALC_AvailablePeople.add(Person);
-
-                            // for each person
-                            // marks a range of valid intervals with 1
-                            for (int validHour = PREF_BeginHour; validHour <= PREF_EndHour; validHour++) {
-                                RefinedHourRange[validHour] = 1;
-                            }
-                            
-                            // sets the latest start time for this starting hour
-                            if (RefinedMinStartRange[PREF_BeginHour] < PREF_BeginMIN) {
-                                RefinedMinStartRange[PREF_BeginHour] = PREF_BeginMIN;
-                            }
-                            
-                            // sets the earliest end time for this ending hour
-                            if (RefinedMinEndRange[PREF_EndHour] > PREF_EndMin) {
-                                RefinedMinEndRange[PREF_EndHour] = PREF_EndMin;
-                            }
-
-                            // break BreakPerson1;
+                            // Do nothing
 
                         // if both the starting and ending hours are the same
-                        } else if ( (PREF_BeginHour == Interval_HourStart) && (PREF_BeginMIN >= Interval_MinStart) 
-                            && (PREF_EndHour == Interval_HourEnd) && (PREF_EndMin <= Interval_MinEnd) 
+                        } else if ( !(PREF_BeginHour == Interval_HourStart) && !(PREF_BeginMIN >= Interval_MinStart) 
+                            && !(PREF_EndHour == Interval_HourEnd) && !(PREF_EndMin <= Interval_MinEnd) 
                         ) {
 
+                            // Do nothing
+
+                        } else {
+
+                            // SYtem message
                             System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                            //Calc_AvailableIDs.add(String.valueOf(Person.EmployeeID));
-                            CALC_AvailablePeople.add(Person);
+                            
+                            // linkedlist of available people and the intervals that lie within the time frame
+                            CALC_AvailablePeople.add(new PROG_DAL_A_ScheduleTimeInterval(Person, Person_timeIntervalIndex));
 
                             // for each person
                             // marks a range of valid intervals with 1
@@ -618,7 +561,6 @@ public class PROG_BLL_SchedulingCalculation {
                             }
 
                             // break BreakPerson1;
-
                         }
 
 
@@ -634,9 +576,8 @@ public class PROG_BLL_SchedulingCalculation {
 
 
 
-
         /**
-         * Step 3 & 4:
+         * Step 3&4 :
          * Refined times calculation
          * Determines intervals within user selected times that people can meet. Accounts for situations where
          * people can only meet for part of the meeting times
@@ -644,114 +585,130 @@ public class PROG_BLL_SchedulingCalculation {
         // ############################################################
         for (int HourRangeIndex = 0; HourRangeIndex < 24; HourRangeIndex++) {
 
+            // general range where people can be scheduled
+            // using the arrays that hold valid start times via marking hour positions as ones, these times can be retireved and stored in these
+            // values to be compared against various people
+            int CalculateInterval_HourStart    = 0;
+            int CalculateInterval_MinStart     = 0;
+            int CalculateInterval_HourEnd      = 0;
+            int CalculateInterval_MinEnd       = 0;
 
-            Calc_AvailableIDs       = new LinkedList<String>();
+            // each person preferred time
+            int Person_BeginHour  = 0;
+            int Person_BeginMIN   = 0;
+            int Person_EndHour    = 0;
+            int Person_EndMin     = 0;
 
 
-            int CalculatedInterval_HourStart    = 0;
-            int CalculatedInterval_MinStart     = 0;
-            int CalculatedInterval_HourEnd      = 0;
-            int CalculatedInterval_MinEnd       = 0;
-
-
+            // when RefinedHourRange is one, that means an hour of the day contains at least one person who can be scheduled on it
             if (RefinedHourRange[HourRangeIndex] == 1) {
 
+
                 // gets start times
-                CalculatedInterval_HourStart = HourRangeIndex;
-                CalculatedInterval_MinStart = RefinedMinStartRange[HourRangeIndex];
+
+                // HourRangeIndex is the starting hour
+                CalculateInterval_HourStart = HourRangeIndex;
+                // RefinedMinStartRange holds a minute value stored at the index positon HourRangeIndex
+                CalculateInterval_MinStart = RefinedMinStartRange[HourRangeIndex];
 
                 // safety ensures the while loop ends eventually
                 int safety = 0;
-                while ( (RefinedHourRange[HourRangeIndex] == 1) && (safety < 25) ){
-                    CalculatedInterval_HourEnd = HourRangeIndex;
-                    CalculatedInterval_MinEnd = RefinedMinEndRange[HourRangeIndex];
 
+                // loops throught the list of RefinedHourRange to find the end points available to schedule
+                // each range of hours is marked as ones on RefinedHourRange. so each interval is an uninterrupted sequence of ones.
+                // when the sequence no longer has any ones, the while loop stops and the calculations begin.
+                // if there are more intervals the above for loop goes to the next one or until the hours in the day are up.
+                while ( (RefinedHourRange[HourRangeIndex] == 1) && (safety < 24) ) {
+                    
+                    // retireves end hour number
+                    CalculateInterval_HourEnd = HourRangeIndex;
+                    // retrieves minute stored at RefinedMinEndRange at index position HourRangeIndex
+                    CalculateInterval_MinEnd = RefinedMinEndRange[HourRangeIndex];
 
+                    // loop through the index position until no more valid hours are found (RefinedHourRange[HourRangeIndex] == 1)
                     HourRangeIndex++;
+                    // iterate to ensure while loop stops eventually and the hour position never exceeds 23, highest time is 23:59 or 11:59 pm
                     safety++;
-                }
+
+                } // ( (RefinedHourRange[HourRangeIndex] == 1) && (safety < 25) )
+
 
 
                 // calculate people within the new intervals
                 // for each interval cheack if each person can be scheduled for that interval
                 // ############################################################
-                BreakPerson2:   // BREAK
-                for (PROG_DAL_A_InfoInput AvailablePerson : CALC_AvailablePeople) { 
+                for (PROG_DAL_A_ScheduleTimeInterval AvailablePerson : CALC_AvailablePeople) { 
 
-                    // for each person iterate through all time intervals they have for that specific day
-                    for (int Person_timeIntervalIndex = 0; Person_timeIntervalIndex < MAXSIZE; Person_timeIntervalIndex++) {
-
-                        // ensure the interval exists
-                        if (AvailablePerson.TimeIntervals.size() > Person_timeIntervalIndex) {
-
-                            /**
-                             * Step 6.
-                             * If the persons time preference lies on the selected interval, check it.
-                             * if its valid, add it to the lsit of valid ids.
-                             */
-                            if (AvailablePerson.TimeIntervals.get(Person_timeIntervalIndex).WeekDay.equals(PREFDAY)) {
-                                
-                                // A persons preference contains a matching day
-                                System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateSchedulePersonDay + AvailablePerson.EmployeeID);
-                                
-                                // 7.a Find the latest start time of the earliest time interval from all people on that day
-                                PREF_BeginHour  = AvailablePerson.TimeIntervals.get(Person_timeIntervalIndex).PreferedHourBEGIN.getHour();
-                                PREF_BeginMIN   = AvailablePerson.TimeIntervals.get(Person_timeIntervalIndex).PreferedHourBEGIN.getMinute();
-                                PREF_EndHour    = AvailablePerson.TimeIntervals.get(Person_timeIntervalIndex).PreferedHourEND.getHour();
-                                PREF_EndMin     = AvailablePerson.TimeIntervals.get(Person_timeIntervalIndex).PreferedHourEND.getMinute();
-
-                                // Step 7.
-                                // If persons interval lies between then its id is added to the list
-
-                                // interval lies between the hours
-                                if ( (PREF_BeginHour > Interval_HourStart) && (PREF_EndHour < Interval_HourEnd) ) {
-                                        
-                                    System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                                    Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
-
-                                    // break BreakPerson2;
-                                    
-                                // if the starting hours are the same but ending hours arn't
-                                } else if ( (PREF_BeginHour == Interval_HourStart) && (PREF_BeginMIN > Interval_MinStart) 
-                                    && (PREF_EndHour < Interval_HourEnd) 
-                                ) {
-
-                                    System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                                    Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
-
-                                    // break BreakPerson2;
-                                    
-                                // if the ending hours are the same but starting hours arn't
-                                } else if ( (PREF_BeginHour > Interval_HourStart) && (PREF_EndHour == Interval_HourEnd) 
-                                    && (PREF_EndMin <= Interval_MinEnd) 
-                                ) {
-
-                                    System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                                    Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
-
-                                    // break BreakPerson2;
-
-                                // if both the starting and ending hours are the same
-                                } else if ( (PREF_BeginHour == Interval_HourStart) && (PREF_BeginMIN >= Interval_MinStart) 
-                                    && (PREF_EndHour == Interval_HourEnd) && (PREF_EndMin <= Interval_MinEnd) 
-                                ) {
-
-                                    System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
-                                    Calc_AvailableIDs.add(String.valueOf(AvailablePerson.EmployeeID));
-
-                                    // break BreakPerson2;
-
-                                }
+                    PROG_DAL_A_InfoInput Person_Available = AvailablePerson.getPerson();
+                    int Interval = AvailablePerson.getInterval();
 
 
-                            } // if (Person.TimeIntervals.get(Person_timeIntervalIndex).WeekDay.equals(Pref_Day))
+                    Person_BeginHour  = Person_Available.TimeIntervals.get(Interval).PreferedHourBEGIN.getHour();
+                    Person_BeginMIN   = Person_Available.TimeIntervals.get(Interval).PreferedHourBEGIN.getMinute();
+                    Person_EndHour    = Person_Available.TimeIntervals.get(Interval).PreferedHourEND.getHour();
+                    Person_EndMin     = Person_Available.TimeIntervals.get(Interval).PreferedHourEND.getMinute();
 
-                        } // if (Person.TimeIntervals.size() > Person_timeIntervalIndex)
-                    
-                    } // for (int Person_timeIntervalIndex = 0; Person_timeIntervalIndex < MaxSize; Person_timeIntervalIndex++)
 
-                } // for (PROG_DAL_A_InfoInput Person : Calc_People)
+                    if (CalculateInterval_HourStart < Person_BeginHour) {
+                        CalculateInterval_HourStart = Person_BeginHour;
+                    }
+
+                    if (CalculateInterval_MinStart < Person_BeginMIN) {
+                        CalculateInterval_MinStart  = Person_BeginMIN;
+                    }
+
+                    if (CalculateInterval_HourEnd > Person_EndHour) {
+                        CalculateInterval_HourEnd   = Person_EndHour;
+                    }
+
+                    if (CalculateInterval_MinEnd > Person_EndMin) {
+                        CalculateInterval_MinEnd    = Person_EndMin;
+                    }
+
+
+                }
                 // ############################################################
+
+
+
+                Iterator<PROG_DAL_A_ScheduleTimeInterval> iterator = CALC_AvailablePeople.iterator();
+
+                while (iterator.hasNext()) {
+
+                    PROG_DAL_A_ScheduleTimeInterval Iterator_PERSON = iterator.next();
+
+                    PROG_DAL_A_InfoInput AvailablePerson = Iterator_PERSON.getPerson();
+
+                    int Interval = Iterator_PERSON.getInterval();
+
+                    Person_BeginHour  = AvailablePerson.TimeIntervals.get(Interval).PreferedHourBEGIN.getHour();
+                    Person_BeginMIN   = AvailablePerson.TimeIntervals.get(Interval).PreferedHourBEGIN.getMinute();
+                    Person_EndHour    = AvailablePerson.TimeIntervals.get(Interval).PreferedHourEND.getHour();
+                    Person_EndMin     = AvailablePerson.TimeIntervals.get(Interval).PreferedHourEND.getMinute();
+
+
+
+                    // check if a persons beginning time lies before the interval ends
+                    // or if a persons ending time comes after the interval starts
+                    if (Person_BeginHour < CalculateInterval_HourEnd)           {
+
+                        Calc_AvailableIDs.add(Integer.toString(AvailablePerson.EmployeeID));
+
+                    } else if ( (Person_BeginHour == CalculateInterval_HourEnd) && (Person_BeginMIN < CalculateInterval_MinEnd) )   {
+
+                        Calc_AvailableIDs.add(Integer.toString(AvailablePerson.EmployeeID));
+
+                    } else if (Person_EndHour > CalculateInterval_HourStart)    { 
+
+                        Calc_AvailableIDs.add(Integer.toString(AvailablePerson.EmployeeID));
+
+                    } else if ( (Person_EndHour == CalculateInterval_HourStart) && (Person_EndMin < CalculateInterval_MinStart) )   {
+
+                        Calc_AvailableIDs.add(Integer.toString(AvailablePerson.EmployeeID));
+
+                    }
+
+                } // while (iterator.hasNext())
 
 
 
@@ -783,7 +740,6 @@ public class PROG_BLL_SchedulingCalculation {
                 
 
 
-                // step 9.
                 // create a new schedule and add it to the full list of schedules.
                 // only continue if a possible schedule has at least one person otherwise many garbage objects will be created
                 // ############################################################
@@ -794,17 +750,17 @@ public class PROG_BLL_SchedulingCalculation {
                     System.out.println("EndMinRange"    + Arrays.toString(RefinedMinEndRange));
                     // Testing
                     System.out.println("Day:        " + PREFDAY);
-                    System.out.println("startHour:  " + CalculatedInterval_HourStart);
-                    System.out.println("startMin:   " + CalculatedInterval_MinStart);
-                    System.out.println("endhour:    " + CalculatedInterval_HourEnd);
-                    System.out.println("endMinute:  " + CalculatedInterval_MinEnd);
+                    System.out.println("startHour:  " + CalculateInterval_HourStart);
+                    System.out.println("startMin:   " + CalculateInterval_MinStart);
+                    System.out.println("endhour:    " + CalculateInterval_HourEnd);
+                    System.out.println("endMinute:  " + CalculateInterval_MinEnd);
                     System.out.println("");
 
                     /**
                      * Step 11. create new TimeInput LinkedList containing this schedule
                      */
-                    Calc_ViableSchedule = new PROG_DAL_A_TimeInput(PREFDAY, CalculatedInterval_HourStart, CalculatedInterval_MinStart, 
-                        CalculatedInterval_HourEnd, CalculatedInterval_MinEnd);
+                    Calc_ViableSchedule = new PROG_DAL_A_TimeInput(PREFDAY, CalculateInterval_HourStart, CalculateInterval_MinStart, 
+                        CalculateInterval_HourEnd, CalculateInterval_MinEnd);
 
 
                     /**
@@ -814,6 +770,9 @@ public class PROG_BLL_SchedulingCalculation {
 
                 } // if (Calc_AvailableIDs.size() > 0)
                 // ############################################################
+
+
+
 
 
             } // if (RefinedHourRange[HourRangeIndex] == 1)

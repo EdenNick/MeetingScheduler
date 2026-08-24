@@ -42,4 +42,22 @@
     "PreferedHourBEGIN" : [ 11, 0 ],
     "PreferedHourEND" : [ 17, 0 ]
   } ]
+}, {
+  "EmployeeName" : "a",
+  "EmployeeID" : 23,
+  "EmployeeMEETINGDAYS" : [ "Wed" ],
+  "TimeIntervals" : [ {
+    "WeekDay" : "Wed",
+    "PreferedHourBEGIN" : [ 1, 2 ],
+    "PreferedHourEND" : [ 3, 4 ]
+  } ]
+}, {
+  "EmployeeName" : "b",
+  "EmployeeID" : 1234,
+  "EmployeeMEETINGDAYS" : [ "Tue" ],
+  "TimeIntervals" : [ {
+    "WeekDay" : "Tue",
+    "PreferedHourBEGIN" : [ 1, 2 ],
+    "PreferedHourEND" : [ 3, 4 ]
+  } ]
 } ]

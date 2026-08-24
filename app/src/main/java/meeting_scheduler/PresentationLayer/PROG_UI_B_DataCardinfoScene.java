@@ -50,9 +50,9 @@ import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 // data managing objects
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
+// import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+// import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
 import meeting_scheduler.BusinessLogiclayer.PROG_BLL_InfoFileWrite;
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
@@ -132,7 +132,7 @@ public class PROG_UI_B_DataCardinfoScene {
 
     private Iterator<VBox>                      RemoveAllVBOXIterator;  // iterator to remove all added userpreferences
 
-    private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;   // linked list contianing a persons full info to be sent to the json file
+    // private LinkedList<PROG_DAL_A_InfoInput>    InfoInputPreferences;   // linked list contianing a persons full info to be sent to the json file
     // ############################################################
 
 
@@ -140,7 +140,7 @@ public class PROG_UI_B_DataCardinfoScene {
     // ############################################################
     private PROG_BLL_InfoFileWrite INFOFileWrite;
     // Json file manager
-    private PROG_DAL_B_JSONManager JsonManager;                 // Manages json files
+    // private PROG_DAL_B_JSONManager JsonManager;                 // Manages json files
     // user tim input manager
     private PROG_UI_C_UserTimeInput DataCard_UserTimeInputs;    // manages time inputs and displays
     // ############################################################
@@ -155,8 +155,8 @@ public class PROG_UI_B_DataCardinfoScene {
         
         this.ApplicationStage           = stage;
         this.List_UserTimes             = new LinkedList<>();
-        this.InfoInputPreferences       = new LinkedList<>();
-        this.JsonManager                = new PROG_DAL_B_JSONManager();
+        // this.InfoInputPreferences       = new LinkedList<>();
+        // this.JsonManager                = new PROG_DAL_B_JSONManager();
         this.DataCard_UserTimeInputs    = new PROG_UI_C_UserTimeInput();
         this.List_VBoxTimeInputs        = new LinkedList<>();
         this.INFOFileWrite              = new PROG_BLL_InfoFileWrite();
@@ -243,7 +243,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.FlowPane_VBoxDisplay = new FlowPane();
         this.FlowPane_VBoxDisplay.setPrefSize(600.0, 600.0);
         this.FlowPane_VBoxDisplay.setPadding(new Insets(10));
-        this.FlowPane_VBoxDisplay.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimePref);
+        this.FlowPane_VBoxDisplay.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimeOutput);
         // ############################################################
 
 
@@ -412,7 +412,8 @@ public class PROG_UI_B_DataCardinfoScene {
         // Return Home Button
         // ############################################################
         this.ButtonReturn = new Button("Return Home");
-        this.ButtonReturn.setOnAction(this.ReturnHome);
+        this.ButtonReturn.addEventHandler(ActionEvent.ACTION, this.ReturnHome);
+        this.ButtonReturn.addEventHandler(ActionEvent.ACTION, this.ResetTimePreference);
         // ############################################################
 
 
@@ -590,41 +591,6 @@ public class PROG_UI_B_DataCardinfoScene {
                 // ############################################################
 
 
-                // /**
-                //  * ############################################################
-                //  * LinkedList<PROG_DAL_A_InfoInput> InfoInputPreferences    - full list of all preferences where each index is a persons full preferences
-                //  * 
-                //  * PROG_DAL_A_InfoInput(String name, int ID, String[] week, LinkedList<PROG_DAL_A_TimeInput> times);
-                //  */
-                // InfoInputPreferences.add(new PROG_DAL_A_InfoInput(name, id, preferredDays, this.List_UserTimes));
-                // // ############################################################
-
-
-                // // testing
-                // // TODO: Remove later
-                // System.out.println(InfoInputPreferences.size());
-                // System.out.println(InfoInputPreferences.getLast().EmployeeMEETINGDAYS);
-
-                // // 1. set user card so file can be updated
-                // JsonManager.SetUserCards(InfoInputPreferences);
-
-                // // 2. set to file
-                // try {
-                //     JsonManager.SetToFile(); // submit linkedlist of peoples preferences
-                // } catch (StreamReadException e1)    {
-                //     e1.printStackTrace();
-                // } catch (DatabindException e1)      {
-                //     e1.printStackTrace();
-                // } catch (IOException e1)            {
-                //     e1.printStackTrace();
-                // }
-
-                // // 3. reset Json Manager
-                // JsonManager.DiscardCard();
-
-                // // clear linkedlist and any other data for a fresh start
-                // InfoInputPreferences = new LinkedList<>();
-
             } // if/else ()
 
         };
@@ -654,7 +620,7 @@ public class PROG_UI_B_DataCardinfoScene {
                     RemoveAllVBOXIterator.remove();
 
                     //removes InputTime from UserTimeInput LinkedList
-                    System.out.println("user Input :" + List_UserTimes.size());
+                    System.out.println("User Input :" + List_UserTimes.size());
                     List_UserTimes.remove(0);
 
                 } // if ()

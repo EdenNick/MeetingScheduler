@@ -249,6 +249,9 @@ public class PROG_UI_B_SchedulePeopleScene {
      */
     public void changetoSchedulingScene() {
 
+        // fires the reset people button to ensure an up to date list of people in the file is always loaded in
+        this.RESET_People.fire();
+
         // unfades nodes
         this.UnfadeMenuNodes.play();
 
@@ -495,11 +498,31 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
 
-        // Resets the number of people used in the scheudle
+        // Resets the number of people used in the schedule
         // ############################################################
         this.EVENT_RESET_People = event -> {
             
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetPeople);
+
+            // retrieve the list of user preferences from the relevant json file
+            try {
+                Scheduler_fileReader.RetrieveFromFile();
+            } catch (IOException e) {
+                // ERROR
+                e.printStackTrace();
+            }
+
+            // Retrieve the list from the file reader
+            this.FileUserInfo   = new LinkedList<>(Scheduler_fileReader.ReturnFile());
+        
+            // LinkedList of all people in the file showing both ID and full name
+            this.PersonList.clear();
+
+            // Add people to the list
+            for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
+                String format = String.format("|ID: %-7d", FilePerson.EmployeeID);
+                PersonList.add(format + "| Name: " + FilePerson.EmployeeName);
+            }
 
             // remove all text from the flowpane
             this.AddedPeople.getChildren().clear();
@@ -1094,6 +1117,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // labels
         Label_inputPeople.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
         Label_addedPeople.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
+        this.Selectable_PersonList.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_ComboBox);
         // ############################################################
 
 
@@ -1113,9 +1137,15 @@ public class PROG_UI_B_SchedulePeopleScene {
         // LinkedList of all people in the file showing both ID and full name
         this.PersonList     = new LinkedList<>();
 
+        // // Add people to the list
+        // for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
+        //     PersonList.add("|ID: " + FilePerson.EmployeeID + " Name: " + FilePerson.EmployeeName + "|");
+        // }
+
         // Add people to the list
         for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
-            PersonList.add("|ID: " + FilePerson.EmployeeID + " Name: " + FilePerson.EmployeeName + "|");
+            String format = String.format("|ID: %-7d", FilePerson.EmployeeID);
+            PersonList.add(format + "| Name: " + FilePerson.EmployeeName);
         }
 
         // add list to combobox

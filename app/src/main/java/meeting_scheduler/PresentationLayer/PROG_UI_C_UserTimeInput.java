@@ -19,6 +19,7 @@ import java.util.LinkedList;
 // Javafx
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -357,7 +358,9 @@ public class PROG_UI_C_UserTimeInput {
         // VBox creation and preference set
         // ############################################################
         VBox IndividualDataCard = new VBox();
-        IndividualDataCard.setPrefSize(100.0, 70.0);
+        IndividualDataCard.setPrefSize(130.0, 100.0);
+        IndividualDataCard.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimeOutputCard);
+        IndividualDataCard.setAlignment(Pos.CENTER);
         // ############################################################
 
 

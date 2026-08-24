@@ -130,6 +130,8 @@ public final class PROG_UI_D_DataVariables {
     public static final String STYLE_MENU_Endprogram            = "MainMenu_Button_Endprogram";
     public static final String STYLE_DATACARD_TimePref          = "DataCard_UI_TimePref";
     public static final String STYLE_DATACARD_DefaultUI         = "DataCard_UI_DefaultInputUI";
+    public static final String STYLE_DATACARD_TimeOutput        = "DataCard_UI_TimeOutput";
+    public static final String STYLE_DATACARD_TimeOutputCard    = "DataCard_UI_TimeOutputCard";
     public static final String STYLE_INSTRUCTION_TextHolder     = "Instructions_UI_TextHolder";
     public static final String STYLE_INSTRUCTION_TextTitle      = "Instructions_UI_TextTitle";
     public static final String STYLE_INSTRUCTION_ScrollPane     = "Instructions_UI_ScrollPane";
@@ -137,6 +139,7 @@ public final class PROG_UI_D_DataVariables {
     public static final String STYLE_SCHEDULLE_MainInputs       = "Schedule_UI_MainInputs";
     public static final String STYLE_SCHEDULLE_IndividualInput  = "Schedule_UI_IndividualInput";
     public static final String STYLE_SCHEDULLE_NameFlowBox      = "Schedule_UI_NameFlowBox";
+    public static final String STYLE_SCHEDULLE_ComboBox         = "Schedule_UI_ComboBox";
     public static final String STYLE_SCHEDULLE_ScheduleListBox  = "Schedule_UI_ScheduleListBox";
     // ############################################################
 

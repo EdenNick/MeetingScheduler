@@ -20,6 +20,7 @@
     -fx-text-fill: black;
 
     -fx-background-color: #8b8a824d;
+    -fx-background-radius: 5px;
 
     -fx-border-color: Black;
     -fx-border-width: 2;
@@ -28,7 +29,7 @@
 
 /* style for the main menu exit program button */
 .MainMenu_Button_Endprogram {
-    -fx-font-size: 24px;
+    -fx-font-size: 12px;
     -fx-font-family: "Elephant";
     -fx-font-weight: bold;
     -fx-text-fill: black;
@@ -78,7 +79,8 @@
 
 /* style for the ui components containing the time input */
 .DataCard_UI_TimePref {
-    -fx-background-color: white;
+    -fx-background-color: #61dee257;
+    -fx-background-radius: 5px;
     -fx-border-color: Black;
     -fx-border-width: 2;
     -fx-border-radius: 5;
@@ -86,7 +88,28 @@
 
 /* Style for the default input UI */
 .DataCard_UI_DefaultInputUI {
+    -fx-background-color: rgba(255, 255, 255, 0.743);
+    -fx-background-radius: 5px;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+.DataCard_UI_TimeOutput {
+    -fx-background-color: #8b8a824d;
+    -fx-background-radius: 5px;
+    -fx-border-color: Black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+.DataCard_UI_TimeOutputCard {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+
     -fx-background-color: white;
+    -fx-background-radius: 5px;
+    
     -fx-border-color: Black;
     -fx-border-width: 2;
     -fx-border-radius: 5;
@@ -130,6 +153,12 @@
     -fx-border-color: Black;
     -fx-border-width: 2;
     -fx-border-radius: 5;
+}
+
+.Schedule_UI_ComboBox {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: "monospaced";
 }
 
 /* style for the boxes containing the calculated schedules */

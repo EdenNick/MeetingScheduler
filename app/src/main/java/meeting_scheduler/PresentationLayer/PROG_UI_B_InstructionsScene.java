@@ -183,8 +183,8 @@ public class PROG_UI_B_InstructionsScene {
         // Node Visual formatting
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.INSTRUCTION_Return_RightAnchor);
-        AnchorPane.setBottomAnchor  (Button_ReturnToMenu,   PROG_UI_D_DataVariables.INSTRUCTION_Return_BottomAnchor);
+        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
+        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.SCHEDULE_Return_RightAnchor);
 
         // root Node - set text position
         AnchorPane.setTopAnchor     (instructionScrollPane, PROG_UI_D_DataVariables.INSTRUCTION_Instruction_TopAnchor);
@@ -227,6 +227,7 @@ public class PROG_UI_B_InstructionsScene {
         // ############################################################
         Button_ReturnToMenu = new Button("Return Home");
         Button_ReturnToMenu.setOnAction(this.ReturnHome);
+        Button_ReturnToMenu.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
     } // ButtonCreation()

@@ -60,7 +60,7 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 import java.io.IOException;
 // ############################################################
 
-
+//TODO: standardize sizing with global system variable
 
 public class PROG_UI_B_DataCardinfoScene {
 
@@ -250,8 +250,8 @@ public class PROG_UI_B_DataCardinfoScene {
         // Anchor position set
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor(ButtonReturn, 20.0);
-        AnchorPane.setRightAnchor(ButtonReturn, 20.0);
+        AnchorPane.setBottomAnchor(ButtonReturn,    PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
+        AnchorPane.setRightAnchor(ButtonReturn,     PROG_UI_D_DataVariables.SCHEDULE_Return_RightAnchor);
         
         // Root Node - set UI interface input
         AnchorPane.setTopAnchor(UI_FullInterface, 20.0);
@@ -414,6 +414,7 @@ public class PROG_UI_B_DataCardinfoScene {
         this.ButtonReturn = new Button("Return Home");
         this.ButtonReturn.addEventHandler(ActionEvent.ACTION, this.ReturnHome);
         this.ButtonReturn.addEventHandler(ActionEvent.ACTION, this.ResetTimePreference);
+        this.ButtonReturn.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 

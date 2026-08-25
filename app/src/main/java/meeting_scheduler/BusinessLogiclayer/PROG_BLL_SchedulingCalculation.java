@@ -295,9 +295,7 @@ public class PROG_BLL_SchedulingCalculation {
     private int CalculateSchedule() throws StreamReadException, DatabindException, IOException {
 
         // General System Info
-        System.out.println("");
         System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleStartCalc);
-        System.out.println("");
         System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleTimePref + Pref_SpecificTimes);;
         System.out.println("");
 
@@ -394,9 +392,7 @@ public class PROG_BLL_SchedulingCalculation {
         /**
          * All possbile lists with the selected user parameters have been created, it is ready to be used at this point.
          */
-        System.out.println("");
         System.out.println(PROG_DAL_D_SystemMessages.PASS_CalculateScheduleCompleteCalc);
-        System.out.println("");
         return 0;
 
     } // CalculateSchedule()
@@ -737,7 +733,6 @@ public class PROG_BLL_SchedulingCalculation {
 
                     }
 
-                    System.out.println("NAMES :" + Integer.toString(AvailablePerson.EmployeeID));
 
                 } // while (iterator.hasNext())
 
@@ -749,7 +744,7 @@ public class PROG_BLL_SchedulingCalculation {
                 Iterator<String> duplicateIterator = Calc_AvailableIDs.iterator();
 
                 // for loop over the copy linked list
-                for (String PERSON_ID : Calc_AvailableIDs) {
+                for (String PERSON_ID : Calc_AvailableIDsCOPY) {
 
                     // ammount of copies of ids
                     int Ammount = 0;
@@ -764,14 +759,12 @@ public class PROG_BLL_SchedulingCalculation {
                         // if a persons id is in the list increment it by one
                         if (ListedPerson.equals(PERSON_ID)) {
                             Ammount++;
-                            System.out.println("PERSON: " + ListedPerson);
                         }
 
                         // if a person ever appears more than once, remove the extra copy.
                         if (Ammount > 1) {
                             duplicateIterator.remove();
                             Ammount = 1;
-                            System.out.println("PERSON: " + ListedPerson);
                         }
                     }
 

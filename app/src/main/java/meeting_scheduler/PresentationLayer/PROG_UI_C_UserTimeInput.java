@@ -56,7 +56,8 @@ public class PROG_UI_C_UserTimeInput {
     private final PROG_BLL_SchedulingCalculation SCHEDULECALCULATOR;
 
 
-
+    //TODO: implement more system messages
+    
     /**
      * Constructor
      */
@@ -490,7 +491,6 @@ public class PROG_UI_C_UserTimeInput {
                 SCHEDULECALCULATOR.SetNonSpecificTime();
             }
 
-            System.out.println("UserTimeInput ammount: " + List_UserTimes.size());
 
         }; // Event Handler
 

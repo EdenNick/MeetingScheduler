@@ -1784,6 +1784,8 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                         int VBoxIndex = 0;
 
+                        boolean placed = false;
+
                         while (VBoxIndex < this.UIOutput_FullUI_VBOX.getChildren().size()) {
 
                             VBox vbox = (VBox) this.UIOutput_FullUI_VBOX.getChildren().get(0);
@@ -1794,7 +1796,7 @@ public class PROG_UI_B_SchedulePeopleScene {
                             if (FlowPanePeopleAmmount >= NumberOfPeople) {
 
                                 this.UIOutput_FullUI_VBOX.getChildren().add(VBoxIndex, ScheduleBox_Primary);
-
+                                placed = true;
                                 break;
 
                             }
@@ -1803,8 +1805,11 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                         } // (VBoxIndex < this.UIOutput_FullUI_VBOX.getChildren().size())
 
-
-                        this.UIOutput_FullUI_VBOX.getChildren().add(ScheduleBox_Primary);
+                        // if the while loop can not place the schedule it is automatically placed at the end
+                        // ie every other list contained a greater number of people
+                        if (placed == false) {
+                            this.UIOutput_FullUI_VBOX.getChildren().add(ScheduleBox_Primary);
+                        }
 
 
                     } // if else()

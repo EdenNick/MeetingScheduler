@@ -60,4 +60,13 @@
     "PreferedHourBEGIN" : [ 1, 2 ],
     "PreferedHourEND" : [ 3, 4 ]
   } ]
+}, {
+  "EmployeeName" : "tom",
+  "EmployeeID" : 12345,
+  "EmployeeMEETINGDAYS" : [ "Wed" ],
+  "TimeIntervals" : [ {
+    "WeekDay" : "Wed",
+    "PreferedHourBEGIN" : [ 1, 2 ],
+    "PreferedHourEND" : [ 15, 4 ]
+  } ]
 } ]

@@ -209,7 +209,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // User time inputs     - Object which is used to create the necessary input ui for user time inputs, verifies correct input
         // contains methods used to store and dispaly this information. In this case it is used to input correct times to create a schedule
-        this.Scheduler_UserTimeInputs   = new PROG_UI_C_UserTimeInput();
+        this.Scheduler_UserTimeInputs   = new PROG_UI_C_UserTimeInput(this.ScheduleCalculator);
 
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. 
         // Used to retrieve current user preferences to create a schedule
@@ -556,14 +556,16 @@ public class PROG_UI_B_SchedulePeopleScene {
                 // gets the person selected from the combobox
                 String SelectedPerson = Selectable_PersonList.getValue();
 
+
                 // removes that person from the combobox
                 this.Selectable_PersonList.getItems().remove(SelectedPerson);
 
                 // adds them to the seleted list of people
                 this.AddedPeople.getChildren().add(new Text(SelectedPerson));
 
-                // gets the user if od the selected person
+                // gets the user if of the selected person
                 String[] getID = SelectedPerson.split("\\s+");
+
 
                 // adds the id to the list of people to schedule
                 SCHEDULE_IDS.add(getID[1]); // add id as string
@@ -752,7 +754,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             // Clear all node in the FlowPane
             FlowPane_VBoxDisplay.getChildren().clear();
 
-
+            ScheduleCalculator.SetNonSpecificTime();
 
         };
         // ############################################################
@@ -840,6 +842,10 @@ public class PROG_UI_B_SchedulePeopleScene {
             // clears all calculated schedules
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_clear);
             
+            this.CalculatedScheduleList = new LinkedList<>();
+
+            this.Schedules.clear();
+
 
             for (Node node : UIOutput_FullUI_VBOX.getChildren()) {
                 if (node instanceof HBox hbox) {
@@ -1660,6 +1666,9 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                     this.FilePeople = new LinkedList<>(Scheduler_fileReader.ReturnFile());
 
+                    // used in placement position of the schedule in the list
+                    int FlowPanePeopleAmmount = 0;
+
                     for (String ScheduleID : Schedules.getLast().USERIDs) {
 
                         for (int FileIndex = 0; FileIndex < FilePeople.size(); FileIndex++) {
@@ -1670,6 +1679,8 @@ public class PROG_UI_B_SchedulePeopleScene {
                                 SchedulePeopleList.getChildren().add(
                                     new Label(" |ID: " + ScheduleID + " - " + "Name: " + FilePeople.get(FileIndex).EmployeeName)
                                 );
+
+                                FlowPanePeopleAmmount++;
 
                                 // breaks out of for loop
                                 break;
@@ -1757,11 +1768,48 @@ public class PROG_UI_B_SchedulePeopleScene {
                     );
 
 
-                    this.UIOutput_FullUI_VBOX.getChildren().addAll(
 
-                        ScheduleBox_Primary
 
-                    );
+                    // put in order based off of ammount of people in each schedule list
+
+                    if (this.UIOutput_FullUI_VBOX.getChildren().size() == 0) {
+
+                        this.UIOutput_FullUI_VBOX.getChildren().addAll(
+
+                            ScheduleBox_Primary
+
+                        );
+
+                    } else {
+
+                        int VBoxIndex = 0;
+
+                        while (VBoxIndex < this.UIOutput_FullUI_VBOX.getChildren().size()) {
+
+                            VBox vbox = (VBox) this.UIOutput_FullUI_VBOX.getChildren().get(0);
+                            FlowPane PeopleList = (FlowPane) vbox.getChildren().get(1);
+
+                            int NumberOfPeople = PeopleList.getChildren().size();
+
+                            if (FlowPanePeopleAmmount >= NumberOfPeople) {
+
+                                this.UIOutput_FullUI_VBOX.getChildren().add(VBoxIndex, ScheduleBox_Primary);
+
+                                break;
+
+                            }
+
+                            VBoxIndex++;
+
+                        } // (VBoxIndex < this.UIOutput_FullUI_VBOX.getChildren().size())
+
+
+                        this.UIOutput_FullUI_VBOX.getChildren().add(ScheduleBox_Primary);
+
+
+                    } // if else()
+
+
 
 
 

@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 // ############################################################
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
@@ -52,10 +53,28 @@ public class PROG_UI_C_UserTimeInput {
     private Iterator<VBox>      VBOXIterator;
 
 
+    private final PROG_BLL_SchedulingCalculation SCHEDULECALCULATOR;
+
+
 
     /**
      * Constructor
      */
+    public PROG_UI_C_UserTimeInput(PROG_BLL_SchedulingCalculation scheduler) {
+
+        this.Select_AMPM_StartTime  = new ComboBox<>();
+        this.Select_AMPM_EndTime    = new ComboBox<>();
+        this.Select_WeekDay         = new ComboBox<>();
+
+        this.Select_Hour_Begin      = new TextField();
+        this.Select_Minute_Begin    = new TextField();
+        this.Select_Hour_End        = new TextField();
+        this.Select_Minute_End      = new TextField();
+
+        this.SCHEDULECALCULATOR = scheduler;
+
+    }
+
     public PROG_UI_C_UserTimeInput() {
 
         this.Select_AMPM_StartTime  = new ComboBox<>();
@@ -66,6 +85,8 @@ public class PROG_UI_C_UserTimeInput {
         this.Select_Minute_Begin    = new TextField();
         this.Select_Hour_End        = new TextField();
         this.Select_Minute_End      = new TextField();
+
+        this.SCHEDULECALCULATOR = null;;
 
     }
 
@@ -218,6 +239,7 @@ public class PROG_UI_C_UserTimeInput {
 
                 if (    (Integer.parseInt(this.Select_Hour_Begin.getText()) > Integer.parseInt(TextInput))      // if -> beginning hour > ending hour
                     &&  (this.Select_AMPM_StartTime.getValue().equals(this.Select_AMPM_EndTime.getValue()))     // and -> both start and end itervals are AM or PM
+                    &&  (Integer.parseInt(this.Select_Hour_Begin.getText()) != 12)                              // and the beginning hour is not 12
                 ) {
                     this.Select_Hour_End.setText(this.Select_Hour_Begin.getText());                             // Ending hour changes to equal starting hour
                 }
@@ -459,6 +481,14 @@ public class PROG_UI_C_UserTimeInput {
                 }
 
             } // for()
+
+
+            // update the scheduler to the new time list
+            if (List_UserTimes.size() > 0) {
+                SCHEDULECALCULATOR.SetSpecificTime(List_UserTimes);
+            } else {
+                SCHEDULECALCULATOR.SetNonSpecificTime();
+            }
 
             System.out.println("UserTimeInput ammount: " + List_UserTimes.size());
 

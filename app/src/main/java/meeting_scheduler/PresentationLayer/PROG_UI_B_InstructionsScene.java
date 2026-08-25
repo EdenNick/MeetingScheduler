@@ -183,7 +183,7 @@ public class PROG_UI_B_InstructionsScene {
         // Node Visual formatting
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
+        AnchorPane.setBottomAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
         AnchorPane.setRightAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.SCHEDULE_Return_RightAnchor);
 
         // root Node - set text position

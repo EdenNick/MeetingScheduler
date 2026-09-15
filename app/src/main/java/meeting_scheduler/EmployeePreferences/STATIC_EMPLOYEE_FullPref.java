@@ -7,7 +7,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.StaticPreference;
+package meeting_scheduler.EmployeePreferences;
 // ############################################################
 
 

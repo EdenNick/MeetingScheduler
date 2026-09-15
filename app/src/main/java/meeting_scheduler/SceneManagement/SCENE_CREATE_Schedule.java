@@ -54,15 +54,15 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 // util
 import javafx.util.Duration;
-import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
-import meeting_scheduler.ApplicationManagement.MANAGEAPP_SceneManager;
 // System messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonOutput;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
 import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
 
 
@@ -154,7 +154,7 @@ public class SCENE_CREATE_Schedule {
     // User Time Input manager
     private final PROG_UI_C_UserTimeInput           Scheduler_UserTimeInputs;
     // Json File manager
-    private final MANAGEFILE_JsonOutput            Scheduler_fileReader;
+    private final MANAGEFILE_JsonManager            Scheduler_fileReader;
     // ############################################################
     
 
@@ -214,7 +214,7 @@ public class SCENE_CREATE_Schedule {
 
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. 
         // Used to retrieve current user preferences to create a schedule
-        this.Scheduler_fileReader       = new MANAGEFILE_JsonOutput();
+        this.Scheduler_fileReader       = new MANAGEFILE_JsonManager();
         // ############################################################
 
 

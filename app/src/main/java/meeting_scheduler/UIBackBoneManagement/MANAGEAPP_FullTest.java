@@ -6,7 +6,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.ApplicationManagement;
+package meeting_scheduler.UIBackBoneManagement;
 // ############################################################
 
 // Imports
@@ -22,10 +22,10 @@ import java.util.List;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonOutput;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.FIleManagement.MANAGEFILE_TXTInput;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 
@@ -129,7 +129,7 @@ public class MANAGEAPP_FullTest {
      */
     public void TEST_INFO_JsonTest() throws StreamWriteException, DatabindException, IOException  {
 
-        MANAGEFILE_JsonOutput test = new MANAGEFILE_JsonOutput();
+        MANAGEFILE_JsonManager test = new MANAGEFILE_JsonManager();
         test.JsonWriteTest1();
         test.JsonWriteTest2();
 

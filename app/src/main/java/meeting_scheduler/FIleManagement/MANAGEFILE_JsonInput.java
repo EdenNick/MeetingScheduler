@@ -1,7 +1,7 @@
 /**
- * MANAGEFILE_JsonOutput.java
+ * MANAGEFILE_JsonInput.java
  * 
- * Description: Used to manage the output of data from the preferences .JSON file.
+ * Description: Used to manage the Input of data into the preferences .JSON file.
  * 
  */
 
@@ -34,7 +34,7 @@ import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 
-public class MANAGEFILE_JsonOutput {
+public class MANAGEFILE_JsonInput {
 
     // Class parameters
     // ############################################################
@@ -48,42 +48,30 @@ public class MANAGEFILE_JsonOutput {
     //TODO: implement a lock system
 
     // Retreived File
-    private LinkedList<STATIC_EMPLOYEE_FullPref> JsonFileRetrievedList;
+    private LinkedList<STATIC_EMPLOYEE_FullPref> JSONFileInputList;
 
 
     // Contructor
-    public MANAGEFILE_JsonOutput(File INPUT_FILE) {
-        
+    public MANAGEFILE_JsonInput(File INPUT_FILE) {
         this.DATAFILE_Preferences = INPUT_FILE;
 
         this.JsonObjectMapper = new ObjectMapper();
         this.JsonObjectMapper.registerModule(new JavaTimeModule());
         this.JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-    }  
+    }
 
 
-    /**
-     * RetrieveFromFile()
-     * Description: used to set incoming datacards to the PROG_DATA_UserDataCard.json file.
-     * @throws IOException 
-     * @throws DatabindException 
-     * @throws StreamReadException 
-     */
-    public int RetrieveFromFile() throws StreamReadException, DatabindException, IOException {
+    public void SetInput(LinkedList<STATIC_EMPLOYEE_FullPref> INPUT_DATACARDLIST) {
+        this.JSONFileInputList = new LinkedList<>(INPUT_DATACARDLIST);
+    }
 
-        // retrieves existing datacards from the json file
-        JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<STATIC_EMPLOYEE_FullPref>>() {});
+    public int WriteToFile() throws StreamWriteException, DatabindException, IOException {
+        // write the updated list back into the file
+        JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(DATAFILE_Preferences, JSONFileInputList);
 
         return 0;
-
-    } // RetrieveFromFile
-
-
-    // Return - copy of the linked list to prevent object mismanagement
-    public LinkedList<STATIC_EMPLOYEE_FullPref> GetRetrievedFile() {
-        return new LinkedList<>(JsonFileRetrievedList);
-    }
+    } // WriteToFile()
 
     
 }

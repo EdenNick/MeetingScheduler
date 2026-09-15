@@ -31,8 +31,8 @@ import com.fasterxml.jackson.databind.DatabindException;
 
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
 
 
 
@@ -46,7 +46,7 @@ public class MANAGEFILE_InfoFileWrite {
     private STATIC_EMPLOYEE_FullPref                UserDataCard;
     private LinkedList<STATIC_EMPLOYEE_FullPref>    AllDataCards;
 
-    private MANAGEFILE_JsonOutput              JsonfileManager = new MANAGEFILE_JsonOutput();
+    private MANAGEFILE_JsonManager              JsonfileManager = new MANAGEFILE_JsonManager();
 
     
     public MANAGEFILE_InfoFileWrite() {

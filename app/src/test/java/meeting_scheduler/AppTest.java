@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
 import meeting_scheduler.FIleManagement.MANAGEFILE_InfoFileWrite;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonOutput;
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.FIleManagement.MANAGEFILE_TXTOutput;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 class AppTest {
@@ -51,7 +51,7 @@ class AppTest {
     private final LinkedList<STATIC_EMPLOYEE_TimePref>  TEST_TimeInputIntervals;
 
 
-    private final MANAGEFILE_JsonOutput            TEST_JsonFilemanager;
+    private final MANAGEFILE_JsonManager            TEST_JsonFilemanager;
     private final MANAGESCHEDULE_Calculate    ScheduleCalculationTester;
     // ############################################################
 
@@ -74,7 +74,7 @@ class AppTest {
 
         this.TEST_Schedule              = new MANAGESCHEDULE_Schedule("Mon", TEST_TimeInterval, TEST_IDs, true);
 
-        this.TEST_JsonFilemanager       = new MANAGEFILE_JsonOutput();
+        this.TEST_JsonFilemanager       = new MANAGEFILE_JsonManager();
         this.ScheduleCalculationTester  = new MANAGESCHEDULE_Calculate();
     }   
 

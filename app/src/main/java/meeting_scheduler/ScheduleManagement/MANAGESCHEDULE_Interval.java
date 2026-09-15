@@ -10,7 +10,7 @@
 package meeting_scheduler.ScheduleManagement;
 // ############################################################
 
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
 
 public class MANAGESCHEDULE_Interval {
 

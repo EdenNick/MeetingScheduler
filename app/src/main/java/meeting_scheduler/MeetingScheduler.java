@@ -19,8 +19,8 @@ package meeting_scheduler;
 import java.io.File;
 // application
 import javafx.application.Application;
-import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 
 
 

@@ -28,9 +28,9 @@ import com.fasterxml.jackson.databind.DatabindException;
 
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonOutput;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 
 
 
@@ -91,7 +91,7 @@ public class MANAGESCHEDULE_Calculate {
     /**
      * File data info and management
      */
-    private MANAGEFILE_JsonOutput              JsonFileManager = new MANAGEFILE_JsonOutput();
+    private MANAGEFILE_JsonManager              JsonFileManager = new MANAGEFILE_JsonManager();
     private LinkedList<STATIC_EMPLOYEE_FullPref>    PeopleFromFile;             // All datacards contained within the relavant Json File.
 
 

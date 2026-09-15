@@ -40,12 +40,12 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
-import meeting_scheduler.ApplicationManagement.MANAGEAPP_SceneManager;
 // System messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
 import meeting_scheduler.FIleManagement.MANAGEFILE_TXTOutput;
+import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
 
 
 

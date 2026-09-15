@@ -15,7 +15,7 @@ package meeting_scheduler.ScheduleManagement;
 import java.util.LinkedList;
 // ############################################################
 
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
 
 
 

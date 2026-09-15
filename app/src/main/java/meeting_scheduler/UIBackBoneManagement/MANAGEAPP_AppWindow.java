@@ -6,7 +6,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.ApplicationManagement;
+package meeting_scheduler.UIBackBoneManagement;
 // ############################################################
 
 // Imports
@@ -70,7 +70,7 @@ public class MANAGEAPP_AppWindow extends Application {
         stage.setTitle(MANAGEAPP_local.APP_Window_Title);
 
         // MainMenu - the application shows the main menu scene on startup
-        MANAGEAPP_AppWindow.SceneManager.MainMenu();
+        MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();
 
     }
 

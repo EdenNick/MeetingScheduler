@@ -30,9 +30,9 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 // ############################################################
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 

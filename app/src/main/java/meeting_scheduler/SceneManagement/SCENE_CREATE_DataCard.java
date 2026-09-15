@@ -49,12 +49,12 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
-import meeting_scheduler.ApplicationManagement.MANAGEAPP_SceneManager;
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
 import meeting_scheduler.FIleManagement.MANAGEFILE_InfoFileWrite;
-import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
 import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
 
 // exceptions

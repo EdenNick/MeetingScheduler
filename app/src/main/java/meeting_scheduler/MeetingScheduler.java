@@ -10,7 +10,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler;
 // ############################################################
 
 // Imports
@@ -19,7 +19,8 @@ package meeting_scheduler.PresentationLayer;
 import java.io.File;
 // application
 import javafx.application.Application;
-// ############################################################
+import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 
 
 
@@ -44,7 +45,7 @@ public class MeetingScheduler {
 
             //FULL_TEST.FullTest();
 
-            File file = new File(PROG_UI_D_DataVariables.JSON_TestFile);
+            File file = new File(SCENE_VARIABLES_Local.JSON_TestFile);
 
             System.out.println(file.getAbsolutePath());
             System.out.println(file.getParentFile().exists());
@@ -53,7 +54,7 @@ public class MeetingScheduler {
         } else {
 
             // launch application window
-            Application.launch (PROG_UI_A_Application.class, args);
+            Application.launch (MANAGEAPP_AppWindow.class, args);
 
         }
 

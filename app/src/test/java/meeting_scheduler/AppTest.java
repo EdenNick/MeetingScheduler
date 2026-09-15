@@ -15,15 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import meeting_scheduler.BusinessLogiclayer.PROG_BLL_InfoFileWrite;
-import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
-// import meeting_scheduler.PresentationLayer.PROG_UI_A_SceneManager;
-import meeting_scheduler.PresentationLayer.PROG_UI_D_DataVariables;
+import meeting_scheduler.FIleManagement.MANAGEFILE_InfoFileWrite;
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonOutput;
+import meeting_scheduler.FIleManagement.MANAGEFILE_TXTOutput;
+import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
+import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 class AppTest {
@@ -45,15 +44,15 @@ class AppTest {
     private final String[]                          Day = {"Mon"};
     private final LinkedList<String>                TEST_IDs;
 
-    private final PROG_DAL_A_Schedule               TEST_Schedule;
-    private final PROG_DAL_A_TimeInput              TEST_TimeInterval;
-    private final PROG_DAL_A_TimeInput              TEST_TimeInterval2;
-    private final PROG_DAL_A_InfoInput              TEST_InfoInputPerson;
-    private final LinkedList<PROG_DAL_A_TimeInput>  TEST_TimeInputIntervals;
+    private final MANAGESCHEDULE_Schedule               TEST_Schedule;
+    private final STATIC_EMPLOYEE_TimePref              TEST_TimeInterval;
+    private final STATIC_EMPLOYEE_TimePref              TEST_TimeInterval2;
+    private final STATIC_EMPLOYEE_FullPref              TEST_InfoInputPerson;
+    private final LinkedList<STATIC_EMPLOYEE_TimePref>  TEST_TimeInputIntervals;
 
 
-    private final PROG_DAL_B_JSONManager            TEST_JsonFilemanager;
-    private final PROG_BLL_SchedulingCalculation    ScheduleCalculationTester;
+    private final MANAGEFILE_JsonOutput            TEST_JsonFilemanager;
+    private final MANAGESCHEDULE_Calculate    ScheduleCalculationTester;
     // ############################################################
 
     /**
@@ -65,18 +64,18 @@ class AppTest {
         this.TEST_IDs.add("1");
 
 
-        this.TEST_TimeInterval          = new PROG_DAL_A_TimeInput("Mon", 3, 50, 14, 07);
-        this.TEST_TimeInterval2         = new PROG_DAL_A_TimeInput("Mon", 8, 0, 12, 0);
-        this.TEST_TimeInputIntervals    = new LinkedList<PROG_DAL_A_TimeInput>();
+        this.TEST_TimeInterval          = new STATIC_EMPLOYEE_TimePref("Mon", 3, 50, 14, 07);
+        this.TEST_TimeInterval2         = new STATIC_EMPLOYEE_TimePref("Mon", 8, 0, 12, 0);
+        this.TEST_TimeInputIntervals    = new LinkedList<STATIC_EMPLOYEE_TimePref>();
         this.TEST_TimeInputIntervals.add(TEST_TimeInterval);
 
 
-        this.TEST_InfoInputPerson       = new PROG_DAL_A_InfoInput("John Smith", 1, WEEKDays, TEST_TimeInputIntervals);
+        this.TEST_InfoInputPerson       = new STATIC_EMPLOYEE_FullPref("John Smith", 1, WEEKDays, TEST_TimeInputIntervals);
 
-        this.TEST_Schedule              = new PROG_DAL_A_Schedule("Mon", TEST_TimeInterval, TEST_IDs, true);
+        this.TEST_Schedule              = new MANAGESCHEDULE_Schedule("Mon", TEST_TimeInterval, TEST_IDs, true);
 
-        this.TEST_JsonFilemanager       = new PROG_DAL_B_JSONManager();
-        this.ScheduleCalculationTester  = new PROG_BLL_SchedulingCalculation();
+        this.TEST_JsonFilemanager       = new MANAGEFILE_JsonOutput();
+        this.ScheduleCalculationTester  = new MANAGESCHEDULE_Calculate();
     }   
 
 
@@ -168,7 +167,7 @@ class AppTest {
         TEST_JsonFilemanager.RetrieveFromFile();
 
         // stores the retrieved data in a local variable
-        LinkedList<PROG_DAL_A_InfoInput> ReturnFileInfo = TEST_JsonFilemanager.ReturnFile();
+        LinkedList<STATIC_EMPLOYEE_FullPref> ReturnFileInfo = TEST_JsonFilemanager.ReturnFile();
 
 
         // Assertions
@@ -199,7 +198,7 @@ class AppTest {
     @Test void TEST_TXTOutput() {
         
         // file reader object
-        PROG_DAL_C_TXTOutput fileReader = new PROG_DAL_C_TXTOutput(PROG_UI_D_DataVariables.DOC_Instructions);
+        MANAGEFILE_TXTOutput fileReader = new MANAGEFILE_TXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
 
         // retrieve text from the instructions file
         LinkedList<String> InstructionFileText = new LinkedList<>(fileReader.ReadFile());
@@ -225,13 +224,13 @@ class AppTest {
 
         // Test object build parameter
         String[]                            Week = new String[] {"Mon", "Wed", "Thu"};
-        LinkedList<PROG_DAL_A_TimeInput>    test_timeintervals = new LinkedList<PROG_DAL_A_TimeInput>();
-        PROG_DAL_A_TimeInput                test_TimeInterval = new PROG_DAL_A_TimeInput("Mon", 03, 50, 14, 07);
+        LinkedList<STATIC_EMPLOYEE_TimePref>    test_timeintervals = new LinkedList<STATIC_EMPLOYEE_TimePref>();
+        STATIC_EMPLOYEE_TimePref                test_TimeInterval = new STATIC_EMPLOYEE_TimePref("Mon", 03, 50, 14, 07);
         
         test_timeintervals.add(test_TimeInterval);
 
         //Object being tested
-        PROG_BLL_InfoFileWrite test_InfoFileWrite = new PROG_BLL_InfoFileWrite();
+        MANAGEFILE_InfoFileWrite test_InfoFileWrite = new MANAGEFILE_InfoFileWrite();
 
         // Object not null
         assertNotNull(test_InfoFileWrite);
@@ -256,7 +255,7 @@ class AppTest {
 
         ScheduleCalculationTester.SetSpecificTime(TEST_TimeInputIntervals);
 
-        LinkedList<PROG_DAL_A_Schedule> calculatedSchedule = new LinkedList<>(ScheduleCalculationTester.RetrieveSchedule());
+        LinkedList<MANAGESCHEDULE_Schedule> calculatedSchedule = new LinkedList<>(ScheduleCalculationTester.RetrieveSchedule());
 
         System.out.println("WEEKDAY" + calculatedSchedule.get(0).WeekDay);
 

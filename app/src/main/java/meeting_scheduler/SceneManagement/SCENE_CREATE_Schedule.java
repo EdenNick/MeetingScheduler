@@ -9,7 +9,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler.SceneManagement;
 
 import java.io.IOException;
 // Imports
@@ -54,19 +54,20 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 // util
 import javafx.util.Duration;
-// data management objects
-import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.ApplicationManagement.MANAGEAPP_SceneManager;
 // System messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-// ############################################################
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonOutput;
+import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
+import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
 
 
 
-public class PROG_UI_B_SchedulePeopleScene {
+public class SCENE_CREATE_Schedule {
 
     // Apllication
     // ############################################################
@@ -140,20 +141,20 @@ public class PROG_UI_B_SchedulePeopleScene {
 
     // File User Info
     // ############################################################
-    private LinkedList<PROG_DAL_A_InfoInput>    FileUserInfo;
+    private LinkedList<STATIC_EMPLOYEE_FullPref>    FileUserInfo;
     private LinkedList<String>                  PersonList;
-    private LinkedList<PROG_DAL_A_InfoInput>    FilePeople;
+    private LinkedList<STATIC_EMPLOYEE_FullPref>    FilePeople;
     // ############################################################
 
 
     // Data manager Objects
     // ############################################################
     // Schedule Calculator
-    private final PROG_BLL_SchedulingCalculation    ScheduleCalculator;
+    private final MANAGESCHEDULE_Calculate    ScheduleCalculator;
     // User Time Input manager
     private final PROG_UI_C_UserTimeInput           Scheduler_UserTimeInputs;
     // Json File manager
-    private final PROG_DAL_B_JSONManager            Scheduler_fileReader;
+    private final MANAGEFILE_JsonOutput            Scheduler_fileReader;
     // ############################################################
     
 
@@ -183,21 +184,21 @@ public class PROG_UI_B_SchedulePeopleScene {
     private FlowPane                            FlowPane_VBoxDisplay;   // dispalys time inputs
     private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
     // time output
-    private LinkedList<PROG_DAL_A_TimeInput>    SCHEDULE_TIMES;         // List of prefered times for an individual
+    private LinkedList<STATIC_EMPLOYEE_TimePref>    SCHEDULE_TIMES;         // List of prefered times for an individual
     // ############################################################
 
 
     // Calculated Schedules
     // ############################################################
-    private LinkedList<PROG_DAL_A_Schedule>     CalculatedScheduleList;
-    private ObservableList<PROG_DAL_A_Schedule> Schedules;
+    private LinkedList<MANAGESCHEDULE_Schedule>     CalculatedScheduleList;
+    private ObservableList<MANAGESCHEDULE_Schedule> Schedules;
     // ############################################################
 
 
     /**
      * Constructor class
      */
-    public PROG_UI_B_SchedulePeopleScene(Stage stage) {
+    public SCENE_CREATE_Schedule(Stage stage) {
 
         // Primary Objects
         // ############################################################
@@ -205,7 +206,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.ApplicationStage           = stage;
         
         // Schedule Calculator  - Object used to calculate viable schedules based off of input user preferences
-        this.ScheduleCalculator         = new PROG_BLL_SchedulingCalculation();
+        this.ScheduleCalculator         = new MANAGESCHEDULE_Calculate();
 
         // User time inputs     - Object which is used to create the necessary input ui for user time inputs, verifies correct input
         // contains methods used to store and dispaly this information. In this case it is used to input correct times to create a schedule
@@ -213,7 +214,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. 
         // Used to retrieve current user preferences to create a schedule
-        this.Scheduler_fileReader       = new PROG_DAL_B_JSONManager();
+        this.Scheduler_fileReader       = new MANAGEFILE_JsonOutput();
         // ############################################################
 
 
@@ -231,7 +232,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // linked list of current user inputed people they want to include in the schedule(s) - used to update the schedule calculator
         this.SCHEDULE_IDS       = new LinkedList<>();
         // ammount fo schedules the user wants displayed
-        this.SCHEDULE_LIST      = PROG_UI_D_DataVariables.MAXListAmmount;
+        this.SCHEDULE_LIST      = SCENE_VARIABLES_Local.MAXListAmmount;
         // String[] containg all user selected days
         this.SCHEDULE_DAYS      = new String[7];
         // holds a list of prefered times input by the user - max 4
@@ -304,7 +305,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Create Node
         Schedule_RootNode = new AnchorPane();
         // get the CSS styles for the sub-nodes
-        Schedule_RootNode.getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
+        Schedule_RootNode.getStylesheets().add(getClass().getResource(SCENE_VARIABLES_Local.CSS_Styles).toExternalForm());
         // ############################################################
 
 
@@ -346,16 +347,16 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Set Node position within Root Node
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor  (RETURN_ToMenu,                     PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
-        AnchorPane.setRightAnchor   (RETURN_ToMenu,                     PROG_UI_D_DataVariables.SCHEDULE_Return_RightAnchor);
+        AnchorPane.setBottomAnchor  (RETURN_ToMenu,                     SCENE_VARIABLES_Local.SCHEDULE_Return_BottomAnchor);
+        AnchorPane.setRightAnchor   (RETURN_ToMenu,                     SCENE_VARIABLES_Local.SCHEDULE_Return_RightAnchor);
 
         // Root Node - set UI interface position
-        AnchorPane.setTopAnchor     (UIInput_FullUIHolder_ScrollPane,   PROG_UI_D_DataVariables.SCHEDULE_UIInput_TopAnchor);
-        AnchorPane.setLeftAnchor    (UIInput_FullUIHolder_ScrollPane,   PROG_UI_D_DataVariables.SCHEDULE_UIInput_LeftAnchor);
+        AnchorPane.setTopAnchor     (UIInput_FullUIHolder_ScrollPane,   SCENE_VARIABLES_Local.SCHEDULE_UIInput_TopAnchor);
+        AnchorPane.setLeftAnchor    (UIInput_FullUIHolder_ScrollPane,   SCENE_VARIABLES_Local.SCHEDULE_UIInput_LeftAnchor);
 
         // Root Node - set Schedule Display position
-        AnchorPane.setTopAnchor     (UIOutput_FullUIHolder_scrollPane,  PROG_UI_D_DataVariables.SCHEDULE_UIOutput_TopAnchor);
-        AnchorPane.setRightAnchor   (UIOutput_FullUIHolder_scrollPane,  PROG_UI_D_DataVariables.SCHEDULE_UIOutput_RightAnchor);
+        AnchorPane.setTopAnchor     (UIOutput_FullUIHolder_scrollPane,  SCENE_VARIABLES_Local.SCHEDULE_UIOutput_TopAnchor);
+        AnchorPane.setRightAnchor   (UIOutput_FullUIHolder_scrollPane,  SCENE_VARIABLES_Local.SCHEDULE_UIOutput_RightAnchor);
         // ############################################################
 
         // Add UI to each root node
@@ -377,7 +378,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         
         // Scene creation to be set to the current scene
         // ############################################################
-        this.SchedulingScene = new Scene(Schedule_RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        this.SchedulingScene = new Scene(Schedule_RootNode, MANAGEAPP_SceneManager.WindowWidth, MANAGEAPP_SceneManager.WindowHeight);
         // ############################################################
 
 
@@ -402,59 +403,59 @@ public class PROG_UI_B_SchedulePeopleScene {
         
         // Contains All UI Input nodes and elements
         // ############################################################
-        this.UIInput_FullUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_FullUI_VBOX.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_Base);
-        this.UIInput_FullUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_FullUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_FullUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_Base);
+        this.UIInput_FullUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
         // ############################################################
 
 
 
         // Contains All UI Input for selecting People
         // ############################################################
-        this.UIInput_PeopleUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_PeopleUI_VBOX.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_PeopleUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_PeopleUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_PeopleUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_PeopleUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
+        this.UIInput_PeopleUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_PeopleUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
         // ############################################################
 
 
 
         // Contains all UI Inputs for selected the schedule List ammount
         // ############################################################
-        this.UIInput_ListUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_ListUI_VBOX.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_ListUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_ListUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_ListUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_ListUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
+        this.UIInput_ListUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_ListUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
         // ############################################################
 
 
 
         // Contains all UI inputs for selecting days for the schedule
         // ############################################################
-        this.UIInput_DayUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_DayUI_VBOX.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_DayUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_DayUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_DayUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_DayUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
+        this.UIInput_DayUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_DayUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
         // ############################################################
 
 
 
         // Contains all UI nodes for selecting times for the scheudle
         // ############################################################
-        this.UIInput_TimeUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_TimeUI_VBOX.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_TimeUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_TimeUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_TimeUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_TimeUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
+        this.UIInput_TimeUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_TimeUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
         // ############################################################
 
 
 
         // Contains all UI nodes for calculating the schedule
         // ############################################################
-        this.UIInput_CalculateUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_CalculateUI_VBOX.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_CalculateUI_VBOX.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFWidth1, PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_CalculateUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        this.UIInput_CalculateUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
+        this.UIInput_CalculateUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
+        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
         // ############################################################
 
 
@@ -466,10 +467,10 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Contains all schedule nodes
         // ############################################################
-        this.UIOutput_FullUI_VBOX = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFSpacing);
-        this.UIOutput_FullUI_VBOX.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_Base);
+        this.UIOutput_FullUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFSpacing);
+        this.UIOutput_FullUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_Base);
         this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        this.UIOutput_FullUI_VBOX.setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
+        this.UIOutput_FullUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFInsets));
         // ############################################################
     }
 
@@ -489,7 +490,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_returnHome);
             
             fadeMenuNodes.setOnFinished(event2 -> {
-                 PROG_UI_A_Application.SceneManager.MainMenu(); 
+                 MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu(); 
             });
 
             fadeMenuNodes.play();
@@ -519,9 +520,9 @@ public class PROG_UI_B_SchedulePeopleScene {
             this.PersonList.clear();
 
             // Add people to the list
-            for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
-                String format = String.format("|ID: %-7d", FilePerson.EmployeeID);
-                PersonList.add(format + "| Name: " + FilePerson.EmployeeName);
+            for (STATIC_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
+                String format = String.format("|ID: %-7d", FilePerson.GetIdent());
+                PersonList.add(format + "| Name: " + FilePerson.GetName());
             }
 
             // remove all text from the flowpane
@@ -625,7 +626,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetListNum);
             
             // Text value set to nothing
-            this.Label_OutputNumber.setText(PROG_UI_D_DataVariables.EmptyText);
+            this.Label_OutputNumber.setText(SCENE_VARIABLES_Local.EmptyText);
 
         };
         // ############################################################
@@ -665,13 +666,13 @@ public class PROG_UI_B_SchedulePeopleScene {
 
             // Resets the ComboBox Input values to their original state
             this.userInput_SelectDays.getItems().clear();
-            this.userInput_SelectDays.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS.clone());
+            this.userInput_SelectDays.getItems().addAll(SCENE_VARIABLES_Local.WEEKDAYS.clone());
 
             // resets the list of user selected days
             this.SCHEDULE_DAYS  = new String[7];
 
             // resets the schedule calcualtor to look through everyday of the week
-            ScheduleCalculator.UpdateWeekDays(PROG_UI_D_DataVariables.WEEKDAYS.clone()); // input String[]
+            ScheduleCalculator.UpdateWeekDays(SCENE_VARIABLES_Local.WEEKDAYS.clone()); // input String[]
 
         };
         // ############################################################
@@ -694,9 +695,9 @@ public class PROG_UI_B_SchedulePeopleScene {
 
 
                 // adds the day to the string[] containing all selected user days
-                for (int WeekdayIndex = 0; WeekdayIndex < PROG_UI_D_DataVariables.WEEKDAYS.length; WeekdayIndex++) {
+                for (int WeekdayIndex = 0; WeekdayIndex < SCENE_VARIABLES_Local.WEEKDAYS.length; WeekdayIndex++) {
 
-                    if (UserInput_day.equals(PROG_UI_D_DataVariables.WEEKDAYS[WeekdayIndex])) {
+                    if (UserInput_day.equals(SCENE_VARIABLES_Local.WEEKDAYS[WeekdayIndex])) {
                         this.SCHEDULE_DAYS[WeekdayIndex] = UserInput_day;
                     }
 
@@ -772,7 +773,7 @@ public class PROG_UI_B_SchedulePeopleScene {
             if ( (Scheduler_UserTimeInputs.ButtonPressPartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 4) ){
 
                 // Temp user preference created for clean seperation of object use
-                PROG_DAL_A_TimeInput TempUserPreferrence = Scheduler_UserTimeInputs.Return_TimeUserPreference();
+                STATIC_EMPLOYEE_TimePref TempUserPreferrence = Scheduler_UserTimeInputs.Return_TimeUserPreference();
 
 
                 /**
@@ -875,7 +876,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RETURN_ToMenu          = new Button("Return Home");
         this.RETURN_ToMenu.setOnAction(this.EVENT_RETURN_HOME);
-        this.RETURN_ToMenu.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.RETURN_ToMenu.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -886,21 +887,21 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RESET_People           = new Button("Reset people to schedule");
         this.RESET_People.setOnAction(this.EVENT_RESET_People);
-        this.RESET_People.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_People.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // Add people to schedule Button
         // ############################################################
         this.Input_SelectedPeople   = new Button("Input Selected Ammount");
         this.Input_SelectedPeople.setOnAction(EVENT_ADD_People);
-        this.Input_SelectedPeople.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.Input_SelectedPeople.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // People to schedule reset button
         // ############################################################
         this.REMOVELastPerson       = new Button("Remove last person");
         this.REMOVELastPerson.setOnAction(EVENT_REMOVE_Person);
-        this.REMOVELastPerson.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.REMOVELastPerson.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -911,14 +912,14 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RESET_ListNumber       = new Button("Reset number of lists");
         this.RESET_ListNumber.setOnAction(EVENT_RESET_List);
-        this.RESET_ListNumber.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_ListNumber.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // Input number of schedule lists to display
         // ############################################################
         this.INPUT_SelectedNumber = new Button("Input Selected Ammount");
         this.INPUT_SelectedNumber.setOnAction(this.EVENT_ADD_List);
-        this.INPUT_SelectedNumber.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.INPUT_SelectedNumber.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -928,14 +929,14 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RESET_DaySelection     = new Button("Reset days to schedule");
         this.RESET_DaySelection.setOnAction(EVENT_RESET_days);
-        this.RESET_DaySelection.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_DaySelection.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
         // Input selected day
         // ############################################################
         this.INPUT_SelectedDay = new Button("Input Selected Day");
         this.INPUT_SelectedDay.setOnAction(this.EVENT_ADD_Days);
-        this.INPUT_SelectedDay.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.INPUT_SelectedDay.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -944,7 +945,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.RESET_TimeInput        = new Button("Reset time input");
         this.RESET_TimeInput.setOnAction(EVENT_RESET_Times);
-        this.RESET_TimeInput.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_TimeInput.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -953,7 +954,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.INPUT_TimePreferences  = new Button("Add Info");
         this.INPUT_TimePreferences.setOnAction(EVENT_ADD_timeInput);
-        this.INPUT_TimePreferences.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.INPUT_TimePreferences.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -965,7 +966,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_List);
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_days);
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_Times);
-        this.RESET_ALLPreferences.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_ALLPreferences.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -974,7 +975,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.CALCULATE_Schedule     = new Button("Calculate Schedule");
         this.CALCULATE_Schedule.setOnAction(EVENT_CALCULATE_Schedule);
-        this.CALCULATE_Schedule.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.CALCULATE_Schedule.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -983,7 +984,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.CLEAR_Schedules        = new Button("Clear Schedule list");
         this.CLEAR_Schedules.setOnAction(EVENT_CLEAR_schedule);
-        this.CLEAR_Schedules.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        this.CLEAR_Schedules.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
 
@@ -1053,8 +1054,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
         this.UIInput_FullUIHolder_ScrollPane = new ScrollPane(this.UIInput_FullUI_VBOX);
         // sets default interface dimensions
-        this.UIInput_FullUIHolder_ScrollPane.setPrefWidth((PROG_UI_A_SceneManager.WindowWidth / 2) - 80.0);
-        this.UIInput_FullUIHolder_ScrollPane.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight - 100.0);
+        this.UIInput_FullUIHolder_ScrollPane.setPrefWidth((MANAGEAPP_SceneManager.WindowWidth / 2) - 80.0);
+        this.UIInput_FullUIHolder_ScrollPane.setPrefHeight(MANAGEAPP_SceneManager.WindowHeight - 100.0);
 
         this.UIInput_FullUIHolder_ScrollPane.setFitToHeight(true);
         this.UIInput_FullUIHolder_ScrollPane.setFitToWidth(true);
@@ -1082,13 +1083,13 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node Creation
         // ############################################################
         // Primary Node         - holds User input
-        HBox Primary_InputPeople    = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Primary_InputPeople    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Primary Node Input   - Input for user
-        VBox Input_InputPeople      = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Input_InputPeople      = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Primary Node Output  - output of selected choiced
-        VBox Output_InputPeople     = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Output_InputPeople     = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Secondary Node       - Holds Reset Button
-        VBox Secondary_InputPeople  = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Secondary_InputPeople  = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // comboBox to display the names available to select
         this.Selectable_PersonList  = new ComboBox<>();
         // flowpane node to hold te name list of selected people
@@ -1100,9 +1101,9 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Node set sizing
         // ############################################################
-        Input_InputPeople           .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
-        Output_InputPeople          .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
-        this.Selectable_PersonList  .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefWidthLarge,     PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefHeightLarge);
+        Input_InputPeople           .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFHeight);
+        Output_InputPeople          .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFHeight);
+        this.Selectable_PersonList  .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefWidthLarge,     SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefHeightLarge);
         this.AddedPeople            .setPrefSize(100.0, 100.0);
         // this.AddedPeople         .getStyleClass().add("flowBox-names");
         this.AddedPeople            .setPadding(new Insets(2));
@@ -1121,9 +1122,9 @@ public class PROG_UI_B_SchedulePeopleScene {
         // styling
         // ############################################################
         // labels
-        Label_inputPeople.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        Label_addedPeople.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        this.Selectable_PersonList.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_ComboBox);
+        Label_inputPeople.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_addedPeople.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.Selectable_PersonList.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_ComboBox);
         // ############################################################
 
 
@@ -1149,9 +1150,9 @@ public class PROG_UI_B_SchedulePeopleScene {
         // }
 
         // Add people to the list
-        for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
-            String format = String.format("|ID: %-7d", FilePerson.EmployeeID);
-            PersonList.add(format + "| Name: " + FilePerson.EmployeeName);
+        for (STATIC_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
+            String format = String.format("|ID: %-7d", FilePerson.GetIdent());
+            PersonList.add(format + "| Name: " + FilePerson.GetName());
         }
 
         // add list to combobox
@@ -1193,13 +1194,13 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node Creation
         // ############################################################
         // Primary Node
-        HBox Primary_InputList      = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Primary_InputList      = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Primary Node Input
-        VBox Input_InputList        = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Input_InputList        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Primary Node Output
-        VBox Output_InputList       = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Output_InputList       = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Secondary Node
-        HBox Secondary_InputList    = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Secondary_InputList    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Text Field Input
         this.userInput_listAmmount  = new TextField();
         // ############################################################
@@ -1208,11 +1209,11 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node set sizing
         // ############################################################
         // Primary Node Input
-        Input_InputList             .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
+        Input_InputList             .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFHeight);
         // Primary Node Output
-        Output_InputList            .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
+        Output_InputList            .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFHeight);
         // Text Field Input
-        this.userInput_listAmmount  .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefWidthLarge,     PROG_UI_D_DataVariables.SCHEDULE_INPUT_PrefHeightLarge);
+        this.userInput_listAmmount  .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefWidthLarge,     SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefHeightLarge);
         // ############################################################
 
         // labels
@@ -1224,7 +1225,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // styling
         // ############################################################
-        Label_inputNumber.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
+        Label_inputNumber.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
         // ############################################################
 
 
@@ -1246,7 +1247,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                 int intValue = Integer.parseInt(TextInput);
                 
-                if (intValue >= 0 && intValue < PROG_UI_D_DataVariables.MAXListAmmount) {
+                if (intValue >= 0 && intValue < SCENE_VARIABLES_Local.MAXListAmmount) {
                     return change;
                 }
 
@@ -1263,7 +1264,7 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Output
         // ############################################################
         // Stores the Ammount input variable
-        this.Label_OutputNumber = new Label(PROG_UI_D_DataVariables.EmptyText);
+        this.Label_OutputNumber = new Label(SCENE_VARIABLES_Local.EmptyText);
         // ############################################################
 
 
@@ -1301,13 +1302,13 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node construction
         // ############################################################
         // Primary Node
-        HBox Primary_InputDay       = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Primary_InputDay       = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Primary Node input
-        VBox Input_InputDay         = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Input_InputDay         = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Primary Node output
-        VBox Output_InputDay        = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Output_InputDay        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // secondary node
-        HBox Secondary_InputDay     = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Secondary_InputDay     = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // combo box for days of the week, add multiple days
         this.userInput_SelectDays   = new ComboBox<>();
         // flowPane to hold and display selected day inputs
@@ -1319,9 +1320,9 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node sizing
         // ############################################################
         // Primary Node input
-        Input_InputDay              .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode1_PREFHeight);
+        Input_InputDay              .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFHeight);
         // Primary Node output
-        Output_InputDay             .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFWidth,   PROG_UI_D_DataVariables.SCHEDULE_PrimaryNode2_PREFHeight);
+        Output_InputDay             .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFHeight);
         // combo box for days of the week, add multiple days
         this.userInput_SelectDays   .setPrefSize(150.0, 40.0);
          // flowPane to hold and display selected day inputs
@@ -1338,8 +1339,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Styling
         // ############################################################
         // labels
-        Label_inputDay  .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        Label_OutputDay .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
+        Label_inputDay  .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_OutputDay .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
         // ############################################################
 
 
@@ -1347,9 +1348,9 @@ public class PROG_UI_B_SchedulePeopleScene {
         // ############################################################
 
         // Add days to the combobox
-        this.userInput_SelectDays.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
+        this.userInput_SelectDays.getItems().addAll(SCENE_VARIABLES_Local.WEEKDAYS);
         // add defualt text to output
-        this.OutputDays.getChildren().add(new Text(PROG_UI_D_DataVariables.EmptyText));
+        this.OutputDays.getChildren().add(new Text(SCENE_VARIABLES_Local.EmptyText));
 
         // this.OutputDays.getChildren().addListener((javafx.collections.ListChangeListener<Node>) change -> {
 
@@ -1401,15 +1402,15 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node construction
         // ############################################################
         // Primary Node
-        HBox Primary_InputTime      = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Primary_InputTime      = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Primary Node input
-        VBox Input_InputTime        = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Input_InputTime        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Secondary Node
-        HBox Secondary_InputTime    = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Secondary_InputTime    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // HBox for beginning Hour/Min input
-        HBox Add_StartTime          = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Add_StartTime          = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // hbox for ending hour/min input
-        HBox Add_EndTime            = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Add_EndTime            = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // flowpane to hold time output boxes   -   NOTE: must be declared within class to work not method
         this.FlowPane_VBoxDisplay   = new FlowPane();
         // linkedlist for input VBoxes  - used for iteration only
@@ -1444,14 +1445,14 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // styling
         // ############################################################
-        Label_inputTime             .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        Label_BeginHour             .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        Label_BeginMinute           .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        Label_EndHour               .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        Label_EndMinute             .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
-        Add_StartTime               .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_IndividualInput);
-        Add_EndTime                 .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_IndividualInput);
-        this.FlowPane_VBoxDisplay   .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_IndividualInput);
+        Label_inputTime             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_BeginHour             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_BeginMinute           .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_EndHour               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_EndMinute             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Add_StartTime               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
+        Add_EndTime                 .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
+        this.FlowPane_VBoxDisplay   .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
         // ############################################################
 
 
@@ -1521,9 +1522,9 @@ public class PROG_UI_B_SchedulePeopleScene {
         // Node Creation
         // ############################################################
         // primary node
-        HBox CalculateButtons   = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox CalculateButtons   = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // Secondary Node - input
-        VBox Holder_Calculate   = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Holder_Calculate   = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
         // ############################################################
 
 
@@ -1536,7 +1537,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
         // Styling
         // ############################################################
-        Label_ScheduleNow.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DEFAULT);
+        Label_ScheduleNow.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
         // ############################################################
 
 
@@ -1575,8 +1576,8 @@ public class PROG_UI_B_SchedulePeopleScene {
         //this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         // sets default interface dimensions
-        this.UIOutput_FullUIHolder_scrollPane.setPrefWidth((PROG_UI_A_SceneManager.WindowWidth / 2) - 80.0);
-        this.UIOutput_FullUIHolder_scrollPane.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight - 100.0);
+        this.UIOutput_FullUIHolder_scrollPane.setPrefWidth((MANAGEAPP_SceneManager.WindowWidth / 2) - 80.0);
+        this.UIOutput_FullUIHolder_scrollPane.setPrefHeight(MANAGEAPP_SceneManager.WindowHeight - 100.0);
 
         // updates interface dimensions
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
@@ -1592,7 +1593,7 @@ public class PROG_UI_B_SchedulePeopleScene {
 
        //this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        Schedules.addListener((ListChangeListener<PROG_DAL_A_Schedule>) change -> {
+        Schedules.addListener((ListChangeListener<MANAGESCHEDULE_Schedule>) change -> {
 
             int ScheduleNumber = 0;
 
@@ -1612,9 +1613,9 @@ public class PROG_UI_B_SchedulePeopleScene {
                     // Node Creation
                     // ############################################################
                     // primary Box conatining schedule Info and user list
-                    VBox        ScheduleBox_Primary     = new VBox(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFSpacing);
+                    VBox        ScheduleBox_Primary     = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFSpacing);
                     // secondary box containing only the schedule info
-                    HBox        ScheduleBox_Secondary   = new HBox(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFSpacing);
+                    HBox        ScheduleBox_Secondary   = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFSpacing);
                     // List of people in schedule
                     FlowPane    SchedulePeopleList      = new FlowPane();
                     // deletion Button
@@ -1629,11 +1630,11 @@ public class PROG_UI_B_SchedulePeopleScene {
                     String EndingAMPM   = "AM";
 
                     // Time frame of the schedule
-                    int StartHour       = Schedules.getLast().Interval.PreferedHourBEGIN.getHour();
-                    String startMinute  = Integer.toString(Schedules.getLast().Interval.PreferedHourBEGIN.getMinute());
+                    int StartHour       = Schedules.getLast().Interval.GetStartTimeHour();
+                    String startMinute  = Integer.toString(Schedules.getLast().Interval.GetStartTimeMin());
 
-                    int Endhour         = Schedules.getLast().Interval.PreferedHourEND.getHour();
-                    String EndMinute    = Integer.toString(Schedules.getLast().Interval.PreferedHourEND.getMinute());
+                    int Endhour         = Schedules.getLast().Interval.GetEndTimeHour();
+                    String EndMinute    = Integer.toString(Schedules.getLast().Interval.GetEndTimeMin());
 
                     // Convert to PM if necessary
                     if (StartHour >= 12) {
@@ -1673,11 +1674,11 @@ public class PROG_UI_B_SchedulePeopleScene {
 
                         for (int FileIndex = 0; FileIndex < FilePeople.size(); FileIndex++) {
 
-                            if (ScheduleID.equals(Integer.toString(FilePeople.get(FileIndex).EmployeeID))) {
+                            if (ScheduleID.equals(Integer.toString(FilePeople.get(FileIndex).GetIdent()))) {
 
                                 // add name to the flowpane list
                                 SchedulePeopleList.getChildren().add(
-                                    new Label(" |ID: " + ScheduleID + " - " + "Name: " + FilePeople.get(FileIndex).EmployeeName)
+                                    new Label(" |ID: " + ScheduleID + " - " + "Name: " + FilePeople.get(FileIndex).GetName())
                                 );
 
                                 FlowPanePeopleAmmount++;
@@ -1708,26 +1709,26 @@ public class PROG_UI_B_SchedulePeopleScene {
                     // Styling
                     // ############################################################
                     // VBox
-                    ScheduleBox_Primary     .setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
-                    ScheduleBox_Primary     .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_primarywidth,     PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_primaryheight);
-                    ScheduleBox_Primary     .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_ScheduleListBox);
+                    ScheduleBox_Primary     .setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFInsets));
+                    ScheduleBox_Primary     .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_primarywidth,     SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_primaryheight);
+                    ScheduleBox_Primary     .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_ScheduleListBox);
 
                     // HBox
-                    ScheduleBox_Secondary   .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth1,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight1);
-                    ScheduleBox_Secondary   .setPadding(new Insets(PROG_UI_D_DataVariables.SCHEDULE_UIOUTPUT_PREFInsets));
-                    ScheduleBox_Secondary   .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_SCHEDULLE_ScheduleListBox);
+                    ScheduleBox_Secondary   .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth1,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight1);
+                    ScheduleBox_Secondary   .setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFInsets));
+                    ScheduleBox_Secondary   .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_ScheduleListBox);
                     ScheduleBox_Secondary   .setAlignment(Pos.CENTER_LEFT);
 
                     // flowPane
-                    SchedulePeopleList      .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth1,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight1);
+                    SchedulePeopleList      .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth1,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight1);
 
                     // labels
-                    FullList                .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth2,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight2);
-                    ScheduleDay             .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth3,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight3);
-                    ScheduletimeFrame       .setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondarywidth4,   PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_Secondaryheight4);
+                    FullList                .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth2,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight2);
+                    ScheduleDay             .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth3,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight3);
+                    ScheduletimeFrame       .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth4,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight4);
 
                     // button
-                    DeleteList              .setMaxSize(PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_DeleteButtonWidth, PROG_UI_D_DataVariables.SCHEDULE_OUTPUT_DeleteButtonHeight);
+                    DeleteList              .setMaxSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_DeleteButtonWidth, SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_DeleteButtonHeight);
                     // ############################################################
 
 

@@ -1,20 +1,20 @@
 /**
  * PROG_UI_D_TextLabels()
  * 
- * Description: Holds the text values used for the various abels throughout the UI
+ * Description: Holds the text values used for the various variabels throughout the UI
  */
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler.SceneManagement;
 // ############################################################
 
 
 
-public final class PROG_UI_D_DataVariables {
+public final class SCENE_VARIABLES_Local {
 
 
-    private PROG_UI_D_DataVariables() {
+    private SCENE_VARIABLES_Local() {
 
     }
 

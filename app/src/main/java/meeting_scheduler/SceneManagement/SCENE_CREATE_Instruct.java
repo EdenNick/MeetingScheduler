@@ -9,7 +9,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler.SceneManagement;
 // ############################################################
 
 
@@ -40,16 +40,17 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-// Data Managing Objects
-import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTOutput;
+import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.ApplicationManagement.MANAGEAPP_SceneManager;
 // System messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
+import meeting_scheduler.FIleManagement.MANAGEFILE_TXTOutput;
 
 
 
 
-public class PROG_UI_B_InstructionsScene {
+public class SCENE_CREATE_Instruct {
     
 
 
@@ -86,7 +87,7 @@ public class PROG_UI_B_InstructionsScene {
 
     // File manager
     // ############################################################
-    PROG_DAL_C_TXTOutput fileReader;
+    MANAGEFILE_TXTOutput fileReader;
     // ############################################################
 
     // data management
@@ -101,11 +102,11 @@ public class PROG_UI_B_InstructionsScene {
     /**
      * Constructor class
      */
-    public PROG_UI_B_InstructionsScene(Stage stage) {
+    public SCENE_CREATE_Instruct(Stage stage) {
         // set the stage
         this.ApplicationStage = stage;
         // create the fiel reader object and set it to read from the instructions file
-        this.fileReader = new PROG_DAL_C_TXTOutput(PROG_UI_D_DataVariables.DOC_Instructions);
+        this.fileReader = new MANAGEFILE_TXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
 
     } // PROG_UI_B_InstructionsScene(Stage stage)
 
@@ -150,7 +151,7 @@ public class PROG_UI_B_InstructionsScene {
         // Root Node
         Instruction_RootNode = new AnchorPane();
         // Import styles
-        Instruction_RootNode.getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
+        Instruction_RootNode.getStylesheets().add(getClass().getResource(SCENE_VARIABLES_Local.CSS_Styles).toExternalForm());
         // Text Box
         InstructionTextFlow = new TextFlow();
         // ############################################################
@@ -183,12 +184,12 @@ public class PROG_UI_B_InstructionsScene {
         // Node Visual formatting
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.SCHEDULE_Return_BottomAnchor);
-        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   PROG_UI_D_DataVariables.SCHEDULE_Return_RightAnchor);
+        AnchorPane.setBottomAnchor   (Button_ReturnToMenu,   SCENE_VARIABLES_Local.SCHEDULE_Return_BottomAnchor);
+        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   SCENE_VARIABLES_Local.SCHEDULE_Return_RightAnchor);
 
         // root Node - set text position
-        AnchorPane.setTopAnchor     (instructionScrollPane, PROG_UI_D_DataVariables.INSTRUCTION_Instruction_TopAnchor);
-        AnchorPane.setLeftAnchor    (instructionScrollPane, PROG_UI_D_DataVariables.INSTRUCTION_Instruction_LeftAnchor);
+        AnchorPane.setTopAnchor     (instructionScrollPane, SCENE_VARIABLES_Local.INSTRUCTION_Instruction_TopAnchor);
+        AnchorPane.setLeftAnchor    (instructionScrollPane, SCENE_VARIABLES_Local.INSTRUCTION_Instruction_LeftAnchor);
         // ############################################################
 
 
@@ -200,7 +201,7 @@ public class PROG_UI_B_InstructionsScene {
 
         // Scene Creation with Root Node Instruction_RootNode
         // ############################################################
-        this.InstructionScene = new Scene(Instruction_RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        this.InstructionScene = new Scene(Instruction_RootNode, MANAGEAPP_SceneManager.WindowWidth, MANAGEAPP_SceneManager.WindowHeight);
         // ############################################################
 
 
@@ -227,7 +228,7 @@ public class PROG_UI_B_InstructionsScene {
         // ############################################################
         Button_ReturnToMenu = new Button("Return Home");
         Button_ReturnToMenu.setOnAction(this.ReturnHome);
-        Button_ReturnToMenu.setPrefSize(PROG_UI_D_DataVariables.SCHEDULE_Button_PrefWidthLarge, PROG_UI_D_DataVariables.SCHEDULE_Button_PrefHeightLarge);
+        Button_ReturnToMenu.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
         // ############################################################
 
     } // ButtonCreation()
@@ -243,7 +244,7 @@ public class PROG_UI_B_InstructionsScene {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Instruction_returnHome);
 
             Transition_FadeNodes.setOnFinished(event2 -> {
-                PROG_UI_A_Application.SceneManager.MainMenu();
+                MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();
             });
 
             Transition_FadeNodes.play();
@@ -285,9 +286,9 @@ public class PROG_UI_B_InstructionsScene {
         this.InstructionTextFlow.setPadding(new Insets(5));
         this.InstructionTextFlow.setLineSpacing(1);
         // set style for general text
-        this.InstructionTextFlow.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_INSTRUCTION_TextHolder);
+        this.InstructionTextFlow.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_INSTRUCTION_TextHolder);
         // set style for title should always be the first node
-        this.InstructionTextFlow.getChildren().get(0).getStyleClass().add(PROG_UI_D_DataVariables.STYLE_INSTRUCTION_TextTitle);
+        this.InstructionTextFlow.getChildren().get(0).getStyleClass().add(SCENE_VARIABLES_Local.STYLE_INSTRUCTION_TextTitle);
         // ############################################################
 
 
@@ -297,12 +298,12 @@ public class PROG_UI_B_InstructionsScene {
         // Create scrollpane
         this.instructionScrollPane = new ScrollPane(this.InstructionTextFlow);
         // set style
-        this.instructionScrollPane.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_INSTRUCTION_ScrollPane);
+        this.instructionScrollPane.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_INSTRUCTION_ScrollPane);
         this.instructionScrollPane.setFitToHeight(true);
         this.instructionScrollPane.setFitToWidth(true);
         // set width/height
-        this.instructionScrollPane.setPrefWidth(PROG_UI_A_SceneManager.WindowWidth / 1.5);
-        this.instructionScrollPane.setPrefHeight(PROG_UI_A_SceneManager.WindowHeight / 1.5);
+        this.instructionScrollPane.setPrefWidth(MANAGEAPP_SceneManager.WindowWidth / 1.5);
+        this.instructionScrollPane.setPrefHeight(MANAGEAPP_SceneManager.WindowHeight / 1.5);
         // ############################################################
 
 
@@ -353,11 +354,11 @@ public class PROG_UI_B_InstructionsScene {
         for (Node InstructionNode : Instruction_RootNode.getChildren()) {
             
             FadeTransition NodeFade = new FadeTransition(
-                Duration.seconds(PROG_UI_D_DataVariables.INSTRUCTION_FadeTime),
+                Duration.seconds(SCENE_VARIABLES_Local.INSTRUCTION_FadeTime),
                 InstructionNode
             );
 
-            NodeFade.setToValue(PROG_UI_D_DataVariables.INSTRUCTION_FadeOpacity);
+            NodeFade.setToValue(SCENE_VARIABLES_Local.INSTRUCTION_FadeOpacity);
             
             Transition_FadeNodes.getChildren().addAll(NodeFade);
         }
@@ -371,11 +372,11 @@ public class PROG_UI_B_InstructionsScene {
         for (Node InstructionNode : Instruction_RootNode.getChildren()) {
             
             FadeTransition NodeUnFade = new FadeTransition(
-                Duration.seconds(PROG_UI_D_DataVariables.INSTRUCTION_UnFadeTime),
+                Duration.seconds(SCENE_VARIABLES_Local.INSTRUCTION_UnFadeTime),
                 InstructionNode
             );
 
-            NodeUnFade.setToValue(PROG_UI_D_DataVariables.INSTRUCTION_UnFadeOpacity);
+            NodeUnFade.setToValue(SCENE_VARIABLES_Local.INSTRUCTION_UnFadeOpacity);
             
             Transition_UnFadeNodes.getChildren().addAll(NodeUnFade);
         }

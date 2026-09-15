@@ -7,25 +7,27 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.DataAccessLayer;
+package meeting_scheduler.ScheduleManagement;
 // ############################################################
 
-public class PROG_DAL_A_ScheduleTimeInterval {
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
 
-    private final PROG_DAL_A_InfoInput  PERSON;
+public class MANAGESCHEDULE_Interval {
+
+    private final STATIC_EMPLOYEE_FullPref  PERSON;
 
     private final int                   INTERVAL;
 
 
-    public PROG_DAL_A_ScheduleTimeInterval(PROG_DAL_A_InfoInput person, int interval) {
+    public MANAGESCHEDULE_Interval(STATIC_EMPLOYEE_FullPref person, int interval) {
 
-        this.PERSON     = new PROG_DAL_A_InfoInput(person);
+        this.PERSON     = new STATIC_EMPLOYEE_FullPref(person);
 
         this.INTERVAL   = interval;
 
     }
     
-    public PROG_DAL_A_InfoInput getPerson() {
+    public STATIC_EMPLOYEE_FullPref getPerson() {
         
         return this.PERSON;
 

@@ -6,7 +6,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler.ApplicationManagement;
 // ############################################################
 
 // Imports
@@ -21,16 +21,15 @@ import java.util.List;
 // jackson - json file manager
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
-// data manager objects
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_C_TXTInput;
-// ############################################################
+
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonOutput;
+import meeting_scheduler.FIleManagement.MANAGEFILE_TXTInput;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 
-public class PROG_TEST_FullTest {
+public class MANAGEAPP_FullTest {
 
 
     /**
@@ -60,21 +59,21 @@ public class PROG_TEST_FullTest {
     static  String                              TestName                = "John Smith";
     static  int                                 TestID                  = 1;
     static  String[]                            TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static  LinkedList<PROG_DAL_A_TimeInput>    TestTimeInterval        = new LinkedList<>();
-    private PROG_DAL_A_InfoInput                staticInfo;
+    static  LinkedList<STATIC_EMPLOYEE_TimePref>    TestTimeInterval        = new LinkedList<>();
+    private STATIC_EMPLOYEE_FullPref                staticInfo;
 
 
     // Constructor - Fills objects with parameters for testing
    // Constructor - Fills objects with parameters for testing
-    public PROG_TEST_FullTest() {
+    public MANAGEAPP_FullTest() {
 
         // Adds a single beignning and ending time to the list
-        PROG_TEST_FullTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",8, 0, 12, 0));
-        PROG_TEST_FullTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",14, 1, 15, 30));
-        PROG_TEST_FullTest.TestTimeInterval.add(new PROG_DAL_A_TimeInput("Fri",12, 5, 17, 45));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Mon",8, 0, 12, 0));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Mon",14, 1, 15, 30));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Fri",12, 5, 17, 45));
 
         // creates userinfo object and sets all input testing data
-        this.staticInfo = new PROG_DAL_A_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        this.staticInfo = new STATIC_EMPLOYEE_FullPref(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
     }
 
@@ -130,7 +129,7 @@ public class PROG_TEST_FullTest {
      */
     public void TEST_INFO_JsonTest() throws StreamWriteException, DatabindException, IOException  {
 
-        PROG_DAL_B_JSONManager test = new PROG_DAL_B_JSONManager();
+        MANAGEFILE_JsonOutput test = new MANAGEFILE_JsonOutput();
         test.JsonWriteTest1();
         test.JsonWriteTest2();
 
@@ -151,12 +150,12 @@ public class PROG_TEST_FullTest {
 
 
         // Prints the testing info to verify it can be accessed correctly
-        System.out.println("Name        : " + staticInfo.EmployeeName);
-        System.out.println("ID          : " + staticInfo.EmployeeID);
-        System.out.println("Days        : " + Arrays.toString(staticInfo.EmployeeMEETINGDAYS));
-        System.out.print("Time Pref   : " + staticInfo.TimeIntervals.get(0).WeekDay);
-        System.out.print(" " + staticInfo.TimeIntervals.get(0).PreferedHourBEGIN);
-        System.out.println(" - " + staticInfo.TimeIntervals.get(0).PreferedHourEND);
+        System.out.println("Name        : " + staticInfo.GetName());
+        System.out.println("ID          : " + staticInfo.GetIdent());
+        System.out.println("Days        : " + Arrays.toString(staticInfo.GetDays()));
+        System.out.print("Time Pref   : " + staticInfo.GetIntervals().get(0).GetWeekDay());
+        System.out.print(" " + staticInfo.GetIntervals().get(0).GetStartTime());
+        System.out.println(" - " + staticInfo.GetIntervals().get(0).GetEndTime());
 
        
         System.out.println("TEST_USER_BasicInfoInput    Test: Complete");
@@ -175,9 +174,9 @@ public class PROG_TEST_FullTest {
 
         //int IndexPosition = 0;
 
-        for (PROG_DAL_A_TimeInput TimeInterval : staticInfo.TimeIntervals) {
+        for (STATIC_EMPLOYEE_TimePref TimeInterval : staticInfo.GetIntervals()) {
 
-            TimeInterval.TimeConversion();
+            TimeInterval.TEST_TimeConversion();
 
         }
 
@@ -200,7 +199,7 @@ public class PROG_TEST_FullTest {
 
 
         // Sets file to perform an action on.
-        PROG_DAL_C_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
+        MANAGEFILE_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
 
         // Data to add to the file
         TestTextLine.add("ID: " + ID);                                  // Keep an Eye on this variable, caused problems when deleting file info
@@ -210,7 +209,7 @@ public class PROG_TEST_FullTest {
         TestTextLine.add("####################");
 
 
-        PROG_DAL_C_TXTInput.writeData(TestTextLine);
+        MANAGEFILE_TXTInput.writeData(TestTextLine);
 
 
         System.out.println("TEST_File_AddCardToFile:    Test: Complete");
@@ -228,10 +227,10 @@ public class PROG_TEST_FullTest {
         System.out.println("TEST_File_RemCardFromFile   Test: Start");
 
         // Sets file to perform an action on.
-        PROG_DAL_C_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
+        MANAGEFILE_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
 
         // Delete data with User ID "001".
-        PROG_DAL_C_TXTInput.DeleteData("001");
+        MANAGEFILE_TXTInput.DeleteData("001");
 
 
         System.out.println("TEST_File_RemCardFromFile   Test: Complete");
@@ -251,7 +250,7 @@ public class PROG_TEST_FullTest {
 
         List<String> TestTextLine = new ArrayList<>();
 
-        PROG_DAL_C_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
+        MANAGEFILE_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
 
         // adding a series of blank spaces to the file to simulate unformated lines of space
         TestTextLine.add(" ");
@@ -259,7 +258,7 @@ public class PROG_TEST_FullTest {
         TestTextLine.add("      ");
         TestTextLine.add("  ");
 
-        PROG_DAL_C_TXTInput.OrganizeData();
+        MANAGEFILE_TXTInput.OrganizeData();
 
         System.out.println("TEST_FILE_OrganizeUserInfo  Test: Complete");
 

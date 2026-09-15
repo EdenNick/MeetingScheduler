@@ -16,7 +16,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.BusinessLogiclayer;
+package meeting_scheduler.FIleManagement;
 // ############################################################
 
 // Imports
@@ -28,30 +28,28 @@ import java.util.LinkedList;
 // jackson - json manager
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-// Data manager objects
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-// ############################################################
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 
-public class PROG_BLL_InfoFileWrite {
+public class MANAGEFILE_InfoFileWrite {
 
     public  boolean                             Input = false;
     private String                              Name;
     private int                                 Id;
     private String[]                            Days;
-    private LinkedList<PROG_DAL_A_TimeInput>    TimeIntervals;
-    private PROG_DAL_A_InfoInput                UserDataCard;
-    private LinkedList<PROG_DAL_A_InfoInput>    AllDataCards;
+    private LinkedList<STATIC_EMPLOYEE_TimePref>    TimeIntervals;
+    private STATIC_EMPLOYEE_FullPref                UserDataCard;
+    private LinkedList<STATIC_EMPLOYEE_FullPref>    AllDataCards;
 
-    private PROG_DAL_B_JSONManager              JsonfileManager = new PROG_DAL_B_JSONManager();
+    private MANAGEFILE_JsonOutput              JsonfileManager = new MANAGEFILE_JsonOutput();
 
     
-    public PROG_BLL_InfoFileWrite() {
+    public MANAGEFILE_InfoFileWrite() {
 
         AllDataCards = new LinkedList<>();
     }
@@ -67,11 +65,11 @@ public class PROG_BLL_InfoFileWrite {
      * @param intervals
      * @return
      */
-    public int CheckUserInfo(String name, int id, String[] days, LinkedList<PROG_DAL_A_TimeInput> intervals) {
+    public int CheckUserInfo(String name, int id, String[] days, LinkedList<STATIC_EMPLOYEE_TimePref> intervals) {
 
 
-        for (PROG_DAL_A_InfoInput Person : AllDataCards) {
-            if (id == Person.EmployeeID) {
+        for (STATIC_EMPLOYEE_FullPref Person : AllDataCards) {
+            if (id == Person.GetIdent()) {
                 System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckUserInfoIDInput);
                 return 1;
             }
@@ -117,11 +115,11 @@ public class PROG_BLL_InfoFileWrite {
         // - check each prefered min is within valid time 00 - 59
         for (int intervalPosition = 0; intervalPosition < intervals.size(); intervalPosition++) {
 
-            String  Day         = intervals.get(intervalPosition).WeekDay;
-            int     BeginHour   = intervals.get(intervalPosition).PreferedHourBEGIN.getHour();
-            int     BeginMIN    = intervals.get(intervalPosition).PreferedHourBEGIN.getMinute();
-            int     EndHour     = intervals.get(intervalPosition).PreferedHourEND.getHour();
-            int     EndMin      = intervals.get(intervalPosition).PreferedHourEND.getMinute();
+            String  Day         = intervals.get(intervalPosition).GetWeekDay();
+            int     BeginHour   = intervals.get(intervalPosition).GetStartTimeHour();
+            int     BeginMIN    = intervals.get(intervalPosition).GetStartTimeMin();
+            int     EndHour     = intervals.get(intervalPosition).GetEndTimeHour();
+            int     EndMin      = intervals.get(intervalPosition).GetEndTimeMin();
 
 
             if (Day.isBlank()) {
@@ -158,7 +156,7 @@ public class PROG_BLL_InfoFileWrite {
         
         // Assign Data
         //Create USer Data card
-        this.UserDataCard = new PROG_DAL_A_InfoInput(this.Name , this.Id, this.Days, this.TimeIntervals);
+        this.UserDataCard = new STATIC_EMPLOYEE_FullPref(this.Name , this.Id, this.Days, this.TimeIntervals);
         // Assign Card to the DataCard list
         this.AllDataCards.add(UserDataCard);
         return 0;

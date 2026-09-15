@@ -6,7 +6,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.DataAccessLayer;
+package meeting_scheduler.FIleManagement;
 // ############################################################
 
 // Imports
@@ -25,16 +25,15 @@ import java.nio.file.StandardOpenOption;
 // Util
 import java.util.ArrayList;
 import java.util.List;
-// System Data
-import meeting_scheduler.PresentationLayer.PROG_UI_D_DataVariables;
-// ############################################################
+
+import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 
 
 
-public class PROG_DAL_C_TXTInput {
+public class MANAGEFILE_TXTInput {
 
     static Path     FilePath;
-    static Path     TemporaryFilePath = Paths.get(PROG_UI_D_DataVariables.TXT_InputTempFile);
+    static Path     TemporaryFilePath = Paths.get(SCENE_VARIABLES_Local.TXT_InputTempFile);
     static boolean  Locked = false;
 
 

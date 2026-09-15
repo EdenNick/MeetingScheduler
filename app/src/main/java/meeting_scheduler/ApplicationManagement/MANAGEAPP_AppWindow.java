@@ -6,7 +6,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler.ApplicationManagement;
 // ############################################################
 
 // Imports
@@ -21,28 +21,28 @@ import javafx.stage.Stage;
 
 
 
-public class PROG_UI_A_Application extends Application {
+public class MANAGEAPP_AppWindow extends Application {
 
     // Local Variables
-    public static PROG_UI_A_SceneManager SceneManager;
+    public static MANAGEAPP_SceneManager SceneManager;
 
 
 
     /**
      * start()
-     * Description: starts applicaiton
+     * Description: starts the application window
+     * NOTE: do not change method name, or remove the ovverride, both are required for javafx.applicatiion to start the application window
      */
     @Override
     public void start(Stage stage) {
 
-        // Creates Object that manages various application scenes
-        PROG_UI_A_Application.SceneManager = new PROG_UI_A_SceneManager(stage);
+        // SceneManager - manages various scenes contained within the appliation
+        MANAGEAPP_AppWindow.SceneManager = new MANAGEAPP_SceneManager(stage);
 
-        // Initialization method used to create the various scenes
-        PROG_UI_A_Application.SceneManager.StartUp();
+        // Startup - initializes construction for all scenes and sets the applicaiton window dimensions
+        MANAGEAPP_AppWindow.SceneManager.StartUp();
 
-
-        // testing 
+        // Set True for testing, keep false otherwise
         boolean test = false;
 
         if (test == false) {
@@ -67,10 +67,10 @@ public class PROG_UI_A_Application extends Application {
     private void WindowRun(Stage stage) {
 
         // Sets the name of the application window
-        stage.setTitle("Application - RunTest");
+        stage.setTitle(MANAGEAPP_local.APP_Window_Title);
 
-        // Initializes the main menu scene on startup
-        PROG_UI_A_Application.SceneManager.MainMenu();
+        // MainMenu - the application shows the main menu scene on startup
+        MANAGEAPP_AppWindow.SceneManager.MainMenu();
 
     }
 

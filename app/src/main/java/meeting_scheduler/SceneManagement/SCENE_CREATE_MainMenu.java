@@ -6,7 +6,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler.SceneManagement;
 // ############################################################
 
 // Imports
@@ -33,13 +33,15 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import meeting_scheduler.ApplicationManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.ApplicationManagement.MANAGEAPP_SceneManager;
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
 
 
 
-public class PROG_UI_B_MainMenuScene {
+public class SCENE_CREATE_MainMenu {
 
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
@@ -83,7 +85,7 @@ public class PROG_UI_B_MainMenuScene {
     /**
      * Constructor class
      */
-    public PROG_UI_B_MainMenuScene(Stage stage) {
+    public SCENE_CREATE_MainMenu(Stage stage) {
         this.ApplicationStage = stage;
     }
 
@@ -127,12 +129,12 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         // Root Node
         Menu_RootNode           = new AnchorPane();
-        Menu_RootNode           .getStylesheets().add(getClass().getResource(PROG_UI_D_DataVariables.CSS_Styles).toExternalForm());
+        Menu_RootNode           .getStylesheets().add(getClass().getResource(SCENE_VARIABLES_Local.CSS_Styles).toExternalForm());
         // menu button holder node
-        Menu_UI_ButtonHolder    = new VBox(PROG_UI_D_DataVariables.MENU_UI_Spacing);
-        Menu_UI_ButtonHolder    .getStyleClass().add(PROG_UI_D_DataVariables.STYLE_MENU_MenuOptions);
-        Menu_UI_ButtonHolder    .setPrefWidth(PROG_UI_A_SceneManager.WindowWidth / 1.5);
-        Menu_UI_ButtonHolder    .setPrefHeight(PROG_UI_A_SceneManager.WindowHeight / 1.5);
+        Menu_UI_ButtonHolder    = new VBox(SCENE_VARIABLES_Local.MENU_UI_Spacing);
+        Menu_UI_ButtonHolder    .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_MENU_MenuOptions);
+        Menu_UI_ButtonHolder    .setPrefWidth(MANAGEAPP_SceneManager.WindowWidth / 1.5);
+        Menu_UI_ButtonHolder    .setPrefHeight(MANAGEAPP_SceneManager.WindowHeight / 1.5);
         Menu_UI_ButtonHolder    .setAlignment(Pos.CENTER);
         // ############################################################
 
@@ -169,11 +171,11 @@ public class PROG_UI_B_MainMenuScene {
         // Node Position setting
         // ############################################################
         // Root Node - set Menu buttons position
-        AnchorPane.setTopAnchor     (Menu_UI_ButtonHolder,  PROG_UI_D_DataVariables.MENU_UI_TopAnchor);
-        AnchorPane.setLeftAnchor    (Menu_UI_ButtonHolder,  PROG_UI_D_DataVariables.MENU_UI_LeftAnchor);
+        AnchorPane.setTopAnchor     (Menu_UI_ButtonHolder,  SCENE_VARIABLES_Local.MENU_UI_TopAnchor);
+        AnchorPane.setLeftAnchor    (Menu_UI_ButtonHolder,  SCENE_VARIABLES_Local.MENU_UI_LeftAnchor);
         // Root Node - set end program button position
-        AnchorPane.setBottomAnchor  (Button_EndProgram,     PROG_UI_D_DataVariables.MENU_EndProg_BottomAnchor);
-        AnchorPane.setRightAnchor   (Button_EndProgram,     PROG_UI_D_DataVariables.MENU_EndProg_RightAnchor);
+        AnchorPane.setBottomAnchor  (Button_EndProgram,     SCENE_VARIABLES_Local.MENU_EndProg_BottomAnchor);
+        AnchorPane.setRightAnchor   (Button_EndProgram,     SCENE_VARIABLES_Local.MENU_EndProg_RightAnchor);
         // ############################################################
 
 
@@ -187,7 +189,7 @@ public class PROG_UI_B_MainMenuScene {
 
         // Scene Creation with Root Node Menu_RootNode
         // ############################################################
-        this.Menu_Scene = new Scene(Menu_RootNode, PROG_UI_A_SceneManager.WindowWidth, PROG_UI_A_SceneManager.WindowHeight);
+        this.Menu_Scene = new Scene(Menu_RootNode, MANAGEAPP_SceneManager.WindowWidth, MANAGEAPP_SceneManager.WindowHeight);
         // ############################################################
 
 
@@ -215,9 +217,9 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         Button_EndProgram = new Button("End program");
         Button_EndProgram.setOnAction(this.closeProgram);
-        Button_EndProgram.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_MENU_Endprogram);
-        Button_EndProgram.setPrefWidth(PROG_UI_D_DataVariables.MENU_endButtonWidth);
-        Button_EndProgram.setPrefHeight(PROG_UI_D_DataVariables.MENU_endButtonHeight);
+        Button_EndProgram.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_MENU_Endprogram);
+        Button_EndProgram.setPrefWidth(SCENE_VARIABLES_Local.MENU_endButtonWidth);
+        Button_EndProgram.setPrefHeight(SCENE_VARIABLES_Local.MENU_endButtonHeight);
         // ############################################################
 
 
@@ -234,8 +236,8 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         Button_SchedulePage = new Button("Schedule"); 
         Button_SchedulePage.setOnAction(this.ScheduleSceneChange);
-        Button_SchedulePage.setPrefWidth(PROG_UI_D_DataVariables.MENU_ButtonWidth);
-        Button_SchedulePage.setPrefHeight(PROG_UI_D_DataVariables.MENU_ButtonHeight);
+        Button_SchedulePage.setPrefWidth(SCENE_VARIABLES_Local.MENU_ButtonWidth);
+        Button_SchedulePage.setPrefHeight(SCENE_VARIABLES_Local.MENU_ButtonHeight);
         // ############################################################
 
 
@@ -243,8 +245,8 @@ public class PROG_UI_B_MainMenuScene {
         // ############################################################
         InstructionButton = new Button("Instructions");
         InstructionButton.setOnAction(this.InstructionSceneChange);
-        InstructionButton.setPrefWidth(PROG_UI_D_DataVariables.MENU_ButtonWidth);
-        InstructionButton.setPrefHeight(PROG_UI_D_DataVariables.MENU_ButtonHeight);
+        InstructionButton.setPrefWidth(SCENE_VARIABLES_Local.MENU_ButtonWidth);
+        InstructionButton.setPrefHeight(SCENE_VARIABLES_Local.MENU_ButtonHeight);
         // ############################################################
 
 
@@ -280,7 +282,7 @@ public class PROG_UI_B_MainMenuScene {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToDataCard);
 
             Transition_fadeMenu.setOnFinished(event2 -> {
-                PROG_UI_A_Application.SceneManager.DataCardManage();
+                MANAGEAPP_AppWindow.SceneManager.SwapToDataCard();
             });
 
             Transition_fadeMenu.play();
@@ -296,7 +298,7 @@ public class PROG_UI_B_MainMenuScene {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToSchedule);
 
             Transition_fadeMenu.setOnFinished(event2 -> {
-                PROG_UI_A_Application.SceneManager.Schedule();
+                MANAGEAPP_AppWindow.SceneManager.SwapToSchedule();
             });
 
             Transition_fadeMenu.play();
@@ -312,7 +314,7 @@ public class PROG_UI_B_MainMenuScene {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToInstructions);
 
             Transition_fadeMenu.setOnFinished(event2 -> {
-                PROG_UI_A_Application.SceneManager.Instructions();
+                MANAGEAPP_AppWindow.SceneManager.SwapToInstruct();
             });
 
             Transition_fadeMenu.play();
@@ -376,11 +378,11 @@ public class PROG_UI_B_MainMenuScene {
         for (Node MenuNode : Menu_RootNode.getChildren()) {
             
             FadeTransition NodeFade = new FadeTransition(
-                Duration.seconds(PROG_UI_D_DataVariables.MENU_FadeTime),
+                Duration.seconds(SCENE_VARIABLES_Local.MENU_FadeTime),
                 MenuNode
             );
 
-            NodeFade.setToValue(PROG_UI_D_DataVariables.MENU_FadeOpacity);
+            NodeFade.setToValue(SCENE_VARIABLES_Local.MENU_FadeOpacity);
             
             Transition_fadeMenu.getChildren().addAll(NodeFade);
         }
@@ -395,11 +397,11 @@ public class PROG_UI_B_MainMenuScene {
         for (Node MenuNode : Menu_RootNode.getChildren()) {
             
             FadeTransition NodeUnFade = new FadeTransition(
-                Duration.seconds(PROG_UI_D_DataVariables.MENU_UnFadeTime),
+                Duration.seconds(SCENE_VARIABLES_Local.MENU_UnFadeTime),
                 MenuNode
             );
 
-            NodeUnFade.setToValue(PROG_UI_D_DataVariables.MENU_UnFadeOpacity);
+            NodeUnFade.setToValue(SCENE_VARIABLES_Local.MENU_UnFadeOpacity);
             
             Transition_UnFadeMenu.getChildren().addAll(NodeUnFade);
         }

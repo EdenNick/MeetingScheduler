@@ -7,7 +7,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.PresentationLayer;
+package meeting_scheduler.UserInput;
 // ############################################################
 
 
@@ -28,10 +28,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import meeting_scheduler.BusinessLogiclayer.PROG_BLL_SchedulingCalculation;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
 // ############################################################
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 
@@ -47,13 +48,13 @@ public class PROG_UI_C_UserTimeInput {
     private TextField Select_Hour_End;
     private TextField Select_Minute_End;
 
-    private PROG_DAL_A_TimeInput FullUserPreference;
-    private PROG_DAL_A_TimeInput PartialUserPreference;
+    private STATIC_EMPLOYEE_TimePref FullUserPreference;
+    private STATIC_EMPLOYEE_TimePref PartialUserPreference;
 
     private Iterator<VBox>      VBOXIterator;
 
 
-    private final PROG_BLL_SchedulingCalculation SCHEDULECALCULATOR;
+    private final MANAGESCHEDULE_Calculate SCHEDULECALCULATOR;
 
 
     //TODO: implement more system messages
@@ -61,7 +62,7 @@ public class PROG_UI_C_UserTimeInput {
     /**
      * Constructor
      */
-    public PROG_UI_C_UserTimeInput(PROG_BLL_SchedulingCalculation scheduler) {
+    public PROG_UI_C_UserTimeInput(MANAGESCHEDULE_Calculate scheduler) {
 
         this.Select_AMPM_StartTime  = new ComboBox<>();
         this.Select_AMPM_EndTime    = new ComboBox<>();
@@ -127,12 +128,12 @@ public class PROG_UI_C_UserTimeInput {
     }
 
     // Returns user preferences meant for input into Json File
-    public PROG_DAL_A_TimeInput Return_FileReadyUserPreference() {
+    public STATIC_EMPLOYEE_TimePref Return_FileReadyUserPreference() {
         return this.FullUserPreference;
     }
 
     // Returns user preferences meant for Schedule Calculation
-    public PROG_DAL_A_TimeInput Return_TimeUserPreference() {
+    public STATIC_EMPLOYEE_TimePref Return_TimeUserPreference() {
         return this.PartialUserPreference;
     }
 
@@ -147,26 +148,26 @@ public class PROG_UI_C_UserTimeInput {
         // ComboBoxes
         // ############################################################
         // ComboBox for beginning AM/PM
-        this.Select_AMPM_StartTime.getItems().addAll(PROG_UI_D_DataVariables.AMPM);
-        this.Select_AMPM_StartTime.getSelectionModel().select(PROG_UI_D_DataVariables.AM);
+        this.Select_AMPM_StartTime.getItems().addAll(SCENE_VARIABLES_Local.AMPM);
+        this.Select_AMPM_StartTime.getSelectionModel().select(SCENE_VARIABLES_Local.AM);
         this.Select_AMPM_StartTime.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-            if (newvalue.equals(PROG_UI_D_DataVariables.PM)) {
-                this.Select_AMPM_EndTime.getSelectionModel().select(PROG_UI_D_DataVariables.PM);
+            if (newvalue.equals(SCENE_VARIABLES_Local.PM)) {
+                this.Select_AMPM_EndTime.getSelectionModel().select(SCENE_VARIABLES_Local.PM);
             }
         });
 
         // ComboBox for ending AM/PM
-        this.Select_AMPM_EndTime.getItems().addAll(PROG_UI_D_DataVariables.AMPM);
-        this.Select_AMPM_EndTime.getSelectionModel().select(PROG_UI_D_DataVariables.AM);
+        this.Select_AMPM_EndTime.getItems().addAll(SCENE_VARIABLES_Local.AMPM);
+        this.Select_AMPM_EndTime.getSelectionModel().select(SCENE_VARIABLES_Local.AM);
         this.Select_AMPM_EndTime.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-            if (newvalue.equals(PROG_UI_D_DataVariables.AM)) {
-                this.Select_AMPM_StartTime.getSelectionModel().select(PROG_UI_D_DataVariables.AM);
+            if (newvalue.equals(SCENE_VARIABLES_Local.AM)) {
+                this.Select_AMPM_StartTime.getSelectionModel().select(SCENE_VARIABLES_Local.AM);
             }
         });
 
         // ComboBox for Weekday selection
         this.Select_WeekDay = new ComboBox<>();
-        this.Select_WeekDay.getItems().addAll(PROG_UI_D_DataVariables.WEEKDAYS);
+        this.Select_WeekDay.getItems().addAll(SCENE_VARIABLES_Local.WEEKDAYS);
         this.Select_WeekDay.setPrefSize(100, 25.0);
         // ############################################################
 
@@ -349,7 +350,7 @@ public class PROG_UI_C_UserTimeInput {
             int     EndMinute   = Integer.parseInt(this.Select_Minute_End    .getText());
 
             // new user preference
-            this.FullUserPreference = new PROG_DAL_A_TimeInput(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+            this.FullUserPreference = new STATIC_EMPLOYEE_TimePref(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 
@@ -363,7 +364,7 @@ public class PROG_UI_C_UserTimeInput {
      * UserInputGraphicCalculation()
      * Descriiption: manages the visual output of the user submitted data for card info input
      */
-    public void UserInputGraphic(PROG_DAL_A_TimeInput Input_UserTime, LinkedList<PROG_DAL_A_TimeInput> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay, boolean FullInput) {
+    public void UserInputGraphic(STATIC_EMPLOYEE_TimePref Input_UserTime, LinkedList<STATIC_EMPLOYEE_TimePref> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay, boolean FullInput) {
 
 
         // PROG_DAL_A_TimeInput Input_UserTime              - Input time being processed and formatted correctly
@@ -382,7 +383,7 @@ public class PROG_UI_C_UserTimeInput {
         // ############################################################
         VBox IndividualDataCard = new VBox();
         IndividualDataCard.setPrefSize(130.0, 100.0);
-        IndividualDataCard.getStyleClass().add(PROG_UI_D_DataVariables.STYLE_DATACARD_TimeOutputCard);
+        IndividualDataCard.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DATACARD_TimeOutputCard);
         IndividualDataCard.setAlignment(Pos.CENTER);
         // ############################################################
 
@@ -394,13 +395,13 @@ public class PROG_UI_C_UserTimeInput {
 
         // Starting Time
         String  StartTimeFrame  = this.Select_AMPM_StartTime.getValue();
-        int     StartHour       = Input_UserTime.PreferedHourBEGIN.getHour();
-        String  startMin        = Integer.toString(Input_UserTime.PreferedHourBEGIN.getMinute());
+        int     StartHour       = Input_UserTime.GetStartTimeHour();
+        String  startMin        = Integer.toString(Input_UserTime.GetStartTimeMin());
 
         // Ending Time
         String  EndTimeFrame    = this.Select_AMPM_EndTime.getValue();
-        int     EndHour         = Input_UserTime.PreferedHourEND.getHour();
-        String  EndMin          = Integer.toString(Input_UserTime.PreferedHourEND.getMinute());
+        int     EndHour         = Input_UserTime.GetEndTimeHour();
+        String  EndMin          = Integer.toString(Input_UserTime.GetEndTimeMin());
 
         // Add a leading zero to the start of the minute inputs if it is less than 10
         if (Integer.parseInt(startMin)  < 10) {
@@ -419,7 +420,7 @@ public class PROG_UI_C_UserTimeInput {
         Label   InputNumber = new Label("Input Number: " + Index);
         InputNumber.setId("" + Index);
         // weekday
-        Label   WeekDay     = new Label("WeekDay: " + Input_UserTime.WeekDay);
+        Label   WeekDay     = new Label("WeekDay: " + Input_UserTime.GetWeekDay());
         // Timeframe
         Label   TimeFrame   = new Label("" + StartHour + ":" + startMin + " " + StartTimeFrame + " - " + EndHour + ":" + EndMin + " " + EndTimeFrame);
         // ############################################################
@@ -558,39 +559,39 @@ public class PROG_UI_C_UserTimeInput {
         int     NewEndMin;
 
         if (FullInput == true) {
-            NewWeekday      = Input_UserTime.WeekDay;
+            NewWeekday      = Input_UserTime.GetWeekDay();
         } else {
             NewWeekday      = "N/A";
         }
 
         // Start Hour
         // if Pm is selected and the time isn't 12, incremented by + 12, else just use the normal time
-        if ( (StartTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourBEGIN.getHour() < 12) ) {
-            NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour() + 12;
+        if ( (StartTimeFrame.equals("PM")) && (Input_UserTime.GetStartTimeHour() < 12) ) {
+            NewStartHour    = Input_UserTime.GetStartTimeHour() + 12;
         } else {
-            NewStartHour    = Input_UserTime.PreferedHourBEGIN.getHour();
+            NewStartHour    = Input_UserTime.GetStartTimeHour();
         }
 
         // Start Minute
-        NewStartMin         = Input_UserTime.PreferedHourBEGIN.getMinute();
+        NewStartMin         = Input_UserTime.GetStartTimeMin();
 
         // End Hour
         // if Pm is selected, incremented by + 12, else just use the normal time
-        if ( (EndTimeFrame.equals("PM")) && (Input_UserTime.PreferedHourEND.getHour() < 12) ){
-            NewEndHour      = Input_UserTime.PreferedHourEND.getHour() + 12;
+        if ( (EndTimeFrame.equals("PM")) && (Input_UserTime.GetEndTimeHour() < 12) ){
+            NewEndHour      = Input_UserTime.GetEndTimeHour() + 12;
         } else {
-            NewEndHour      = Input_UserTime.PreferedHourEND.getHour();
+            NewEndHour      = Input_UserTime.GetEndTimeHour();
         }
 
         // Ends Minute
-        NewEndMin           = Input_UserTime.PreferedHourEND.getMinute();
+        NewEndMin           = Input_UserTime.GetEndTimeMin();
         // ############################################################
 
 
 
         // List_UserTimes - list of all timeinputs
         // ############################################################
-        List_UserTimes.add(new PROG_DAL_A_TimeInput(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
+        List_UserTimes.add(new STATIC_EMPLOYEE_TimePref(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
         System.out.println("UserTimeInput ammount" + List_UserTimes.size());
         // ############################################################
 
@@ -649,7 +650,7 @@ public class PROG_UI_C_UserTimeInput {
             int     EndMinute   = Integer.parseInt(Select_Minute_End.getText());
 
             // new user preference
-            this.PartialUserPreference = new PROG_DAL_A_TimeInput("N/A", BeginHour, BeginMinute, EndHour, EndMinute);
+            this.PartialUserPreference = new STATIC_EMPLOYEE_TimePref("N/A", BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 

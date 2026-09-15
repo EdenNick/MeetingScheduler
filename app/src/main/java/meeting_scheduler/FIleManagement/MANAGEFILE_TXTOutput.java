@@ -7,7 +7,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.DataAccessLayer;
+package meeting_scheduler.FIleManagement;
 // ############################################################
 
 // Imports
@@ -22,7 +22,9 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 // ############################################################
 
-public class PROG_DAL_C_TXTOutput {
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+
+public class MANAGEFILE_TXTOutput {
 
     private String              FILENAME    = "";
     private String              InvalidText = " File could not be read";
@@ -39,7 +41,7 @@ public class PROG_DAL_C_TXTOutput {
      * used when the full contents of a single file Need to be read;
      * @param FileToRead
      */
-    public PROG_DAL_C_TXTOutput(String FileToRead) {
+    public MANAGEFILE_TXTOutput(String FileToRead) {
 
         this.FILENAME = FileToRead;
         this.FileText = new LinkedList<String>();
@@ -58,7 +60,7 @@ public class PROG_DAL_C_TXTOutput {
      * @param FileToRead
      * @param ID
      */
-    public PROG_DAL_C_TXTOutput(String FileToRead, LinkedList<String> ID) {
+    public MANAGEFILE_TXTOutput(String FileToRead, LinkedList<String> ID) {
 
         this.FILENAME = FileToRead;
         this.USERID   = new LinkedList<String>(ID);

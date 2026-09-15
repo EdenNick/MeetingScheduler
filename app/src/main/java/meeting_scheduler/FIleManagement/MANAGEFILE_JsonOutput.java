@@ -7,7 +7,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.DataAccessLayer;
+package meeting_scheduler.FIleManagement;
 // ############################################################
 
 // Imports
@@ -28,13 +28,15 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-// System Data
-import meeting_scheduler.PresentationLayer.PROG_UI_D_DataVariables;
-// ############################################################
+
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.StaticPreference.STATIC_EMPLOYEE_TimePref;
 
 
 
-public class PROG_DAL_B_JSONManager {
+public class MANAGEFILE_JsonOutput {
 
 
     // Class parameters
@@ -46,17 +48,17 @@ public class PROG_DAL_B_JSONManager {
     private ObjectMapper JsonObjectMapper;
 
     // Json Object management
-    private LinkedList<PROG_DAL_A_InfoInput>    IncomingCardList;      // incoming list of usercards containing user datapreferences
-    private LinkedList<PROG_DAL_A_InfoInput>    FileCardList;          // Retrieved List of user card from the relvant .Json file.
-    private LinkedList<PROG_DAL_A_InfoInput>    OutgoingCardList;      // Card list used for all outgoing operations.
-    private LinkedList<PROG_DAL_A_InfoInput>    tempManagementList;    // temporarylist for performing in class operations
+    private LinkedList<STATIC_EMPLOYEE_FullPref>    IncomingCardList;      // incoming list of usercards containing user datapreferences
+    private LinkedList<STATIC_EMPLOYEE_FullPref>    FileCardList;          // Retrieved List of user card from the relvant .Json file.
+    private LinkedList<STATIC_EMPLOYEE_FullPref>    OutgoingCardList;      // Card list used for all outgoing operations.
+    private LinkedList<STATIC_EMPLOYEE_FullPref>    tempManagementList;    // temporarylist for performing in class operations
 
     // iterators
-    private ListIterator<PROG_DAL_A_InfoInput>  FileCardIterator;
-    private ListIterator<PROG_DAL_A_InfoInput>  IncomingCardIterator;
+    private ListIterator<STATIC_EMPLOYEE_FullPref>  FileCardIterator;
+    private ListIterator<STATIC_EMPLOYEE_FullPref>  IncomingCardIterator;
 
     // arrays
-    private final   String[] Weekdays = PROG_UI_D_DataVariables.WEEKDAYS.clone();
+    private final   String[] Weekdays = SCENE_VARIABLES_Local.WEEKDAYS.clone();
     private         String[] tempDays;
 
     // boolean
@@ -69,23 +71,23 @@ public class PROG_DAL_B_JSONManager {
     // Testing parameters
     // ############################################################
     // file path
-    private static final File TestFile = new File(PROG_UI_D_DataVariables.JSON_TestFile);
+    private static final File TestFile = new File(SCENE_VARIABLES_Local.JSON_TestFile);
 
     private static  String                              TestName                = "John Smith";
     private static  int                                 TestID                  = 1;
     private static  String[]                            TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    private static  LinkedList<PROG_DAL_A_TimeInput>    TestTimeInterval        = new LinkedList<>();
-    private         PROG_DAL_A_InfoInput                staticInfo;
+    private static  LinkedList<STATIC_EMPLOYEE_TimePref>    TestTimeInterval        = new LinkedList<>();
+    private         STATIC_EMPLOYEE_FullPref                staticInfo;
     // ############################################################
 
 
 
-    public PROG_DAL_B_JSONManager() {
+    public MANAGEFILE_JsonOutput() {
         this.JsonObjectMapper = new ObjectMapper();
         this.JsonObjectMapper.registerModule(new JavaTimeModule());
         this.JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        PROG_DAL_B_JSONManager.PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_UserDataCard);
+        MANAGEFILE_JsonOutput.PROG_DATA_UserDataCard = new File(SCENE_VARIABLES_Local.JSON_UserDataCard);
     }
 
 
@@ -93,9 +95,9 @@ public class PROG_DAL_B_JSONManager {
     public void SetTest(boolean SetTest) {
 
         if (SetTest == true) {
-            PROG_DAL_B_JSONManager.PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_TestFile);
+            MANAGEFILE_JsonOutput.PROG_DATA_UserDataCard = new File(SCENE_VARIABLES_Local.JSON_TestFile);
         } else if (SetTest == false) {
-            PROG_DAL_B_JSONManager.PROG_DATA_UserDataCard = new File(PROG_UI_D_DataVariables.JSON_UserDataCard);
+            MANAGEFILE_JsonOutput.PROG_DATA_UserDataCard = new File(SCENE_VARIABLES_Local.JSON_UserDataCard);
         }
 
     }
@@ -106,7 +108,7 @@ public class PROG_DAL_B_JSONManager {
      * Description: Incoming datacards of employee preferences the user wants saved
      * @param card
      */
-    public void SetUserCards(LinkedList<PROG_DAL_A_InfoInput> card) {
+    public void SetUserCards(LinkedList<STATIC_EMPLOYEE_FullPref> card) {
         
         this.IncomingCardList = new LinkedList<>(card);
 
@@ -153,7 +155,7 @@ public class PROG_DAL_B_JSONManager {
             return 1;
         }
 
-        this.FileCardList        = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
+        this.FileCardList        = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<STATIC_EMPLOYEE_FullPref>>() {});
 
         this.tempManagementList  = new LinkedList<>();
 
@@ -168,16 +170,16 @@ public class PROG_DAL_B_JSONManager {
         while (IncomingCardIterator.hasNext()) {
             
             // incoming list of people
-            PROG_DAL_A_InfoInput UserPerson = IncomingCardIterator.next();
+            STATIC_EMPLOYEE_FullPref UserPerson = IncomingCardIterator.next();
 
             // Iterate through current json file data
             while (FileCardIterator.hasNext()) {
                 
                 // info retrieved from file
-                PROG_DAL_A_InfoInput FilePerson = FileCardIterator.next();
+                STATIC_EMPLOYEE_FullPref FilePerson = FileCardIterator.next();
 
                 // incomin datacard has the same id has one in the json file
-                if (UserPerson.EmployeeID == FilePerson.EmployeeID) {
+                if (UserPerson.GetIdent() == FilePerson.GetIdent()) {
 
                     this.sameID     = true;
                     this.tempDays   = new String[7];
@@ -187,14 +189,14 @@ public class PROG_DAL_B_JSONManager {
                     // all days are accounted for and are added in the correct order.
                     for (String day : Weekdays) {
                         // iterate through incoming list
-                        for (String PersonDay : UserPerson.EmployeeMEETINGDAYS) {
+                        for (String PersonDay : UserPerson.GetDays()) {
                             if (day.equals(PersonDay)) {
                                 tempDays[index] = day;
                             }
                         } // for()
 
                         // iterate through existing list
-                        for (String FileDay : FilePerson.EmployeeMEETINGDAYS) {
+                        for (String FileDay : FilePerson.GetDays()) {
                             if (day.equals(FileDay)) {
                                 tempDays[index] = day;
                             }
@@ -209,14 +211,15 @@ public class PROG_DAL_B_JSONManager {
                     String[] NewWeekday = Arrays.stream(tempDays).filter(Objects::nonNull).toArray(String[]::new);
                     
                     // set new weekdayds for the file data card
-                    FilePerson.EmployeeMEETINGDAYS = NewWeekday.clone();
+                    //TODO: new object needs to be made to rectify this
+                    FilePerson.GetDays() = NewWeekday.clone();
 
 
                     // formatting new time inputs
-                    for (PROG_DAL_A_TimeInput newInput : UserPerson.TimeIntervals) {
+                    for (STATIC_EMPLOYEE_TimePref newInput : UserPerson.TimeIntervals) {
 
                         // old time inputs
-                        for (PROG_DAL_A_TimeInput oldInput : FilePerson.TimeIntervals) {
+                        for (STATIC_EMPLOYEE_TimePref oldInput : FilePerson.TimeIntervals) {
 
                             if (newInput.IsEqual(oldInput)) {
                                 System.out.println("remove old input");
@@ -274,7 +277,7 @@ public class PROG_DAL_B_JSONManager {
     public int RetrieveFromFile() throws StreamReadException, DatabindException, IOException {
 
         // retrieves existing datacrads from files
-        FileCardList = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
+        FileCardList = JsonObjectMapper.readValue(PROG_DATA_UserDataCard, new TypeReference<LinkedList<STATIC_EMPLOYEE_FullPref>>() {});
 
         OutgoingCardList = new LinkedList<>(FileCardList);
 
@@ -287,7 +290,7 @@ public class PROG_DAL_B_JSONManager {
      * ReturnFile()
      * Description: Returns the outgoingcard list
      */
-    public LinkedList<PROG_DAL_A_InfoInput> ReturnFile() {
+    public LinkedList<STATIC_EMPLOYEE_FullPref> ReturnFile() {
 
         return OutgoingCardList;
     }
@@ -301,14 +304,14 @@ public class PROG_DAL_B_JSONManager {
 
     public void JsonWriteTest1() throws StreamWriteException, DatabindException, IOException {
 
-        TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",8, 0, 12, 0));
-        TestTimeInterval.add(new PROG_DAL_A_TimeInput("Mon",14, 1, 15, 30));
-        TestTimeInterval.add(new PROG_DAL_A_TimeInput("Fri",12, 5, 17, 45));
+        TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Mon",8, 0, 12, 0));
+        TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Mon",14, 1, 15, 30));
+        TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Fri",12, 5, 17, 45));
 
         // creates userinfo object and sets all input testing data
-        this.staticInfo = new PROG_DAL_A_InfoInput(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        this.staticInfo = new STATIC_EMPLOYEE_FullPref(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
-        LinkedList<PROG_DAL_A_InfoInput> ListInfo = new LinkedList<PROG_DAL_A_InfoInput>();
+        LinkedList<STATIC_EMPLOYEE_FullPref> ListInfo = new LinkedList<STATIC_EMPLOYEE_FullPref>();
 
         ListInfo.add(staticInfo);
 
@@ -318,9 +321,9 @@ public class PROG_DAL_B_JSONManager {
 
     public void JsonWriteTest2() throws StreamWriteException, DatabindException, IOException {
 
-        this.staticInfo = new PROG_DAL_A_InfoInput("test2", 2, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        this.staticInfo = new STATIC_EMPLOYEE_FullPref("test2", 2, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
-        LinkedList<PROG_DAL_A_InfoInput> UserCards;// = new LinkedList<PROG_INFO_InfoInput>();
+        LinkedList<STATIC_EMPLOYEE_FullPref> UserCards;// = new LinkedList<PROG_INFO_InfoInput>();
 
         //JsonObjectMapper.registerModule(new JavaTimeModule());
         //JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -329,7 +332,7 @@ public class PROG_DAL_B_JSONManager {
         // read data
             //LinkedList<PROG_INFO_InfoInput> ListInfo = new LinkedList<PROG_INFO_InfoInput>();
 
-            UserCards = JsonObjectMapper.readValue(TestFile, new TypeReference<LinkedList<PROG_DAL_A_InfoInput>>() {});
+            UserCards = JsonObjectMapper.readValue(TestFile, new TypeReference<LinkedList<STATIC_EMPLOYEE_FullPref>>() {});
         // add data
             UserCards.add(staticInfo);
 

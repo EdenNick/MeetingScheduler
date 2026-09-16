@@ -56,8 +56,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 // System messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
@@ -141,9 +141,9 @@ public class SCENE_CREATE_Schedule {
 
     // File User Info
     // ############################################################
-    private LinkedList<STATIC_EMPLOYEE_FullPref>    FileUserInfo;
+    private LinkedList<PREF_EMPLOYEE_FullPref>    FileUserInfo;
     private LinkedList<String>                  PersonList;
-    private LinkedList<STATIC_EMPLOYEE_FullPref>    FilePeople;
+    private LinkedList<PREF_EMPLOYEE_FullPref>    FilePeople;
     // ############################################################
 
 
@@ -184,7 +184,7 @@ public class SCENE_CREATE_Schedule {
     private FlowPane                            FlowPane_VBoxDisplay;   // dispalys time inputs
     private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
     // time output
-    private LinkedList<STATIC_EMPLOYEE_TimePref>    SCHEDULE_TIMES;         // List of prefered times for an individual
+    private LinkedList<PREF_EMPLOYEE_TimePref>    SCHEDULE_TIMES;         // List of prefered times for an individual
     // ############################################################
 
 
@@ -506,21 +506,21 @@ public class SCENE_CREATE_Schedule {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetPeople);
 
             // retrieve the list of user preferences from the relevant json file
-            try {
-                Scheduler_fileReader.RetrieveFromFile();
-            } catch (IOException e) {
-                // ERROR
-                e.printStackTrace();
-            }
+            // try {
+            //     Scheduler_fileReader.RetrieveFromFile();
+            // } catch (IOException e) {
+            //     // ERROR
+            //     e.printStackTrace();
+            // }
 
             // Retrieve the list from the file reader
-            this.FileUserInfo   = new LinkedList<>(Scheduler_fileReader.ReturnFile());
+            this.FileUserInfo = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
         
             // LinkedList of all people in the file showing both ID and full name
             this.PersonList.clear();
 
             // Add people to the list
-            for (STATIC_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
+            for (PREF_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
                 String format = String.format("|ID: %-7d", FilePerson.GetIdent());
                 PersonList.add(format + "| Name: " + FilePerson.GetName());
             }
@@ -773,7 +773,7 @@ public class SCENE_CREATE_Schedule {
             if ( (Scheduler_UserTimeInputs.ButtonPressPartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 4) ){
 
                 // Temp user preference created for clean seperation of object use
-                STATIC_EMPLOYEE_TimePref TempUserPreferrence = Scheduler_UserTimeInputs.Return_TimeUserPreference();
+                PREF_EMPLOYEE_TimePref TempUserPreferrence = Scheduler_UserTimeInputs.Return_TimeUserPreference();
 
 
                 /**
@@ -1131,15 +1131,15 @@ public class SCENE_CREATE_Schedule {
         // Initial Setup of functions
         // ############################################################
         // retrieve the list of user preferences from the relevant json file
-        try {
-            Scheduler_fileReader.RetrieveFromFile();
-        } catch (IOException e) {
-            // ERROR
-            e.printStackTrace();
-        }
+        // try {
+        //     Scheduler_fileReader.RetrieveFromFile();
+        // } catch (IOException e) {
+        //     // ERROR
+        //     e.printStackTrace();
+        // }
 
         // Retrieve the list from the file reader
-        this.FileUserInfo   = new LinkedList<>(Scheduler_fileReader.ReturnFile());
+        this.FileUserInfo   = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
         
         // LinkedList of all people in the file showing both ID and full name
         this.PersonList     = new LinkedList<>();
@@ -1150,7 +1150,7 @@ public class SCENE_CREATE_Schedule {
         // }
 
         // Add people to the list
-        for (STATIC_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
+        for (PREF_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
             String format = String.format("|ID: %-7d", FilePerson.GetIdent());
             PersonList.add(format + "| Name: " + FilePerson.GetName());
         }
@@ -1602,13 +1602,13 @@ public class SCENE_CREATE_Schedule {
                 if (change.wasAdded()) {
 
 
-                    // ensure list of people is up to date
-                    try {
-                        Scheduler_fileReader.RetrieveFromFile();
-                    } catch (IOException e) {
-                        // error
-                        e.printStackTrace();
-                    }
+                    // // ensure list of people is up to date
+                    // try {
+                    //     Scheduler_fileReader.RetrieveFromFile();
+                    // } catch (IOException e) {
+                    //     // error
+                    //     e.printStackTrace();
+                    // }
 
                     // Node Creation
                     // ############################################################
@@ -1665,7 +1665,7 @@ public class SCENE_CREATE_Schedule {
 
                     //int PersonAmmount = Schedules.getLast().USERIDs.size();
 
-                    this.FilePeople = new LinkedList<>(Scheduler_fileReader.ReturnFile());
+                    this.FilePeople = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
 
                     // used in placement position of the schedule in the list
                     int FlowPanePeopleAmmount = 0;

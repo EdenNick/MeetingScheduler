@@ -30,8 +30,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 
 public class MANAGEFILE_JsonOutput {
@@ -48,7 +48,7 @@ public class MANAGEFILE_JsonOutput {
     //TODO: implement a lock system
 
     // Retreived File
-    private LinkedList<STATIC_EMPLOYEE_FullPref> JsonFileRetrievedList;
+    private LinkedList<PREF_EMPLOYEE_FullPref> JsonFileRetrievedList;
 
 
     // Contructor
@@ -70,10 +70,10 @@ public class MANAGEFILE_JsonOutput {
      * @throws DatabindException 
      * @throws StreamReadException 
      */
-    public int RetrieveFromFile() throws StreamReadException, DatabindException, IOException {
+    public int Retrieve_DefaultFile() throws StreamReadException, DatabindException, IOException {
 
         // retrieves existing datacards from the json file
-        JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<STATIC_EMPLOYEE_FullPref>>() {});
+        JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<PREF_EMPLOYEE_FullPref>>() {});
 
         return 0;
 
@@ -81,7 +81,7 @@ public class MANAGEFILE_JsonOutput {
 
 
     // Return - copy of the linked list to prevent object mismanagement
-    public LinkedList<STATIC_EMPLOYEE_FullPref> GetRetrievedFile() {
+    public LinkedList<PREF_EMPLOYEE_FullPref> GetFile_DefaultFile() {
         return new LinkedList<>(JsonFileRetrievedList);
     }
 

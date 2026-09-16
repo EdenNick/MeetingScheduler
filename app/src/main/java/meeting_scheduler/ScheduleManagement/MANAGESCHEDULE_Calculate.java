@@ -28,8 +28,8 @@ import com.fasterxml.jackson.databind.DatabindException;
 
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 
 
@@ -69,7 +69,7 @@ public class MANAGESCHEDULE_Calculate {
      * User Preferences for schedule calculation
      */
     private String[]                            Pref_WeekDays;              // Days the user wants a schedule for, defaults to the whole week.
-    private LinkedList<STATIC_EMPLOYEE_TimePref>    Pref_UserTimes;             // LinkedList containing the specified times of the user
+    private LinkedList<PREF_EMPLOYEE_TimePref>    Pref_UserTimes;             // LinkedList containing the specified times of the user
     private boolean                             Pref_SpecificTimes = false; // boolean if the user wants specified time intervals.
 
 
@@ -79,10 +79,10 @@ public class MANAGESCHEDULE_Calculate {
     private LinkedList<String>                  Calc_AvailableIDs;          // LinkedList that holds the list of available people for each viable interval.
 
     private LinkedList<MANAGESCHEDULE_Interval>    CALC_AvailablePeople;
-    private LinkedList<STATIC_EMPLOYEE_FullPref>    Calc_People;                // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
+    private LinkedList<PREF_EMPLOYEE_FullPref>    Calc_People;                // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
     private boolean                             Calc_PeopleSet     = false; // false if the linkedlist peopele has not been set. false as default. 
 
-    private STATIC_EMPLOYEE_TimePref                Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
+    private PREF_EMPLOYEE_TimePref                Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
     private boolean                             Calc_IdealSchedule = false; // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
 
     private LinkedList<MANAGESCHEDULE_Schedule>     Calc_FullScheduleList;      // LinkedList of viableschedules and the people who can be in them.
@@ -92,7 +92,7 @@ public class MANAGESCHEDULE_Calculate {
      * File data info and management
      */
     private MANAGEFILE_JsonManager              JsonFileManager = new MANAGEFILE_JsonManager();
-    private LinkedList<STATIC_EMPLOYEE_FullPref>    PeopleFromFile;             // All datacards contained within the relavant Json File.
+    private LinkedList<PREF_EMPLOYEE_FullPref>    PeopleFromFile;             // All datacards contained within the relavant Json File.
 
 
     /**
@@ -184,10 +184,10 @@ public class MANAGESCHEDULE_Calculate {
      * Description: sets the program to find the people who can meet in specified intervals provided by the user
      * @param time
      */
-    public void SetSpecificTime(LinkedList<STATIC_EMPLOYEE_TimePref> time) {
+    public void SetSpecificTime(LinkedList<PREF_EMPLOYEE_TimePref> time) {
         
         this.Pref_SpecificTimes         = true;
-        this.Pref_UserTimes             = new LinkedList<STATIC_EMPLOYEE_TimePref>(time);
+        this.Pref_UserTimes             = new LinkedList<PREF_EMPLOYEE_TimePref>(time);
 
         System.out.println("Specific times size: " + this.Pref_UserTimes.size());
 
@@ -204,7 +204,7 @@ public class MANAGESCHEDULE_Calculate {
     public void SetNonSpecificTime() {
 
         this.Pref_SpecificTimes         = false;
-        this.Pref_UserTimes             = new LinkedList<STATIC_EMPLOYEE_TimePref>();
+        this.Pref_UserTimes             = new LinkedList<PREF_EMPLOYEE_TimePref>();
     }
 
 
@@ -237,20 +237,20 @@ public class MANAGESCHEDULE_Calculate {
     private void RetrieveUserCards() throws StreamReadException, DatabindException, IOException {
 
         // Calc_People - calculated list of people the user wants scheduled based on their input fromm UserInput_PeopleToSchedule
-        Calc_People = new LinkedList<STATIC_EMPLOYEE_FullPref>();
+        Calc_People = new LinkedList<PREF_EMPLOYEE_FullPref>();
 
         // retrieves the latest list of datacards from the relevant Json file.
-        JsonFileManager.RetrieveFromFile();
+        //JsonFileManager.RetrieveFromFile();
         
         // PeopleFromFile is a new linkedlist containing a copy of the retrieved json file data calculated from JsonFileManager.RetrieveFromFile();
-        PeopleFromFile = new LinkedList<STATIC_EMPLOYEE_FullPref>(JsonFileManager.ReturnFile());
+        PeopleFromFile = JsonFileManager.ReadFrom_DefaultEmployeePreference();
 
 
 
         // A linkedlist of user ids was provided iterate through those
         if (IDsProvided == true) {
 
-            for (STATIC_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
+            for (PREF_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
                 // iterates over the linked list string of people to select
                 for (String IDOfPerson : UserInput_PeopleToSchedule) {
                     
@@ -264,7 +264,7 @@ public class MANAGESCHEDULE_Calculate {
         // A LinkedList of user ids was NOT provided, retrieve all info from the json file
         } else {
             
-            for (STATIC_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
+            for (PREF_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
                 // iterates over the linked list string of people to select
                 Calc_People.add(FilePerson);
 
@@ -317,7 +317,7 @@ public class MANAGESCHEDULE_Calculate {
          * This ensures all indexes in each TimeIntervals LinkedList is covered.
          */
         int MaxSize = 0;
-        for (STATIC_EMPLOYEE_FullPref Person : Calc_People) {
+        for (PREF_EMPLOYEE_FullPref Person : Calc_People) {
             if (Person.GetIntervals().size() > MaxSize) {
                 MaxSize = Person.GetIntervals().size();
             }
@@ -365,7 +365,7 @@ public class MANAGESCHEDULE_Calculate {
                 
             } else if (Pref_SpecificTimes == true) {        // User did submit times
 
-                for (STATIC_EMPLOYEE_TimePref TimeInputInterval : Pref_UserTimes) {
+                for (PREF_EMPLOYEE_TimePref TimeInputInterval : Pref_UserTimes) {
 
                     // user input time intervals
                     Interval_HourStart  = TimeInputInterval.GetStartTimeHour();
@@ -477,7 +477,7 @@ public class MANAGESCHEDULE_Calculate {
         // that lies within the interval
         // ############################################################
         // BreakPerson1:   // BREAK
-        for (STATIC_EMPLOYEE_FullPref Person : Calc_People) {
+        for (PREF_EMPLOYEE_FullPref Person : Calc_People) {
 
             // for each person iterate through all time intervals they have for that specific day
             for (int Person_timeIntervalIndex = 0; Person_timeIntervalIndex < MAXSIZE; Person_timeIntervalIndex++) {
@@ -653,7 +653,7 @@ public class MANAGESCHEDULE_Calculate {
                 // ############################################################
                 for (MANAGESCHEDULE_Interval AvailablePerson : CALC_AvailablePeople) { 
 
-                    STATIC_EMPLOYEE_FullPref Person_Available = AvailablePerson.getPerson();
+                    PREF_EMPLOYEE_FullPref Person_Available = AvailablePerson.getPerson();
                     int Interval = AvailablePerson.getInterval();
 
 
@@ -698,7 +698,7 @@ public class MANAGESCHEDULE_Calculate {
 
                     MANAGESCHEDULE_Interval Iterator_PERSON = TimeIntervalIterator.next();
 
-                    STATIC_EMPLOYEE_FullPref AvailablePerson = Iterator_PERSON.getPerson();
+                    PREF_EMPLOYEE_FullPref AvailablePerson = Iterator_PERSON.getPerson();
 
                     int Interval = Iterator_PERSON.getInterval();
 
@@ -815,7 +815,7 @@ public class MANAGESCHEDULE_Calculate {
                     /**
                      * Step 11. create new TimeInput LinkedList containing this schedule
                      */
-                    Calc_ViableSchedule = new STATIC_EMPLOYEE_TimePref(PREFDAY, CalculateInterval_HourStart, CalculateInterval_MinStart, 
+                    Calc_ViableSchedule = new PREF_EMPLOYEE_TimePref(PREFDAY, CalculateInterval_HourStart, CalculateInterval_MinStart, 
                         CalculateInterval_HourEnd, CalculateInterval_MinEnd);
 
 

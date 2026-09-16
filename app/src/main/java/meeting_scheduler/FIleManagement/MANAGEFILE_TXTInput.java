@@ -52,7 +52,7 @@ public class MANAGEFILE_TXTInput {
             Locked      = true;
 
         } else if (Locked == true) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_SetFileNameOperationUnderWay);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_SetFileNameOperationUnderWay);
             return 1;
         }
 
@@ -72,12 +72,12 @@ public class MANAGEFILE_TXTInput {
     public static int CheckState() {
 
         if (FilePath == null) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckStateNoFileName);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckStateNoFileName);
             return 1;
         }
 
         if (Locked == false) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckStateNoLock);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_CheckStateNoLock);
             return 1;
         }
 
@@ -96,7 +96,7 @@ public class MANAGEFILE_TXTInput {
     public static int writeData(List<String> lines) {
 
         if (CheckState() == 1) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_WriteDataCheckState);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_WriteDataCheckState);
             return 1;
         }
 
@@ -111,7 +111,7 @@ public class MANAGEFILE_TXTInput {
             Files.write(FilePath, TextLines, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 
         } catch (IOException e) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_WritedataFilewrite);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_WritedataFilewrite);
             return 1;
         }
 
@@ -138,7 +138,7 @@ public class MANAGEFILE_TXTInput {
     public static int DeleteData(String ID) {
 
         if (CheckState() == 1) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_DeleteDataCheckState);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_DeleteDataCheckState);
             return 1;
         }
 
@@ -178,7 +178,7 @@ public class MANAGEFILE_TXTInput {
             System.out.println("File: " + FilePath + " changed");
 
         } catch (IOException e) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_DeleteDataFileReadWrite);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_DeleteDataFileReadWrite);
             return 1;
         }
 
@@ -200,7 +200,7 @@ public class MANAGEFILE_TXTInput {
     public static int OrganizeData() {
 
         if (CheckState() == 1) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_OrganizeDataCheckState);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_OrganizeDataCheckState);
             return 1;
         }
 
@@ -233,7 +233,7 @@ public class MANAGEFILE_TXTInput {
 
         } catch (IOException e) {
 
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_OrganizeDataTRYCATCH);
+            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_OrganizeDataTRYCATCH);
             return 1;
 
         }

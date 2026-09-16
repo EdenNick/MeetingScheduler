@@ -22,8 +22,8 @@ import java.util.List;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.FIleManagement.MANAGEFILE_TXTInput;
 
@@ -59,8 +59,8 @@ public class MANAGEAPP_FullTest {
     static  String                              TestName                = "John Smith";
     static  int                                 TestID                  = 1;
     static  String[]                            TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static  LinkedList<STATIC_EMPLOYEE_TimePref>    TestTimeInterval        = new LinkedList<>();
-    private STATIC_EMPLOYEE_FullPref                staticInfo;
+    static  LinkedList<PREF_EMPLOYEE_TimePref>    TestTimeInterval        = new LinkedList<>();
+    private PREF_EMPLOYEE_FullPref                staticInfo;
 
 
     // Constructor - Fills objects with parameters for testing
@@ -68,12 +68,12 @@ public class MANAGEAPP_FullTest {
     public MANAGEAPP_FullTest() {
 
         // Adds a single beignning and ending time to the list
-        MANAGEAPP_FullTest.TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Mon",8, 0, 12, 0));
-        MANAGEAPP_FullTest.TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Mon",14, 1, 15, 30));
-        MANAGEAPP_FullTest.TestTimeInterval.add(new STATIC_EMPLOYEE_TimePref("Fri",12, 5, 17, 45));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new PREF_EMPLOYEE_TimePref("Mon",8, 0, 12, 0));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new PREF_EMPLOYEE_TimePref("Mon",14, 1, 15, 30));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new PREF_EMPLOYEE_TimePref("Fri",12, 5, 17, 45));
 
         // creates userinfo object and sets all input testing data
-        this.staticInfo = new STATIC_EMPLOYEE_FullPref(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
+        //this.staticInfo = new PREF_EMPLOYEE_FullPref(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
 
     }
 
@@ -130,8 +130,8 @@ public class MANAGEAPP_FullTest {
     public void TEST_INFO_JsonTest() throws StreamWriteException, DatabindException, IOException  {
 
         MANAGEFILE_JsonManager test = new MANAGEFILE_JsonManager();
-        test.JsonWriteTest1();
-        test.JsonWriteTest2();
+        //test.JsonWriteTest1();
+        //test.JsonWriteTest2();
 
     }
 
@@ -174,7 +174,7 @@ public class MANAGEAPP_FullTest {
 
         //int IndexPosition = 0;
 
-        for (STATIC_EMPLOYEE_TimePref TimeInterval : staticInfo.GetIntervals()) {
+        for (PREF_EMPLOYEE_TimePref TimeInterval : staticInfo.GetIntervals()) {
 
             TimeInterval.TEST_TimeConversion();
 

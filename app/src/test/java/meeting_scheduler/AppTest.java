@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
-import meeting_scheduler.FIleManagement.MANAGEFILE_InfoFileWrite;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.FIleManagement.MANAGEFILE_TXTOutput;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
+import meeting_scheduler.UserInput.USERINPUT_JsonFormatting;
 
 
 class AppTest {
@@ -45,10 +45,10 @@ class AppTest {
     private final LinkedList<String>                TEST_IDs;
 
     private final MANAGESCHEDULE_Schedule               TEST_Schedule;
-    private final STATIC_EMPLOYEE_TimePref              TEST_TimeInterval;
-    private final STATIC_EMPLOYEE_TimePref              TEST_TimeInterval2;
-    private final STATIC_EMPLOYEE_FullPref              TEST_InfoInputPerson;
-    private final LinkedList<STATIC_EMPLOYEE_TimePref>  TEST_TimeInputIntervals;
+    private final PREF_EMPLOYEE_TimePref              TEST_TimeInterval;
+    private final PREF_EMPLOYEE_TimePref              TEST_TimeInterval2;
+    private final PREF_EMPLOYEE_FullPref              TEST_InfoInputPerson;
+    private final LinkedList<PREF_EMPLOYEE_TimePref>  TEST_TimeInputIntervals;
 
 
     private final MANAGEFILE_JsonManager            TEST_JsonFilemanager;
@@ -64,13 +64,13 @@ class AppTest {
         this.TEST_IDs.add("1");
 
 
-        this.TEST_TimeInterval          = new STATIC_EMPLOYEE_TimePref("Mon", 3, 50, 14, 07);
-        this.TEST_TimeInterval2         = new STATIC_EMPLOYEE_TimePref("Mon", 8, 0, 12, 0);
-        this.TEST_TimeInputIntervals    = new LinkedList<STATIC_EMPLOYEE_TimePref>();
+        this.TEST_TimeInterval          = new PREF_EMPLOYEE_TimePref("Mon", 3, 50, 14, 07);
+        this.TEST_TimeInterval2         = new PREF_EMPLOYEE_TimePref("Mon", 8, 0, 12, 0);
+        this.TEST_TimeInputIntervals    = new LinkedList<PREF_EMPLOYEE_TimePref>();
         this.TEST_TimeInputIntervals.add(TEST_TimeInterval);
 
 
-        this.TEST_InfoInputPerson       = new STATIC_EMPLOYEE_FullPref("John Smith", 1, WEEKDays, TEST_TimeInputIntervals);
+        this.TEST_InfoInputPerson       = new PREF_EMPLOYEE_FullPref("John Smith", 1, WEEKDays, TEST_TimeInputIntervals);
 
         this.TEST_Schedule              = new MANAGESCHEDULE_Schedule("Mon", TEST_TimeInterval, TEST_IDs, true);
 
@@ -167,7 +167,7 @@ class AppTest {
         TEST_JsonFilemanager.RetrieveFromFile();
 
         // stores the retrieved data in a local variable
-        LinkedList<STATIC_EMPLOYEE_FullPref> ReturnFileInfo = TEST_JsonFilemanager.ReturnFile();
+        LinkedList<PREF_EMPLOYEE_FullPref> ReturnFileInfo = TEST_JsonFilemanager.ReturnFile();
 
 
         // Assertions
@@ -224,13 +224,13 @@ class AppTest {
 
         // Test object build parameter
         String[]                            Week = new String[] {"Mon", "Wed", "Thu"};
-        LinkedList<STATIC_EMPLOYEE_TimePref>    test_timeintervals = new LinkedList<STATIC_EMPLOYEE_TimePref>();
-        STATIC_EMPLOYEE_TimePref                test_TimeInterval = new STATIC_EMPLOYEE_TimePref("Mon", 03, 50, 14, 07);
+        LinkedList<PREF_EMPLOYEE_TimePref>    test_timeintervals = new LinkedList<PREF_EMPLOYEE_TimePref>();
+        PREF_EMPLOYEE_TimePref                test_TimeInterval = new PREF_EMPLOYEE_TimePref("Mon", 03, 50, 14, 07);
         
         test_timeintervals.add(test_TimeInterval);
 
         //Object being tested
-        MANAGEFILE_InfoFileWrite test_InfoFileWrite = new MANAGEFILE_InfoFileWrite();
+        USERINPUT_JsonFormatting test_InfoFileWrite = new USERINPUT_JsonFormatting();
 
         // Object not null
         assertNotNull(test_InfoFileWrite);

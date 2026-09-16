@@ -51,10 +51,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
-import meeting_scheduler.FIleManagement.MANAGEFILE_InfoFileWrite;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
+import meeting_scheduler.UserInput.USERINPUT_JsonFormatting;
 import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
 
 // exceptions
@@ -127,7 +127,7 @@ public class SCENE_CREATE_DataCard {
 
     // User Data
     // ############################################################
-    private LinkedList<STATIC_EMPLOYEE_TimePref>    List_UserTimes;         // List of prefered times for an individual
+    private LinkedList<PREF_EMPLOYEE_TimePref>    List_UserTimes;         // List of prefered times for an individual
 
     private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
 
@@ -139,7 +139,7 @@ public class SCENE_CREATE_DataCard {
 
     // Data Manager Objects
     // ############################################################
-    private MANAGEFILE_InfoFileWrite INFOFileWrite;
+    private USERINPUT_JsonFormatting INFOFileWrite;
     // Json file manager
     // private PROG_DAL_B_JSONManager JsonManager;                 // Manages json files
     // user tim input manager
@@ -160,7 +160,7 @@ public class SCENE_CREATE_DataCard {
         // this.JsonManager                = new PROG_DAL_B_JSONManager();
         this.DataCard_UserTimeInputs    = new PROG_UI_C_UserTimeInput();
         this.List_VBoxTimeInputs        = new LinkedList<>();
-        this.INFOFileWrite              = new MANAGEFILE_InfoFileWrite();
+        this.INFOFileWrite              = new USERINPUT_JsonFormatting();
 
     }
 
@@ -478,7 +478,7 @@ public class SCENE_CREATE_DataCard {
             if ( (DataCard_UserTimeInputs.ButtonPressFullTimeInput() == 0) && (List_VBoxTimeInputs.size() < SCENE_VARIABLES_Local.MAXTimeInputs) ){
 
                 // Temp user preference created for clean seperation of object use
-                STATIC_EMPLOYEE_TimePref TempUserPreferrence = DataCard_UserTimeInputs.Return_FileReadyUserPreference();
+                PREF_EMPLOYEE_TimePref TempUserPreferrence = DataCard_UserTimeInputs.Return_FileReadyUserPreference();
 
                 /**
                  * ############################################################
@@ -551,7 +551,7 @@ public class SCENE_CREATE_DataCard {
                 // iterate through weekdays first to ensure a weekday can only be matched once
                 for (String Day : SCENE_VARIABLES_Local.WEEKDAYS) {
 
-                    for (STATIC_EMPLOYEE_TimePref preference : this.List_UserTimes) {
+                    for (PREF_EMPLOYEE_TimePref preference : this.List_UserTimes) {
                         if (preference.GetWeekDay().equals(Day)) {
 
                             preferredDaysList.add(Day); // each day should only be added once

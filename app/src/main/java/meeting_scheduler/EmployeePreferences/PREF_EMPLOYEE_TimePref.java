@@ -18,7 +18,7 @@ import java.time.LocalTime;
 
 
 
-public class STATIC_EMPLOYEE_TimePref {
+public class PREF_EMPLOYEE_TimePref {
 
     private String      TIMEPREF_Weekday;
     private LocalTime   TIMEPREF_TimeStart;
@@ -29,7 +29,7 @@ public class STATIC_EMPLOYEE_TimePref {
      * Default consturctor
      * Meant for use with Json files, do not alter this.
      */
-    public STATIC_EMPLOYEE_TimePref() {
+    public PREF_EMPLOYEE_TimePref() {
         // DO NOT ADD CODE HERE
     }
 
@@ -43,7 +43,7 @@ public class STATIC_EMPLOYEE_TimePref {
      * @param EndHOUR
      * @param EndMIN
      */
-    public STATIC_EMPLOYEE_TimePref(String INPUT_DAY, int INPUT_START_HOUR, int INPUT_START_MINUTE, int INPUT_END_HOUR, int INPUT_END_MINUTE) {
+    public PREF_EMPLOYEE_TimePref(String INPUT_DAY, int INPUT_START_HOUR, int INPUT_START_MINUTE, int INPUT_END_HOUR, int INPUT_END_MINUTE) {
         
         this.TIMEPREF_Weekday       = INPUT_DAY;
         this.TIMEPREF_TimeStart     = LocalTime.of(INPUT_START_HOUR, INPUT_START_MINUTE);    // (hour:min)    Military Time
@@ -57,7 +57,7 @@ public class STATIC_EMPLOYEE_TimePref {
      * Copy Constructor
      * @param TIMEPREF_COPY
      */
-    public STATIC_EMPLOYEE_TimePref(STATIC_EMPLOYEE_TimePref TIMEPREF_COPY) {
+    public PREF_EMPLOYEE_TimePref(PREF_EMPLOYEE_TimePref TIMEPREF_COPY) {
         
         this.TIMEPREF_Weekday       = TIMEPREF_COPY.GetWeekDay();
         this.TIMEPREF_TimeStart     = TIMEPREF_COPY.GetStartTime();                         // (hour:min)    Military Time
@@ -72,7 +72,7 @@ public class STATIC_EMPLOYEE_TimePref {
      * @param TIMEPREF_INPUT
      * @return
      */
-    public boolean IsTimePreferenceEqual(STATIC_EMPLOYEE_TimePref TIMEPREF_INPUT) {
+    public boolean IsTimePreferenceEqual(PREF_EMPLOYEE_TimePref TIMEPREF_INPUT) {
         
         // IF - returns false if objects have a different weekday
         if (!this.TIMEPREF_Weekday.equals(TIMEPREF_INPUT.GetWeekDay()))             {

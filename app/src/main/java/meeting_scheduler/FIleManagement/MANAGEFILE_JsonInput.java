@@ -30,8 +30,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 
 public class MANAGEFILE_JsonInput {
@@ -42,33 +42,38 @@ public class MANAGEFILE_JsonInput {
     private File DATAFILE_Preferences;
 
     // read/write to json file
-    private ObjectMapper JsonObjectMapper;
+    private ObjectMapper Write_JsonObjectMapper;
 
     // Lock
     //TODO: implement a lock system
+    //TODO: possibly implement enum for multiple files?
 
     // Retreived File
-    private LinkedList<STATIC_EMPLOYEE_FullPref> JSONFileInputList;
+    private LinkedList<PREF_EMPLOYEE_FullPref> JSONFileInputList;
 
 
-    // Contructor
+    // Default Contructor
     public MANAGEFILE_JsonInput(File INPUT_FILE) {
+
         this.DATAFILE_Preferences = INPUT_FILE;
 
-        this.JsonObjectMapper = new ObjectMapper();
-        this.JsonObjectMapper.registerModule(new JavaTimeModule());
-        this.JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        this.Write_JsonObjectMapper = new ObjectMapper();
+        this.Write_JsonObjectMapper.registerModule(new JavaTimeModule());
+        this.Write_JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
     }
 
 
-    public void SetInput(LinkedList<STATIC_EMPLOYEE_FullPref> INPUT_DATACARDLIST) {
+    public void SetInput_Default_EmployeePref(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_DATACARDLIST) {
         this.JSONFileInputList = new LinkedList<>(INPUT_DATACARDLIST);
     }
 
-    public int WriteToFile() throws StreamWriteException, DatabindException, IOException {
-        // write the updated list back into the file
-        JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(DATAFILE_Preferences, JSONFileInputList);
+    public int WriteTo_Default_EmplyeePrefFile() throws StreamWriteException, DatabindException, IOException {
+
+        // IF - write only if the input list isn't null
+        if (this.JSONFileInputList == null) {
+            Write_JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(DATAFILE_Preferences, JSONFileInputList);
+        }
 
         return 0;
     } // WriteToFile()

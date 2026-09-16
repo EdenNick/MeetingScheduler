@@ -10,24 +10,24 @@
 package meeting_scheduler.ScheduleManagement;
 // ############################################################
 
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_FullPref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 
 public class MANAGESCHEDULE_Interval {
 
-    private final STATIC_EMPLOYEE_FullPref  PERSON;
+    private final PREF_EMPLOYEE_FullPref  PERSON;
 
     private final int                   INTERVAL;
 
 
-    public MANAGESCHEDULE_Interval(STATIC_EMPLOYEE_FullPref person, int interval) {
+    public MANAGESCHEDULE_Interval(PREF_EMPLOYEE_FullPref person, int interval) {
 
-        this.PERSON     = new STATIC_EMPLOYEE_FullPref(person);
+        this.PERSON     = new PREF_EMPLOYEE_FullPref(person);
 
         this.INTERVAL   = interval;
 
     }
     
-    public STATIC_EMPLOYEE_FullPref getPerson() {
+    public PREF_EMPLOYEE_FullPref getPerson() {
         
         return this.PERSON;
 

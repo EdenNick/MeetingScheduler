@@ -30,7 +30,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 // ############################################################
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.EmployeePreferences.STATIC_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 
@@ -48,8 +48,8 @@ public class PROG_UI_C_UserTimeInput {
     private TextField Select_Hour_End;
     private TextField Select_Minute_End;
 
-    private STATIC_EMPLOYEE_TimePref FullUserPreference;
-    private STATIC_EMPLOYEE_TimePref PartialUserPreference;
+    private PREF_EMPLOYEE_TimePref FullUserPreference;
+    private PREF_EMPLOYEE_TimePref PartialUserPreference;
 
     private Iterator<VBox>      VBOXIterator;
 
@@ -128,12 +128,12 @@ public class PROG_UI_C_UserTimeInput {
     }
 
     // Returns user preferences meant for input into Json File
-    public STATIC_EMPLOYEE_TimePref Return_FileReadyUserPreference() {
+    public PREF_EMPLOYEE_TimePref Return_FileReadyUserPreference() {
         return this.FullUserPreference;
     }
 
     // Returns user preferences meant for Schedule Calculation
-    public STATIC_EMPLOYEE_TimePref Return_TimeUserPreference() {
+    public PREF_EMPLOYEE_TimePref Return_TimeUserPreference() {
         return this.PartialUserPreference;
     }
 
@@ -350,7 +350,7 @@ public class PROG_UI_C_UserTimeInput {
             int     EndMinute   = Integer.parseInt(this.Select_Minute_End    .getText());
 
             // new user preference
-            this.FullUserPreference = new STATIC_EMPLOYEE_TimePref(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+            this.FullUserPreference = new PREF_EMPLOYEE_TimePref(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 
@@ -364,7 +364,7 @@ public class PROG_UI_C_UserTimeInput {
      * UserInputGraphicCalculation()
      * Descriiption: manages the visual output of the user submitted data for card info input
      */
-    public void UserInputGraphic(STATIC_EMPLOYEE_TimePref Input_UserTime, LinkedList<STATIC_EMPLOYEE_TimePref> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay, boolean FullInput) {
+    public void UserInputGraphic(PREF_EMPLOYEE_TimePref Input_UserTime, LinkedList<PREF_EMPLOYEE_TimePref> List_UserTimes, LinkedList<VBox> List_VBoxTimeInputs, FlowPane FlowPane_VBoxDisplay, boolean FullInput) {
 
 
         // PROG_DAL_A_TimeInput Input_UserTime              - Input time being processed and formatted correctly
@@ -591,7 +591,7 @@ public class PROG_UI_C_UserTimeInput {
 
         // List_UserTimes - list of all timeinputs
         // ############################################################
-        List_UserTimes.add(new STATIC_EMPLOYEE_TimePref(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
+        List_UserTimes.add(new PREF_EMPLOYEE_TimePref(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
         System.out.println("UserTimeInput ammount" + List_UserTimes.size());
         // ############################################################
 
@@ -650,7 +650,7 @@ public class PROG_UI_C_UserTimeInput {
             int     EndMinute   = Integer.parseInt(Select_Minute_End.getText());
 
             // new user preference
-            this.PartialUserPreference = new STATIC_EMPLOYEE_TimePref("N/A", BeginHour, BeginMinute, EndHour, EndMinute);
+            this.PartialUserPreference = new PREF_EMPLOYEE_TimePref("N/A", BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 

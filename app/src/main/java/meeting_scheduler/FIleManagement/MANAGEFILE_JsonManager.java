@@ -119,12 +119,13 @@ public class MANAGEFILE_JsonManager {
     // WRITE - Default preference file
     public void WriteTo_DefaultEmployeePreference(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_EmployeePreference) {
 
-        // Set employeepreference for the file input
-        this.JsonFileManager_FileInput.SetInput_Default_EmployeePref(INPUT_EmployeePreference);
+
+        LinkedList<PREF_EMPLOYEE_FullPref> Input_Copy = new LinkedList<>(INPUT_EmployeePreference);
 
         // Try/Catch - Write to file 
         try {
-            this.JsonFileManager_FileInput.WriteTo_Default_EmplyeePrefFile();
+            this.JsonFileManager_FileInput.WriteTo_Default_EmployeePrefFile(Input_Copy);
+            System.out.println("file Write");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -61,6 +61,7 @@ import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
 import java.io.IOException;
 
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
 // ############################################################
 
 //TODO: standardize sizing with global system variable
@@ -149,7 +150,7 @@ public class SCENE_CREATE_DataCard {
     // ############################################################
 
 
-
+    private MANAGEFILE_JsonManager  JsonFileManager;
     
     /**
      * Constructor class
@@ -163,6 +164,8 @@ public class SCENE_CREATE_DataCard {
         this.DataCard_UserTimeInputs    = new PROG_UI_C_UserTimeInput();
         this.List_VBoxTimeInputs        = new LinkedList<>();
         this.INFOFileWrite              = new USERINPUT_JsonFormatting();
+
+        this.JsonFileManager = new MANAGEFILE_JsonManager();
 
     }
 
@@ -584,13 +587,23 @@ public class SCENE_CREATE_DataCard {
                 // writes to file
                 // ############################################################
                 // TODO: fix
-                LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_ToInput = new LinkedList<>();
+                LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_ToInput;
+				try {
+					EMPLOYEES_ToInput = new LinkedList<>(JsonFileManager.ReadFrom_DefaultEmployeePreference());
+				} catch (IOException e) {
+                    EMPLOYEES_ToInput = new LinkedList<>();
+					e.printStackTrace();
+				}
                 
                 PREF_EMPLOYEE_FullPref EMPLOYEE_Input = new PREF_EMPLOYEE_FullPref(false, name, id, preferredDays, this.List_UserTimes);
                 
                 EMPLOYEES_ToInput.add(EMPLOYEE_Input);
 
-                INFOFileWrite.JsonFileDefault_Formatting(EMPLOYEES_ToInput);
+                LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_ToWrite = INFOFileWrite.JsonFileDefault_Formatting(EMPLOYEES_ToInput);
+
+
+
+                JsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_ToWrite);
 
                 // ############################################################
 

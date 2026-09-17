@@ -64,15 +64,16 @@ public class MANAGEFILE_JsonInput {
     }
 
 
-    public void SetInput_Default_EmployeePref(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_DATACARDLIST) {
-        this.JSONFileInputList = new LinkedList<>(INPUT_DATACARDLIST);
-    }
+    public int WriteTo_Default_EmployeePrefFile(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_DATACARDLIST) throws StreamWriteException, DatabindException, IOException {
 
-    public int WriteTo_Default_EmplyeePrefFile() throws StreamWriteException, DatabindException, IOException {
+
+        this.JSONFileInputList = new LinkedList<>(INPUT_DATACARDLIST);
+
 
         // IF - write only if the input list isn't null
-        if (this.JSONFileInputList == null) {
+        if (this.JSONFileInputList != null) {
             Write_JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(DATAFILE_Preferences, JSONFileInputList);
+            System.out.println("File written");
         }
 
         return 0;

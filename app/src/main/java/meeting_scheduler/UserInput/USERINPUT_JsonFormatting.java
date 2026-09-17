@@ -15,6 +15,7 @@ package meeting_scheduler.UserInput;
 // ############################################################
 // exception
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 // util
 import java.util.LinkedList;
@@ -40,7 +41,7 @@ public class USERINPUT_JsonFormatting {
     
 
     private MANAGEFILE_JsonManager  JsonFileManager;
-    private Set<PREF_EMPLOYEE_FullPref> HashSet_EmployeePreference;
+    private HashMap<Integer, PREF_EMPLOYEE_FullPref> HashSet_EmployeePreference;
 
     // iterator
     private ListIterator<PREF_EMPLOYEE_FullPref>  Iterator_DefaultJson;
@@ -51,17 +52,22 @@ public class USERINPUT_JsonFormatting {
     }
     
     //
-    public void JsonFileDefault_Formatting(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_FullEmployeePreference) {
+    public LinkedList<PREF_EMPLOYEE_FullPref> JsonFileDefault_Formatting(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_FullEmployeePreference) {
 
 
-        this.HashSet_EmployeePreference = new HashSet<>();
+        this.HashSet_EmployeePreference = new HashMap<>();
+
 
         int Size_PreferenceList = INPUT_FullEmployeePreference.size();
 
         for (int Position_PreferenceList = 0; Position_PreferenceList < Size_PreferenceList; Position_PreferenceList++) {
 
-            // IF - the same ID number alreadye exists in the hashset
-            if (HashSet_EmployeePreference.contains(INPUT_FullEmployeePreference.get(Position_PreferenceList).GetIdent())) {
+            // int to integer
+            Integer EmployeePreference_Key = Integer.valueOf(INPUT_FullEmployeePreference.get(Position_PreferenceList).GetIdent());
+
+
+            // IF - the same ID number already exists in the hashset
+            if ( HashSet_EmployeePreference.containsKey(EmployeePreference_Key) ) {
                 
                 // remove the original element from the hashset
                 HashSet_EmployeePreference.remove(INPUT_FullEmployeePreference.get(Position_PreferenceList).GetIdent());
@@ -73,7 +79,7 @@ public class USERINPUT_JsonFormatting {
                 boolean     NewPreference_Delete    = EMPLOYEE_Duplicate.GetStatus();
                 int         NewPreference_Ident     = EMPLOYEE_Duplicate.GetIdent();
                 String      NewPreference_Name      = EMPLOYEE_Duplicate.GetName();
-                String[]    NewPreference_Days      = EMPLOYEE_Duplicate.GetDays();
+                String[]    NewPreference_Days      = new String[7];
 
                 LinkedList<PREF_EMPLOYEE_TimePref> NewPreference_times = new LinkedList<>();
 
@@ -111,12 +117,14 @@ public class USERINPUT_JsonFormatting {
 
 
                 // Iterate over all preference days to ensure they are added to the list
+                int NumberofValidDays = 0;
                 for (int weekday = 0; weekday < 7; weekday++) {
 
                     for (int IndexPosition = 0; IndexPosition < NewPreference_times.size(); IndexPosition++) {
 
                         if ( WEEKDAYS[weekday].equals(NewPreference_times.get(IndexPosition).GetWeekDay()) ) {
                             NewPreference_Days[weekday] = WEEKDAYS[weekday];
+                            NumberofValidDays++;
                             break;
                         } // if ( WEEKDAYS[weekday].equals(Employee_NewPreferenceSet.get(IndexPosition).GetWeekDay()) ) {
 
@@ -124,19 +132,30 @@ public class USERINPUT_JsonFormatting {
 
                 } // for (int weekday = 0; weekday < 7; weekday++) {
 
+                String[] NewPreference_week = new String[NumberofValidDays];
+                int InputDay = 0;
+                for (int position_day = 0; position_day < 7; position_day++) {
 
+                    if (NewPreference_Days[position_day] != null) {
+                        NewPreference_week[InputDay] = NewPreference_Days[position_day];
+                        InputDay++;
+                    }
+                }
 
 
                 // Create new preference for a person and add them to the hash set
-                PREF_EMPLOYEE_FullPref NEWEmployeePreference = new PREF_EMPLOYEE_FullPref(NewPreference_Delete, NewPreference_Name, NewPreference_Ident, NewPreference_Days, NewPreference_times);
+                PREF_EMPLOYEE_FullPref NEWEmployeePreference = new PREF_EMPLOYEE_FullPref(NewPreference_Delete, NewPreference_Name, NewPreference_Ident, NewPreference_week, NewPreference_times);
 
 
-                HashSet_EmployeePreference.add(NEWEmployeePreference);
+                HashSet_EmployeePreference.put(EmployeePreference_Key, NEWEmployeePreference);
+
+                System.out.println(EmployeePreference_Key);
+
 
 
             } else {
                 // Add new preference to the list
-                HashSet_EmployeePreference.add(INPUT_FullEmployeePreference.get(Position_PreferenceList));
+                HashSet_EmployeePreference.put(EmployeePreference_Key, INPUT_FullEmployeePreference.get(Position_PreferenceList));
             }
 
             // NO code should exist at this point
@@ -148,11 +167,10 @@ public class USERINPUT_JsonFormatting {
 
         // Add all objects in the hashset to the json preference file
 
-        LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_WriteToFile = new LinkedList<>(HashSet_EmployeePreference);
-        this.JsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_WriteToFile);
+        LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_formatted = new LinkedList<>(HashSet_EmployeePreference.values());
+        //this.JsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_WriteToFile);
 
-
-
+        return EMPLOYEES_formatted;
     } // ReceiveUserInfo()
 
 

@@ -1,0 +1,34 @@
+BUSINESS LOGIC LAYER
+
+
+
+DESCRIPTION: Manages incoming data, ensuring it is in the correct format and within the correct value ranges where applicable.
+Files in this section act as an API for classes in the Data AccessLayer, ensuring those classes do not recieve garbage data/info and 
+are always accessed correctly.
+
+
+
+FILES & IMPORTS:
+
+1. PROG_BLL_InfoFileWrite           - Used to recieve user inputs and write user info, Id, name, etc into the proper file. Performs vital operation of verifying data exists and is usable.
+
+Imports:
+import java.io.IOException;
+import java.util.LinkedList;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;
+
+2. PROG_BLL_SchedulingCalculation   - Performs the calculations necessary to schedule a meeting between various individuals.
+
+Imports:
+import java.io.IOException;
+import java.util.LinkedList;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_InfoInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_Schedule;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_A_TimeInput;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_B_JSONManager;

@@ -59,6 +59,8 @@ import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
 
 // exceptions
 import java.io.IOException;
+
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 // ############################################################
 
 //TODO: standardize sizing with global system variable
@@ -575,21 +577,21 @@ public class SCENE_CREATE_DataCard {
 
                 // checks user submitted info
                 // ############################################################
-                INFOFileWrite.CheckUserInfo(name, id, preferredDays, this.List_UserTimes);
+                //INFOFileWrite.CheckUserInfo(name, id, preferredDays, this.List_UserTimes);
                 // ############################################################
 
 
                 // writes to file
                 // ############################################################
-                try {
-                    INFOFileWrite.WriteUserInfo();
-                } catch (StreamReadException e) {
-                    e.printStackTrace();
-                } catch (DatabindException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                // TODO: fix
+                LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_ToInput = new LinkedList<>();
+                
+                PREF_EMPLOYEE_FullPref EMPLOYEE_Input = new PREF_EMPLOYEE_FullPref(false, name, id, preferredDays, this.List_UserTimes);
+                
+                EMPLOYEES_ToInput.add(EMPLOYEE_Input);
+
+                INFOFileWrite.JsonFileDefault_Formatting(EMPLOYEES_ToInput);
+
                 // ############################################################
 
 

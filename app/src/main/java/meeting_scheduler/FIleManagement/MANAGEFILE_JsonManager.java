@@ -132,17 +132,10 @@ public class MANAGEFILE_JsonManager {
     }
 
     // READ - Default preference file
-    public LinkedList<PREF_EMPLOYEE_FullPref> ReadFrom_DefaultEmployeePreference() {
+    public LinkedList<PREF_EMPLOYEE_FullPref> ReadFrom_DefaultEmployeePreference() throws StreamReadException, DatabindException, IOException {
 
-        // Try/Catch retrieves info from the default json file
-        try {
-            this.JsonFileManager_FileOutput.Retrieve_DefaultFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return this.JsonFileManager_FileOutput.Retrieve_DefaultFile();
 
-        // returns a copy of the info from the json file
-        return this.JsonFileManager_FileOutput.GetFile_DefaultFile();
     }
 
 

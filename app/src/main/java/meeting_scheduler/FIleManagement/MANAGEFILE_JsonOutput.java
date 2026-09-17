@@ -70,20 +70,14 @@ public class MANAGEFILE_JsonOutput {
      * @throws DatabindException 
      * @throws StreamReadException 
      */
-    public int Retrieve_DefaultFile() throws StreamReadException, DatabindException, IOException {
+    public LinkedList<PREF_EMPLOYEE_FullPref> Retrieve_DefaultFile() throws StreamReadException, DatabindException, IOException {
 
         // retrieves existing datacards from the json file
         JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<PREF_EMPLOYEE_FullPref>>() {});
 
-        return 0;
+        return new LinkedList<>(JsonFileRetrievedList);
 
     } // RetrieveFromFile
-
-
-    // Return - copy of the linked list to prevent object mismanagement
-    public LinkedList<PREF_EMPLOYEE_FullPref> GetFile_DefaultFile() {
-        return new LinkedList<>(JsonFileRetrievedList);
-    }
 
     
 }

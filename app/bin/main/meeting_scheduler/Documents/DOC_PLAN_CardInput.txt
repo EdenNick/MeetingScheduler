@@ -1,0 +1,40 @@
+General plane for the user interface for the card info input
+
+// Text Inputs
+
+
+Text Input: Full Name;
+
+Text Input: User ID;
+
+
+// segmented section
+Scroll Input: Weekday;
+
+Scroll Input: Hour;
+
+Text Input: Minute;
+// segmented section
+
+
+Button: add selected times;
+
+
+
+
+// Display shows added times as a listed format with option to delete each one;
+
+####################
+ID: 002
+name: "John Smith"
+days: "mon,tue,wed"
+time: "time1", "time2", "time3"
+####################
+####################
+ID: 002
+name: "John Smith"
+days: "mon,tue,wed"
+time: "time1", "time2", "time3"
+####################
+
+etc

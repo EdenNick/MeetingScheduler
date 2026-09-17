@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
+
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+
 // javaFX
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -514,7 +518,15 @@ public class SCENE_CREATE_Schedule {
             // }
 
             // Retrieve the list from the file reader
-            this.FileUserInfo = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+            try {
+				this.FileUserInfo = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+			} catch (StreamReadException e) {
+				e.printStackTrace();
+			} catch (DatabindException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         
             // LinkedList of all people in the file showing both ID and full name
             this.PersonList.clear();
@@ -1139,7 +1151,18 @@ public class SCENE_CREATE_Schedule {
         // }
 
         // Retrieve the list from the file reader
-        this.FileUserInfo   = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+        try {
+			this.FileUserInfo   = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+		} catch (StreamReadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DatabindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         // LinkedList of all people in the file showing both ID and full name
         this.PersonList     = new LinkedList<>();
@@ -1665,7 +1688,12 @@ public class SCENE_CREATE_Schedule {
 
                     //int PersonAmmount = Schedules.getLast().USERIDs.size();
 
-                    this.FilePeople = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+                    try {
+						this.FilePeople = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
                     // used in placement position of the schedule in the list
                     int FlowPanePeopleAmmount = 0;

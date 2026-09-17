@@ -20,9 +20,10 @@ import java.time.LocalTime;
 
 public class PREF_EMPLOYEE_TimePref {
 
-    private String      TIMEPREF_Weekday;
-    private LocalTime   TIMEPREF_TimeStart;
-    private LocalTime   TIMEPREF_TimeEnd;
+    // fields must remain public for Json file manipulation
+    public String      TIMEPREF_Weekday;
+    public LocalTime   TIMEPREF_TimeStart;
+    public LocalTime   TIMEPREF_TimeEnd;
 
 
     /**

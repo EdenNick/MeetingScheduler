@@ -47,7 +47,7 @@ java {
 
 application {
     // Define the main class for the application. app\src\main\java\meeting_scheduler\PresentationLayer\MeetingScheduler.java
-    mainClass = 'meeting_scheduler.PresentationLayer.MeetingScheduler'
+    mainClass = 'meeting_scheduler.MeetingScheduler'
 }
 
 tasks.named('test') {

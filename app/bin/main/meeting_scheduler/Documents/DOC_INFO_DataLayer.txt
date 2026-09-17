@@ -1,0 +1,20 @@
+DATA LAYER
+
+
+
+DESCRIPTION: Stores Files pertaining to user data storage or program testing
+
+
+
+FILES:
+
+1. PROG_DATA_A_JsonTestFile.json    - Test file for json operations
+
+
+2. PROG_DATA_A_UserDataCard.json    - Primary file for holding user submitted data cards
+
+
+3. PROG_DATA_B_FormatTemplate.txt   - txt file used for storing user card data (redundant)
+
+
+4. PROG_DATA_B_TextTestFile.txt     - Test file for txt operations.

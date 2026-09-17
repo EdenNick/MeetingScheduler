@@ -21,11 +21,12 @@ import java.util.LinkedList;
 
 public class PREF_EMPLOYEE_FullPref {
 
-    private boolean                             EMPLOYEE_Delete;
-    private String                              EMPLOYEE_Name;
-    private int                                 EMPLOYEE_Ident;
-    private String[]                            EMPLOYEE_Days;
-    private LinkedList<PREF_EMPLOYEE_TimePref>  EMPLOYEE_Intervals;
+    // fields must remain public in order for JSON file retrieval and write to work
+    public boolean                             EMPLOYEE_Delete;
+    public String                              EMPLOYEE_Name;
+    public int                                 EMPLOYEE_Ident;
+    public String[]                            EMPLOYEE_Days;
+    public LinkedList<PREF_EMPLOYEE_TimePref>  EMPLOYEE_Intervals;
 
 
 
@@ -39,10 +40,11 @@ public class PREF_EMPLOYEE_FullPref {
 
     /**
      * Main Constructor
-     * @param name
-     * @param ID
-     * @param week
-     * @param times
+     * @param EMPLOYEE_Delete
+     * @param EMPLOYEE_Name
+     * @param EMPLOYEE_Ident
+     * @param EMPLOYEE_Days
+     * @param EMPLOYEE_Intervals
      */
     public PREF_EMPLOYEE_FullPref(boolean INPUT_DELETE, String INPUT_NAME, int INPUT_IDENT, String[] INPUT_DAYS, LinkedList<PREF_EMPLOYEE_TimePref> INPUT_INTERVALS) {
         this.EMPLOYEE_Delete    = INPUT_DELETE;
@@ -54,7 +56,7 @@ public class PREF_EMPLOYEE_FullPref {
 
     /** 
      * Copy Constructor
-     * @param copy
+     * @param FULLPREF_COPY
      */
     public PREF_EMPLOYEE_FullPref(PREF_EMPLOYEE_FullPref FULLPREF_COPY) {
         this.EMPLOYEE_Delete    = FULLPREF_COPY.GetStatus();

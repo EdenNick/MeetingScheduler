@@ -15,7 +15,7 @@ public final class MANAGEAPP_local {
 
     // Constructor - kept private to prevent data manipulation
     private MANAGEAPP_local() {
-
+        // TODO: System Message
     }
 
 

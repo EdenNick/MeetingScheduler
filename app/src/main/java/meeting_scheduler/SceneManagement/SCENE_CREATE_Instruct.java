@@ -43,7 +43,7 @@ import javafx.util.Duration;
 // System messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // ############################################################
-import meeting_scheduler.FIleManagement.MANAGEFILE_TXTOutput;
+import meeting_scheduler.FileManagement.MANAGEFILE_TXTOutput;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
 

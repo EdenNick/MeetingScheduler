@@ -62,12 +62,12 @@ import javafx.util.Duration;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
+import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
-import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
+import meeting_scheduler.UserInput.USERINPUT_TimeInput;
 
 
 
@@ -156,7 +156,7 @@ public class SCENE_CREATE_Schedule {
     // Schedule Calculator
     private final MANAGESCHEDULE_Calculate    ScheduleCalculator;
     // User Time Input manager
-    private final PROG_UI_C_UserTimeInput           Scheduler_UserTimeInputs;
+    private final USERINPUT_TimeInput           Scheduler_UserTimeInputs;
     // Json File manager
     private final MANAGEFILE_JsonManager            Scheduler_fileReader;
     // ############################################################
@@ -214,7 +214,7 @@ public class SCENE_CREATE_Schedule {
 
         // User time inputs     - Object which is used to create the necessary input ui for user time inputs, verifies correct input
         // contains methods used to store and dispaly this information. In this case it is used to input correct times to create a schedule
-        this.Scheduler_UserTimeInputs   = new PROG_UI_C_UserTimeInput(this.ScheduleCalculator);
+        this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInput(this.ScheduleCalculator);
 
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. 
         // Used to retrieve current user preferences to create a schedule

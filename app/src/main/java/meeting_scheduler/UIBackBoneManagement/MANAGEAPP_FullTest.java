@@ -24,8 +24,8 @@ import com.fasterxml.jackson.databind.DatabindException;
 
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
-import meeting_scheduler.FIleManagement.MANAGEFILE_TXTInput;
+import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
+import meeting_scheduler.FileManagement.MANAGEFILE_TXTInput;
 
 
 
@@ -66,6 +66,8 @@ public class MANAGEAPP_FullTest {
     // Constructor - Fills objects with parameters for testing
    // Constructor - Fills objects with parameters for testing
     public MANAGEAPP_FullTest() {
+
+        // TODO: System Message
 
         // Adds a single beignning and ending time to the list
         MANAGEAPP_FullTest.TestTimeInterval.add(new PREF_EMPLOYEE_TimePref("Mon",8, 0, 12, 0));

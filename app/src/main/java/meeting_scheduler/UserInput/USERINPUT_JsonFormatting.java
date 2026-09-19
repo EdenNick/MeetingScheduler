@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
+import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
 
 
 
@@ -171,7 +171,7 @@ public class USERINPUT_JsonFormatting {
         //this.JsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_WriteToFile);
 
         return EMPLOYEES_formatted;
-    } // ReceiveUserInfo()
+    } // JsonFileDefault_Formatting(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_FullEmployeePreference) {
 
 
 

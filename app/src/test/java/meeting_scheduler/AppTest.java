@@ -17,8 +17,8 @@ import java.util.LinkedList;
 
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
-import meeting_scheduler.FIleManagement.MANAGEFILE_TXTOutput;
+import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
+import meeting_scheduler.FileManagement.MANAGEFILE_TXTOutput;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;

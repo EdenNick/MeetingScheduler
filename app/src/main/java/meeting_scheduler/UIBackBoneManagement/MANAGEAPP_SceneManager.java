@@ -44,6 +44,8 @@ public class MANAGEAPP_SceneManager {
      * @param stage
      */
     public MANAGEAPP_SceneManager (Stage stage) {
+
+        // TODO: System Message
         
         // Set local reference to the application stage for use within the class.
         this.ApplicationStage = stage;

@@ -55,13 +55,13 @@ import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
 import meeting_scheduler.UserInput.USERINPUT_JsonFormatting;
-import meeting_scheduler.UserInput.PROG_UI_C_UserTimeInput;
+import meeting_scheduler.UserInput.USERINPUT_TimeInput;
 
 // exceptions
 import java.io.IOException;
 
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.FIleManagement.MANAGEFILE_JsonManager;
+import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
 // ############################################################
 
 //TODO: standardize sizing with global system variable
@@ -146,7 +146,7 @@ public class SCENE_CREATE_DataCard {
     // Json file manager
     // private PROG_DAL_B_JSONManager JsonManager;                 // Manages json files
     // user tim input manager
-    private PROG_UI_C_UserTimeInput DataCard_UserTimeInputs;    // manages time inputs and displays
+    private USERINPUT_TimeInput DataCard_UserTimeInputs;    // manages time inputs and displays
     // ############################################################
 
 
@@ -161,7 +161,7 @@ public class SCENE_CREATE_DataCard {
         this.List_UserTimes             = new LinkedList<>();
         // this.InfoInputPreferences       = new LinkedList<>();
         // this.JsonManager                = new PROG_DAL_B_JSONManager();
-        this.DataCard_UserTimeInputs    = new PROG_UI_C_UserTimeInput();
+        this.DataCard_UserTimeInputs    = new USERINPUT_TimeInput();
         this.List_VBoxTimeInputs        = new LinkedList<>();
         this.INFOFileWrite              = new USERINPUT_JsonFormatting();
 

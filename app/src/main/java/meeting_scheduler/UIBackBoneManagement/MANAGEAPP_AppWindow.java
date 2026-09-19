@@ -27,7 +27,8 @@ public class MANAGEAPP_AppWindow extends Application {
     public static MANAGEAPP_SceneManager SceneManager;
 
 
-
+    // TODO: System Message
+    
     /**
      * start()
      * Description: starts the application window

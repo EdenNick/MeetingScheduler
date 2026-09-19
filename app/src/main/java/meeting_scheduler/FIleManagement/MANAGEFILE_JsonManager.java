@@ -7,7 +7,7 @@
 
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.FIleManagement;
+package meeting_scheduler.FileManagement;
 // ############################################################
 
 // Imports

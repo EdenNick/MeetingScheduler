@@ -36,7 +36,7 @@ import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 
 
 
-public class PROG_UI_C_UserTimeInput {
+public class USERINPUT_TimeInput {
     
 
     private ComboBox<String> Select_AMPM_StartTime;
@@ -62,7 +62,7 @@ public class PROG_UI_C_UserTimeInput {
     /**
      * Constructor
      */
-    public PROG_UI_C_UserTimeInput(MANAGESCHEDULE_Calculate scheduler) {
+    public USERINPUT_TimeInput(MANAGESCHEDULE_Calculate scheduler) {
 
         this.Select_AMPM_StartTime  = new ComboBox<>();
         this.Select_AMPM_EndTime    = new ComboBox<>();
@@ -77,7 +77,7 @@ public class PROG_UI_C_UserTimeInput {
 
     }
 
-    public PROG_UI_C_UserTimeInput() {
+    public USERINPUT_TimeInput() {
 
         this.Select_AMPM_StartTime  = new ComboBox<>();
         this.Select_AMPM_EndTime    = new ComboBox<>();

@@ -547,7 +547,7 @@ public class SCENE_CREATE_Schedule {
             this.Selectable_PersonList.getItems().addAll(PersonList);
 
             // Reset the schedule calculator
-            ScheduleCalculator.ResetPeopleToSchedule();
+            ScheduleCalculator.ResetPreference_People();
 
             // reset the linked list of user ids
             this.SCHEDULE_IDS = new LinkedList<>();
@@ -563,7 +563,7 @@ public class SCENE_CREATE_Schedule {
             
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputPeople);
 
-            
+            //TODO fix
             if ((Selectable_PersonList.getValue() != null) && (!Selectable_PersonList.getValue().isBlank())) {
 
                 // gets the person selected from the combobox
@@ -583,8 +583,12 @@ public class SCENE_CREATE_Schedule {
                 // adds the id to the list of people to schedule
                 SCHEDULE_IDS.add(getID[1]); // add id as string
                 
+                int[] IDS_TOSchedule = IDConversion(SCHEDULE_IDS);
+
+
+
                 // updates the scheduler with the updated list
-                ScheduleCalculator.UpdatePeopleToSchedule(SCHEDULE_IDS);
+                ScheduleCalculator.SetPreference_People(IDS_TOSchedule);
 
             } // if()
 
@@ -616,11 +620,14 @@ public class SCENE_CREATE_Schedule {
                 if (SCHEDULE_IDS.size() > 1) {
 
                     this.SCHEDULE_IDS.removeLast();
-                    ScheduleCalculator.UpdatePeopleToSchedule(SCHEDULE_IDS);
+                    // temp
+                    int[] IDS_TOSchedule = IDConversion(SCHEDULE_IDS);
+
+                    ScheduleCalculator.SetPreference_People(IDS_TOSchedule);
 
                 } else {
 
-                    ScheduleCalculator.ResetPeopleToSchedule();
+                    ScheduleCalculator.ResetPreference_People();
                     this.SCHEDULE_IDS = new LinkedList<>();
                 }
 
@@ -684,14 +691,14 @@ public class SCENE_CREATE_Schedule {
             this.SCHEDULE_DAYS  = new String[7];
 
             // resets the schedule calcualtor to look through everyday of the week
-            ScheduleCalculator.UpdateWeekDays(SCENE_VARIABLES_Local.WEEKDAYS.clone()); // input String[]
+            ScheduleCalculator.ResetPreference_Weekdays(); // input String[]
 
         };
         // ############################################################
 
 
 
-        // Adds a user selected day
+        // Adds a user selected day TODO fix weekdaylist
         // ############################################################
         this.EVENT_ADD_Days = event -> {
             
@@ -727,7 +734,7 @@ public class SCENE_CREATE_Schedule {
                 OutputDays.getChildren().set(0, (new Text(DisplayText_days)) );
 
                 // scheduler is updated with the new list of selected days
-                ScheduleCalculator.UpdateWeekDays(SelectedDays_SchedulerInput);
+                ScheduleCalculator.SetPreference_Weekdays(SelectedDays_SchedulerInput);
 
             } // if()
 
@@ -767,7 +774,7 @@ public class SCENE_CREATE_Schedule {
             // Clear all node in the FlowPane
             FlowPane_VBoxDisplay.getChildren().clear();
 
-            ScheduleCalculator.SetNonSpecificTime();
+            ScheduleCalculator.ResetPreference_Times();
 
         };
         // ############################################################
@@ -811,7 +818,7 @@ public class SCENE_CREATE_Schedule {
 
 
                 // update the scheduler to the updated list of user times
-                ScheduleCalculator.SetSpecificTime(SCHEDULE_TIMES);
+                ScheduleCalculator.SetPreference_Times(SCHEDULE_TIMES);
 
             } else {
                 // Do nothing
@@ -874,6 +881,20 @@ public class SCENE_CREATE_Schedule {
 
 
 
+    }
+
+    // TEMP function
+    private int[] IDConversion(LinkedList<String> SCHEDULE_IDS) {
+        
+        String[] Converted = SCHEDULE_IDS.toArray(new String[0]);
+
+        int[] idsToReturn = new int[Converted.length];
+
+        for (int position = 0; position < Converted.length; position++) {
+            idsToReturn[position] = Integer.parseInt(Converted[position]);
+        }
+
+        return idsToReturn.clone();
     }
 
 

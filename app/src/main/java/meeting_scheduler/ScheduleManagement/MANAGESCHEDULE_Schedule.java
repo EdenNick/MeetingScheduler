@@ -21,6 +21,8 @@ import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 
 public class MANAGESCHEDULE_Schedule {
 
+    //TODO: change datatypes
+
     public String               WeekDay;            // Holds The Day the TimeInterval exists on
     public PREF_EMPLOYEE_TimePref Interval;           // Holds a specific interval for that day
     public LinkedList<String>   USERIDs;            // Total ammount of people that can meet for that interval

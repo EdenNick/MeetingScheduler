@@ -487,9 +487,9 @@ public class USERINPUT_TimeInput {
 
             // update the scheduler to the new time list
             if (List_UserTimes.size() > 0) {
-                SCHEDULECALCULATOR.SetSpecificTime(List_UserTimes);
+                SCHEDULECALCULATOR.SetPreference_Times(List_UserTimes);
             } else {
-                SCHEDULECALCULATOR.SetNonSpecificTime();
+                SCHEDULECALCULATOR.ResetPreference_Times();
             }
 
 

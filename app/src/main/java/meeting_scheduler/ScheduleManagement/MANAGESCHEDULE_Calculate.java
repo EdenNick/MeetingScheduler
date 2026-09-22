@@ -20,12 +20,14 @@ package meeting_scheduler.ScheduleManagement;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 // util
 import java.util.LinkedList;
 // jackson - json file manager
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 
+import meeting_scheduler.global;
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
@@ -38,6 +40,9 @@ public class MANAGESCHEDULE_Calculate {
 
     // TODO: System Messages
 
+
+    //TODO: convert linked list to an array of the same object
+    // TODO organize the scheduler calculations/ streamline it
     /**
      * INSTRUCTIONS FOR CLASS USE:
      * 
@@ -61,18 +66,19 @@ public class MANAGESCHEDULE_Calculate {
     /**
      * User Preferences
      */
-    private LinkedList<String>                  UserInput_PeopleList;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
+    private int[]                               UserInput_PeopleList;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
     private boolean                             UserPref_IDsProvided    = false;    // If false, a list of people to schedule was not provided, false as default.
 
     private String[]                            UserInput_WeekDays;                 // Days the user wants a schedule for, defaults to the whole week.
     private boolean                             userPref_SpecificDays   = false;
 
-    private LinkedList<PREF_EMPLOYEE_TimePref>  UserInput_UserTimes;                // LinkedList containing the specified times of the user
+    private PREF_EMPLOYEE_TimePref[]            UserInput_UserTimes;                // LinkedList containing the specified times of the user
     private boolean                             UserPref_SpecificTimes  = false;    // boolean if the user wants specified time intervals.
 
 
     // Default values TODO
-    private final String[] Weekdays = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private String[] Weekdays;
+    private int WeekdayLength;
 
 
 
@@ -100,12 +106,45 @@ public class MANAGESCHEDULE_Calculate {
     private LinkedList<PREF_EMPLOYEE_FullPref>    PeopleFromFile;             // All datacards contained within the relavant Json File.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // New variables
+
+    // Calculation preference variables
+    private LinkedList<PREF_EMPLOYEE_FullPref> FileData_Employee_FullList;
+
+    private PREF_EMPLOYEE_FullPref[] Employee_FullList_Array;
+
+    private MANAGESCHEDULE_IDandDays IDWeekdayPair_IDENTSort;
+
+    private MANAGESCHEDULE_IDandDays IDWeekdayPair_DAYSort;
+
+    private int[] IDList_AppliedIDAndDayPref;
+
+    // calculatation schedule variables
+    private PREF_EMPLOYEE_FullPref[] Employee_FullList_RefinedArray;
+
     /**
      * Constructor 1
      * Description: primary defualt constructor when there is no preference for who is being shceduled and when the meeting should occur.
      */
     public MANAGESCHEDULE_Calculate() {
-        
+
+        Weekdays        = global.Global_Data_Get_Weekdays();
+
+        WeekdayLength   = global.Global_Data_Get_WeekdaysLength();
     }
 
 
@@ -127,10 +166,10 @@ public class MANAGESCHEDULE_Calculate {
     /**
      * UpdatePeopleToSchedule()
      * Description: Used to update the list of people being used in the calculation
-     * @param Input_People
+     * @param INPUT_IDENT
      */
-    public void SetPreference_People(LinkedList<String> Input_People) {
-        this.UserInput_PeopleList   = new LinkedList<String>(Input_People);
+    public void SetPreference_People(int[] INPUT_IDENT) {
+        this.UserInput_PeopleList   = INPUT_IDENT.clone();
         this.UserPref_IDsProvided   = true;
     }
 
@@ -139,10 +178,11 @@ public class MANAGESCHEDULE_Calculate {
     /**
      * UpdateWeekDays()
      * Description: Updates the user selected days they want to schedule a meeting on
-     * @param Input_Weekdays
+     * @param INPUT_WEEKDAYS
      */
-    public void SetPreference_Weekdays(String[] Input_Weekdays) {
-        this.UserInput_WeekDays     = Input_Weekdays.clone();
+    // TODO: UPDATE
+    public void SetPreference_Weekdays(String[] INPUT_WEEKDAYS) {
+        this.UserInput_WeekDays     = INPUT_WEEKDAYS.clone();
         this.userPref_SpecificDays  = true;
     }
 
@@ -151,17 +191,12 @@ public class MANAGESCHEDULE_Calculate {
     /**
      * SetSpecificTime()
      * Description: sets the program to find the people who can meet in specified intervals provided by the user
-     * @param Input_time
+     * @param INPUT_TIME
      */
-    public void SetPreference_Times(LinkedList<PREF_EMPLOYEE_TimePref> Input_time) {
-        
-        this.UserInput_UserTimes    = new LinkedList<PREF_EMPLOYEE_TimePref>(Input_time);
+    public void SetPreference_Times(LinkedList<PREF_EMPLOYEE_TimePref> INPUT_TIME) {
+        this.UserInput_UserTimes    = INPUT_TIME.toArray(new PREF_EMPLOYEE_TimePref[0]);
         this.UserPref_SpecificTimes = true;
-
-        // TODO: remove
-        System.out.println("Specific times size: " + this.UserInput_UserTimes.size());
-
-    } // SetPreference_Times
+    } // SetPreference_Times()
 
 
 
@@ -171,7 +206,7 @@ public class MANAGESCHEDULE_Calculate {
      * Description: Used to Reset the preference for the specific people the user wants scheduled. All people will be used in the scheduler calculations.
      */
     public void ResetPreference_People() {
-        this.UserInput_PeopleList   = new LinkedList<>();
+        this.UserInput_PeopleList   = new int[0];
         this.UserPref_IDsProvided   = false;
     } // ResetPreference_People()
 
@@ -193,147 +228,228 @@ public class MANAGESCHEDULE_Calculate {
      * Description: sets the program to find all possible times within the given day, sets UserSpecifiedTimes to null for garbage collection
      */
     public void ResetPreference_Times() {
-        this.UserInput_UserTimes    = new LinkedList<PREF_EMPLOYEE_TimePref>();
+        this.UserInput_UserTimes    = new PREF_EMPLOYEE_TimePref[0];
         this.UserPref_SpecificTimes = false;
     } // ResetPreference_Times
 
 
 
-    /**
-     * RetrieveSchedule()
-     * Description: public method called in order to pass ScheduleList outside the class
-     */
-    public LinkedList<MANAGESCHEDULE_Schedule> RetrieveSchedule() {
 
-        try {
-            CalculateSchedule();
-        } catch (IOException e) {
-            System.out.println("ERROR - PROG_INFO_SchedulingCalculation - RetrieveSchedule - CalculateSchedule");
-            e.printStackTrace();
-        }
-        
-        return Calc_FullScheduleList;
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Paramater_Init_FullList
+     * Description: Initializes the full possible list of people from the relvant Json file.
+     * @throws StreamReadException
+     * @throws DatabindException
+     * @throws IOException
+     */
+    private void Paramater_Init_FullList() throws StreamReadException, DatabindException, IOException {
+
+        //FileData_Employees_FullList = new LinkedList<>();
+
+        this.FileData_Employee_FullList = JsonFileManager.ReadFrom_DefaultEmployeePreference();
+
+        this.Employee_FullList_Array = FileData_Employee_FullList.toArray(new PREF_EMPLOYEE_FullPref[0]);
+
     }
 
 
 
+
+
+
+
     /**
-     * RetrieveUserCards()
-     * Description: retrieves the user cards to be stored as a linked list of objects (People)
-     * @throws IOException 
-     * @throws DatabindException 
-     * @throws StreamReadException 
+     * Paramater_ApplyPref_IDENT
+     * Description: Based off of the currently set ID preference, this method applies them to the total list of people, removing people from the list who 
+     * the user doesn't want scheduled.
      */
-    private void RetrieveUserCards() throws StreamReadException, DatabindException, IOException {
+    private void Paramater_ApplyPref_IDENT() {
 
-        // Calc_People - calculated list of people the user wants scheduled based on their input fromm UserInput_PeopleToSchedule
-        Calc_People = new LinkedList<PREF_EMPLOYEE_FullPref>();
+        // IF - the user has provided a specific list of IDs they want scheduled
+        if (UserPref_IDsProvided == false) {
 
-        // retrieves the latest list of datacards from the relevant Json file.
-        //JsonFileManager.RetrieveFromFile();
+            // Stores a key value data pairs in the form of user IDs and the String[] of weekdays they can be scheduled on
+            this.IDWeekdayPair_IDENTSort = new MANAGESCHEDULE_IDandDays(UserInput_PeopleList.length);
+
+            int CurrentValue_IdentPref = 0;
+
+            int Currentvalue_IdentList = 0;
+
+            for (int Position_IdentList = 0; Position_IdentList < UserInput_PeopleList.length; Position_IdentList++) {
+
+                for (int Position_FullList = 0; Position_FullList < Employee_FullList_Array.length; Position_FullList++) {
+
+                    CurrentValue_IdentPref = UserInput_PeopleList[Position_IdentList];
+
+                    Currentvalue_IdentList = Employee_FullList_Array[Position_FullList].GetIdent();
+
+                    if (CurrentValue_IdentPref == Currentvalue_IdentList) {
+
+                        this.IDWeekdayPair_IDENTSort.Set_Values(Position_IdentList, CurrentValue_IdentPref, Employee_FullList_Array[Position_FullList].GetDays());
+
+                    }
+
+                } // for (int Position_FullList = 0; Position_FullList < FileData_Employee_FullList.size(); Position_FullList++)
+
+            } // for (int Position_IdentList = 0; Position_IdentList < UserInput_PeopleList.length; Position_IdentList++)
         
-        // PeopleFromFile is a new linkedlist containing a copy of the retrieved json file data calculated from JsonFileManager.RetrieveFromFile();
-        PeopleFromFile = JsonFileManager.ReadFrom_DefaultEmployeePreference();
+
+        // ELSE - the user has not provided a list of IDs they want scheduled, get key value pairs from the total list of people
+        } else {
+
+            // Stores a key value data pairs in the form of user IDs and the String[] of weekdays they can be scheduled on
+            this.IDWeekdayPair_IDENTSort = new MANAGESCHEDULE_IDandDays(FileData_Employee_FullList.size());
+
+            int CurrentValue_ID = 0;
+
+            for (int Position_FullListAll = 0; Position_FullListAll < Employee_FullList_Array.length; Position_FullListAll++) {
+
+                CurrentValue_ID = Employee_FullList_Array[Position_FullListAll].GetIdent();
+
+                this.IDWeekdayPair_IDENTSort.Set_Values(Position_FullListAll, CurrentValue_ID, Employee_FullList_Array[Position_FullListAll].GetDays());
+
+            } // for (int Position_FullListAll = 0; Position_FullListAll < FileData_Employee_FullList.size(); Position_FullListAll++)
+
+
+        }
+        
+    } // Paramater_ApplyPref_IDENT()
 
 
 
-        // A linkedlist of user ids was provided iterate through those
-        if (UserPref_IDsProvided == true) {
 
-            for (PREF_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
-                // iterates over the linked list string of people to select
-                for (String IDOfPerson : UserInput_PeopleList) {
-                    
-                    if(FilePerson.GetIdent() == Integer.parseInt(IDOfPerson)) {
-                        Calc_People.add(FilePerson);
+
+    private void Paramater_ApplyPref_WeekDays() {
+
+
+        // Ensures the key value pair is initialized and contains some values
+        if (this.IDWeekdayPair_IDENTSort == null) {
+            Paramater_ApplyPref_IDENT();
+        }
+
+
+
+        if (userPref_SpecificDays == false) {
+
+            int[] IDList = this.IDWeekdayPair_IDENTSort.Return_Idents();
+            String[][] PREF_Weekdays = this.IDWeekdayPair_IDENTSort.Return_Weekdays();
+
+            int Size_IDWeekday = this.IDWeekdayPair_IDENTSort.Return_Size();
+
+            int DaySort_constructionSize = 0;
+
+
+            // Nested for loop to get the correct size for IDWeekdayPair_DAYSort
+            // Iterates over the full key value pair
+            for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
+
+                // iterates over each day in the current key value ID weekdays pair
+                for (int Position_Day = 0; Position_Day < WeekdayLength; Position_Day++) {
+
+                    // if the day match at least once
+                    if (PREF_Weekdays[Position_IDWeekday][Position_Day].equals(this.UserInput_WeekDays[Position_Day])) {
+                        DaySort_constructionSize++;
+                        break;
                     }
 
                 }
-            }
 
-        // A LinkedList of user ids was NOT provided, retrieve all info from the json file
+            } // for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++)
+
+
+
+            this.IDWeekdayPair_DAYSort = new MANAGESCHEDULE_IDandDays(DaySort_constructionSize);
+
+
+
+            // Nested for loop to get the correct size for IDWeekdayPair_DAYSort
+            // Iterates over the full key value pair
+
+            for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
+
+                // iterates over each day in the current key value ID weekdays pair
+                for (int Position_Day = 0; Position_Day < WeekdayLength; Position_Day++) {
+
+                    // if the day match at least once
+                    if (PREF_Weekdays[Position_IDWeekday][Position_Day].equals(this.UserInput_WeekDays[Position_Day])) {
+
+                        this.IDWeekdayPair_DAYSort.Set_Values(Position_IDWeekday, IDList[Position_IDWeekday], PREF_Weekdays[Position_IDWeekday]);
+                        break;
+                    }
+
+                }
+
+            } // for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++)
+
+
+            // int[] of ids to have their times checked
+            IDList_AppliedIDAndDayPref = IDWeekdayPair_DAYSort.Return_Idents();
+
         } else {
-            
-            for (PREF_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
-                // iterates over the linked list string of people to select
-                Calc_People.add(FilePerson);
 
-            }
+            // int[] of ids to have their times checked
+            IDList_AppliedIDAndDayPref = IDWeekdayPair_IDENTSort.Return_Idents();
 
         }
 
-        // Calc_People is set containing a list of the people to schedule
-        Calc_PeopleSet = true;
-
-    }
+    } // Paramater_ApplyPref_WeekDays()
 
 
 
 
 
-    /**
-     * CalculateSchedule()
-     * Description: calculates the schedules based on user preference
-     * Its segmented into steps for readablility
-     * @throws IOException 
-     * @throws DatabindException 
-     * @throws StreamReadException 
-     */
-    private int CalculateSchedule() throws StreamReadException, DatabindException, IOException {
 
-        // General System Info
-        System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleStartCalc);
-        System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleTimePref + UserPref_SpecificTimes);;
-        System.out.println("");
+    public void Calculate_ScheduleList() {
 
-        /**
-         * Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
-         */
-        Calc_FullScheduleList   = new LinkedList<MANAGESCHEDULE_Schedule>();     // List of possible schedules
+        String[] WeekDay_Iteration;
 
-
-        /**
-         * LinkedList variable People is created and set with retireved user card information to be used in calculations, a check is sued to ensure this happened
-         */
-        RetrieveUserCards(); // retrieves user info
-        if (Calc_PeopleSet == false) {
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_CalculateSchedulePeopleSet);
-            return 1;
+        if (userPref_SpecificDays == false) {
+            WeekDay_Iteration = UserInput_WeekDays.clone();
+        } else {
+            WeekDay_Iteration = global.Global_Data_Get_Weekdays();
         }
 
-        
-        /**
-         * For each Person in the People linkedlist the size of the timeIntervals LinkedList each stores is found, the size of the largest one is kept
-         * This ensures all indexes in each TimeIntervals LinkedList is covered.
-         */
         int MaxSize = 0;
-        for (PREF_EMPLOYEE_FullPref Person : Calc_People) {
-            if (Person.GetIntervals().size() > MaxSize) {
-                MaxSize = Person.GetIntervals().size();
+        int intervalLength;
+        for (int position = 0; position < Employee_FullList_Array.length; position++) {
+
+            intervalLength = Employee_FullList_Array[position].GetIntervals().length;
+
+            if (intervalLength > MaxSize) {
+                MaxSize = intervalLength;
             }
-
-        } // for ()
-
+        }
 
         /**
          * Iterate over each day the user selected, at least one at most every day of the week
          */
         // ############################################################
-        for (String Pref_Day : UserInput_WeekDays) {
-
-
+        for (String DAY_Current : WeekDay_Iteration) {
 
             /**
-             * for each day iterate through every user selected time inteval they want to make a schedule for.
+             * for each day iterate through every user selected time interval they want to make a schedule for.
              * If they did not submit any preferences create a schedule for the full hours of the day
              */
 
             // interval of user submitted time(s)
             // ############################################################
-            int Interval_HourStart;
-            int Interval_MinStart;
-            int Interval_HourEnd;
-            int Interval_MinEnd;
+            int Interval_HourStart  = 0;
+            int Interval_MinStart   = 0;
+            int Interval_HourEnd    = 23;
+            int Interval_MinEnd     = 59;
             // ############################################################
 
 
@@ -344,45 +460,243 @@ public class MANAGESCHEDULE_Calculate {
             if (UserPref_SpecificTimes == false) {              // user did not submit any times
 
                 // iterate over each person with these default values
-                Interval_HourStart  = 0;
-                Interval_MinStart   = 0;
-                Interval_HourEnd    = 23;
-                Interval_MinEnd     = 59;
-
                 // calculates schedule
-                CalculatePerPerson(Interval_HourStart, Interval_MinStart, Interval_HourEnd, Interval_MinEnd, MaxSize, Pref_Day);
+                CalculatePerPerson(Interval_HourStart, Interval_MinStart, Interval_HourEnd, Interval_MinEnd, MaxSize, DAY_Current);
 
                 
             } else if (UserPref_SpecificTimes == true) {        // User did submit times
 
-                for (PREF_EMPLOYEE_TimePref TimeInputInterval : UserInput_UserTimes) {
+                // For each itnerval the user entered
+                for (PREF_EMPLOYEE_TimePref TimeInterval_UserInput : UserInput_UserTimes) {
 
                     // user input time intervals
-                    Interval_HourStart  = TimeInputInterval.GetStartTimeHour();
-                    Interval_MinStart   = TimeInputInterval.GetStartTimeMin();
-                    Interval_HourEnd    = TimeInputInterval.GetEndTimeHour();
-                    Interval_MinEnd     = TimeInputInterval.GetEndTimeMin();
+                    Interval_HourStart  = TimeInterval_UserInput.GetStartTimeHour();
+                    Interval_MinStart   = TimeInterval_UserInput.GetStartTimeMin();
+                    Interval_HourEnd    = TimeInterval_UserInput.GetEndTimeHour();
+                    Interval_MinEnd     = TimeInterval_UserInput.GetEndTimeMin();
                     
                     // calculates schedule
-                    CalculatePerPerson(Interval_HourStart, Interval_MinStart, Interval_HourEnd, Interval_MinEnd, MaxSize, Pref_Day);
+                    CalculatePerPerson(Interval_HourStart, Interval_MinStart, Interval_HourEnd, Interval_MinEnd, MaxSize, DAY_Current);
 
                 } // for (PROG_DAL_A_TimeInput TimeInputInterval : UserInput_UserTimes)
                 
             } // else if (UserPref_SpecificTimes == true)
             
-
         } // for (String Day : WeekDays)
-        // ############################################################
+
+    } // Calculate_ScheduleList()
 
 
 
-        /**
-         * All possbile lists with the selected user parameters have been created, it is ready to be used at this point.
-         */
-        System.out.println(PROG_DAL_D_SystemMessages.PASS_CalculateScheduleCompleteCalc);
-        return 0;
 
-    } // CalculateSchedule()
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * RetrieveSchedule()
+     * Description: public method called in order to pass ScheduleList outside the class
+     */
+    public LinkedList<MANAGESCHEDULE_Schedule> RetrieveSchedule() {
+
+
+        // Employee_FullList_RefinedArray is the array used in creating the schedules it is populated with the ids of people 
+        // who met the previous specifications (besides the atual times)
+        this.Employee_FullList_RefinedArray = new PREF_EMPLOYEE_FullPref[IDList_AppliedIDAndDayPref.length];
+
+        for (int Position_RefinedList = 0; Position_RefinedList < IDList_AppliedIDAndDayPref.length; Position_RefinedList++) {
+            for (int Position_fullList = 0; Position_fullList < Employee_FullList_Array.length; Position_fullList++) {
+
+                if (IDList_AppliedIDAndDayPref[Position_RefinedList] == Employee_FullList_Array[Position_fullList].GetIdent()) {
+                    this.Employee_FullList_RefinedArray[Position_RefinedList] = new PREF_EMPLOYEE_FullPref(Employee_FullList_Array[Position_fullList]);
+                }
+            }
+        }
+
+        // calculates the schedules
+        Calculate_ScheduleList();
+        
+        return Calc_FullScheduleList;
+    }
+
+
+
+
+
+    // /**
+    //  * RetrieveUserCards()
+    //  * Description: Retrieves valid employee preferences based on who can be scheduled. This depends on what Id preferences the user
+    //  * Submitted and what weekdays they have chosen.
+    //  * @throws IOException 
+    //  * @throws DatabindException 
+    //  * @throws StreamReadException 
+    //  */
+    // private void RetrieveUserCards() throws StreamReadException, DatabindException, IOException {
+
+    //     // Calc_People - calculated list of people the user wants scheduled based on their input fromm UserInput_PeopleToSchedule
+    //     Calc_People = new LinkedList<PREF_EMPLOYEE_FullPref>();
+        
+    //     // PeopleFromFile is a new linkedlist containing a copy of the retrieved json file data calculated from JsonFileManager.RetrieveFromFile();
+    //     PeopleFromFile = JsonFileManager.ReadFrom_DefaultEmployeePreference();
+
+
+
+    //     // A linkedlist of user ids was provided iterate through those
+    //     if (this.UserPref_IDsProvided == true) {
+
+    //         for (PREF_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
+    //             // iterates over the linked list string of people to select
+    //             for (String IDOfPerson : UserInput_PeopleList) {
+                    
+    //                 if(FilePerson.GetIdent() == Integer.parseInt(IDOfPerson)) {
+    //                     Calc_People.add(FilePerson);
+    //                     break;
+    //                 }
+
+    //             }
+    //         }
+
+    //     // A LinkedList of user ids was NOT provided, retrieve all info from the json file
+    //     } else {
+            
+    //         for (PREF_EMPLOYEE_FullPref FilePerson : PeopleFromFile) {
+    //             // iterates over the linked list string of people to select
+    //             Calc_People.add(FilePerson);
+
+    //         }
+
+    //     }
+
+    //     // Calc_People is set containing a list of the people to schedule
+    //     Calc_PeopleSet = true;
+
+    // }
+
+
+
+
+
+    // /**
+    //  * CalculateSchedule()
+    //  * Description: calculates the schedules based on user preference
+    //  * Its segmented into steps for readablility
+    //  * @throws IOException 
+    //  * @throws DatabindException 
+    //  * @throws StreamReadException 
+    //  */
+    // private int CalculateSchedule() throws StreamReadException, DatabindException, IOException {
+
+    //     // General System Info
+    //     System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleStartCalc);
+    //     System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleTimePref + UserPref_SpecificTimes);;
+    //     System.out.println("");
+
+    //     /**
+    //      * Local private LinkedLists are created to store the total list of possible schedules and the list of people who can be scheduled for a specific interval
+    //      */
+    //     Calc_FullScheduleList   = new LinkedList<MANAGESCHEDULE_Schedule>();     // List of possible schedules
+
+
+    //     /**
+    //      * LinkedList variable People is created and set with retireved user card information to be used in calculations, a check is sued to ensure this happened
+    //      */
+    //     RetrieveUserCards(); // retrieves user info
+    //     if (Calc_PeopleSet == false) {
+    //         System.out.println(PROG_DAL_D_SystemMessages.ERROR_CalculateSchedulePeopleSet);
+    //         return 1;
+    //     }
+
+        
+    //     /**
+    //      * For each Person in the People linkedlist the size of the timeIntervals LinkedList each stores is found, the size of the largest one is kept
+    //      * This ensures all indexes in each TimeIntervals LinkedList is covered.
+    //      */
+    //     int MaxSize = 0;
+    //     for (PREF_EMPLOYEE_FullPref Person : Calc_People) {
+    //         if (Person.GetIntervals().length > MaxSize) {
+    //             MaxSize = Person.GetIntervals().size();
+    //         }
+
+    //     } // for ()
+
+
+    //     /**
+    //      * Iterate over each day the user selected, at least one at most every day of the week
+    //      */
+    //     // ############################################################
+    //     for (String Pref_Day : UserInput_WeekDays) {
+
+
+
+    //         /**
+    //          * for each day iterate through every user selected time interval they want to make a schedule for.
+    //          * If they did not submit any preferences create a schedule for the full hours of the day
+    //          */
+
+    //         // interval of user submitted time(s)
+    //         // ############################################################
+    //         int Interval_HourStart;
+    //         int Interval_MinStart;
+    //         int Interval_HourEnd;
+    //         int Interval_MinEnd;
+    //         // ############################################################
+
+
+    //         /**
+    //          * Calculating times
+    //          * This section calculates which people can meet in the selected time interval(s) for that day
+    //          */
+    //         if (UserPref_SpecificTimes == false) {              // user did not submit any times
+
+    //             // iterate over each person with these default values
+    //             Interval_HourStart  = 0;
+    //             Interval_MinStart   = 0;
+    //             Interval_HourEnd    = 23;
+    //             Interval_MinEnd     = 59;
+
+    //             // calculates schedule
+    //             CalculatePerPerson(Interval_HourStart, Interval_MinStart, Interval_HourEnd, Interval_MinEnd, MaxSize, Pref_Day);
+
+                
+    //         } else if (UserPref_SpecificTimes == true) {        // User did submit times
+
+    //             for (PREF_EMPLOYEE_TimePref TimeInputInterval : UserInput_UserTimes) {
+
+    //                 // user input time intervals
+    //                 Interval_HourStart  = TimeInputInterval.GetStartTimeHour();
+    //                 Interval_MinStart   = TimeInputInterval.GetStartTimeMin();
+    //                 Interval_HourEnd    = TimeInputInterval.GetEndTimeHour();
+    //                 Interval_MinEnd     = TimeInputInterval.GetEndTimeMin();
+                    
+    //                 // calculates schedule
+    //                 CalculatePerPerson(Interval_HourStart, Interval_MinStart, Interval_HourEnd, Interval_MinEnd, MaxSize, Pref_Day);
+
+    //             } // for (PROG_DAL_A_TimeInput TimeInputInterval : UserInput_UserTimes)
+                
+    //         } // else if (UserPref_SpecificTimes == true)
+            
+
+    //     } // for (String Day : WeekDays)
+    //     // ############################################################
+
+
+
+    //     /**
+    //      * All possbile lists with the selected user parameters have been created, it is ready to be used at this point.
+    //      */
+    //     System.out.println(PROG_DAL_D_SystemMessages.PASS_CalculateScheduleCompleteCalc);
+    //     return 0;
+
+    // } // CalculateSchedule()
 
 
 
@@ -467,28 +781,29 @@ public class MANAGESCHEDULE_Calculate {
         // that lies within the interval
         // ############################################################
         // BreakPerson1:   // BREAK
-        for (PREF_EMPLOYEE_FullPref Person : Calc_People) {
+        for (int Position_Preference = 0; Position_Preference < Employee_FullList_RefinedArray.length; Position_Preference++) {
+        //for (PREF_EMPLOYEE_FullPref Person : Employee_FullList_RefinedArray) {
 
             // for each person iterate through all time intervals they have for that specific day
             for (int Person_timeIntervalIndex = 0; Person_timeIntervalIndex < MAXSIZE; Person_timeIntervalIndex++) {
 
                 // ensure the interval exists
-                if (Person.GetIntervals().size() > Person_timeIntervalIndex) {
+                if (Employee_FullList_RefinedArray[Position_Preference].GetIntervals().length > Person_timeIntervalIndex) {
 
                     /**
                      * If the persons time preference lies on the selected interval, check it.
                      * if its valid, add it to the list of valid ids.
                      */
-                    if (Person.GetIntervals().get(Person_timeIntervalIndex).GetWeekDay().equals(PREFDAY)) {
+                    if (Employee_FullList_RefinedArray[Position_Preference].GetIntervals()[Person_timeIntervalIndex].GetWeekDay().equals(PREFDAY)) {
                         
                         // A persons preference contains a matching day
-                        System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateSchedulePersonDay + Person.GetIdent());
+                        System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateSchedulePersonDay + Employee_FullList_RefinedArray[Position_Preference].GetIdent());
                         
                         // 7.a Find the latest start time of the earliest time interval from all people on that day
-                        PREF_BeginHour  = Person.GetIntervals().get(Person_timeIntervalIndex).GetStartTimeHour();
-                        PREF_BeginMIN   = Person.GetIntervals().get(Person_timeIntervalIndex).GetStartTimeMin();
-                        PREF_EndHour    = Person.GetIntervals().get(Person_timeIntervalIndex).GetEndTimeHour();
-                        PREF_EndMin     = Person.GetIntervals().get(Person_timeIntervalIndex).GetEndTimeMin();
+                        PREF_BeginHour  = Employee_FullList_RefinedArray[Position_Preference].GetIntervals()[Person_timeIntervalIndex].GetStartTimeHour();
+                        PREF_BeginMIN   = Employee_FullList_RefinedArray[Position_Preference].GetIntervals()[Person_timeIntervalIndex].GetStartTimeMin();
+                        PREF_EndHour    = Employee_FullList_RefinedArray[Position_Preference].GetIntervals()[Person_timeIntervalIndex].GetEndTimeHour();
+                        PREF_EndMin     = Employee_FullList_RefinedArray[Position_Preference].GetIntervals()[Person_timeIntervalIndex].GetEndTimeMin();
 
 
                         // If persons interval lies between then they're added to the list of available people
@@ -500,7 +815,7 @@ public class MANAGESCHEDULE_Calculate {
                             System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
                             
                             // linkedlist of available people and the intervals that lie within the time frame
-                            CALC_AvailablePeople.add(new MANAGESCHEDULE_Interval(Person, Person_timeIntervalIndex));
+                            CALC_AvailablePeople.add(new MANAGESCHEDULE_Interval(Employee_FullList_RefinedArray[Position_Preference], Person_timeIntervalIndex));
 
                             // for each person
                             // marks a range of valid intervals with 1
@@ -527,7 +842,7 @@ public class MANAGESCHEDULE_Calculate {
                                 System.out.println(PROG_DAL_D_SystemMessages.INFO_CalculateScheduleIDAdded);
                                 
                                 // linkedlist of available people and the intervals that lie within the time frame
-                                CALC_AvailablePeople.add(new MANAGESCHEDULE_Interval(Person, Person_timeIntervalIndex));
+                                CALC_AvailablePeople.add(new MANAGESCHEDULE_Interval(Employee_FullList_RefinedArray[Position_Preference], Person_timeIntervalIndex));
 
                                 // for each person
                                 // marks a range of valid intervals with 1
@@ -647,10 +962,10 @@ public class MANAGESCHEDULE_Calculate {
                     int Interval = AvailablePerson.getInterval();
 
 
-                    Person_BeginHour  = Person_Available.GetIntervals().get(Interval).GetStartTimeHour();
-                    Person_BeginMIN   = Person_Available.GetIntervals().get(Interval).GetStartTimeMin();
-                    Person_EndHour    = Person_Available.GetIntervals().get(Interval).GetEndTimeHour();
-                    Person_EndMin     = Person_Available.GetIntervals().get(Interval).GetEndTimeMin();
+                    Person_BeginHour  = Person_Available.GetIntervals()[Interval].GetStartTimeHour();
+                    Person_BeginMIN   = Person_Available.GetIntervals()[Interval].GetStartTimeMin();
+                    Person_EndHour    = Person_Available.GetIntervals()[Interval].GetEndTimeHour();
+                    Person_EndMin     = Person_Available.GetIntervals()[Interval].GetEndTimeMin();
 
 
                     // ensures if the datacrd times are within the user preference time, that the time shortens to that preference not vice versa
@@ -692,10 +1007,10 @@ public class MANAGESCHEDULE_Calculate {
 
                     int Interval = Iterator_PERSON.getInterval();
 
-                    Person_BeginHour  = AvailablePerson.GetIntervals().get(Interval).GetStartTimeHour();
-                    Person_BeginMIN   = AvailablePerson.GetIntervals().get(Interval).GetStartTimeMin();
-                    Person_EndHour    = AvailablePerson.GetIntervals().get(Interval).GetEndTimeHour();
-                    Person_EndMin     = AvailablePerson.GetIntervals().get(Interval).GetEndTimeMin();
+                    Person_BeginHour  = AvailablePerson.GetIntervals()[Interval].GetStartTimeHour();
+                    Person_BeginMIN   = AvailablePerson.GetIntervals()[Interval].GetStartTimeMin();
+                    Person_EndHour    = AvailablePerson.GetIntervals()[Interval].GetEndTimeHour();
+                    Person_EndMin     = AvailablePerson.GetIntervals()[Interval].GetEndTimeMin();
 
 
 

@@ -101,9 +101,9 @@ public class USERINPUT_JsonFormatting {
 
 
                         // Add all preferences to the new set
-                        for (int pos_CheckPref = 0; pos_CheckPref < Next_Employee.GetIntervals().size(); pos_CheckPref++) {
+                        for (int pos_CheckPref = 0; pos_CheckPref < Next_Employee.GetIntervals().length; pos_CheckPref++) {
 
-                            NewPreference_times.add(Next_Employee.GetIntervals().get(pos_CheckPref));
+                            NewPreference_times.add(Next_Employee.GetIntervals()[pos_CheckPref]);
 
                         } // for (int position_checkPreference = 0; position_checkPreference < Next_Employee.GetIntervals().size(); position_checkPreference++) {
 

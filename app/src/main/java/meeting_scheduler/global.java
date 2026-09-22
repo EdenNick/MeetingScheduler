@@ -2,6 +2,10 @@ package meeting_scheduler;
 
 public class global {
 
+    private static final String[]   Global_Data_WeekDays    = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
+    private static final int        Global_Data_WeekLength  = 7;
+
     private static String[] Global_Message_Type;     // Contains system message type.
 
     private static String[] Global_Message_Class;    // Contains system class names.
@@ -50,5 +54,16 @@ public class global {
 
     public static String Global_Message_Info_Return    (int Input_Position) {
         return global.Global_Message_Info[Input_Position];
+    }
+
+
+
+    public static String[] Global_Data_Get_Weekdays() {
+        return Global_Data_WeekDays.clone();
+    }
+
+
+    public static int Global_Data_Get_WeekdaysLength() {
+        return Global_Data_WeekLength;
     }
 }

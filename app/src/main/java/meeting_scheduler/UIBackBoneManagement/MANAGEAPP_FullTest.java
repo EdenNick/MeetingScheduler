@@ -155,9 +155,9 @@ public class MANAGEAPP_FullTest {
         System.out.println("Name        : " + staticInfo.GetName());
         System.out.println("ID          : " + staticInfo.GetIdent());
         System.out.println("Days        : " + Arrays.toString(staticInfo.GetDays()));
-        System.out.print("Time Pref   : " + staticInfo.GetIntervals().get(0).GetWeekDay());
-        System.out.print(" " + staticInfo.GetIntervals().get(0).GetStartTime());
-        System.out.println(" - " + staticInfo.GetIntervals().get(0).GetEndTime());
+        //System.out.print("Time Pref   : " + staticInfo.GetIntervals().get(0).GetWeekDay());
+        //System.out.print(" " + staticInfo.GetIntervals().get(0).GetStartTime());
+        //System.out.println(" - " + staticInfo.GetIntervals().get(0).GetEndTime());
 
        
         System.out.println("TEST_USER_BasicInfoInput    Test: Complete");

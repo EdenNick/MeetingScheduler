@@ -67,7 +67,7 @@ import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
-import meeting_scheduler.UserInput.USERINPUT_TimeInput;
+import meeting_scheduler.UserInput.USERINPUT_TimeInputManager;
 
 
 
@@ -156,7 +156,7 @@ public class SCENE_CREATE_Schedule {
     // Schedule Calculator
     private final MANAGESCHEDULE_Calculate    ScheduleCalculator;
     // User Time Input manager
-    private final USERINPUT_TimeInput           Scheduler_UserTimeInputs;
+    private final USERINPUT_TimeInputManager           Scheduler_UserTimeInputs;
     // Json File manager
     private final MANAGEFILE_JsonManager            Scheduler_fileReader;
     // ############################################################
@@ -214,7 +214,7 @@ public class SCENE_CREATE_Schedule {
 
         // User time inputs     - Object which is used to create the necessary input ui for user time inputs, verifies correct input
         // contains methods used to store and dispaly this information. In this case it is used to input correct times to create a schedule
-        this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInput(this.ScheduleCalculator);
+        this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInputManager(); // TODO: schedule calculator
 
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. 
         // Used to retrieve current user preferences to create a schedule
@@ -338,7 +338,7 @@ public class SCENE_CREATE_Schedule {
         // UI Creation              - Creates the UI layout and other inputs for the user to input preferences and create schedules
         // ############################################################
         SchedulingInterface();
-        Scheduler_UserTimeInputs.UI_data_construction();
+        //Scheduler_UserTimeInputs.UI_data_construction();
         // ############################################################
 
 
@@ -789,10 +789,10 @@ public class SCENE_CREATE_Schedule {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputTime);
 
             // ButtonPressPartialTimeInput() ensures all variables have been input, returns 0 on success
-            if ( (Scheduler_UserTimeInputs.ButtonPressPartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 4) ){
+            if ( (Scheduler_UserTimeInputs.CHECK_PartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 4) ){
 
                 // Temp user preference created for clean seperation of object use
-                PREF_EMPLOYEE_TimePref TempUserPreferrence = Scheduler_UserTimeInputs.Return_TimeUserPreference();
+                PREF_EMPLOYEE_TimePref TempUserPreferrence = Scheduler_UserTimeInputs.Return_UserPreference();
 
 
                 /**
@@ -1504,32 +1504,33 @@ public class SCENE_CREATE_Schedule {
         // Input creation functions
         // ############################################################
 
-        // beginning time input
-        Add_StartTime.getChildren().addAll(
+        // TODO
+        // // beginning time input
+        // Add_StartTime.getChildren().addAll(
 
-            Label_BeginHour,
-            Scheduler_UserTimeInputs.Return_Hour_Begin(),
+        //     Label_BeginHour,
+        //     Scheduler_UserTimeInputs.Return_Hour_Begin(),
 
-            Label_BeginMinute,
-            Scheduler_UserTimeInputs.Return_Minute_Begin(),
+        //     Label_BeginMinute,
+        //     Scheduler_UserTimeInputs.Return_Minute_Begin(),
 
-            Scheduler_UserTimeInputs.Return_AMPM_StartTime()
+        //     Scheduler_UserTimeInputs.Return_AMPM_StartTime()
 
-        );
+        // );
         
-        // ending time input
-        Add_EndTime.getChildren().addAll(
+        // // ending time input
+        // Add_EndTime.getChildren().addAll(
 
-            Label_EndHour,
-            Scheduler_UserTimeInputs.Return_Hour_End(),
+        //     Label_EndHour,
+        //     Scheduler_UserTimeInputs.Return_Hour_End(),
 
-            Label_EndMinute,
-            Scheduler_UserTimeInputs.Return_Minute_End(),
+        //     Label_EndMinute,
+        //     Scheduler_UserTimeInputs.Return_Minute_End(),
 
-            Scheduler_UserTimeInputs.Return_AMPM_EndTime()
+        //     Scheduler_UserTimeInputs.Return_AMPM_EndTime()
 
-        );
-        // ############################################################
+        // );
+        // // ############################################################
 
 
         // Add all to the nodes

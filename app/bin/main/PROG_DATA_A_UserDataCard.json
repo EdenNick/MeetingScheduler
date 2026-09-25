@@ -2,7 +2,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "default",
   "EMPLOYEE_Ident" : -1,
-  "EMPLOYEE_Days" : [ "Mon", "Fri" ],
+  "EMPLOYEE_Days" : [ null, "Mon", null, null, null, "Fri", null ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Mon",
     "TIMEPREF_TimeStart" : [ 8, 0 ],
@@ -20,7 +20,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "default2",
   "EMPLOYEE_Ident" : -2,
-  "EMPLOYEE_Days" : [ "Sat" ],
+  "EMPLOYEE_Days" : [ null, null, null, null, null, null, "Sat" ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Sat",
     "TIMEPREF_TimeStart" : [ 12, 0 ],
@@ -30,7 +30,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "james",
   "EMPLOYEE_Ident" : 12,
-  "EMPLOYEE_Days" : [ "Thu" ],
+  "EMPLOYEE_Days" : [ null, null, null, null,"Thu", null, null ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Thu",
     "TIMEPREF_TimeStart" : [ 8, 0 ],
@@ -40,7 +40,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "david",
   "EMPLOYEE_Ident" : 13,
-  "EMPLOYEE_Days" : [ "Thu" ],
+  "EMPLOYEE_Days" : [ null, null, null, null,"Thu", null, null ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Thu",
     "TIMEPREF_TimeStart" : [ 11, 0 ],
@@ -50,7 +50,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "a",
   "EMPLOYEE_Ident" : 23,
-  "EMPLOYEE_Days" : [ "Wed" ],
+  "EMPLOYEE_Days" : [ null, null, null, "Wed", null, null, null ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Wed",
     "TIMEPREF_TimeStart" : [ 1, 2 ],
@@ -60,7 +60,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "b",
   "EMPLOYEE_Ident" : 1234,
-  "EMPLOYEE_Days" : [ "Tue" ],
+  "EMPLOYEE_Days" : [ null, null, "Tue", null, null, null, null ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Tue",
     "TIMEPREF_TimeStart" : [ 1, 2 ],
@@ -70,7 +70,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "tom",
   "EMPLOYEE_Ident" : 12345,
-  "EMPLOYEE_Days" : [ "Wed" ],
+  "EMPLOYEE_Days" : [ null, null, null, "Wed", null, null, null ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Wed",
     "TIMEPREF_TimeStart" : [ 1, 2 ],

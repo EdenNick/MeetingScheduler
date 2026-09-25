@@ -2,10 +2,17 @@ package meeting_scheduler;
 
 public class global {
 
+    // Data Variables
     private static final String[]   Global_Data_WeekDays    = new String[] {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
+    private static final String[]   Global_Data_TimeFrame   = new String[] {"AM", "PM"};
 
     private static final int        Global_Data_WeekLength  = 7;
 
+    private static final int[]      Global_Data_IdentConstraint = new int[] {0, 9999999};
+
+
+    // Mesage states
     private static String[] Global_Message_Type;     // Contains system message type.
 
     private static String[] Global_Message_Class;    // Contains system class names.
@@ -13,6 +20,16 @@ public class global {
     private static String[] Global_Message_Method;   // contains system message location.
 
     private static String[] Global_Message_Info;     // Contains relevant info for the message;
+
+
+    // ENUM checks
+    public enum TextFieldState {
+        TEXT, NUMERIC
+    }
+
+    public enum TextListState {
+        WEEK
+    }
 
     private global() {
         // Restrict instatiation
@@ -59,11 +76,15 @@ public class global {
 
 
     public static String[] Global_Data_Get_Weekdays() {
-        return Global_Data_WeekDays.clone();
+        return global.Global_Data_WeekDays.clone();
     }
 
 
     public static int Global_Data_Get_WeekdaysLength() {
-        return Global_Data_WeekLength;
+        return global.Global_Data_WeekLength;
+    }
+
+    public static String[] Global_Data_Get_TimeFrames() {
+        return global.Global_Data_TimeFrame;
     }
 }

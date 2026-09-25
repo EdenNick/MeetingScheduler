@@ -122,6 +122,8 @@ public class MANAGESCHEDULE_Calculate {
 
     // New variables
 
+    private String[] DefaultWeekday = global.Global_Data_Get_Weekdays();
+
     // Calculation preference variables
     private LinkedList<PREF_EMPLOYEE_FullPref> FileData_Employee_FullList;
 
@@ -145,6 +147,17 @@ public class MANAGESCHEDULE_Calculate {
         Weekdays        = global.Global_Data_Get_Weekdays();
 
         WeekdayLength   = global.Global_Data_Get_WeekdaysLength();
+
+        UserInput_WeekDays = DefaultWeekday.clone();
+        try {
+            Paramater_Init_FullList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        this.Calc_FullScheduleList = new LinkedList<>();
+
     }
 
 
@@ -217,7 +230,7 @@ public class MANAGESCHEDULE_Calculate {
      * Description: Used to reset the preference for the specific weekdays to be scheduled. Everyday of the week will be used in the calculation.
      */
     public void ResetPreference_Weekdays() {
-        this.UserInput_WeekDays     = Weekdays.clone();
+        this.UserInput_WeekDays     = DefaultWeekday.clone();
         this.userPref_SpecificDays  = false;
     } // ResetPreference_Weekdays()
 
@@ -351,7 +364,7 @@ public class MANAGESCHEDULE_Calculate {
 
             int DaySort_constructionSize = 0;
 
-
+            String DayReturned;
             // Nested for loop to get the correct size for IDWeekdayPair_DAYSort
             // Iterates over the full key value pair
             for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
@@ -360,9 +373,13 @@ public class MANAGESCHEDULE_Calculate {
                 for (int Position_Day = 0; Position_Day < WeekdayLength; Position_Day++) {
 
                     // if the day match at least once
-                    if (PREF_Weekdays[Position_IDWeekday][Position_Day].equals(this.UserInput_WeekDays[Position_Day])) {
-                        DaySort_constructionSize++;
-                        break;
+                    DayReturned = PREF_Weekdays[Position_IDWeekday][Position_Day];
+
+                    if (DayReturned != null) {
+                        if (DayReturned.equals(this.UserInput_WeekDays[Position_Day])) {
+                            DaySort_constructionSize++;
+                            break;
+                        }
                     }
 
                 }
@@ -384,10 +401,14 @@ public class MANAGESCHEDULE_Calculate {
                 for (int Position_Day = 0; Position_Day < WeekdayLength; Position_Day++) {
 
                     // if the day match at least once
-                    if (PREF_Weekdays[Position_IDWeekday][Position_Day].equals(this.UserInput_WeekDays[Position_Day])) {
+                    DayReturned = PREF_Weekdays[Position_IDWeekday][Position_Day];
+
+                    if (DayReturned != null) {
+                        if (DayReturned.equals(this.UserInput_WeekDays[Position_Day])) {
 
                         this.IDWeekdayPair_DAYSort.Set_Values(Position_IDWeekday, IDList[Position_IDWeekday], PREF_Weekdays[Position_IDWeekday]);
                         break;
+                        }
                     }
 
                 }
@@ -397,11 +418,13 @@ public class MANAGESCHEDULE_Calculate {
 
             // int[] of ids to have their times checked
             IDList_AppliedIDAndDayPref = IDWeekdayPair_DAYSort.Return_Idents();
+            System.out.println("ID size:" + IDList_AppliedIDAndDayPref.length);
 
         } else {
 
             // int[] of ids to have their times checked
             IDList_AppliedIDAndDayPref = IDWeekdayPair_IDENTSort.Return_Idents();
+            System.out.println("ID size:" + IDList_AppliedIDAndDayPref.length);
 
         }
 
@@ -508,6 +531,11 @@ public class MANAGESCHEDULE_Calculate {
      */
     public LinkedList<MANAGESCHEDULE_Schedule> RetrieveSchedule() {
 
+        //TODO: maybe change later
+
+        Paramater_ApplyPref_IDENT();
+
+        Paramater_ApplyPref_WeekDays();
 
         // Employee_FullList_RefinedArray is the array used in creating the schedules it is populated with the ids of people 
         // who met the previous specifications (besides the atual times)

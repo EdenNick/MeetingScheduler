@@ -117,14 +117,14 @@ public class USERINPUT_JsonFormatting {
 
 
                 // Iterate over all preference days to ensure they are added to the list
-                int NumberofValidDays = 0;
+                //int NumberofValidDays = 0;
                 for (int weekday = 0; weekday < 7; weekday++) {
 
                     for (int IndexPosition = 0; IndexPosition < NewPreference_times.size(); IndexPosition++) {
 
                         if ( WEEKDAYS[weekday].equals(NewPreference_times.get(IndexPosition).GetWeekDay()) ) {
                             NewPreference_Days[weekday] = WEEKDAYS[weekday];
-                            NumberofValidDays++;
+                            //NumberofValidDays++;
                             break;
                         } // if ( WEEKDAYS[weekday].equals(Employee_NewPreferenceSet.get(IndexPosition).GetWeekDay()) ) {
 
@@ -132,13 +132,17 @@ public class USERINPUT_JsonFormatting {
 
                 } // for (int weekday = 0; weekday < 7; weekday++) {
 
-                String[] NewPreference_week = new String[NumberofValidDays];
-                int InputDay = 0;
+
+
+                
+                String[] NewPreference_week = new String[7];
+                //int InputDay = 0;
                 for (int position_day = 0; position_day < 7; position_day++) {
 
                     if (NewPreference_Days[position_day] != null) {
-                        NewPreference_week[InputDay] = NewPreference_Days[position_day];
-                        InputDay++;
+                        NewPreference_week[position_day] = NewPreference_Days[position_day];
+                    } else {
+                        NewPreference_week[position_day] = null;
                     }
                 }
 

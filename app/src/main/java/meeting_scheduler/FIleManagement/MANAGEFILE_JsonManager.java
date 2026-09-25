@@ -104,7 +104,7 @@ public class MANAGEFILE_JsonManager {
     // Default constructor - more can be added if more json files are used
     public MANAGEFILE_JsonManager() {
         // FILE PATH
-        this.JsonFileManager_FilePath   = new File(FilePath_Default);
+        this.JsonFileManager_FilePath   = new File(FilePath_Default); // TODO: make file path a global variable
 
         // JSON file input (Write)
         this.JsonFileManager_FileInput  = new MANAGEFILE_JsonInput(JsonFileManager_FilePath);

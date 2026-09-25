@@ -40,6 +40,8 @@ public class PREF_EMPLOYEE_FullPref {
         // com.fasterxml.jackson requires a no argument constructor - Do NOT put anything here
     }
 
+
+    
     /**
      * Main Constructor
      * @param EMPLOYEE_Delete
@@ -56,6 +58,8 @@ public class PREF_EMPLOYEE_FullPref {
         this.EMPLOYEE_Intervals = INPUT_INTERVALS.toArray(new PREF_EMPLOYEE_TimePref[0]);
     }
 
+
+
     /** 
      * Copy Constructor
      * @param FULLPREF_COPY
@@ -67,6 +71,7 @@ public class PREF_EMPLOYEE_FullPref {
         this.EMPLOYEE_Days      = FULLPREF_COPY.GetDays();
         this.EMPLOYEE_Intervals = FULLPREF_COPY.GetIntervals();
     }
+
 
 
     /**

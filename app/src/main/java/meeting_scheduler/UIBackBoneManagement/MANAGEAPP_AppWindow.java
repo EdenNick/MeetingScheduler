@@ -68,7 +68,7 @@ public class MANAGEAPP_AppWindow extends Application {
     private void WindowRun(Stage stage) {
 
         // Sets the name of the application window
-        stage.setTitle(MANAGEAPP_local.APP_Window_Title);
+        stage.setTitle(MANAGEAPP_LocalVariables.APP_Window_Title);
 
         // MainMenu - the application shows the main menu scene on startup
         MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();

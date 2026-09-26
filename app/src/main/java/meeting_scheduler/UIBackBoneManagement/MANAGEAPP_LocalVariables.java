@@ -11,10 +11,10 @@ package meeting_scheduler.UIBackBoneManagement;
 
 
 
-public final class MANAGEAPP_local {
+public final class MANAGEAPP_LocalVariables {
 
     // Constructor - kept private to prevent data manipulation
-    private MANAGEAPP_local() {
+    private MANAGEAPP_LocalVariables() {
         // TODO: System Message
     }
 

@@ -8,15 +8,33 @@ import java.util.Properties;
 import meeting_scheduler.global;
 
 public class GlobalMessageManager {
-    
+
+
+    private static String[] Global_Message_Type;
+
+    private static String[] Global_Message_Class;
+
+    private static String[] Global_Message_Method;
+
+    private static String[] Global_Message_Info;
+
+
+
     private GlobalMessageManager() {
+        // 
+    }
+
+    public static void MESSAGE_SETUP() {
         Set_Global_Message_Type();
         Set_Global_Message_Class();
         Set_Global_Message_Method();
         Set_Global_Message_Info();
+
+        // public static void Global_Message_Set(String[] Input_Types, String[] Input_Class, String[] Input_Methods, String[] Input_Info)
+        // global.Global_Message_Set();
     }
 
-    private void Set_Global_Message_Type() {
+    private static void Set_Global_Message_Type() {
 
         // Properties obejct
         Properties  Prop_Type = new Properties();
@@ -53,26 +71,26 @@ public class GlobalMessageManager {
             FinalList = new String[] {"ERROR"};
         }
 
-        // Set to global
-        global.Global_Message_Type_Set(FinalList);
+        // Set to static variable
+        GlobalMessageManager.Global_Message_Type = FinalList.clone();
 
     } // Set_Global_Message_Type
 
 
     
-    private void Set_Global_Message_Class() {
+    private static void Set_Global_Message_Class() {
         
         Properties Prop_Class = new Properties();
         // TODO
     } // Set_Global_Message_Class
 
-    private void Set_Global_Message_Method() {
+    private static void Set_Global_Message_Method() {
 
         Properties Prop_Method = new Properties();
         // TODO
     } // Set_Global_Message_Method
 
-    private void Set_Global_Message_Info() {
+    private static void Set_Global_Message_Info() {
 
         Properties Prop_Info = new Properties();
         // TODO

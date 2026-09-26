@@ -58,8 +58,8 @@ public class MANAGEAPP_SceneManager {
 
         // TODO: possibly change this to a global variable as it is accessed across multiple folders and obejects
         // Default Window width and height values, all scenes access these variables
-        MANAGEAPP_SceneManager.WindowWidth     = MANAGEAPP_local.APP_Window_StartWidth;
-        MANAGEAPP_SceneManager.WindowHeight    = MANAGEAPP_local.APP_Window_StartHeight;
+        MANAGEAPP_SceneManager.WindowWidth     = MANAGEAPP_LocalVariables.APP_Window_StartWidth;
+        MANAGEAPP_SceneManager.WindowHeight    = MANAGEAPP_LocalVariables.APP_Window_StartHeight;
 
     }
 

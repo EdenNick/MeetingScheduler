@@ -186,7 +186,7 @@ public class SCENE_CREATE_Schedule {
 
     // time input 
     private FlowPane                            FlowPane_VBoxDisplay;   // dispalys time inputs
-    private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
+    //private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
     // time output
     private LinkedList<PREF_EMPLOYEE_TimePref>    SCHEDULE_TIMES;         // List of prefered times for an individual
     // ############################################################
@@ -753,13 +753,13 @@ public class SCENE_CREATE_Schedule {
 
             // Reset List_VBoxTimeInputs
 
-            // clear all nodes in each Vbox
-            for (VBox vbox : List_VBoxTimeInputs) {
-                vbox.getChildren().clear();
-            }
+            // // clear all nodes in each Vbox
+            // for (VBox vbox : List_VBoxTimeInputs) {
+            //     vbox.getChildren().clear();
+            // }
 
-            // clear all the elements in the linked list
-            this.List_VBoxTimeInputs.clear();
+            // // clear all the elements in the linked list
+            // this.List_VBoxTimeInputs.clear();
 
             // Reset FlowPane_VBoxDisplay
             
@@ -789,7 +789,7 @@ public class SCENE_CREATE_Schedule {
             System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputTime);
 
             // ButtonPressPartialTimeInput() ensures all variables have been input, returns 0 on success
-            if ( (Scheduler_UserTimeInputs.CHECK_PartialTimeInput() == 0) && (List_VBoxTimeInputs.size() < 4) ){
+            if ( (Scheduler_UserTimeInputs.CHECK_PartialTimeInput() == 0) && (SCHEDULE_TIMES.size() < 4) ){
 
                 // Temp user preference created for clean seperation of object use
                 PREF_EMPLOYEE_TimePref TempUserPreferrence = Scheduler_UserTimeInputs.Return_UserPreference();
@@ -809,7 +809,7 @@ public class SCENE_CREATE_Schedule {
                  * 
                  * FlowPane FlowPane_VBoxDisplay                    - A flowpane which displays the various Vboxs that hold user preferences. display only
                  */
-                Scheduler_UserTimeInputs.UserInputGraphic(TempUserPreferrence, SCHEDULE_TIMES, List_VBoxTimeInputs, FlowPane_VBoxDisplay, false);
+                Scheduler_UserTimeInputs.UserInputGraphic(TempUserPreferrence, SCHEDULE_TIMES,  FlowPane_VBoxDisplay, false);
                 // ############################################################
 
 
@@ -1458,7 +1458,7 @@ public class SCENE_CREATE_Schedule {
         // flowpane to hold time output boxes   -   NOTE: must be declared within class to work not method
         this.FlowPane_VBoxDisplay   = new FlowPane();
         // linkedlist for input VBoxes  - used for iteration only
-        this.List_VBoxTimeInputs    = new LinkedList<>();
+        //this.List_VBoxTimeInputs    = new LinkedList<>();
         // ############################################################
 
 

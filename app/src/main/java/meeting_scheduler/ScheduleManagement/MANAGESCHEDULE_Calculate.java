@@ -122,7 +122,7 @@ public class MANAGESCHEDULE_Calculate {
 
     // New variables
 
-    private String[] DefaultWeekday = global.Global_Data_Get_Weekdays();
+    private String[] DefaultWeekday = global.Global_Array_WeekDay_Short_Get();
 
     // Calculation preference variables
     private LinkedList<PREF_EMPLOYEE_FullPref> FileData_Employee_FullList;
@@ -144,9 +144,9 @@ public class MANAGESCHEDULE_Calculate {
      */
     public MANAGESCHEDULE_Calculate() {
 
-        Weekdays        = global.Global_Data_Get_Weekdays();
+        Weekdays        = global.Global_Array_WeekDay_Short_Get();
 
-        WeekdayLength   = global.Global_Data_Get_WeekdaysLength();
+        WeekdayLength   = global.Global_Array_WeekLength_Get()[0];
 
         UserInput_WeekDays = DefaultWeekday.clone();
         try {
@@ -442,7 +442,7 @@ public class MANAGESCHEDULE_Calculate {
         if (userPref_SpecificDays == false) {
             WeekDay_Iteration = UserInput_WeekDays.clone();
         } else {
-            WeekDay_Iteration = global.Global_Data_Get_Weekdays();
+            WeekDay_Iteration = global.Global_Array_WeekDay_Short_Get();
         }
 
         int MaxSize = 0;

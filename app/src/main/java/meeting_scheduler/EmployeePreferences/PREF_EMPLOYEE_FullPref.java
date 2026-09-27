@@ -83,8 +83,8 @@ public class PREF_EMPLOYEE_FullPref {
     private String[] CheckOrder(String[] Weekdays) {
 
         String[] Output     = new String[7];
-        String[] Weekday    = global.Global_Data_Get_Weekdays();
-        int      weekLength = global.Global_Data_Get_WeekdaysLength();
+        String[] Weekday    = global.Global_Array_WeekDay_Short_Get();
+        int      weekLength = global.Global_Array_WeekLength_Get()[0];
 
         for (int Position_day = 0; Position_day < weekLength; Position_day++) {
             if (Weekdays[Position_day].equals(Weekday[Position_day])) {

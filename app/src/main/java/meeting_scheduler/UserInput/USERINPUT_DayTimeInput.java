@@ -86,7 +86,7 @@ public class USERINPUT_DayTimeInput {
     private void Construct_comboBox_Default(ComboBox<String> INPUT_COMBOBOX) {
         //TODO: 
         // INPUT_COMBOBOX.setPrefSize(100, 25.0);
-        INPUT_COMBOBOX.getItems().addAll(global.Global_Data_Get_TimeFrames());
+        INPUT_COMBOBOX.getItems().addAll(global.Global_Array_AMPM_Get());
         INPUT_COMBOBOX.getSelectionModel().select("AM");
     } // Construct_comboBox_Defualt()
 

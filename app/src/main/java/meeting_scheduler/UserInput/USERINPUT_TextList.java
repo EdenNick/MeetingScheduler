@@ -44,7 +44,7 @@ public class USERINPUT_TextList {
     }
 
     private void Construct_Field_WeekList() {
-        this.ComboBox.getItems().addAll(global.Global_Data_Get_Weekdays());
+        this.ComboBox.getItems().addAll(global.Global_Array_WeekDay_Short_Get());
     }
 
     public ComboBox<String> Return_Field_Constructed() {

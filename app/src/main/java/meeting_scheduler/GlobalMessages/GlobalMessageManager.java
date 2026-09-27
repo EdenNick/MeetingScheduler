@@ -36,8 +36,39 @@ public class GlobalMessageManager {
 
     private static void Set_Global_Message_Type() {
 
-        // Properties obejct
+        // TODO
+
+    } // Set_Global_Message_Type
+
+
+    
+    private static void Set_Global_Message_Class() {
+        
+        // TODO
+
+    } // Set_Global_Message_Class
+
+    private static void Set_Global_Message_Method() {
+
+        // TODO
+
+    } // Set_Global_Message_Method
+
+    private static void Set_Global_Message_Info() {
+
+        // TODO
+
+    } // Set_Global_Message_Info
+
+
+    private static String[] Get_Global_Message_Property(String INPUT_FILEPATH, String INPUT_PROPPATH) {
+
+        // Properties object
         Properties  Prop_Type = new Properties();
+        // File Path
+        String      FilePath = INPUT_FILEPATH;
+        //Property Path
+        String      PropPath = INPUT_PROPPATH;
         // indiivudal property string
         String      IncomingPropString;
         // while loop position
@@ -49,13 +80,13 @@ public class GlobalMessageManager {
         ArrayList<String> ArraylistPropStrings = new ArrayList<>();
 
         // TRY/CATCH
-        try ( FileInputStream Input_Type = new FileInputStream("GlobalMessageTypes.properties") ) {
+        try ( FileInputStream Input_Type = new FileInputStream(FilePath) ) {
             
             // Load Props from File
             Prop_Type.load(Input_Type);
 
             // While strings continue to be valid and not NULL, continue
-            while ( !(IncomingPropString = Prop_Type.getProperty("Type." + IncomingPropPosition)).equals(null) ) {
+            while ( !(IncomingPropString = Prop_Type.getProperty(PropPath + IncomingPropPosition)).equals(null) ) {
                 
                 System.out.println("Type: " + IncomingPropString);
 
@@ -72,29 +103,8 @@ public class GlobalMessageManager {
         }
 
         // Set to static variable
-        GlobalMessageManager.Global_Message_Type = FinalList.clone();
-
-    } // Set_Global_Message_Type
-
-
-    
-    private static void Set_Global_Message_Class() {
-        
-        Properties Prop_Class = new Properties();
-        // TODO
-    } // Set_Global_Message_Class
-
-    private static void Set_Global_Message_Method() {
-
-        Properties Prop_Method = new Properties();
-        // TODO
-    } // Set_Global_Message_Method
-
-    private static void Set_Global_Message_Info() {
-
-        Properties Prop_Info = new Properties();
-        // TODO
-    } // Set_Global_Message_Info
+        return FinalList.clone();
+    }
 
 
 }

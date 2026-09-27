@@ -137,6 +137,21 @@ public class global {
     }
 
 
+    public static int Global_Message_Type_ReturnSize() {
+        return global.Global_Message_Type.length;
+    }
+
+    public static int Global_Message_Class_ReturnSize() {
+        return global.Global_Message_Class.length;
+    }
+
+    public static int Global_Message_Method_ReturnSize() {
+        return global.Global_Message_Method.length;
+    }
+
+    public static int Global_Message_Info_Return() {
+        return global.Global_Message_Info.length;
+    }
 
 
 

@@ -62,7 +62,7 @@ public class GlobalValuesManager {
         Set_Global_Values_StringArrays();
         Set_Global_Values_doubleArrays();
 
-        //TODO: set to global from here
+
         // void Global_Array_WeekDay_Set (String[] INPUT_SHORT, String[] INPUT_SHORTCAP, String[] INPUT_LONG, String[] INPUT_LONGCAP)
         global.Global_Array_WeekDay_Set     (GLOBAL_VALUE_Weekday_Short, GLOBAL_VALUE_Weekday_ShortCap, GLOBAL_VALUE_Weekday_Long, GLOBAL_VALUE_Weekday_LongCap);
 
@@ -165,7 +165,7 @@ public class GlobalValuesManager {
             FinalList = ArraylistPropStrings.toArray(new String[0]);
 
         } catch (IOException e) {
-            //TODO: error message
+            // TODO: SYSTEM MESSAGE
             FinalList = new String[] {"ERROR"};
         }
 

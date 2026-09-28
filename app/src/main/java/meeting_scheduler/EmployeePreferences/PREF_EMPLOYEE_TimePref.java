@@ -77,17 +77,17 @@ public class PREF_EMPLOYEE_TimePref {
         
         // IF - returns false if objects have a different weekday
         if (!this.TIMEPREF_Weekday.equals(TIMEPREF_INPUT.GetWeekDay()))             {
-            System.out.println("weekday");
+            // TODO: SYSTEM MESSAGE
             return false;
         
         // IF - returns false if objects have different starting times 
         } else if (!this.TIMEPREF_TimeStart.equals(TIMEPREF_INPUT.GetStartTime()))  {
-            System.out.println("beginhour");
+            // TODO: SYSTEM MESSAGE
             return false;
         
         // IF - returns false if objects have different ending times
         } else if (!this.TIMEPREF_TimeEnd.equals(TIMEPREF_INPUT.GetEndTime()))      {
-            System.out.println("endhour");
+            // TODO: SYSTEM MESSAGE
             return false;
         
         // ELSE - returns true if objects are the same

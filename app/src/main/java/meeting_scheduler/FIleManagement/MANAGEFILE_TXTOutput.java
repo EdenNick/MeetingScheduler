@@ -115,12 +115,12 @@ public class MANAGEFILE_TXTOutput {
 
             FileReader.close();
 
-            //System.out.println("File: " + FilePath + " read");
+            // TODO: SYSTEM MESSAGE
 
             
         } catch (IOException e) {
 
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_ReadFileTryCatch);
+            // TODO: SYSTEM MESSAGE
             FileText.add(InvalidText);
             return FileText;
 
@@ -168,12 +168,12 @@ public class MANAGEFILE_TXTOutput {
 
             FileReader.close();
 
-            // System.out.println("File: " + FilePath + " read");
+            // TODO: SYSTEM MESSAGE
 
             
         } catch (Exception e) {
 
-            System.out.println(PROG_DAL_D_SystemMessages.ERROR_ReadUsertryCatch);
+            // TODO: SYSTEM MESSAGE
             FileText.add(InvalidText);
             return FileText;
 

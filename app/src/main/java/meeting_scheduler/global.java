@@ -67,6 +67,12 @@ public class global {
     // ############################################################
 
 
+    // GLOBAL ENUM CHECK UISPACING - used to select between which UI spacing value to retrieve in the global info manager
+    // ############################################################
+    public static enum UISPACING {
+        SPACING, PADDING, WIDTH, HEIGHT, ANCHOR
+    }
+    // ############################################################
 
 
     /**
@@ -76,6 +82,8 @@ public class global {
     private global() {
         // Restrict instatiation
     }
+
+
 
 
 
@@ -333,6 +341,27 @@ public class global {
 
     public static double Global_Array_Anchor_Get    (int INPUT_POSITION) {
         return global.Global_Data_Anchor[INPUT_POSITION];
+    }
+
+
+    public static int Global_Array_Spacing_GetLength() {
+        return global.Global_Data_Spacing.length;
+    }
+
+    public static int Global_Array_Padding_GetLength() {
+        return global.Global_Data_Padding.length;
+    }
+
+    public static int Global_Array_Width_GetLength() {
+        return global.Global_Data_Width.length;
+    }
+
+    public static int Global_Array_Height_GetLength() {
+        return global.Global_Data_Height.length;
+    }
+
+    public static int Global_Array_Anchor_GetLength() {
+        return global.Global_Data_Anchor.length;
     }
 
 

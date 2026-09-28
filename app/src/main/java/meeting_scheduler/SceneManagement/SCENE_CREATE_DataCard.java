@@ -64,8 +64,6 @@ import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
 // ############################################################
 
-//TODO: standardize sizing with global system variable
-
 public class SCENE_CREATE_DataCard {
 
     // Application Window variables
@@ -467,6 +465,8 @@ public class SCENE_CREATE_DataCard {
                 // Do nothing
             }
 
+            // TODO: SYSTEM MESSAGE
+
         };
         // ############################################################
 
@@ -476,7 +476,7 @@ public class SCENE_CREATE_DataCard {
         // ############################################################
         this.EVENT_SubmitInfo = event -> {
             
-            // todo: use filewrite
+            // TODO: use filewrite
             // Submits USer info
             //System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_EVENT_SubmitInfo);
 
@@ -564,7 +564,8 @@ public class SCENE_CREATE_DataCard {
 
 
             } // if/else ()
-
+            
+                // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -603,10 +604,7 @@ public class SCENE_CREATE_DataCard {
             // } // for ()
 
 
-
-            System.out.println("User Input before clear:" + List_UserTimes.size());
             List_UserTimes.clear();
-            System.out.println("User Input after clear:" + List_UserTimes.size());
             /**
              * remove nodes from the flowpane
              */
@@ -618,7 +616,7 @@ public class SCENE_CREATE_DataCard {
             } // for()
 
             Display_InputPref.getChildren().clear();
-            
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 

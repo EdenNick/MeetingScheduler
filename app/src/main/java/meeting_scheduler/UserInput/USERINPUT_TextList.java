@@ -32,7 +32,7 @@ public class USERINPUT_TextList {
                 Construct_Field_WeekList();
                 break;
             default:
-                // TODO: Error
+                // TODO: SYSTEM MESSAGE
                 break;
         }
     }

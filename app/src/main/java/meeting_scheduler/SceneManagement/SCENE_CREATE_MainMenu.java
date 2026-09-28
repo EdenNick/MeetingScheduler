@@ -263,14 +263,13 @@ public class SCENE_CREATE_MainMenu {
         // ############################################################
         this.closeProgram = event -> {
             
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_end);
-            
             Transition_fadeMenu.setOnFinished(event2 -> {
                 Platform.exit();
             });
 
             Transition_fadeMenu.play();
 
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -278,14 +277,14 @@ public class SCENE_CREATE_MainMenu {
         // changes scene to data card management
         // ############################################################
         this.DatacardScenechange = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToDataCard);
 
             Transition_fadeMenu.setOnFinished(event2 -> {
                 MANAGEAPP_AppWindow.SceneManager.SwapToDataCard();
             });
 
             Transition_fadeMenu.play();
+
+            // TODO: SYSTEM MESSAGE
 
         };
         // ############################################################
@@ -294,14 +293,14 @@ public class SCENE_CREATE_MainMenu {
         // changes the scene to schedule managment
         // ############################################################
         this.ScheduleSceneChange = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToSchedule);
 
             Transition_fadeMenu.setOnFinished(event2 -> {
                 MANAGEAPP_AppWindow.SceneManager.SwapToSchedule();
             });
 
             Transition_fadeMenu.play();
+
+            // TODO: SYSTEM MESSAGE
 
         };
         // ############################################################
@@ -310,8 +309,6 @@ public class SCENE_CREATE_MainMenu {
         // changes the scene to schedule managment
         // ############################################################
         this.InstructionSceneChange = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_MainMenu_ToInstructions);
 
             Transition_fadeMenu.setOnFinished(event2 -> {
                 MANAGEAPP_AppWindow.SceneManager.SwapToInstruct();
@@ -319,6 +316,8 @@ public class SCENE_CREATE_MainMenu {
 
             Transition_fadeMenu.play();
 
+            // TODO: SYSTEM MESSAGE
+            
         };
         // ############################################################
 

@@ -240,8 +240,6 @@ public class SCENE_CREATE_Instruct {
         // Returns to the main menu
         // ############################################################
         this.ReturnHome = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Instruction_returnHome);
 
             Transition_FadeNodes.setOnFinished(event2 -> {
                 MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();
@@ -249,6 +247,7 @@ public class SCENE_CREATE_Instruct {
 
             Transition_FadeNodes.play();
 
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 

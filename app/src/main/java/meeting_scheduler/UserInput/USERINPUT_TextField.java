@@ -13,7 +13,7 @@ public class USERINPUT_TextField {
 
     private final String Parameter_Prompt;
 
-    private final global.TextFieldState Enum_State;
+    //private final global.TextFieldState Enum_State;
 
     private final TextField TextField;
 
@@ -25,7 +25,7 @@ public class USERINPUT_TextField {
 
         this.TextField          = new TextField();
 
-        this.Enum_State         = INPUT_ENUM_STATE;
+        //this.Enum_State         = INPUT_ENUM_STATE;
 
         this.Parameter_Prompt   = INPUT_PROMPT_TEXT;
         this.Parameter_Width    = INPUT_WIDTH;
@@ -34,7 +34,7 @@ public class USERINPUT_TextField {
 
         Construct_Field_BasicParameters();
 
-        switch(Enum_State) {
+        switch(INPUT_ENUM_STATE) {
             case TEXT:
                 Construct_Field_Text();
                 break;
@@ -42,7 +42,7 @@ public class USERINPUT_TextField {
                 Construct_Field_Numeric();
                 break;
             default:
-                // TODO: Error
+                // TODO: SYSTEM MESSAGE ERROR
                 break;
         }
     

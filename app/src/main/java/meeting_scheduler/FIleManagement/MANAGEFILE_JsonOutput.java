@@ -16,23 +16,16 @@ package meeting_scheduler.FileManagement;
 import java.io.File;
 import java.io.IOException;
 // java.util
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Objects;
 // jackson (json file manager)
 import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 
 public class MANAGEFILE_JsonOutput {
 

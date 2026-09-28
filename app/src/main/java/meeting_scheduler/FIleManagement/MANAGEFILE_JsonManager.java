@@ -16,23 +16,12 @@ package meeting_scheduler.FileManagement;
 import java.io.File;
 import java.io.IOException;
 // java.util
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Objects;
 // jackson (json file manager)
 import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 
 
 
@@ -48,56 +37,13 @@ public class MANAGEFILE_JsonManager {
 
     // File Path TODO: add to global variable
     private final String FilePath_Default = "src\\main\\resources\\PROG_DATA_A_UserDataCard.json";      // DEFAULT
-    private       String FilePath_Unique;                                                               // Unique File name
-    // Information to Input
-    private LinkedList<PREF_EMPLOYEE_FullPref> EmployeePreference_JsonInput;
+    // private       String FilePath_Unique;                                                               // Unique File name
+    // // Information to Input
+    // private LinkedList<PREF_EMPLOYEE_FullPref> EmployeePreference_JsonInput;
 
-    // Information to Output
-    private LinkedList<PREF_EMPLOYEE_FullPref> EmployeePreference_JsonOutput;
+    // // Information to Output
+    // private LinkedList<PREF_EMPLOYEE_FullPref> EmployeePreference_JsonOutput;
     // ############################################################
-
-
-
-
-
-
-
-    // // Json Object management
-    // private LinkedList<PREF_EMPLOYEE_FullPref>    IncomingCardList;      // incoming list of usercards containing user datapreferences
-    // private LinkedList<PREF_EMPLOYEE_FullPref>    FileCardList;          // Retrieved List of user card from the relvant .Json file.
-    // private LinkedList<PREF_EMPLOYEE_FullPref>    OutgoingCardList;      // Card list used for all outgoing operations.
-    // private LinkedList<PREF_EMPLOYEE_FullPref>    tempManagementList;    // temporarylist for performing in class operations
-
-    // // iterators
-    // private ListIterator<PREF_EMPLOYEE_FullPref>  FileCardIterator;
-    // private ListIterator<PREF_EMPLOYEE_FullPref>  IncomingCardIterator;
-
-    // // arrays
-    // private final   String[] Weekdays = SCENE_VARIABLES_Local.WEEKDAYS.clone();
-    // private         String[] tempDays;
-
-    // // boolean
-    // // TODO: change lock with seperate object
-    // private boolean ObjectReferenceSet  = false;
-    // private boolean sameID              = false;
-    // // ############################################################
-
-
-
-    // // Testing parameters
-    // // ############################################################
-    // // file path
-    // private static final File TestFile = new File(SCENE_VARIABLES_Local.JSON_TestFile);
-
-    // private static  String                              TestName                = "John Smith";
-    // private static  int                                 TestID                  = 1;
-    // private static  String[]                            TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    // private static  LinkedList<PREF_EMPLOYEE_TimePref>    TestTimeInterval        = new LinkedList<>();
-    // private         PREF_EMPLOYEE_FullPref                staticInfo;
-    // // ############################################################
-
-
-
 
 
 
@@ -125,7 +71,7 @@ public class MANAGEFILE_JsonManager {
         // Try/Catch - Write to file 
         try {
             this.JsonFileManager_FileInput.WriteTo_Default_EmployeePrefFile(Input_Copy);
-            System.out.println("file Write");
+            // TODO: SYSTEM MESSAGE
         } catch (IOException e) {
             e.printStackTrace();
         }

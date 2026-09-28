@@ -52,7 +52,7 @@ public class MANAGEFILE_TXTInput {
             Locked      = true;
 
         } else if (Locked == true) {
-            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_SetFileNameOperationUnderWay);
+            // TODO: SYSTEM MESSAGE
             return 1;
         }
 
@@ -138,7 +138,7 @@ public class MANAGEFILE_TXTInput {
     public static int DeleteData(String ID) {
 
         if (CheckState() == 1) {
-            //System.out.println(PROG_DAL_D_SystemMessages.ERROR_DeleteDataCheckState);
+            // TODO: SYSTEM MESSAGE
             return 1;
         }
 
@@ -175,7 +175,7 @@ public class MANAGEFILE_TXTInput {
 
             Files.move(TemporaryFilePath, FilePath, StandardCopyOption.REPLACE_EXISTING);
 
-            System.out.println("File: " + FilePath + " changed");
+            // TODO: SYSTEM MESSAGE
 
         } catch (IOException e) {
             //System.out.println(PROG_DAL_D_SystemMessages.ERROR_DeleteDataFileReadWrite);
@@ -229,7 +229,7 @@ public class MANAGEFILE_TXTInput {
 
             Files.move(TemporaryFilePath, FilePath, StandardCopyOption.REPLACE_EXISTING);
 
-            System.out.println("File: " + FilePath + " changed");
+            // TODO: SYSTEM MESSAGE
 
         } catch (IOException e) {
 

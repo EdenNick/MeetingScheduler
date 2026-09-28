@@ -490,14 +490,14 @@ public class SCENE_CREATE_Schedule {
         // return to the Home page
         // ############################################################
         this.EVENT_RETURN_HOME = event -> {
-            // Returns to the home page
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_returnHome);
             
             fadeMenuNodes.setOnFinished(event2 -> {
                  MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu(); 
             });
 
             fadeMenuNodes.play();
+
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -506,16 +506,6 @@ public class SCENE_CREATE_Schedule {
         // Resets the number of people used in the schedule
         // ############################################################
         this.EVENT_RESET_People = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetPeople);
-
-            // retrieve the list of user preferences from the relevant json file
-            // try {
-            //     Scheduler_fileReader.RetrieveFromFile();
-            // } catch (IOException e) {
-            //     // ERROR
-            //     e.printStackTrace();
-            // }
 
             // Retrieve the list from the file reader
             try {
@@ -552,6 +542,7 @@ public class SCENE_CREATE_Schedule {
             // reset the linked list of user ids
             this.SCHEDULE_IDS = new LinkedList<>();
 
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -560,8 +551,6 @@ public class SCENE_CREATE_Schedule {
         // Add people to schedule
         // ############################################################
         EVENT_ADD_People = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputPeople);
 
             //TODO fix
             if ((Selectable_PersonList.getValue() != null) && (!Selectable_PersonList.getValue().isBlank())) {
@@ -592,7 +581,7 @@ public class SCENE_CREATE_Schedule {
 
             } // if()
 
-
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -601,8 +590,6 @@ public class SCENE_CREATE_Schedule {
         // Removes the last person added to the schedule
         // ############################################################
         this.EVENT_REMOVE_Person = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_RemovePerson);
 
             // remove all text from the flowpane
             if ((this.AddedPeople.getChildren().size()) > 0) {
@@ -633,6 +620,8 @@ public class SCENE_CREATE_Schedule {
 
             } // if ((this.AddedPeople.getChildren().size()) > 0)
 
+            // TODO: SYSTEM MESSAGE
+
         };
         // ############################################################
 
@@ -642,10 +631,10 @@ public class SCENE_CREATE_Schedule {
         // ############################################################
         this.EVENT_RESET_List = event -> {
             
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetListNum);
-            
             // Text value set to nothing
             this.Label_OutputNumber.setText(SCENE_VARIABLES_Local.EmptyText);
+
+            // TODO: SYSTEM MESSAGE
 
         };
         // ############################################################
@@ -655,8 +644,6 @@ public class SCENE_CREATE_Schedule {
         // add list number the user wants
         // ############################################################
         this.EVENT_ADD_List = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputListNum);
 
             if ((userInput_listAmmount.getText() != null) && (!userInput_listAmmount.getText().isBlank())) {
 
@@ -668,6 +655,8 @@ public class SCENE_CREATE_Schedule {
 
             } // if()
 
+            // TODO: SYSTEM MESSAGE
+
         };
         // ############################################################
 
@@ -676,8 +665,6 @@ public class SCENE_CREATE_Schedule {
         // Resets the selected days for the schedule
         // ############################################################
         this.EVENT_RESET_days = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetDays);
 
             // Resets the flowPanes current list of selected days to an empty string
             this.OutputDays.getChildren().clear();
@@ -701,8 +688,6 @@ public class SCENE_CREATE_Schedule {
         // Adds a user selected day TODO fix weekdaylist
         // ############################################################
         this.EVENT_ADD_Days = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputDays);
             
             if ((userInput_SelectDays.getValue() != null) && (!userInput_SelectDays.getValue().isBlank())) {
 
@@ -738,6 +723,8 @@ public class SCENE_CREATE_Schedule {
 
             } // if()
 
+            // TODO: SYSTEM MESSAGE
+
         };
         // ############################################################
 
@@ -745,8 +732,6 @@ public class SCENE_CREATE_Schedule {
         // Resets the time inputs from the user
         // ############################################################
         this.EVENT_RESET_Times = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_ResetTime);
 
             // Reset List_UserTimes - clearing all elements in the Linked list
             this.SCHEDULE_TIMES.clear();
@@ -776,6 +761,7 @@ public class SCENE_CREATE_Schedule {
 
             ScheduleCalculator.ResetPreference_Times();
 
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -784,9 +770,6 @@ public class SCENE_CREATE_Schedule {
         // Add time input from the user
         // ############################################################
         this.EVENT_ADD_timeInput = event -> {
-
-            // System Message
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_InputTime);
 
             // ButtonPressPartialTimeInput() ensures all variables have been input, returns 0 on success
             if ( (Scheduler_UserTimeInputs.CHECK_PartialTimeInput() == 0) && (SCHEDULE_TIMES.size() < 4) ){
@@ -824,6 +807,7 @@ public class SCENE_CREATE_Schedule {
                 // Do nothing
             }
 
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -833,8 +817,6 @@ public class SCENE_CREATE_Schedule {
         // Calculates the user schedules
         // ############################################################
         this.EVENT_CALCULATE_Schedule = event -> {
-            
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_Calculate);
 
             // retrieved copy of calculated linked list
             this.CalculatedScheduleList = new LinkedList<>(ScheduleCalculator.RetrieveSchedule());
@@ -850,6 +832,8 @@ public class SCENE_CREATE_Schedule {
                 } // if (CalcScheduleIndex < CalculatedScheduleList.size())
 
             } // for (int CalcScheduleIndex = 0; CalcScheduleIndex < this.SCHEDULE_LIST; CalcScheduleIndex++)
+
+            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -858,10 +842,7 @@ public class SCENE_CREATE_Schedule {
         // Clears the schedule list
         // ############################################################
         this.EVENT_CLEAR_schedule = event -> {
-            
-            // clears all calculated schedules
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_Schedule_clear);
-            
+
             this.CalculatedScheduleList = new LinkedList<>();
 
             this.Schedules.clear();
@@ -874,6 +855,8 @@ public class SCENE_CREATE_Schedule {
             }
 
             UIOutput_FullUI_VBOX.getChildren().clear();
+
+            // TODO: SYSTEM MESSAGE
 
         };
         // ############################################################

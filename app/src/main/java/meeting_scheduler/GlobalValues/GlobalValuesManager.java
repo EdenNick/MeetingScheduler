@@ -20,8 +20,9 @@ import meeting_scheduler.global;
 public class GlobalValuesManager {
     
 
-    private final static String FILEPATH_ValuesArrays = "GlobalValuesArrays.properties";
-    private final static String FILEPATH_ValuesUnique = "GlobalValuesUnique.properties";
+    private final static String FILEPATH_ValuesArrays = "src\\main\\java\\meeting_scheduler\\GlobalValues\\GlobalValuesArrays.properties";
+    //app\src\main\java\meeting_scheduler\GlobalValues\GlobalValuesArrays.properties
+    private final static String FILEPATH_ValuesUnique = "src\\main\\java\\meeting_scheduler\\GlobalValues\\GlobalValuesUnique.properties";
 
     private final static String PropPath_Array      = "ARRAY.";
     private final static String PropPath_Unique     = "UNIQUE.";
@@ -149,7 +150,7 @@ public class GlobalValuesManager {
         // indiivudal property string
         String      IncomingPropString;
         // while loop position
-        int         IncomingPropPosition = 1;
+        int         IncomingPropPosition = 0;
         // array to be set to global
         String[]    FinalList;
 
@@ -163,9 +164,9 @@ public class GlobalValuesManager {
             Prop_Type.load(Input_Type);
 
             // While strings continue to be valid and not NULL, continue
-            while ( !(IncomingPropString = Prop_Type.getProperty(PropPAth + IncomingPropPosition)).equals(null) ) {
+            while ( (IncomingPropString = Prop_Type.getProperty(PropPAth + IncomingPropPosition)) != null ) {
                 
-                System.out.println("Type: " + IncomingPropString);
+                //System.out.println("Type: " + IncomingPropString);
 
                 ArraylistPropStrings.add(IncomingPropString);
 
@@ -176,7 +177,7 @@ public class GlobalValuesManager {
 
         } catch (IOException e) {
             // TODO: SYSTEM MESSAGE
-            FinalList = new String[] {"ERROR"};
+            FinalList = new String[0];
         }
 
         // Set to static variable

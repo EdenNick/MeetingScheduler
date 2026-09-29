@@ -234,10 +234,10 @@ public class global {
      */
     public static void Global_Array_BasicValue_Set (int[] INPUT_WEEKLENGTH, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL, String[] INPUT_AMPM) {
         if (false == STATE_BASICVALUES_SET) {
-            Global_Array_WeekLength_Set     (INPUT_WEEKLENGTH);     // - int
-            Global_Array_TimeIntervals_Set  (INPUT_TIMEINTERVALS);  // - int
-            Global_Array_IdentConstraint_Set(INPUT_IDENTINTERVAL);  // - int
-            Global_Array_AMPM_Set           (INPUT_AMPM);           // - String
+            Global_Array_WeekLength_Set     (INPUT_WEEKLENGTH);     // - int[]
+            Global_Array_TimeIntervals_Set  (INPUT_TIMEINTERVALS);  // - int[]
+            Global_Array_IdentConstraint_Set(INPUT_IDENTINTERVAL);  // - int[]
+            Global_Array_AMPM_Set           (INPUT_AMPM);           // - String[]
             global.STATE_BASICVALUES_SET        = true;
         } else {
             // TODO: System Message

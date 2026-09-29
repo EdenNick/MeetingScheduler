@@ -29,7 +29,7 @@ public class MeetingScheduler {
         
         SystemInfoManager.Inititlaize_Global_States();
 
-
+        SystemInfoManager.GET_SYSTEM_MESSAGE(0,0,0,0);
         // launch application window
         Application.launch (MANAGEAPP_AppWindow.class, args);
 

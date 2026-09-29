@@ -77,7 +77,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Type() {
         
         // TODO: CHANGE
-        String FilePath = "GlobalMessageTypes.properties";
+        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalMessageTypes.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -96,7 +96,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Class() {
 
         // TODO: CHANGE
-        String FilePath = "GlobalPropertiesClass.properties";
+        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalMessageClass.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -156,7 +156,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Action() {
 
         // TODO: CHANGE
-        String FilePath = "GlobalPropertiesAction.properties";
+        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalPropertiesAction.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -177,7 +177,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Info() {
 
         // TODO: CHANGE
-        String FilePath = "GlobalPropertiesClass.Info";
+        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalMessageInfo.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -218,9 +218,9 @@ public class GlobalMessageManager {
             Prop_Type.load(Input_Type);
 
             // While strings continue to be valid and not NULL, continue
-            while ( !(IncomingPropString = Prop_Type.getProperty(PropPath + IncomingPropPosition)).equals(null) ) {
+            while ( (IncomingPropString = Prop_Type.getProperty(PropPath + IncomingPropPosition)) != null ) {
                 
-                System.out.println("Type: " + IncomingPropString);
+                //System.out.println("Type: " + IncomingPropString);
 
                 ArraylistPropStrings.add(IncomingPropString);
 

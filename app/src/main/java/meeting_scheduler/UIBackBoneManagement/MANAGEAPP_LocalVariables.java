@@ -1,15 +1,9 @@
-/**
- * MANAGEAPP_local.java()
- * 
- * Description: Holds the local variables for application management
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.UIBackBoneManagement;
 // ############################################################
 
-
+// TODO: MOVE OVER TO GLOBAL VARIABLES IF NECESSARY
 
 public final class MANAGEAPP_LocalVariables {
 

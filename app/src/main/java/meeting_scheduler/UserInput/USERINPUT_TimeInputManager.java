@@ -1,15 +1,7 @@
-/**
- * PROG_UI_C_UserTimeInput.java
- * 
- * Description: Manager for user time inputs for both the data card scene and the scheduler scene
- * 
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.UserInput;
 // ############################################################
-
 
 // Imports
 // ############################################################
@@ -31,12 +23,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-// ############################################################
+// DataAccessLayer
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+// EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
+// SceneManagement
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+//
+import meeting_scheduler.global; // TODO: SWITCH to GLOBALINFOMANAGEMENT
+// ############################################################
 
-import meeting_scheduler.global;
+
 
 public class USERINPUT_TimeInputManager {
     
@@ -57,7 +54,7 @@ public class USERINPUT_TimeInputManager {
     private final TextField Manager_EndTime_Min;
 
     private PREF_EMPLOYEE_TimePref FullUserPreference;
-    private PREF_EMPLOYEE_TimePref PartialUserPreference;
+    // private PREF_EMPLOYEE_TimePref PartialUserPreference;
 
     private Iterator<Node>      Iterator_FlowPaneDisplay;
 
@@ -615,7 +612,6 @@ public class USERINPUT_TimeInputManager {
         // List_UserTimes - list of all timeinputs
         // ############################################################
         List_UserTimes.add(new PREF_EMPLOYEE_TimePref(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
-        System.out.println("UserTimeInput ammount" + List_UserTimes.size()); // TODO: remove
         // ############################################################
 
 

@@ -1,10 +1,3 @@
-/**
- * PROG_DAL_B_JSONManager.java
- * 
- * Description: Used to manage the Input and output of the preferences json file.
- * 
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.FileManagement;

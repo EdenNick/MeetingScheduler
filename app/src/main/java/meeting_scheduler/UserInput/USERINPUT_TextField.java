@@ -1,11 +1,17 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.UserInput;
+// ############################################################
 
-import javafx.scene.control.ComboBox;
+// Imports
+// ############################################################
+// javafx
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-//import meeting_scheduler.UserInput.USERINPUT_TextField.TextFieldState;
+import meeting_scheduler.global; // TODO switch to system info manager
+// ############################################################
 
-import meeting_scheduler.global;
+
 
 public class USERINPUT_TextField {
 

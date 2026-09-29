@@ -1,6 +1,13 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.ScheduleManagement;
 
+// IMPORTS
+// ############################################################
 import java.util.Arrays;
+// ############################################################
+
+
 
 public class MANAGESCHEDULE_IDandDays {
 

@@ -1,33 +1,26 @@
-/**
- * PROG_UI_B_SchedulePeopleScene()
- * 
- * Description: Application window scene which allows the user to make schedules based off of existing user card information
- * Contains:
- * a. back button       (scene change)
- * b. UI interface allowing user to make schedules    (various buttons, text inputs etc)
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.SceneManagement;
+// ############################################################
 
-import java.io.IOException;
 // Imports
 // ############################################################
+// io 
+import java.io.IOException;
+// util
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
-
+// jackson
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-
 // javaFX
+import javafx.util.Duration;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-// Scene
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -48,26 +41,25 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
-//event
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-//geometry
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-// stage
 import javafx.stage.Stage;
-// util
-import javafx.util.Duration;
-// System messages
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+// EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
+// FileManagement
 import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
+// ScheduleManagement
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
+// UIBackBoneManagement
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
+// UserInput
 import meeting_scheduler.UserInput.USERINPUT_TimeInputManager;
+// ############################################################
 
 
 
@@ -1157,16 +1149,10 @@ public class SCENE_CREATE_Schedule {
         // Retrieve the list from the file reader
         try {
 			this.FileUserInfo   = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
-		} catch (StreamReadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabindException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            // TODO: SYSTEM MESSAGE
+            e.printStackTrace();
+        }
         
         // LinkedList of all people in the file showing both ID and full name
         this.PersonList     = new LinkedList<>();
@@ -1696,7 +1682,7 @@ public class SCENE_CREATE_Schedule {
                     try {
 						this.FilePeople = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+                        // TODO: SYSTEM MESSAGE
 						e.printStackTrace();
 					}
 

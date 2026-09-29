@@ -1,9 +1,3 @@
-/**
- * TEST_ALL_FullTest.java
- * 
- * Description: File used to test various functions of the program.
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.UIBackBoneManagement;
@@ -24,7 +18,6 @@ import com.fasterxml.jackson.databind.DatabindException;
 
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.FileManagement.MANAGEFILE_TXTInput;
 
 
@@ -131,9 +124,6 @@ public class MANAGEAPP_FullTest {
      */
     public void TEST_INFO_JsonTest() throws StreamWriteException, DatabindException, IOException  {
 
-        MANAGEFILE_JsonManager test = new MANAGEFILE_JsonManager();
-        //test.JsonWriteTest1();
-        //test.JsonWriteTest2();
 
     }
 

@@ -1,10 +1,20 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.UserInput;
+// ############################################################
 
+// IMPORTS
+// ############################################################
+// javafx
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import meeting_scheduler.global;
+import meeting_scheduler.global; // TODO: switch to SystemInfoManager
+// SceneManagement
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+// ############################################################
+
+
 
 public class USERINPUT_DayTimeInput {
 

@@ -1,13 +1,3 @@
-/**
- * Project Name: Project Meeting Scheduler 
- * Created By: Nicholas Edenfield
- * 
- * 
- * MeetingScheduler.java
- * 
- * Description: main file
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler;
@@ -15,12 +5,14 @@ package meeting_scheduler;
 
 // Imports
 // ############################################################
-// files
-import java.io.File;
-// application
+// io
+// import java.io.File;
+// javafx
 import javafx.application.Application;
-import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+// import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+// UIBackBoneManagement
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
+// ############################################################
 
 
 
@@ -35,35 +27,17 @@ public class MeetingScheduler {
         System.out.println("Hello, World!");
         System.out.println("Program Start");
         
+        SystemInfoManager.Inititlaize_Global_States();
 
-        boolean test = false;
 
-        // Test for program internal logic
-        if (test == true) {
+        // launch application window
+        Application.launch (MANAGEAPP_AppWindow.class, args);
 
-            //meeting_scheduler.PresentationLayer.PROG_TEST_FullTest FULL_TEST = new meeting_scheduler.PresentationLayer.PROG_TEST_FullTest();
-
-            //FULL_TEST.FullTest();
-
-            File file = new File(SCENE_VARIABLES_Local.JSON_TestFile);
-
-            System.out.println(file.getAbsolutePath());
-            System.out.println(file.getParentFile().exists());
-
-        // System start
-        } else {
-
-            // launch application window
-            Application.launch (MANAGEAPP_AppWindow.class, args);
-
-        }
 
         // Program end message
         System.out.println("Program End");
         System.out.println("Goodbye World");
 
     } // main(String[] args)
-
-
 
 } // MeetingScheduler

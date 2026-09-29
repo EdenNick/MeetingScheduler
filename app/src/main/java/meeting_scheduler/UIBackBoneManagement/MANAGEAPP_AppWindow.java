@@ -1,9 +1,3 @@
-/**
- * PROG_UI_A_Application.java
- * 
- * Description: primary application class, handles the javafx thread creation and destruction if needed.
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.UIBackBoneManagement;

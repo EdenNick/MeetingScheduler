@@ -1,4 +1,7 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler;
+// ############################################################
 
 public class global {
 
@@ -46,7 +49,7 @@ public class global {
     // ############################################################
     private static String[] Global_Message_Type;     // Contains system message type.
     private static String[] Global_Message_Class;    // Contains system class names.
-    private static String[] Global_Message_Method;   // contains system message location.
+    private static String[] Global_Message_Action;   // contains system message action
     private static String[] Global_Message_Info;     // Contains relevant info for the message;
     // ############################################################
 
@@ -119,7 +122,7 @@ public class global {
     }
     
     private static void Global_Message_Method_Set       (String[] INPUT_METHODS) {
-        global.Global_Message_Method    = INPUT_METHODS.clone();
+        global.Global_Message_Action    = INPUT_METHODS.clone();
     }
 
     private static void Global_Message_Info_Set         (String[] INPUT_iNFO) {
@@ -136,8 +139,8 @@ public class global {
         return global.Global_Message_Class[INPUT_POSITION];
     }
 
-    public static String Global_Message_Method_Return   (int INPUT_POSITION) {
-        return global.Global_Message_Method[INPUT_POSITION];
+    public static String Global_Message_Action_Return   (int INPUT_POSITION) {
+        return global.Global_Message_Action[INPUT_POSITION];
     }
 
     public static String Global_Message_Info_Return     (int INPUT_POSITION) {
@@ -153,8 +156,8 @@ public class global {
         return global.Global_Message_Class.length;
     }
 
-    public static int Global_Message_Method_ReturnSize() {
-        return global.Global_Message_Method.length;
+    public static int Global_Message_Action_ReturnSize() {
+        return global.Global_Message_Action.length;
     }
 
     public static int Global_Message_Info_Return() {

@@ -1,11 +1,3 @@
-/**
- * PROG_BLL_InfoFileWrite.java
- * 
- * Description: Used to format the default employee preferences Json file and write it to the correct file ensuring
- * organization and that information is streamlined (no duplicates, disjointed preferences, etc)
- * Performs vital operation of verifying data exists and is usable.
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.UserInput;
@@ -13,38 +5,37 @@ package meeting_scheduler.UserInput;
 
 // Imports
 // ############################################################
-// exception
+// io
 import java.io.IOException;
-import java.util.HashMap;
 // util
 import java.util.LinkedList;
 import java.util.ListIterator;
-
-// jackson - json manager
+import java.util.HashMap;
+// jackson
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-// System Messages
+// EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
+// ############################################################
 
 
 
 public class USERINPUT_JsonFormatting {
 
-
+    // TODO: switch to global
     public static final String[]    WEEKDAYS        = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     public  boolean                                 Input = false;
     
 
-    private MANAGEFILE_JsonManager  JsonFileManager;
+    //private MANAGEFILE_JsonManager  JsonFileManager;
     private HashMap<Integer, PREF_EMPLOYEE_FullPref> HashSet_EmployeePreference;
 
     // iterator
     private ListIterator<PREF_EMPLOYEE_FullPref>  Iterator_DefaultJson;
     
     public USERINPUT_JsonFormatting() {
-        this.JsonFileManager = new MANAGEFILE_JsonManager();
+        //this.JsonFileManager = new MANAGEFILE_JsonManager();
 
     }
     

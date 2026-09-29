@@ -1,16 +1,14 @@
-/**
- * PROG_DAL_A_ScheduleTimeInterval.java
- * 
- * Description: Object that holds both a persons and the time interval they can be scheduled on.
- * Used for scheduling purposes
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.ScheduleManagement;
 // ############################################################
 
+// IMPORTS
+// ############################################################
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+// ############################################################
+
+
 
 public class MANAGESCHEDULE_Interval {
 

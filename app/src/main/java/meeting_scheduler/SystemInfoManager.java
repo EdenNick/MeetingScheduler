@@ -1,13 +1,24 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler;
-import meeting_scheduler.GlobalValues.GlobalValuesManager;
-import meeting_scheduler.GlobalMessages.GlobalMessageManager;
+// ############################################################
 
-public class SystemGlobalInfoManager {
+// Imports
+// ############################################################
+// GlobalValues
+import meeting_scheduler.GlobalValues.GlobalValuesManager;
+// GlobalMessages
+import meeting_scheduler.GlobalMessages.GlobalMessageManager;
+// ############################################################
+
+
+
+public class SystemInfoManager {
 
     private static boolean ACCESS_VALUES = false;
     private static int LENGTH_MESSAGE_TYPE      = 0;
     private static int LENGTH_MESSAGE_CLASS     = 0;
-    private static int LENGTH_MESSAGE_METHOD    = 0;
+    private static int LENGTH_MESSAGE_ACTION    = 0;
     private static int LENGTH_MESSAGE_INFO      = 0;
 
     private static int LENGTH_DATA_SPACING      = 0;
@@ -22,7 +33,7 @@ public class SystemGlobalInfoManager {
 
 
 
-    private SystemGlobalInfoManager() {
+    private SystemInfoManager() {
         // prevents instantiation
     }
     
@@ -47,7 +58,7 @@ public class SystemGlobalInfoManager {
      * @param INPUT_VALUE_METHOD
      * @param INPUT_VALUE_INFO
      */
-    public static void GET_SYSTEM_MESSAGE(int INPUT_VALUE_TYPE, int INPUT_VALUE_CLASS, int INPUT_VALUE_METHOD, int INPUT_VALUE_INFO) {
+    public static void GET_SYSTEM_MESSAGE(int INPUT_VALUE_TYPE, int INPUT_VALUE_CLASS, int INPUT_VALUE_ACTION, int INPUT_VALUE_INFO) {
         if (false == ACCESS_VALUES) {
             System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |METHOD: GET_SYSTEM_MESSAGE       |INFO: ACCESS_MESSAGES is false, global system vairables have not been inititialized");
         } else {
@@ -61,9 +72,9 @@ public class SystemGlobalInfoManager {
                 // INPUT_VALUE_CLASS to high
                 System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |METHOD: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_CLASS invalid array access value: " + INPUT_VALUE_CLASS);
 
-            } else if ( (LENGTH_MESSAGE_METHOD < INPUT_VALUE_METHOD) || (0 > INPUT_VALUE_METHOD) ) {
+            } else if ( (LENGTH_MESSAGE_ACTION < INPUT_VALUE_ACTION) || (0 > INPUT_VALUE_ACTION) ) {
                 // INPUT_VALUE_METHOD to high
-                System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |METHOD: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_METHOD invalid array access value: " + INPUT_VALUE_METHOD);
+                System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |METHOD: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_METHOD invalid array access value: " + INPUT_VALUE_ACTION);
 
             } else if ( (LENGTH_MESSAGE_INFO < INPUT_VALUE_INFO) || (0 > INPUT_VALUE_INFO) ) {
                 // INPUT_VALUE_INFO to high
@@ -74,7 +85,7 @@ public class SystemGlobalInfoManager {
                 // TODO; may need to change the format sizing depending on if a message get cutoff or not.
                 String TYPE     = String.format("|TYPE: %-8s",      global.Global_Message_Type_Return   (INPUT_VALUE_TYPE));
                 String CLASS    = String.format("|CLASS: %-25s",    global.Global_Message_Class_Return  (INPUT_VALUE_CLASS));
-                String METHOD   = String.format("|METHOD: %-25s",   global.Global_Message_Method_Return (INPUT_VALUE_METHOD));
+                String METHOD   = String.format("|METHOD: %-25s",   global.Global_Message_Action_Return (INPUT_VALUE_ACTION));
                 String INFO     = String.format("|INFO: %-50s",     global.Global_Message_Info_Return   (INPUT_VALUE_INFO));
 
                 String ReturnMessage = TYPE + CLASS + METHOD + INFO;
@@ -131,17 +142,17 @@ public class SystemGlobalInfoManager {
 
     private static void Get_Lengths() {
         // SYSTEM MESSAGES
-        SystemGlobalInfoManager.LENGTH_MESSAGE_TYPE     = global.Global_Message_Type_ReturnSize();
-        SystemGlobalInfoManager.LENGTH_MESSAGE_CLASS    = global.Global_Message_Class_ReturnSize();
-        SystemGlobalInfoManager.LENGTH_MESSAGE_METHOD   = global.Global_Message_Method_ReturnSize();
-        SystemGlobalInfoManager.LENGTH_MESSAGE_INFO     = global.Global_Message_Info_Return();
+        SystemInfoManager.LENGTH_MESSAGE_TYPE     = global.Global_Message_Type_ReturnSize();
+        SystemInfoManager.LENGTH_MESSAGE_CLASS    = global.Global_Message_Class_ReturnSize();
+        SystemInfoManager.LENGTH_MESSAGE_ACTION   = global.Global_Message_Action_ReturnSize();
+        SystemInfoManager.LENGTH_MESSAGE_INFO     = global.Global_Message_Info_Return();
 
         // UI SPACING VALUES
-        SystemGlobalInfoManager.LENGTH_DATA_SPACING     = global.Global_Array_Spacing_GetLength();
-        SystemGlobalInfoManager.LENGTH_DATA_PADDING     = global.Global_Array_Padding_GetLength();
-        SystemGlobalInfoManager.LENGTH_DATA_WIDTH       = global.Global_Array_Width_GetLength();
-        SystemGlobalInfoManager.LENGTH_DATA_HEIGHT      = global.Global_Array_Height_GetLength();
-        SystemGlobalInfoManager.LENGTH_DATA_ANCHOR      = global.Global_Array_Anchor_GetLength();
+        SystemInfoManager.LENGTH_DATA_SPACING     = global.Global_Array_Spacing_GetLength();
+        SystemInfoManager.LENGTH_DATA_PADDING     = global.Global_Array_Padding_GetLength();
+        SystemInfoManager.LENGTH_DATA_WIDTH       = global.Global_Array_Width_GetLength();
+        SystemInfoManager.LENGTH_DATA_HEIGHT      = global.Global_Array_Height_GetLength();
+        SystemInfoManager.LENGTH_DATA_ANCHOR      = global.Global_Array_Anchor_GetLength();
     }
 
 

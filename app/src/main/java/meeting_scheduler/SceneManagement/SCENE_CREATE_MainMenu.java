@@ -1,9 +1,3 @@
-/**
- * PROG_UI_B_MainMenuScene.java
- * 
- * Description: main menu scene of the application
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.SceneManagement;
@@ -11,6 +5,7 @@ package meeting_scheduler.SceneManagement;
 
 // Imports
 // ############################################################
+// javafx
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
@@ -33,11 +28,10 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-// System Messages
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-// ############################################################
+// UIBackBoneManagement
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
+// ############################################################
 
 
 

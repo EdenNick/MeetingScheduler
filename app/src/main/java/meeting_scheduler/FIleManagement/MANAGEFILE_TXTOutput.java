@@ -1,10 +1,3 @@
-/**
- * PROG_DAL_C_TXTOutput.java
- * 
- * Description: Retrieves data from files (read-only).
- * No locks or preventative measures need to be implemented as all methods are read only operations.
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.FileManagement;
@@ -21,8 +14,6 @@ import java.io.InputStreamReader;
 // util
 import java.util.LinkedList;
 // ############################################################
-
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 
 public class MANAGEFILE_TXTOutput {
 

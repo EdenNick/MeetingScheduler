@@ -1,14 +1,3 @@
-/**
- * PROG_BLL_SchedulingCalculation.java
- * 
- * Description: Performs the calculations necessary to schedule a meeting between various individuals.
- * Options include:
- * scheduling everyone or specific people
- * scheduling on specifc days or anytime during the week
- * Scheduling a specific time or anytime during the day, with otions for different times for each day selected
- * Not scheduling meeting on specifed times or days.
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.ScheduleManagement;
@@ -20,24 +9,25 @@ package meeting_scheduler.ScheduleManagement;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 // util
 import java.util.LinkedList;
 // jackson - json file manager
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import meeting_scheduler.global;
-// System Messages
+import meeting_scheduler.global; // CHANGE to Scene manager
+// DataAccessLayer
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+// EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
+// FileManagement
 import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
+// ############################################################
 
 
 
 public class MANAGESCHEDULE_Calculate {
-
     // TODO: System Messages
 
 
@@ -88,15 +78,10 @@ public class MANAGESCHEDULE_Calculate {
      * Program calculation variables
      */
     private LinkedList<String>                  Calc_AvailableIDs;          // LinkedList that holds the list of available people for each viable interval.
-
-    private LinkedList<MANAGESCHEDULE_Interval>    CALC_AvailablePeople;
-    private LinkedList<PREF_EMPLOYEE_FullPref>    Calc_People;                // Linked list of object PROG_INFO_InfoInput which stores the card info for a persons preference.
-    private boolean                             Calc_PeopleSet     = false; // false if the linkedlist peopele has not been set. false as default. 
-
-    private PREF_EMPLOYEE_TimePref                Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
+    private LinkedList<MANAGESCHEDULE_Interval> CALC_AvailablePeople;
+    private PREF_EMPLOYEE_TimePref              Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
     private boolean                             Calc_IdealSchedule = false; // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
-
-    private LinkedList<MANAGESCHEDULE_Schedule>     Calc_FullScheduleList;      // LinkedList of viableschedules and the people who can be in them.
+    private LinkedList<MANAGESCHEDULE_Schedule> Calc_FullScheduleList;      // LinkedList of viableschedules and the people who can be in them.
 
 
     /**

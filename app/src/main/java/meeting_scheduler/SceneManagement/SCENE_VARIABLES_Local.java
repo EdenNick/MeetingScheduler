@@ -1,12 +1,11 @@
-/**
- * PROG_UI_D_TextLabels()
- * 
- * Description: Holds the text values used for the various variabels throughout the UI
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.SceneManagement;
+// ############################################################
+
+// IMPORTS
+// ############################################################
+
 // ############################################################
 
 

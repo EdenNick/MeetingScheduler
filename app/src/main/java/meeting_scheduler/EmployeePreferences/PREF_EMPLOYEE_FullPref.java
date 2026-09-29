@@ -1,24 +1,16 @@
-/** 
- * PROG_DAL_A_InfoInput.java
- * 
- * Description: Stores static info to be applyed to different files.
- * Should only be concurrently.
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.EmployeePreferences;
 // ############################################################
 
-
-
 // Imports
 // ############################################################
-// Util
+// util
 import java.util.LinkedList;
+// global TODO: change to SystemInfomanager
+import meeting_scheduler.global;
 // ############################################################
 
-import meeting_scheduler.global;
 
 
 public class PREF_EMPLOYEE_FullPref {
@@ -102,7 +94,7 @@ public class PREF_EMPLOYEE_FullPref {
         return this.EMPLOYEE_Delete;
     }
 
-    // Return - employee name TODO: check if this is safe
+    // Return - employee name
     public String   GetName() {
         return this.EMPLOYEE_Name;
     }

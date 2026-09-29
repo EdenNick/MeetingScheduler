@@ -1,11 +1,21 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.GlobalValues;
+// ############################################################
 
+// IMPORTS
+// ############################################################
+// io
 import java.io.FileInputStream;
 import java.io.IOException;
+// util
 import java.util.ArrayList;
 import java.util.Properties;
-
+// global
 import meeting_scheduler.global;
+// ############################################################
+
+
 
 public class GlobalValuesManager {
     
@@ -139,7 +149,7 @@ public class GlobalValuesManager {
         // indiivudal property string
         String      IncomingPropString;
         // while loop position
-        int         IncomingPropPosition = 0;
+        int         IncomingPropPosition = 1;
         // array to be set to global
         String[]    FinalList;
 

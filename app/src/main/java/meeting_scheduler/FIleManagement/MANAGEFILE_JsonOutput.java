@@ -1,10 +1,3 @@
-/**
- * MANAGEFILE_JsonOutput.java
- * 
- * Description: Used to manage the output of data from the preferences .JSON file.
- * 
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.FileManagement;

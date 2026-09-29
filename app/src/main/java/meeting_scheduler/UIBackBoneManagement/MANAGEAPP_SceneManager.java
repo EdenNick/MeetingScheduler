@@ -1,9 +1,3 @@
-/**
- * PROG_UI_A_SceneManager.java
- * 
- * Description: Interface which manages scene transitions for the application
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.UIBackBoneManagement;
@@ -13,11 +7,11 @@ package meeting_scheduler.UIBackBoneManagement;
 // ############################################################
 // Stage
 import javafx.stage.Stage;
+// SceneManagement
 import meeting_scheduler.SceneManagement.SCENE_CREATE_DataCard;
 import meeting_scheduler.SceneManagement.SCENE_CREATE_Instruct;
 import meeting_scheduler.SceneManagement.SCENE_CREATE_MainMenu;
 import meeting_scheduler.SceneManagement.SCENE_CREATE_Schedule;
-import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 // ############################################################
 
 

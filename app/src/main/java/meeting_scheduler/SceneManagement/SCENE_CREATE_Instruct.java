@@ -1,18 +1,7 @@
-/**
- * PROG_UI_B_InstructionsScene.java
- * 
- * Description: Application window scene which shows an "instructions" page
- * Contains:
- * a. back button       (scene change)
- * b. instructions which show how to use the program
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.SceneManagement;
 // ############################################################
-
-
 
 // Imports
 // ############################################################
@@ -40,13 +29,12 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-// System messages
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-// ############################################################
+// FileManagement
 import meeting_scheduler.FileManagement.MANAGEFILE_TXTOutput;
+// UIBackBoneManagement
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
-
+// ############################################################
 
 
 

@@ -1,10 +1,3 @@
-/**
- * PROG_DAL_A_TimeInput.java
- * 
- * Description: Object that stores a single set of clock times meant to be added to a linked list.
- * (Format: Begin -> End)
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.EmployeePreferences;

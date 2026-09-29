@@ -1,27 +1,17 @@
-/**
- * PROG_UI_B_DataCardinfoScene.java
- * 
- * Description: Application window scene which allows the user to add user datacards to the application
- * Contains:
- * a. back button       (scene change)
- * b. UI interface allowing user to add info    (various buttons, text inputs etc)
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.SceneManagement;
 // ############################################################
 
-
-
 // Imports
 // ############################################################
 // Util
-import java.util.Iterator;
 import java.util.LinkedList;
+// io
+import java.io.IOException;
 // Jackson - json manager
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
+// import com.fasterxml.jackson.core.exc.StreamReadException;
+// import com.fasterxml.jackson.databind.DatabindException;
 // Javafx
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -39,9 +29,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -50,19 +37,21 @@ import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 // System Messages
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages; // TODO: REMOVE
+// EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
+import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+// UIBackBoneManagement
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
+// UserInput
 import meeting_scheduler.UserInput.USERINPUT_JsonFormatting;
 import meeting_scheduler.UserInput.USERINPUT_TimeInputManager;
-
-// exceptions
-import java.io.IOException;
-
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+// FileManagement
 import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
 // ############################################################
+
+
 
 public class SCENE_CREATE_DataCard {
 
@@ -688,7 +677,7 @@ public class SCENE_CREATE_DataCard {
             try {
                 int intValue = Integer.parseInt(TextInput);
 
-                if (intValue >= 0 && intValue < 9999999) { // TODO; witch to global variable
+                if (intValue >= 0 && intValue < 9999999) { // TODO; switch to global variable
                     return change;
                 }
 

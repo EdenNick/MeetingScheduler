@@ -1,10 +1,3 @@
-/**
- * MANAGEFILE_JsonInput.java
- * 
- * Description: Used to manage the Input of data into the preferences .JSON file.
- * 
- */
-
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.FileManagement;

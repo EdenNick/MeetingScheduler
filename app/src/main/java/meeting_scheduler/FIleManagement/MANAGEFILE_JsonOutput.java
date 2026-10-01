@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 
 public class MANAGEFILE_JsonOutput {
@@ -59,7 +60,21 @@ public class MANAGEFILE_JsonOutput {
     public LinkedList<PREF_EMPLOYEE_FullPref> Retrieve_DefaultFile() throws StreamReadException, DatabindException, IOException {
 
         // retrieves existing datacards from the json file
-        JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<PREF_EMPLOYEE_FullPref>>() {});
+        try {
+            JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<PREF_EMPLOYEE_FullPref>>() {});
+
+            // System Message
+            // 5 - SUCCESS | 25 - MANAGEFILE_JsonOutput | 10 - SYSTEM-FileAccess | 8 - try/catch Json file read Successful
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,25,10,8);
+
+        } catch (IOException e){
+
+            // System Message
+            // 6 - FAILURE | 25 - MANAGEFILE_JsonOutput | 10 - SYSTEM-FileAccess | 8 - try/catch Json file read Successful
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,25,10,9);
+
+            e.printStackTrace();
+        }
 
         return new LinkedList<>(JsonFileRetrievedList);
 

@@ -78,6 +78,22 @@ public class global {
     // ############################################################
 
 
+    // GLOBAL ENUM CHECK BASICVALUES - used to selecg between defualt basic int values
+    // ############################################################
+    public static enum BASICVALUESINT {
+        WEEKLENGTH, TIMEINTERVALS, IDENTCONSTRAINT
+    }
+    // ############################################################
+
+
+    // GLOBAL ENUM CHECK BASICVALUES - used to selecg between defualt basic stringvalues
+    // ############################################################
+    public static enum BASICVALUESSTRING {
+        AMPM
+    }
+    // ############################################################
+
+
     /**
      * global()
      * Constructor - private
@@ -109,7 +125,7 @@ public class global {
             Global_Message_Info_Set     (INPUT_iNFO);       // - String
             global.STATE_MESSAGE_SET = true;
         } else {
-            // SYSTEM MESSAGE
+            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
@@ -182,7 +198,7 @@ public class global {
             Global_Array_WeekDay_LongCap_Set    (INPUT_LONGCAP);    // - String
             global.STATE_WEEKDAYS_SET           = true;
         } else {
-            // TODO: System Message
+            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
@@ -240,7 +256,7 @@ public class global {
             Global_Array_AMPM_Set           (INPUT_AMPM);           // - String[]
             global.STATE_BASICVALUES_SET        = true;
         } else {
-            // TODO: System Message
+            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
@@ -300,7 +316,7 @@ public class global {
             Global_Array_Anchor_Set     (INPUT_ANCHOR);
             global.STATE_UISPACING_SET  = true;
         } else {
-            // TODO: System Message
+            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
@@ -326,46 +342,26 @@ public class global {
 
 
 
-    public static double Global_Array_Spacing_Get   (int INPUT_POSITION) {
-        return global.Global_Data_Spacing[INPUT_POSITION];
+    public static double[] Global_Array_Spacing_Get() {
+        return global.Global_Data_Spacing.clone();
     }
 
-    public static double Global_Array_Padding_Get   (int INPUT_POSITION) {
-        return global.Global_Data_Padding[INPUT_POSITION];
+    public static double[] Global_Array_Padding_Get() {
+        return global.Global_Data_Padding.clone();
     }
 
-    public static double Global_Array_Width_Get     (int INPUT_POSITION) {
-        return global.Global_Data_Width[INPUT_POSITION];
+    public static double[] Global_Array_Width_Get() {
+        return global.Global_Data_Width.clone();
     }
 
-    public static double Global_Array_Height_Get    (int INPUT_POSITION) {
-        return global.Global_Data_Height[INPUT_POSITION];
+    public static double[] Global_Array_Height_Get() {
+        return global.Global_Data_Height.clone();
     }
 
-    public static double Global_Array_Anchor_Get    (int INPUT_POSITION) {
-        return global.Global_Data_Anchor[INPUT_POSITION];
-    }
-
-
-    public static int Global_Array_Spacing_GetLength() {
-        return global.Global_Data_Spacing.length;
-    }
-
-    public static int Global_Array_Padding_GetLength() {
-        return global.Global_Data_Padding.length;
-    }
-
-    public static int Global_Array_Width_GetLength() {
-        return global.Global_Data_Width.length;
-    }
-
-    public static int Global_Array_Height_GetLength() {
-        return global.Global_Data_Height.length;
-    }
-
-    public static int Global_Array_Anchor_GetLength() {
-        return global.Global_Data_Anchor.length;
+    public static double[] Global_Array_Anchor_Get() {
+        return global.Global_Data_Anchor.clone();
     }
 
 
-}
+
+} // global{}

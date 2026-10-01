@@ -25,17 +25,30 @@ public class MeetingScheduler {
 
         // Program start message
         System.out.println("Hello, World!");
-        System.out.println("Program Start");
         
+        // Initialize global values
         SystemInfoManager.Inititlaize_Global_States();
 
-        SystemInfoManager.GET_SYSTEM_MESSAGE(0,0,0,0);
+        // System Message
+        // 1 - START | 1 - MeetingScheduler | 1 - SYSTEM-START | 1 - System Startup successful
+        SystemInfoManager.GET_SYSTEM_MESSAGE(1,1,1,1);
+
+        // System Message
+        // 1 - START | 1 - MeetingScheduler | 3 - SYSTEM-CreateGlobalValues | 3 - System global values created and ready for use
+        SystemInfoManager.GET_SYSTEM_MESSAGE(1,1,3,3);
+
+
+
         // launch application window
         Application.launch (MANAGEAPP_AppWindow.class, args);
 
 
-        // Program end message
-        System.out.println("Program End");
+
+        // System Message
+        // 1 - START | 1 - MeetingScheduler | 2 - SYSTEM-END | 2 - System ENDING successful
+        SystemInfoManager.GET_SYSTEM_MESSAGE(1,1,2,2);
+
+        // Program end message;
         System.out.println("Goodbye World");
 
     } // main(String[] args)

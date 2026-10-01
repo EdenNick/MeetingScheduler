@@ -14,7 +14,10 @@ import java.util.LinkedList;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 
 import com.fasterxml.jackson.databind.DatabindException;
+
+import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+// ############################################################
 
 
 
@@ -30,12 +33,6 @@ public class MANAGEFILE_JsonManager {
 
     // File Path TODO: add to global variable
     private final String FilePath_Default = "src\\main\\resources\\PROG_DATA_A_UserDataCard.json";      // DEFAULT
-    // private       String FilePath_Unique;                                                               // Unique File name
-    // // Information to Input
-    // private LinkedList<PREF_EMPLOYEE_FullPref> EmployeePreference_JsonInput;
-
-    // // Information to Output
-    // private LinkedList<PREF_EMPLOYEE_FullPref> EmployeePreference_JsonOutput;
     // ############################################################
 
 
@@ -64,8 +61,16 @@ public class MANAGEFILE_JsonManager {
         // Try/Catch - Write to file 
         try {
             this.JsonFileManager_FileInput.WriteTo_Default_EmployeePrefFile(Input_Copy);
-            // TODO: SYSTEM MESSAGE
+            
+            // System Message
+            // 5 - SUCCESS | 24 - MANAGEFILE_JsonManager | 10 - SYSTEM-FileAccess | 4 - try/catch File access successful
+            SystemInfoManager.GET_SYSTEM_MESSAGE(1,1,10,4);
+
         } catch (IOException e) {
+
+            // System Message
+            // 6 - FAILURE | 24 - MANAGEFILE_JsonManager | 10 - SYSTEM-FileAccess | 4 - try/catch File access failure
+            SystemInfoManager.GET_SYSTEM_MESSAGE(1,1,10,5);
             e.printStackTrace();
         }
 

@@ -17,7 +17,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+// ############################################################
+
+
 
 public class MANAGEFILE_JsonInput {
 
@@ -49,17 +53,36 @@ public class MANAGEFILE_JsonInput {
     }
 
 
-    public int WriteTo_Default_EmployeePrefFile(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_DATACARDLIST) throws StreamWriteException, DatabindException, IOException {
+    public void WriteTo_Default_EmployeePrefFile(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_DATACARDLIST) throws StreamWriteException, DatabindException, IOException {
 
         this.JSONFileInputList = new LinkedList<>(INPUT_DATACARDLIST);
 
         // IF - write only if the input list isn't null
         if (this.JSONFileInputList != null) {
-            Write_JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(DATAFILE_Preferences, JSONFileInputList);
-            // TODO: SYSTEM MESSAGE
+
+            try {
+                Write_JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(DATAFILE_Preferences, JSONFileInputList);
+
+                // System Message
+                // 5 - SUCCESS | 23 - MANAGEFILE_JsonInput | 10 - SYSTEM-FileAccess | 6 - try/catch Json file Write Successful
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,23,10,6);
+
+            } catch (IOException e) {
+
+                // System Message
+                // 6 - FAILURE | 23 - MANAGEFILE_JsonInput | 10 - SYSTEM-FileAccess | 6 - try/catch Json file Write Failure
+                SystemInfoManager.GET_SYSTEM_MESSAGE(6,23,10,7);
+
+                e.printStackTrace();
+            }
+            
+        } else {
+
+            // System Message
+            // 6 - FAILURE | 23 - MANAGEFILE_JsonInput | 10 - SYSTEM-FileAccess | 6 - File task - invalid input
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,23,10,10);
         }
 
-        return 0;
     } // WriteToFile()
 
     

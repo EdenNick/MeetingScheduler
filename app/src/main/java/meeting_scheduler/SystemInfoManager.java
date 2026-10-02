@@ -22,6 +22,11 @@ public class SystemInfoManager {
     private static int LENGTH_MESSAGE_ACTION    = 0;
     private static int LENGTH_MESSAGE_INFO      = 0;
 
+    private static int LENGTH_MESSAGE_TYPE_LENGTH   = 10;
+    private static int LENGTH_MESSAGE_CLASS_LENGTH  = 15;
+    private static int LENGTH_MESSAGE_ACTION_LENGTH = 20;
+    private static int LENGTH_MESSAGE_INFO_LENGTH   = 20;
+
     // private static int LENGTH_DATA_SPACING      = 0;
     // private static int LENGTH_DATA_PADDING      = 0;
     // private static int LENGTH_DATA_WIDTH        = 0;
@@ -46,6 +51,12 @@ public class SystemInfoManager {
         GlobalMessageManager.MESSAGE_SETUP();
         // Gets message sizes for safe access
         Get_Lengths();
+
+
+        SystemInfoManager.LENGTH_MESSAGE_TYPE_LENGTH   = 10;
+        SystemInfoManager.LENGTH_MESSAGE_CLASS_LENGTH  = 15;
+        SystemInfoManager.LENGTH_MESSAGE_ACTION_LENGTH = 20;
+        SystemInfoManager.LENGTH_MESSAGE_INFO_LENGTH  = 20;
 
         ACCESS_VALUES = true;
     }

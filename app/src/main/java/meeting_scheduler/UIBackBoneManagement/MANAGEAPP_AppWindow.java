@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 // ############################################################
+import meeting_scheduler.SystemInfoManager;
 
 
 
@@ -20,8 +21,6 @@ public class MANAGEAPP_AppWindow extends Application {
     // Local Variables
     public static MANAGEAPP_SceneManager SceneManager;
 
-
-    // TODO: SYSTEM MESSAGE
     
     /**
      * start()
@@ -41,8 +40,16 @@ public class MANAGEAPP_AppWindow extends Application {
         boolean test = false;
 
         if (test == false) {
+            // System Message
+            // 5 - SUCCESS | 9 - MANAGEAPP_AppWindow | 1 - SYSTEM-START | 27 - windowrun start
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,9,1,27);
+
             WindowRun(stage);
         } else {
+            // System Message
+            // 5 - SUCCESS | 9 - MANAGEAPP_AppWindow | 1 - SYSTEM-START | 28 - windowtest start
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,9,1,28);
+
             WindowTest(stage);
         }
 

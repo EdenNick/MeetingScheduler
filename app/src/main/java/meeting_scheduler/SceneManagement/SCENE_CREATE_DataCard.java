@@ -36,6 +36,7 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import meeting_scheduler.SystemInfoManager;
 // System Messages
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages; // TODO: REMOVE
 // EmployeePreferences
@@ -154,6 +155,11 @@ public class SCENE_CREATE_DataCard {
 
         // Shows the change
         this.ApplicationStage.show();
+
+
+        // System Message
+        // 5 - SUCCESS | 17 - SCENE_CREATE_DataCard | 11 - SYSTEM-switchScene | 11 - Scene Switch to Datacard page
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,17,11,11);
         
     } // changetoDataCardScene()
 
@@ -255,6 +261,11 @@ public class SCENE_CREATE_DataCard {
         this.EFFECT_Fade.play();
         // ############################################################
         
+
+        // System Message
+        // 5 - SUCCESS | 17 - SCENE_CREATE_DataCard | 5 - SYSTEM-CreateScenes | 15 - Scene created and set
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,17,5,15);
+
     } // ConstructCardManagerScene()
 
     
@@ -412,6 +423,10 @@ public class SCENE_CREATE_DataCard {
 
             EFFECT_Fade.play();
 
+            // System Message
+            // 5 - SUCCESS | 17 - SCENE_CREATE_DataCard | 8 - SYSTEM-SetScenes | 13 - Scene Switch to Main Menu
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,17,8,13);
+
         };
         // ############################################################
 
@@ -450,11 +465,17 @@ public class SCENE_CREATE_DataCard {
                 // garbage Collection
                 TempUserPreferrence = null;
 
+
+                // System Message
+                // 5 - SUCCESS | 17 - SCENE_CREATE_DataCard | 13 - USER-AddingInfo | 16 - Data has been added
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,17,13,16);
+
             } else {
-                // Do nothing
+                // System Message
+                // 6 - FAILURE | 17 - SCENE_CREATE_DataCard | 13 - USER-AddingInfo | 17 - Data has not been added
+                SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,13,17);
             }
 
-            // TODO: SYSTEM MESSAGE
 
         };
         // ############################################################
@@ -470,17 +491,23 @@ public class SCENE_CREATE_DataCard {
             //System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_EVENT_SubmitInfo);
 
             // collect all info into the relvant linkedlist
-            if          (this.Input_Name .getText().isBlank())       { // Do nothing
+            if          (this.Input_Name .getText().isBlank())          { // Do nothing
                 // user has not submitted a valid name
-                System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidName);
+                // System Message
+                // 6 - FAILURE | 17 - SCENE_CREATE_DataCard | 14 - USER-SubmittingInfo | 21 - data has not been submitted, invalid paramater
+                SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,14,21);
 
             } else if   (this.Input_Ident   .getText().isBlank())       { // Do nothing
                 // user has not submitted a valid name
-                System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidID);
+                // System Message
+                // 6 - FAILURE | 17 - SCENE_CREATE_DataCard | 14 - USER-SubmittingInfo | 21 - data has not been submitted, invalid paramater
+                SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,14,21);
 
-            } else if   (this.List_UserTimes         .size() < 1)                { // Do nothing
+            } else if   (this.List_UserTimes         .size() < 1)       { // Do nothing
                 // user has not submitted valid user times
-                System.out.println(PROG_DAL_D_SystemMessages.INFO_DataCard_InvalidTimes);
+                // System Message
+                // 6 - FAILURE | 17 - SCENE_CREATE_DataCard | 14 - USER-SubmittingInfo | 21 - data has not been submitted, invalid paramater
+                SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,14,21);
 
             } else {
 
@@ -551,10 +578,12 @@ public class SCENE_CREATE_DataCard {
 
                 // ############################################################
 
+                // System Message
+                // 5 - SUCCESS | 17 - SCENE_CREATE_DataCard | 14 - USER-SubmittingInfo | 20 - Data has been submitted
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,17,14,20);
 
             } // if/else ()
             
-                // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -563,35 +592,6 @@ public class SCENE_CREATE_DataCard {
         // Resets all input time preferences
         // ############################################################
         this.EVENT_ResetTimePref = event -> {
-
-
-
-
-            // // linkedlist Vbox full of user preferences
-            // RemoveAllVBOXIterator = List_VBoxTimeInputs.iterator();
-
-            // while (RemoveAllVBOXIterator.hasNext()) {
-
-            //     // next Vbox in iterator
-            //     VBox tempBox = RemoveAllVBOXIterator.next();
-
-            //     // clears all nodes in the Vbox
-            //     tempBox.getChildren().clear();
-
-            //     // if the Vbox is fully empty
-            //     if (tempBox.getChildren().isEmpty()) {
-
-            //         // removes empty Vbox from the linked list of preferences
-            //         RemoveAllVBOXIterator.remove();
-
-            //         //removes InputTime from UserTimeInput LinkedList
-            //         System.out.println("User Input :" + List_UserTimes.size());
-            //         List_UserTimes.remove(0);
-
-            //     } // if ()
-
-            // } // for ()
-
 
             List_UserTimes.clear();
             /**
@@ -605,7 +605,10 @@ public class SCENE_CREATE_DataCard {
             } // for()
 
             Display_InputPref.getChildren().clear();
-            // TODO: SYSTEM MESSAGE
+            
+            // System Message
+            // 5 - SUCCESS | 17 - SCENE_CREATE_DataCard | 15 - USER-ResettingInfo | 22 - Time preference reset
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,17,15,22);
         };
         // ############################################################
 

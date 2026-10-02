@@ -28,6 +28,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import meeting_scheduler.SystemInfoManager;
 // UIBackBoneManagement
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
@@ -107,6 +108,10 @@ public class SCENE_CREATE_MainMenu {
 
         // Unfades the stage
         Transition_UnFadeMenu.play();
+
+        // System Message
+        // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 8 - SYSTEM-SetScenes | 13 - Scene Switch to Main Menu
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,8,13);
 
     } // ChangeToMainMenu()
 
@@ -193,6 +198,11 @@ public class SCENE_CREATE_MainMenu {
         Transition_fadeMenu.play();
         // ############################################################
 
+
+        // System Message
+        // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 5 - SYSTEM-CreateScenes | 15 - Scene created and set
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,5,15);
+        
     } // ConstructMainMenuScene()
 
 
@@ -263,7 +273,9 @@ public class SCENE_CREATE_MainMenu {
 
             Transition_fadeMenu.play();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 23 - closing program
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,23);
         };
         // ############################################################
 
@@ -278,7 +290,9 @@ public class SCENE_CREATE_MainMenu {
 
             Transition_fadeMenu.play();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 11 - Scene Switch to Datacard page
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,11);
 
         };
         // ############################################################
@@ -294,7 +308,9 @@ public class SCENE_CREATE_MainMenu {
 
             Transition_fadeMenu.play();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 11 - Scene Switch to Scheduling page
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,14);
 
         };
         // ############################################################
@@ -310,7 +326,9 @@ public class SCENE_CREATE_MainMenu {
 
             Transition_fadeMenu.play();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 12 - Scene Switch to instruction page
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,12);
             
         };
         // ############################################################

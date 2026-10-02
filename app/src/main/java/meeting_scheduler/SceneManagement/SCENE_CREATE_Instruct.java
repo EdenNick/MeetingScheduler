@@ -29,6 +29,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import meeting_scheduler.SystemInfoManager;
 // FileManagement
 import meeting_scheduler.FileManagement.MANAGEFILE_TXTOutput;
 // UIBackBoneManagement
@@ -93,7 +94,7 @@ public class SCENE_CREATE_Instruct {
     public SCENE_CREATE_Instruct(Stage stage) {
         // set the stage
         this.ApplicationStage = stage;
-        // create the fiel reader object and set it to read from the instructions file
+        // create the file reader object and set it to read from the instructions file
         this.fileReader = new MANAGEFILE_TXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
 
     } // PROG_UI_B_InstructionsScene(Stage stage)
@@ -123,6 +124,10 @@ public class SCENE_CREATE_Instruct {
         // unfades nodes
         Transition_UnFadeNodes.play();
         
+        // System Message
+        // 5 - SUCCESS | 18 - SCENE_CREATE_Instruct | 12 - SYSTEM-SetScenes | 12 - Scene Switch to instruction page
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,18,12,12);
+
     } // changetoInstructionsScene
 
 
@@ -202,6 +207,10 @@ public class SCENE_CREATE_Instruct {
         // ############################################################
 
 
+        // System Message
+        // 5 - SUCCESS | 18 - SCENE_CREATE_Instruct | 5 - SYSTEM-CreateScenes | 15 - Scene created and set
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,18,5,15);
+
     } // ConstructInstructionsScene()
 
 
@@ -235,7 +244,9 @@ public class SCENE_CREATE_Instruct {
 
             Transition_FadeNodes.play();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 18 - SCENE_CREATE_Instruct | 12 - USER-ButtonPress | 13 - Scene Switch to Main Menu
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,18,12,13);
         };
         // ############################################################
 

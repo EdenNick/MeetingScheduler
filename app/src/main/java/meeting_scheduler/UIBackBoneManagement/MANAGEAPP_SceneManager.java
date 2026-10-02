@@ -7,6 +7,7 @@ package meeting_scheduler.UIBackBoneManagement;
 // ############################################################
 // Stage
 import javafx.stage.Stage;
+import meeting_scheduler.SystemInfoManager;
 // SceneManagement
 import meeting_scheduler.SceneManagement.SCENE_CREATE_DataCard;
 import meeting_scheduler.SceneManagement.SCENE_CREATE_Instruct;
@@ -38,8 +39,6 @@ public class MANAGEAPP_SceneManager {
      * @param stage
      */
     public MANAGEAPP_SceneManager (Stage stage) {
-
-        // TODO: SYSTEM MESSAGE
         
         // Set local reference to the application stage for use within the class.
         this.ApplicationStage = stage;
@@ -90,6 +89,11 @@ public class MANAGEAPP_SceneManager {
 
         // construction - creates the instruction page  - CALL ONCE
         this.Instruct.ConstructInstructionsScene();
+
+
+        // System Message
+        // 5 - SUCCESS | 12 - MANAGEAPP_SceneManager| 5 - SYSTEM-CreateScenes | 29 - SceneManager startup complete
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,12,5,28);
 
     } // StartUp()
 

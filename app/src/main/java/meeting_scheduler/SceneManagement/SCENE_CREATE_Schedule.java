@@ -46,6 +46,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import meeting_scheduler.SystemInfoManager;
 // EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
@@ -265,6 +266,10 @@ public class SCENE_CREATE_Schedule {
 
         // Shows the change
         this.ApplicationStage.show();
+
+        // System Message
+        // 5 - SUCCESS | 20 - SCENE_CREATE_Schedule | 8 - SYSTEM-SetScenes | 14 - Scene Switch to Scheduling page
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,20,8,14);
         
     } // changetoSchedulingScene
 
@@ -383,6 +388,11 @@ public class SCENE_CREATE_Schedule {
         fadeMenuNodes.play();
         // ############################################################
 
+
+        // System Message
+        // 5 - SUCCESS | 20 - SCENE_CREATE_Schedule | 5 - SYSTEM-CreateScenes | 15 - Scene created and set
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,20,5,15);
+
     }
 
 
@@ -489,7 +499,9 @@ public class SCENE_CREATE_Schedule {
 
             fadeMenuNodes.play();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 12 - Scene Switch to instruction page
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,12);
         };
         // ############################################################
 
@@ -534,7 +546,9 @@ public class SCENE_CREATE_Schedule {
             // reset the linked list of user ids
             this.SCHEDULE_IDS = new LinkedList<>();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 24 - people preference reset
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,24);
         };
         // ############################################################
 
@@ -571,9 +585,16 @@ public class SCENE_CREATE_Schedule {
                 // updates the scheduler with the updated list
                 ScheduleCalculator.SetPreference_People(IDS_TOSchedule);
 
+                // System Message
+                // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 16 - Data has been added
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,16);
+
             } // if()
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 6 - FAILURE | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 17 - Data has not been added
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,19,12,17);
+
         };
         // ############################################################
 
@@ -610,9 +631,15 @@ public class SCENE_CREATE_Schedule {
                     this.SCHEDULE_IDS = new LinkedList<>();
                 }
 
+                // System Message
+                // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 18 - data has been removed
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,18);
+
             } // if ((this.AddedPeople.getChildren().size()) > 0)
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 6 - FAILURE | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 19 - Data has not been removed
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,19,12,19);
 
         };
         // ############################################################
@@ -626,7 +653,9 @@ public class SCENE_CREATE_Schedule {
             // Text value set to nothing
             this.Label_OutputNumber.setText(SCENE_VARIABLES_Local.EmptyText);
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 18 - data has been removed
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,18);
 
         };
         // ############################################################
@@ -645,9 +674,15 @@ public class SCENE_CREATE_Schedule {
 
                 SCHEDULE_LIST = Integer.parseInt(SelectedAmmount);
 
+                // System Message
+                // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 16 - Data has been added
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,16);
+
             } // if()
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 6 - FAILURE | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 17 - Data has not been added
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,19,12,17);
 
         };
         // ############################################################
@@ -671,6 +706,10 @@ public class SCENE_CREATE_Schedule {
 
             // resets the schedule calcualtor to look through everyday of the week
             ScheduleCalculator.ResetPreference_Weekdays(); // input String[]
+
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 18 - data has been removed
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,18);
 
         };
         // ############################################################
@@ -713,9 +752,15 @@ public class SCENE_CREATE_Schedule {
                 // scheduler is updated with the new list of selected days
                 ScheduleCalculator.SetPreference_Weekdays(SelectedDays_SchedulerInput);
 
+                // System Message
+                // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 16 - Data has been added
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,16);
+
             } // if()
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 6 - FAILURE | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 17 - Data has not been added
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,19,12,17);
 
         };
         // ############################################################
@@ -753,7 +798,9 @@ public class SCENE_CREATE_Schedule {
 
             ScheduleCalculator.ResetPreference_Times();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 18 - data has been removed
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,18);
         };
         // ############################################################
 
@@ -795,11 +842,16 @@ public class SCENE_CREATE_Schedule {
                 // update the scheduler to the updated list of user times
                 ScheduleCalculator.SetPreference_Times(SCHEDULE_TIMES);
 
+                // System Message
+                // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 16 - Data has been added
+                SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,16);
+
             } else {
-                // Do nothing
+                // System Message
+                // 6 - FAILURE | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 17 - Data has not been added
+                SystemInfoManager.GET_SYSTEM_MESSAGE(6,19,12,17);
             }
 
-            // TODO: SYSTEM MESSAGE
         };
         // ############################################################
 
@@ -825,7 +877,9 @@ public class SCENE_CREATE_Schedule {
 
             } // for (int CalcScheduleIndex = 0; CalcScheduleIndex < this.SCHEDULE_LIST; CalcScheduleIndex++)
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 25 - Calculating schedule
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,25);
         };
         // ############################################################
 
@@ -848,7 +902,9 @@ public class SCENE_CREATE_Schedule {
 
             UIOutput_FullUI_VBOX.getChildren().clear();
 
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 26 - Clearing schedule
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,26);
 
         };
         // ############################################################
@@ -1149,8 +1205,15 @@ public class SCENE_CREATE_Schedule {
         // Retrieve the list from the file reader
         try {
 			this.FileUserInfo   = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
+
 		} catch (IOException e) {
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
             e.printStackTrace();
         }
         
@@ -1681,8 +1744,16 @@ public class SCENE_CREATE_Schedule {
 
                     try {
 						this.FilePeople = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+
+                        // System Message
+                        // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
+                        SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
+                        
 					} catch (IOException e) {
-                        // TODO: SYSTEM MESSAGE
+
+                        // System Message
+                        // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
+                        SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
 						e.printStackTrace();
 					}
 

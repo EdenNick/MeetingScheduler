@@ -29,6 +29,14 @@ public class GlobalMessageManager {
 
     private static String[] Global_Message_Info;
 
+    private static int Global_Message_Type_Length = 0;
+
+    private static int Global_Message_Class_Length = 0;
+
+    private static int Global_Message_Action_Length = 0;
+
+    private static int Global_Message_Info_Length = 0;
+
     // Message Path variables
     private static final String PROPPATH_TYPE       = "TYPE.";
     private static final String PROPPATH_CLASS      = "CLASS.";
@@ -74,6 +82,24 @@ public class GlobalMessageManager {
             GlobalMessageManager.Global_Message_Action, GlobalMessageManager.Global_Message_Info);
     }
 
+    
+    public static int Return_Length_Type() {
+        return Global_Message_Type_Length;
+    }
+
+    public static int Return_Length_Class() {
+        return Global_Message_Class_Length;
+    }
+
+    public static int Return_Length_Action() {
+        return Global_Message_Action_Length;
+    }
+
+    public static int Return_Length_info() {
+        return Global_Message_Info_Length;
+    }
+
+
     private static void Set_Global_Message_Type() {
         
         // TODO: CHANGE
@@ -89,6 +115,14 @@ public class GlobalMessageManager {
         // add all together
         GlobalMessageManager.Global_Message_Type = AddAll.toArray(new String[0]);
 
+        int maxLength = 0;
+        for (int pos = 0; pos < Global_Message_Type.length; pos++) {
+            if (maxLength < Global_Message_Type[pos].length()) {
+                maxLength = Global_Message_Type[pos].length();
+            }
+        }
+
+        GlobalMessageManager.Global_Message_Type_Length = maxLength;
     } // Set_Global_Message_Type
 
 
@@ -150,6 +184,14 @@ public class GlobalMessageManager {
         // add all together
         GlobalMessageManager.Global_Message_Class = AddAll.toArray(new String[0]);
 
+        int maxLength = 0;
+        for (int pos = 0; pos < Global_Message_Class.length; pos++) {
+            if (maxLength < Global_Message_Class[pos].length()) {
+                maxLength = Global_Message_Class[pos].length();
+            }
+        }
+
+        GlobalMessageManager.Global_Message_Class_Length = maxLength;
 
     } // Set_Global_Message_Class
 
@@ -172,6 +214,15 @@ public class GlobalMessageManager {
         // add all together
         GlobalMessageManager.Global_Message_Action = AddAll.toArray(new String[0]);
 
+        int maxLength = 0;
+        for (int pos = 0; pos < Global_Message_Action.length; pos++) {
+            if (maxLength < Global_Message_Action[pos].length()) {
+                maxLength = Global_Message_Action[pos].length();
+            }
+        }
+
+        GlobalMessageManager.Global_Message_Action_Length = maxLength;
+
     } // Set_Global_Message_Method
 
     private static void Set_Global_Message_Info() {
@@ -188,6 +239,15 @@ public class GlobalMessageManager {
 
         // add all togehter
         GlobalMessageManager.Global_Message_Info = AddAll.toArray(new String[0]);
+
+        int maxLength = 0;
+        for (int pos = 0; pos < Global_Message_Info.length; pos++) {
+            if (maxLength < Global_Message_Info[pos].length()) {
+                maxLength = Global_Message_Info[pos].length();
+            }
+        }
+
+        GlobalMessageManager.Global_Message_Info_Length = maxLength;
 
     } // Set_Global_Message_Info
 

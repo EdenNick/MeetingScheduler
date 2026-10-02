@@ -17,15 +17,15 @@ public class SystemInfoManager {
 
     private static boolean ACCESS_VALUES = false;
 
-    private static int LENGTH_MESSAGE_TYPE      = 0;
-    private static int LENGTH_MESSAGE_CLASS     = 0;
-    private static int LENGTH_MESSAGE_ACTION    = 0;
-    private static int LENGTH_MESSAGE_INFO      = 0;
+    private static int ARRAYLENGTH_MESSAGE_TYPE      = 0;
+    private static int ARRAYLENGTH_MESSAGE_CLASS     = 0;
+    private static int ARRAYLENGTH_MESSAGE_ACTION    = 0;
+    private static int ARRAYLENGTH_MESSAGE_INFO      = 0;
 
-    private static int LENGTH_MESSAGE_TYPE_LENGTH   = 10;
-    private static int LENGTH_MESSAGE_CLASS_LENGTH  = 15;
-    private static int LENGTH_MESSAGE_ACTION_LENGTH = 20;
-    private static int LENGTH_MESSAGE_INFO_LENGTH   = 20;
+    private static int TYPE_LENGTH   = 10;
+    private static int CLASS_LENGTH  = 15;
+    private static int ACTION_LENGTH = 20;
+    private static int INFO_LENGTH   = 20;
 
     // private static int LENGTH_DATA_SPACING      = 0;
     // private static int LENGTH_DATA_PADDING      = 0;
@@ -53,10 +53,10 @@ public class SystemInfoManager {
         Get_Lengths();
 
 
-        SystemInfoManager.LENGTH_MESSAGE_TYPE_LENGTH   = 10;
-        SystemInfoManager.LENGTH_MESSAGE_CLASS_LENGTH  = 15;
-        SystemInfoManager.LENGTH_MESSAGE_ACTION_LENGTH = 20;
-        SystemInfoManager.LENGTH_MESSAGE_INFO_LENGTH  = 20;
+        SystemInfoManager.TYPE_LENGTH    = GlobalMessageManager.Return_Length_Type();
+        SystemInfoManager.CLASS_LENGTH   = GlobalMessageManager.Return_Length_Class();
+        SystemInfoManager.ACTION_LENGTH  = GlobalMessageManager.Return_Length_Action();
+        SystemInfoManager.INFO_LENGTH    = GlobalMessageManager.Return_Length_info();
 
         ACCESS_VALUES = true;
     }
@@ -76,29 +76,29 @@ public class SystemInfoManager {
         } else {
 
             // Each check ensure the input values are within the valid interval of the array, not greater than the length, and not less than 0
-            if ( (LENGTH_MESSAGE_TYPE < INPUT_VALUE_TYPE) || (0 > INPUT_VALUE_TYPE) ) {
+            if ( (ARRAYLENGTH_MESSAGE_TYPE < INPUT_VALUE_TYPE) || (0 > INPUT_VALUE_TYPE) ) {
                 // INPUT_VALUE_TYPE to high
                 System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_TYPE invalid array access value: " + INPUT_VALUE_TYPE);
 
-            } else if ( (LENGTH_MESSAGE_CLASS < INPUT_VALUE_CLASS) || (0 > INPUT_VALUE_CLASS) ) {
+            } else if ( (ARRAYLENGTH_MESSAGE_CLASS < INPUT_VALUE_CLASS) || (0 > INPUT_VALUE_CLASS) ) {
                 // INPUT_VALUE_CLASS to high
                 System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_CLASS invalid array access value: " + INPUT_VALUE_CLASS);
 
-            } else if ( (LENGTH_MESSAGE_ACTION < INPUT_VALUE_ACTION) || (0 > INPUT_VALUE_ACTION) ) {
+            } else if ( (ARRAYLENGTH_MESSAGE_ACTION < INPUT_VALUE_ACTION) || (0 > INPUT_VALUE_ACTION) ) {
                 // INPUT_VALUE_METHOD to high
                 System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_METHOD invalid array access value: " + INPUT_VALUE_ACTION);
 
-            } else if ( (LENGTH_MESSAGE_INFO < INPUT_VALUE_INFO) || (0 > INPUT_VALUE_INFO) ) {
+            } else if ( (ARRAYLENGTH_MESSAGE_INFO < INPUT_VALUE_INFO) || (0 > INPUT_VALUE_INFO) ) {
                 // INPUT_VALUE_INFO to high
                 System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_INFO invalid array access value: " + INPUT_VALUE_INFO);
 
             } else {
                 // String format = String.format("|ID: %-7d", FilePerson.GetIdent());
                 // TODO; may need to change the format sizing depending on if a message get cutoff or not.
-                String TYPE     = String.format("|TYPE: %-8s",      global.Global_Message_Type_Return   (INPUT_VALUE_TYPE));
-                String CLASS    = String.format("|CLASS: %-25s",    global.Global_Message_Class_Return  (INPUT_VALUE_CLASS));
-                String METHOD   = String.format("|ACTION: %-25s",   global.Global_Message_Action_Return (INPUT_VALUE_ACTION));
-                String INFO     = String.format("|INFO: %-50s",     global.Global_Message_Info_Return   (INPUT_VALUE_INFO));
+                String TYPE     = String.format("|TYPE: %-"     + TYPE_LENGTH   + "s",  global.Global_Message_Type_Return   (INPUT_VALUE_TYPE));
+                String CLASS    = String.format("|CLASS: %-"    + CLASS_LENGTH  + "s",  global.Global_Message_Class_Return  (INPUT_VALUE_CLASS));
+                String METHOD   = String.format("|ACTION: %-"   + ACTION_LENGTH + "s",  global.Global_Message_Action_Return (INPUT_VALUE_ACTION));
+                String INFO     = String.format("|INFO: %-"     + INFO_LENGTH   + "s",  global.Global_Message_Info_Return   (INPUT_VALUE_INFO));
 
                 String ReturnMessage = TYPE + CLASS + METHOD + INFO;
                 System.out.println(ReturnMessage);
@@ -217,10 +217,10 @@ public class SystemInfoManager {
 
     private static void Get_Lengths() {
         // SYSTEM MESSAGES
-        SystemInfoManager.LENGTH_MESSAGE_TYPE     = global.Global_Message_Type_ReturnSize();
-        SystemInfoManager.LENGTH_MESSAGE_CLASS    = global.Global_Message_Class_ReturnSize();
-        SystemInfoManager.LENGTH_MESSAGE_ACTION   = global.Global_Message_Action_ReturnSize();
-        SystemInfoManager.LENGTH_MESSAGE_INFO     = global.Global_Message_Info_Return();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_TYPE     = global.Global_Message_Type_ReturnSize();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_CLASS    = global.Global_Message_Class_ReturnSize();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_ACTION   = global.Global_Message_Action_ReturnSize();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_INFO     = global.Global_Message_Info_Return();
 
         // UI SPACING VALUES
         // SystemInfoManager.LENGTH_DATA_SPACING     = global.Global_Array_Spacing_GetLength();

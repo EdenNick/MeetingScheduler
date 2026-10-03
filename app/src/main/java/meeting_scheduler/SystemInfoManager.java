@@ -13,7 +13,7 @@ import meeting_scheduler.GlobalMessages.GlobalMessageManager;
 
 
 
-public class SystemInfoManager {
+public final class SystemInfoManager {
 
     private static boolean ACCESS_VALUES = false;
 
@@ -27,15 +27,6 @@ public class SystemInfoManager {
     private static int ACTION_LENGTH = 20;
     private static int INFO_LENGTH   = 20;
 
-    // private static int LENGTH_DATA_SPACING      = 0;
-    // private static int LENGTH_DATA_PADDING      = 0;
-    // private static int LENGTH_DATA_WIDTH        = 0;
-    // private static int LENGTH_DATA_HEIGHT       = 0;
-    // private static int LENGTH_DATA_ANCHOR       = 0;
-
-
-
-    // private final global.UISPACING ENUM_UISPACING_STATES;
 
 
 
@@ -43,24 +34,29 @@ public class SystemInfoManager {
         // prevents instantiation
     }
     
-    // Initializes global system values - should only be called once upon startup in main
+
+    /**
+     * Inititlaize_Global_States()
+     * Description: Initializes global system values - should only be called once upon startup in main
+     */
     public static void Inititlaize_Global_States() {
-        // Sets up default standardized values
-        GlobalValuesManager.VALUES_SETUP();
-        // Sets up system messages
-        GlobalMessageManager.MESSAGE_SETUP();
-        // Gets message sizes for safe access
-        Get_Lengths();
 
+        if (ACCESS_VALUES == false) {
+            // Sets up default standardized values
+            GlobalValuesManager.VALUES_SETUP();
+            // Sets up system messages
+            GlobalMessageManager.MESSAGE_SETUP();
+            // Gets message sizes for safe access
+            Get_Lengths();
 
-        SystemInfoManager.TYPE_LENGTH    = GlobalMessageManager.Return_Length_Type();
-        SystemInfoManager.CLASS_LENGTH   = GlobalMessageManager.Return_Length_Class();
-        SystemInfoManager.ACTION_LENGTH  = GlobalMessageManager.Return_Length_Action();
-        SystemInfoManager.INFO_LENGTH    = GlobalMessageManager.Return_Length_info();
+            ACCESS_VALUES = true;
+        } else {
+            // DO NOTHING
+        }
 
-        ACCESS_VALUES = true;
-    }
+    } // Inititlaize_Global_States()
 
+    
 
     /**
      * GET_SYSTEM_MESSAGE()
@@ -104,133 +100,187 @@ public class SystemInfoManager {
                 System.out.println(ReturnMessage);
             }
         }
-    }
+    } // GET_SYSTEM_MESSAGE()
 
 
 
-
-
-
-
+    /**
+     * GET_SYSTEM_UI_SPACING()
+     * Description: Description: Returns a single double Value from one the global double arrays containing default values. Uses global.UISPACING
+     * @param INPUT_ENUM
+     * @param INPUT_POSITION
+     * @return
+     */
     public static double GET_SYSTEM_UI_SPACING(global.UISPACING INPUT_ENUM, int INPUT_POSITION) {
 
-        //int length = 0;
         double ReturnValue = 0.0;
-        double[] GlobalArray;
 
-        // retrieves the length of the relevant array for safe access
-        switch (INPUT_ENUM) {
-            case SPACING:
-                GlobalArray = global.Global_Array_Spacing_Get();
-                break;
-            case PADDING:
-                GlobalArray = global.Global_Array_Padding_Get();
-                break;
-            case WIDTH:
-                GlobalArray = global.Global_Array_Width_Get();
-                break;
-            case HEIGHT:
-                GlobalArray = global.Global_Array_Height_Get();
-                break;
-            case ANCHOR:
-                GlobalArray = global.Global_Array_Anchor_Get();
-                break;
-            default:
-                System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to empty array");
-                GlobalArray = new double[0];
-                break;
-        }
-
-        if ( (INPUT_POSITION > GlobalArray.length) || (INPUT_POSITION < 0) ) {
-            System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid Input position length, returning defualt return value");
-            return ReturnValue;
+        if (false == ACCESS_VALUES) {
+            System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_VALUE       |INFO: ACCESS_MESSAGES is false, global system vairables have not been inititialized");
         } else {
-            System.out.println("|TYPE: SUCCESS |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Valid Inputs, returning value"); 
-            ReturnValue = GlobalArray[INPUT_POSITION];
-            return ReturnValue;
+            // retrieves the length of the relevant array for safe access
+            switch (INPUT_ENUM) {
+                case SPACING:
+                    ReturnValue = global.Global_Array_Spacing_Get(INPUT_POSITION);
+                    break;
+
+                case PADDING:
+                    ReturnValue = global.Global_Array_Padding_Get(INPUT_POSITION);
+                    break;
+
+                case WIDTH:
+                    ReturnValue = global.Global_Array_Width_Get(INPUT_POSITION);
+                    break;
+
+                case HEIGHT:
+                    ReturnValue = global.Global_Array_Height_Get(INPUT_POSITION);
+                    break;
+
+                case ANCHOR:
+                    ReturnValue = global.Global_Array_Anchor_Get(INPUT_POSITION);
+                    break;
+
+                default:
+                    System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to double 0.0");
+                    break;
+            }
         }
 
-        // return 0.0;
+        return ReturnValue;
+
     } // GET_SYSTEM_UI_SPACING()
 
 
+
+    /**
+     * GET_SYSTEM_GLOBAL_VALUE_INT()
+     * Description: Returns a single int Value from one the global int arrays containing default values. Uses global.BASICVALUESINT
+     * @param INPUT_ENUM
+     * @param INPUT_POSITION
+     * @return
+     */
     public static int GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT INPUT_ENUM, int INPUT_POSITION) {
 
         int ReturnValue = -1;
-        int[] GlobalArray;
 
-        switch(INPUT_ENUM) {
-
-            case WEEKLENGTH:
-                GlobalArray = global.Global_Array_WeekLength_Get();
-                break;
-            case TIMEINTERVALS:
-                GlobalArray = global.Global_Array_TimeIntervals_Get();
-                break;
-            case IDENTCONSTRAINT:
-                GlobalArray = global.Global_Array_IdentConstraint_Get();
-                break;
-            default:
-                System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to empty array");
-                GlobalArray = new int[0];
-                break;
-        }
-
-        if ( (INPUT_POSITION > GlobalArray.length) || (INPUT_POSITION < 0) ) {
-            System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid Input position length, returning defualt return value");
-            return ReturnValue;
+        if (false == ACCESS_VALUES) {
+            System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_VALUE       |INFO: ACCESS_MESSAGES is false, global system vairables have not been inititialized");
         } else {
-            System.out.println("|TYPE: SUCCESS |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Valid Inputs, returning value");  
-            ReturnValue = GlobalArray[INPUT_POSITION];
-            return ReturnValue;
-        }
-        
-    }
+            switch(INPUT_ENUM) {
 
+                case WEEKLENGTH:
+                    ReturnValue = global.Global_Array_WeekLength_Get        (INPUT_POSITION);
+                    break;
+
+                case TIMEINTERVALS:
+                    ReturnValue = global.Global_Array_TimeIntervals_Get     (INPUT_POSITION);
+                    break;
+
+                case IDENTCONSTRAINT:
+                    ReturnValue = global.Global_Array_IdentConstraint_Get   (INPUT_POSITION);
+                    break;
+
+                default:
+                    System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to int -1");
+                    break;
+            }
+        }
+
+        return ReturnValue;
+        
+    } // GET_SYSTEM_GLOBAL_VALUE_INT()
+
+
+
+    /**
+     * GET_SYSTEM_GLOBAL_VALUE_STRING()
+     * Description: Returns a single String Value from one the global string arrays containing default values. Uses global.BASICVALUESSTRING
+     * @param INPUT_ENUM
+     * @param INPUT_POSITION
+     * @return
+     */
     public static String GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING INPUT_ENUM, int INPUT_POSITION) {
 
         String ReturnValue = "ERROR";
-        String[] GlobalArray;
 
-        switch(INPUT_ENUM) {
-
-            case AMPM:
-                GlobalArray = global.Global_Array_AMPM_Get();
-                break;
-            default:
-                System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to empty array");
-                GlobalArray = new String[0];
-                break;
-        }
-
-        if ( (INPUT_POSITION > GlobalArray.length) || (INPUT_POSITION < 0) ) {
-            System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid Input position length, returning defualt return value");
-            return ReturnValue;
+        if (false == ACCESS_VALUES) {
+            System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_VALUE       |INFO: ACCESS_MESSAGES is false, global system vairables have not been inititialized");
         } else {
-            System.out.println("|TYPE: SUCCESS |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Valid Inputs, returning value");  
-            return ReturnValue;
+            switch(INPUT_ENUM) {
+
+                case AMPM:
+                    ReturnValue = global.Global_Array_AMPM_Get(INPUT_POSITION);
+                    break;
+                default:
+                    System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to string 'ERROR'");
+                    break;
+            }
         }
 
-    }
+        return ReturnValue;
+
+    } // GET_SYSTEM_GLOBAL_VALUE_STRING()
 
 
 
+    /**
+     * GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY()
+     * Description: Returns a string array containing every day of the week in various formats depending on input. Uses global.WEEKTYPE.
+     * @param INPUT_ENUM
+     * @return
+     */
+    public static String[] GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE INPUT_ENUM) {
+
+        String[] ReturnValue = new String[] {"INVALIDSTRING"};
+
+        if (false == ACCESS_VALUES) {
+            System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_VALUE       |INFO: ACCESS_MESSAGES is false, global system vairables have not been inititialized");
+        } else {
+            switch(INPUT_ENUM) {
+
+                case SHORT:
+                    ReturnValue = global.Global_Array_WeekDay_Short_Get();
+                    break;
+                case SHORTCAP:
+                    ReturnValue = global.Global_Array_WeekDay_ShortCap_Get();
+                    break;
+                case LONG:
+                    ReturnValue = global.Global_Array_WeekDay_Long_Get();
+                    break;
+                case LONGCAP:
+                    ReturnValue = global.Global_Array_WeekDay_LongCap_Get();
+                    break;
+                default:
+                    System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to string[] 'INVALIDSTRING'");
+                    break;
+            }
+        }
+
+        return ReturnValue;
+
+    } // GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY()
+
+
+
+    /**
+     * Get_Lengths()
+     * Description: gets the lengths of the various message components to ensure safe access and correct formatting
+     */
     private static void Get_Lengths() {
         // SYSTEM MESSAGES
-        SystemInfoManager.ARRAYLENGTH_MESSAGE_TYPE     = global.Global_Message_Type_ReturnSize();
-        SystemInfoManager.ARRAYLENGTH_MESSAGE_CLASS    = global.Global_Message_Class_ReturnSize();
-        SystemInfoManager.ARRAYLENGTH_MESSAGE_ACTION   = global.Global_Message_Action_ReturnSize();
-        SystemInfoManager.ARRAYLENGTH_MESSAGE_INFO     = global.Global_Message_Info_Return();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_TYPE      = global.Global_Message_Type_ReturnSize();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_CLASS     = global.Global_Message_Class_ReturnSize();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_ACTION    = global.Global_Message_Action_ReturnSize();
+        SystemInfoManager.ARRAYLENGTH_MESSAGE_INFO      = global.Global_Message_Info_Return();
 
-        // UI SPACING VALUES
-        // SystemInfoManager.LENGTH_DATA_SPACING     = global.Global_Array_Spacing_GetLength();
-        // SystemInfoManager.LENGTH_DATA_PADDING     = global.Global_Array_Padding_GetLength();
-        // SystemInfoManager.LENGTH_DATA_WIDTH       = global.Global_Array_Width_GetLength();
-        // SystemInfoManager.LENGTH_DATA_HEIGHT      = global.Global_Array_Height_GetLength();
-        // SystemInfoManager.LENGTH_DATA_ANCHOR      = global.Global_Array_Anchor_GetLength();
-    }
+        // maximum string length of each type of message
+        SystemInfoManager.TYPE_LENGTH                   = GlobalMessageManager.Return_Length_Type();
+        SystemInfoManager.CLASS_LENGTH                  = GlobalMessageManager.Return_Length_Class();
+        SystemInfoManager.ACTION_LENGTH                 = GlobalMessageManager.Return_Length_Action();
+        SystemInfoManager.INFO_LENGTH                   = GlobalMessageManager.Return_Length_info();
 
-
+    } // Get_Lengths() 
 
 
-}
+
+} // SystemInfoManager{}

@@ -14,8 +14,9 @@ import java.util.LinkedList;
 // jackson - json file manager
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-
-import meeting_scheduler.global; // CHANGE to Scene manager
+// global
+import meeting_scheduler.global;
+import meeting_scheduler.SystemInfoManager;
 // DataAccessLayer
 import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // EmployeePreferences
@@ -118,7 +119,7 @@ public class MANAGESCHEDULE_Calculate {
      */
     public MANAGESCHEDULE_Calculate() {
 
-        WeekdayLength   = global.Global_Array_WeekLength_Get()[0];
+        WeekdayLength   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.WEEKLENGTH, 0);
 
         UserInput_WeekDays = DefaultWeekday.clone();
         try {

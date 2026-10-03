@@ -224,7 +224,7 @@ public final class global {
             Global_Array_WeekDay_LongCap_Set    (INPUT_LONGCAP);    // - String
             global.STATE_WEEKDAYS_SET           = true;
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
@@ -250,7 +250,7 @@ public final class global {
         if (global.Global_Data_WeekDays_Short != null) {
             return global.Global_Data_WeekDays_Short.clone();
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_Short");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_Short");
             global.Global_Data_WeekDays_Short = new String[] {"INVALID ARRAY"};
             return Global_Data_WeekDays_Short;
         }
@@ -260,7 +260,7 @@ public final class global {
         if (global.Global_Data_WeekDays_ShortCap != null) {
             return global.Global_Data_WeekDays_ShortCap.clone();
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_ShortCap");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_ShortCap");
             global.Global_Data_WeekDays_ShortCap = new String[] {"INVALID ARRAY"};
             return Global_Data_WeekDays_ShortCap;
         }
@@ -270,7 +270,7 @@ public final class global {
         if (global.Global_Data_WeekDays_Long != null) {
             return global.Global_Data_WeekDays_Long.clone();
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_Long");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_Long");
             global.Global_Data_WeekDays_Long = new String[] {"INVALID ARRAY"};
             return Global_Data_WeekDays_Long;
         }
@@ -280,7 +280,7 @@ public final class global {
         if (global.Global_Data_WeekDays_LongCap != null) {
             return global.Global_Data_WeekDays_LongCap.clone();
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_LongCap");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Array is null: Global_Data_WeekDays_LongCap");
             global.Global_Data_WeekDays_LongCap = new String[] {"INVALID ARRAY"};
             return Global_Data_WeekDays_LongCap;
         }
@@ -306,7 +306,7 @@ public final class global {
             Global_Array_AMPM_Set           (INPUT_AMPM);           // - String[]
             global.STATE_BASICVALUES_SET        = true;
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
@@ -332,7 +332,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_WeekLength.length) && (INPUT_POSITION >= 0) && (global.Global_Data_WeekLength.length > 0)) {
             return global.Global_Data_WeekLength[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_WeekLength");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_WeekLength");
             return 0;
         }
     }
@@ -341,7 +341,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_TimeIntervals.length) && (INPUT_POSITION >= 0) && (global.Global_Data_TimeIntervals.length > 0)) {
             return global.Global_Data_TimeIntervals[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_TimeIntervals");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_TimeIntervals");
             return 0;
         }
     }
@@ -350,7 +350,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_IdentConstraint.length) && (INPUT_POSITION >= 0) && (global.Global_Data_IdentConstraint.length > 0)) {
             return global.Global_Data_IdentConstraint[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_IdentConstraint");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_IdentConstraint");
             return 0;
         }
     }
@@ -359,9 +359,13 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_AMPM.length) && (INPUT_POSITION >= 0) && (global.Global_Data_AMPM.length > 0)) {
             return global.Global_Data_AMPM[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_AMPM");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_AMPM");
             return "INVALID STRING";
         }
+    }
+
+    public static String[] Global_Array_AMPM_GetFull        () {
+        return global.Global_Data_AMPM.clone();
     }
 
 
@@ -386,7 +390,7 @@ public final class global {
             Global_Array_Anchor_Set     (INPUT_ANCHOR);
             global.STATE_UISPACING_SET  = true;
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
@@ -416,7 +420,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_Spacing.length) && (INPUT_POSITION >= 0) && (global.Global_Data_Spacing.length > 0)) {
             return global.Global_Data_Spacing[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Spacing");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Spacing");
             return 0.0;
         }
     }
@@ -425,7 +429,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_Padding.length) && (INPUT_POSITION >= 0) && (global.Global_Data_Padding.length > 0)) {
             return global.Global_Data_Padding[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Padding");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Padding");
             return 0.0;
         }
     }
@@ -434,7 +438,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_Width.length) && (INPUT_POSITION >= 0) && (global.Global_Data_Width.length > 0)) {
             return global.Global_Data_Width[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Width");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Width");
             return 0.0;
         }
     }
@@ -443,7 +447,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_Height.length) && (INPUT_POSITION >= 0) && (global.Global_Data_Height.length > 0)) {
             return global.Global_Data_Height[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Height");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Height");
             return 0.0;
         }
     }
@@ -452,7 +456,7 @@ public final class global {
         if ( (INPUT_POSITION < global.Global_Data_Anchor.length) && (INPUT_POSITION >= 0) && (global.Global_Data_Anchor.length > 0)) {
             return global.Global_Data_Anchor[INPUT_POSITION];
         } else {
-            System.out.println("|TYPE: ERROR |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Anchor");
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_Anchor");
             return 0.0;
         }
     }

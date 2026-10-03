@@ -3,13 +3,8 @@
 package meeting_scheduler;
 // ############################################################
 
-// Imports
-// ############################################################
-// GlobalValues
-import meeting_scheduler.GlobalValues.GlobalValuesManager;
-// GlobalMessages
-import meeting_scheduler.GlobalMessages.GlobalMessageManager;
-// ############################################################
+import meeting_scheduler.GlobalManagers.GlobalMessageManager;
+import meeting_scheduler.GlobalManagers.GlobalValuesManager;
 
 
 
@@ -56,7 +51,7 @@ public final class SystemInfoManager {
 
     } // Inititlaize_Global_States()
 
-    
+
 
     /**
      * GET_SYSTEM_MESSAGE()

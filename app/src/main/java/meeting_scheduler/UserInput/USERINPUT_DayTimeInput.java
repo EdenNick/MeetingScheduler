@@ -96,10 +96,14 @@ public class USERINPUT_DayTimeInput {
      * @param INPUT_COMBOBOX
      */
     private void Construct_comboBox_Default(ComboBox<String> INPUT_COMBOBOX) {
-        //TODO: 
-        // INPUT_COMBOBOX.setPrefSize(100, 25.0);
-        INPUT_COMBOBOX.getItems().addAll(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT));
+
+        double Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
+        double Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+
+        INPUT_COMBOBOX.getItems().addAll(global.Global_Array_AMPM_GetFull());
+        INPUT_COMBOBOX.setPrefSize(Width, Height);
         INPUT_COMBOBOX.getSelectionModel().select("AM");
+
     } // Construct_comboBox_Defualt()
 
 
@@ -132,6 +136,7 @@ public class USERINPUT_DayTimeInput {
             }
             return null;
         }));
+
     } // Construct_TextField_Default_Hour()
 
 
@@ -258,6 +263,7 @@ public class USERINPUT_DayTimeInput {
             }
             return null;
         }));
+
     } // Construct_TextField_Default_Min_END()
 
 } // USERINPUT_DayTimeInput()

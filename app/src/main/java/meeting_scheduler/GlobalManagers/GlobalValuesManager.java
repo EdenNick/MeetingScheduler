@@ -1,13 +1,13 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.GlobalValues;
+package meeting_scheduler.GlobalManagers;
 // ############################################################
 
 // IMPORTS
 // ############################################################
 // io
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 // util
 import java.util.ArrayList;
 import java.util.Properties;
@@ -20,14 +20,15 @@ import meeting_scheduler.global;
 public class GlobalValuesManager {
     
 
-    private final static String FILEPATH_ValuesArrays = "src\\main\\java\\meeting_scheduler\\GlobalValues\\GlobalValuesArrays.properties";
+    private final static String FILEPATH_ValuesArrays = "/GlobalValuesArrays.properties";
     //app\src\main\java\meeting_scheduler\GlobalValues\GlobalValuesArrays.properties
-    private final static String FILEPATH_ValuesUnique = "src\\main\\java\\meeting_scheduler\\GlobalValues\\GlobalValuesUnique.properties";
+    private final static String FILEPATH_ValuesUnique = "/GlobalValuesUnique.properties";
 
     private final static String PropPath_Array      = "ARRAY.";
     private final static String PropPath_Unique     = "UNIQUE.";
 
     private final static String PropPath_Int        = "INT.";
+    private final static String PropPath_Double     = "DOUBLE.";
     private final static String PropPath_Spacing    = "SPACING.";
     private final static String PropPath_Padding    = "PADDING.";
     private final static String PropPath_Width      = "WIDTH.";
@@ -99,11 +100,11 @@ public class GlobalValuesManager {
     }
 
     private static void Set_Global_Values_doubleArrays() {
-        GlobalValuesManager.GLOBAL_VALUE_Spacing            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Spacing);
-        GlobalValuesManager.GLOBAL_VALUE_Padding            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Padding);
-        GlobalValuesManager.GLOBAL_VALUE_Width              = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Width);
-        GlobalValuesManager.GLOBAL_VALUE_Height             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Height);
-        GlobalValuesManager.GLOBAL_VALUE_Anchor             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_ANCHOR);
+        GlobalValuesManager.GLOBAL_VALUE_Spacing            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Spacing);
+        GlobalValuesManager.GLOBAL_VALUE_Padding            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Padding);
+        GlobalValuesManager.GLOBAL_VALUE_Width              = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Width);
+        GlobalValuesManager.GLOBAL_VALUE_Height             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Height);
+        GlobalValuesManager.GLOBAL_VALUE_Anchor             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_ANCHOR);
     }
 
 
@@ -133,7 +134,6 @@ public class GlobalValuesManager {
         for (int Pos = 0; Pos < Temp.length; Pos++) {
             Return_Array[Pos] = Double.parseDouble(Temp[Pos]);
         }
-
         return Return_Array.clone();
     }
 
@@ -158,10 +158,11 @@ public class GlobalValuesManager {
         ArrayList<String> ArraylistPropStrings = new ArrayList<>();
 
         // TRY/CATCH
-        try ( FileInputStream Input_Type = new FileInputStream(FilePath) ) {
+        try ( InputStream FileInput = GlobalValuesManager.class.getResourceAsStream(FilePath) ) {
+            
             
             // Load Props from File
-            Prop_Type.load(Input_Type);
+            Prop_Type.load(FileInput);
 
             // While strings continue to be valid and not NULL, continue
             while ( (IncomingPropString = Prop_Type.getProperty(PropPAth + IncomingPropPosition)) != null ) {
@@ -169,7 +170,6 @@ public class GlobalValuesManager {
                 //System.out.println("Type: " + IncomingPropString);
 
                 ArraylistPropStrings.add(IncomingPropString);
-
                 IncomingPropPosition++;
             }
 

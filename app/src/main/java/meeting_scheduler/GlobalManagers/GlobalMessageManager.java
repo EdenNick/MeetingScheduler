@@ -1,13 +1,13 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.GlobalMessages;
+package meeting_scheduler.GlobalManagers;
 // ############################################################
 
 //Imports
 // ############################################################
 // io
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 // util
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -103,7 +103,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Type() {
         
         // TODO: CHANGE
-        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalMessageTypes.properties";
+        String FilePath = "/GlobalMessageTypes.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -130,7 +130,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Class() {
 
         // TODO: CHANGE
-        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalMessageClass.properties";
+        String FilePath = "/GlobalMessageClass.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -198,7 +198,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Action() {
 
         // TODO: CHANGE
-        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalPropertiesAction.properties";
+        String FilePath = "/GlobalPropertiesAction.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -228,7 +228,7 @@ public class GlobalMessageManager {
     private static void Set_Global_Message_Info() {
 
         // TODO: CHANGE
-        String FilePath = "src\\main\\java\\meeting_scheduler\\GlobalMessages\\GlobalMessageInfo.properties";
+        String FilePath = "/GlobalMessageInfo.properties";
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
@@ -272,10 +272,10 @@ public class GlobalMessageManager {
         LinkedList<String> ArraylistPropStrings = new LinkedList<>();
 
         // TRY/CATCH
-        try ( FileInputStream Input_Type = new FileInputStream(FilePath) ) {
+        try ( InputStream FileInput = GlobalMessageManager.class.getResourceAsStream(FilePath) ) {
             
             // Load Props from File
-            Prop_Type.load(Input_Type);
+            Prop_Type.load(FileInput);
 
             // While strings continue to be valid and not NULL, continue
             while ( (IncomingPropString = Prop_Type.getProperty(PropPath + IncomingPropPosition)) != null ) {

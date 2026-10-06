@@ -10,10 +10,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 // global
-import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
-// SceneManagement
-import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -29,7 +27,9 @@ public class USERINPUT_DayTimeInput {
     private final TextField INPUTTIME_MIN_End;
 
 
-
+    /**
+     * Constructor
+     */
     public USERINPUT_DayTimeInput() {
         
         this.INPUTTIME_HOUR_Start   = new TextField();
@@ -44,14 +44,14 @@ public class USERINPUT_DayTimeInput {
         Construct_comboBox_Default(AMPM_END);
 
         this.AMPM_START.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-            if (newvalue.equals(SCENE_VARIABLES_Local.PM)) {
-                this.AMPM_END.getSelectionModel().select(SCENE_VARIABLES_Local.PM);
+            if (newvalue.equals(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 1))) {
+                this.AMPM_END.getSelectionModel().select(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 1));
             }
         });
 
         this.AMPM_END.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-            if (newvalue.equals(SCENE_VARIABLES_Local.AM)) {
-                this.AMPM_START.getSelectionModel().select(SCENE_VARIABLES_Local.AM);
+            if (newvalue.equals(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0))) {
+                this.AMPM_START.getSelectionModel().select(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0));
             }
         });
 
@@ -64,27 +64,27 @@ public class USERINPUT_DayTimeInput {
     } // USERINPUT_DayTimeInput()
 
 
-    public ComboBox<String> Return_ComboBox_StartTime() {
+    public ComboBox<String> Return_ComboBox_StartTime   () {
         return this.AMPM_START;
     }
 
-    public ComboBox<String> Return_ComboBox_EndTime()   {
+    public ComboBox<String> Return_ComboBox_EndTime     () {
         return this.AMPM_END;
     }
 
-    public TextField Return_TextField_Hour_StartTime()  {
+    public TextField Return_TextField_Hour_StartTime    () {
         return this.INPUTTIME_HOUR_Start;
     }
 
-    public TextField Return_TextField_Min_StartTime()   {
+    public TextField Return_TextField_Min_StartTime     () {
         return this.INPUTTIME_MIN_Start;
     }
 
-    public TextField Return_TextField_Hour_EndTime()    {
+    public TextField Return_TextField_Hour_EndTime      () {
         return this.INPUTTIME_HOUR_End;
     }
 
-    public TextField Return_TextField_Min_EndTime()     {
+    public TextField Return_TextField_Min_EndTime       () {
         return this.INPUTTIME_MIN_End;
     }
 
@@ -97,11 +97,7 @@ public class USERINPUT_DayTimeInput {
      */
     private void Construct_comboBox_Default(ComboBox<String> INPUT_COMBOBOX) {
 
-        double Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
-        double Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-
         INPUT_COMBOBOX.getItems().addAll(global.Global_Array_AMPM_GetFull());
-        INPUT_COMBOBOX.setPrefSize(Width, Height);
         INPUT_COMBOBOX.getSelectionModel().select("AM");
 
     } // Construct_comboBox_Defualt()

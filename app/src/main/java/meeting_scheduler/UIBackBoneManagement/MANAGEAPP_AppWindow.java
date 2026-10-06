@@ -11,9 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-// ############################################################
+// global
+import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
-
+// ############################################################
 
 
 public class MANAGEAPP_AppWindow extends Application {
@@ -69,7 +70,7 @@ public class MANAGEAPP_AppWindow extends Application {
     private void WindowRun(Stage stage) {
 
         // Sets the name of the application window
-        stage.setTitle(MANAGEAPP_LocalVariables.APP_Window_Title);
+        stage.setTitle(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 0));
 
         // MainMenu - the application shows the main menu scene on startup
         MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();

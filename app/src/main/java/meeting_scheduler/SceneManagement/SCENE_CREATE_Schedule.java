@@ -138,20 +138,20 @@ public class SCENE_CREATE_Schedule {
 
     // File User Info
     // ############################################################
-    private LinkedList<PREF_EMPLOYEE_FullPref>    FileUserInfo;
+    private LinkedList<PREF_EMPLOYEE_FullPref>  FileUserInfo;
     private LinkedList<String>                  PersonList;
-    private LinkedList<PREF_EMPLOYEE_FullPref>    FilePeople;
+    private LinkedList<PREF_EMPLOYEE_FullPref>  FilePeople;
     // ############################################################
 
 
     // Data manager Objects
     // ############################################################
     // Schedule Calculator
-    private final MANAGESCHEDULE_Calculate    ScheduleCalculator;
+    private final MANAGESCHEDULE_Calculate      ScheduleCalculator;
     // User Time Input manager
-    private final USERINPUT_TimeInputManager           Scheduler_UserTimeInputs;
+    private USERINPUT_TimeInputManager    Scheduler_UserTimeInputs;
     // Json File manager
-    private final MANAGEFILE_JsonManager            Scheduler_fileReader;
+    private final MANAGEFILE_JsonManager        Scheduler_fileReader;
     // ############################################################
     
 
@@ -207,7 +207,7 @@ public class SCENE_CREATE_Schedule {
 
         // User time inputs     - Object which is used to create the necessary input ui for user time inputs, verifies correct input
         // contains methods used to store and dispaly this information. In this case it is used to input correct times to create a schedule
-        this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInputManager(); // TODO: schedule calculator
+        //this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInputManager(); // TODO: schedule calculator
 
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. 
         // Used to retrieve current user preferences to create a schedule
@@ -1089,7 +1089,7 @@ public class SCENE_CREATE_Schedule {
 
 
         // Add all Nodes
-        // ############################################################
+        // ############################################################ // TODO: CHANGE TIME INPUT
         this.UIInput_FullUI_VBOX.getChildren().addAll(
             // people Input
             UIInput_PeopleUI_VBOX,
@@ -1473,117 +1473,136 @@ public class SCENE_CREATE_Schedule {
      * InputTimePreference()
      * Description: user input for the specific times they want scheduled
      */
-    private void InputTimePreference() {
+    private void InputTimePreference() { // TODO: CHANGE TIME INPUT
 
-        // Node construction
-        // ############################################################
-        // Primary Node
-        HBox Primary_InputTime      = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // Primary Node input
-        VBox Input_InputTime        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // Secondary Node
-        HBox Secondary_InputTime    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // HBox for beginning Hour/Min input
-        HBox Add_StartTime          = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // hbox for ending hour/min input
-        HBox Add_EndTime            = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // flowpane to hold time output boxes   -   NOTE: must be declared within class to work not method
+        // // Node construction
+        // // ############################################################
+        // // Primary Node
+        // HBox Primary_InputTime      = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        // // Primary Node input
+        // VBox Input_InputTime        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        // // Secondary Node
+        // HBox Secondary_InputTime    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        // // HBox for beginning Hour/Min input
+        // HBox Add_StartTime          = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        // // hbox for ending hour/min input
+        // HBox Add_EndTime            = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        // // flowpane to hold time output boxes   -   NOTE: must be declared within class to work not method
         this.FlowPane_VBoxDisplay   = new FlowPane();
-        // linkedlist for input VBoxes  - used for iteration only
-        //this.List_VBoxTimeInputs    = new LinkedList<>();
-        // ############################################################
+        // // linkedlist for input VBoxes  - used for iteration only
+        // //this.List_VBoxTimeInputs    = new LinkedList<>();
+        // // ############################################################
 
 
-        // Node sizing
-        // ############################################################
-        // Primary Node input
-        Input_InputTime             .setPrefSize(300.0, 200.0);
-        // HBox for beginning Hour/Min input
-        Add_StartTime               .setPadding(new Insets(10));
-        // hbox for ending hour/min input
-        Add_EndTime                 .setPadding(new Insets(10));
-        // flowpane to hold time output boxes
+        // // Node sizing
+        // // ############################################################
+        // // Primary Node input
+        // Input_InputTime             .setPrefSize(300.0, 200.0);
+        // // HBox for beginning Hour/Min input
+        // Add_StartTime               .setPadding(new Insets(10));
+        // // hbox for ending hour/min input
+        // Add_EndTime                 .setPadding(new Insets(10));
+        // // flowpane to hold time output boxes
         this.FlowPane_VBoxDisplay   .setPrefSize(270.0, 190.0);
         this.FlowPane_VBoxDisplay   .setPadding(new Insets(10));
         this.FlowPane_VBoxDisplay   .setHgap(5.0);
         this.FlowPane_VBoxDisplay   .setVgap(2.0);
-        // ############################################################
+        // // ############################################################
 
-        // label creation
-        // ############################################################
-        Label Label_inputTime   = new Label("Input the times to schedule");
-        Label Label_BeginHour   = new Label("Hour");
-        Label Label_BeginMinute = new Label("Minute");
-        Label Label_EndHour     = new Label("Hour");
-        Label Label_EndMinute   = new Label("Minute");
-        // ############################################################
-
-
-        // styling
-        // ############################################################
-        Label_inputTime             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        Label_BeginHour             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        Label_BeginMinute           .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        Label_EndHour               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        Label_EndMinute             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        Add_StartTime               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
-        Add_EndTime                 .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
-        this.FlowPane_VBoxDisplay   .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
-        // ############################################################
-
-
-
-        // Input creation functions
-        // ############################################################
-
-        // TODO
-        // // beginning time input
-        // Add_StartTime.getChildren().addAll(
-
-        //     Label_BeginHour,
-        //     Scheduler_UserTimeInputs.Return_Hour_Begin(),
-
-        //     Label_BeginMinute,
-        //     Scheduler_UserTimeInputs.Return_Minute_Begin(),
-
-        //     Scheduler_UserTimeInputs.Return_AMPM_StartTime()
-
-        // );
-        
-        // // ending time input
-        // Add_EndTime.getChildren().addAll(
-
-        //     Label_EndHour,
-        //     Scheduler_UserTimeInputs.Return_Hour_End(),
-
-        //     Label_EndMinute,
-        //     Scheduler_UserTimeInputs.Return_Minute_End(),
-
-        //     Scheduler_UserTimeInputs.Return_AMPM_EndTime()
-
-        // );
+        // // label creation
+        // // ############################################################
+        // Label Label_inputTime   = new Label("Input the times to schedule");
+        // Label Label_BeginHour   = new Label("Hour");
+        // Label Label_BeginMinute = new Label("Minute");
+        // Label Label_EndHour     = new Label("Hour");
+        // Label Label_EndMinute   = new Label("Minute");
         // // ############################################################
 
 
-        // Add all to the nodes
-        // ############################################################
-        // primary node output
-        // - FlowPane_VBoxDisplay
-        // primary node input
-        Input_InputTime             .getChildren().addAll(Label_inputTime, Add_StartTime, Add_EndTime, this.INPUT_TimePreferences);
-        // primary node
-        Primary_InputTime           .getChildren().addAll(Input_InputTime, this.FlowPane_VBoxDisplay);
-        // ############################################################
+        // // styling
+        // // ############################################################
+        // Label_inputTime             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        // Label_BeginHour             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        // Label_BeginMinute           .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        // Label_EndHour               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        // Label_EndMinute             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        // Add_StartTime               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
+        // Add_EndTime                 .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
+        this.FlowPane_VBoxDisplay   .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
+        // // ############################################################
 
-        // Secondary Node
-        // ############################################################
-        Secondary_InputTime         .getChildren().addAll(this.RESET_TimeInput);
-        // ############################################################
 
+
+        // // Input creation functions
+        // // ############################################################
+
+        // // 
+        // // // beginning time input
+        // // Add_StartTime.getChildren().addAll(
+
+        // //     Label_BeginHour,
+        // //     Scheduler_UserTimeInputs.Return_Hour_Begin(),
+
+        // //     Label_BeginMinute,
+        // //     Scheduler_UserTimeInputs.Return_Minute_Begin(),
+
+        // //     Scheduler_UserTimeInputs.Return_AMPM_StartTime()
+
+        // // );
+        
+        // // // ending time input
+        // // Add_EndTime.getChildren().addAll(
+
+        // //     Label_EndHour,
+        // //     Scheduler_UserTimeInputs.Return_Hour_End(),
+
+        // //     Label_EndMinute,
+        // //     Scheduler_UserTimeInputs.Return_Minute_End(),
+
+        // //     Scheduler_UserTimeInputs.Return_AMPM_EndTime()
+
+        // // );
+        // // // ############################################################
+
+
+        // // Add all to the nodes
+        // // ############################################################
+        // // primary node output
+        // // - FlowPane_VBoxDisplay
+        // // primary node input
+        // Input_InputTime             .getChildren().addAll(Label_inputTime, Add_StartTime, Add_EndTime, this.INPUT_TimePreferences);
+        // // primary node
+        // Primary_InputTime           .getChildren().addAll(Input_InputTime, this.FlowPane_VBoxDisplay);
+        // // ############################################################
+
+        // // Secondary Node
+        // // ############################################################
+        // Secondary_InputTime         .getChildren().addAll(this.RESET_TimeInput);
+        // // ############################################################
+
+
+        // // add all to Time Ui holder UIInput_TimeUI_VBOX
+        // // ############################################################
+        // this.UIInput_TimeUI_VBOX    .getChildren().addAll(Primary_InputTime, Secondary_InputTime);
+        // // ############################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+        this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInputManager(this.INPUT_TimePreferences); // TODO: schedule calculator
 
         // add all to Time Ui holder UIInput_TimeUI_VBOX
         // ############################################################
-        this.UIInput_TimeUI_VBOX    .getChildren().addAll(Primary_InputTime, Secondary_InputTime);
+        this.UIInput_TimeUI_VBOX = Scheduler_UserTimeInputs.Return_UI_TimeInput();
         // ############################################################
 
     } // InputTimePreference()

@@ -119,7 +119,7 @@ public class MANAGESCHEDULE_Calculate {
      */
     public MANAGESCHEDULE_Calculate() {
 
-        WeekdayLength   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.WEEKLENGTH, 0);
+        WeekdayLength   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 0);
 
         UserInput_WeekDays = DefaultWeekday.clone();
         try {

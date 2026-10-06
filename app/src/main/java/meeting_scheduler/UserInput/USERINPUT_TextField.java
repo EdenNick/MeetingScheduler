@@ -8,7 +8,8 @@ package meeting_scheduler.UserInput;
 // javafx
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import meeting_scheduler.global; // TODO switch to system info manager
+import meeting_scheduler.global;
+import meeting_scheduler.SystemInfoManager;
 // ############################################################
 
 
@@ -17,22 +18,23 @@ public class USERINPUT_TextField {
 
 
 
-    private final String Parameter_Prompt;
-
-    //private final global.TextFieldState Enum_State;
-
+    private final String    Parameter_Prompt;
     private final TextField TextField;
+    private final int       Parameter_Width;
+    private final int       Parameter_height;
 
-    private final int Parameter_Width;
-
-    private final int Parameter_height;
-
+    private final int IDENT_MIN = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 0);
+    private final int IDENT_MAX = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 1);
+    /**
+     * Constructor()
+     * @param INPUT_ENUM_STATE
+     * @param INPUT_PROMPT_TEXT
+     * @param INPUT_WIDTH
+     * @param INPUT_HEIGHT
+     */
     public USERINPUT_TextField(global.TextFieldState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, int INPUT_WIDTH, int INPUT_HEIGHT) {
 
         this.TextField          = new TextField();
-
-        //this.Enum_State         = INPUT_ENUM_STATE;
-
         this.Parameter_Prompt   = INPUT_PROMPT_TEXT;
         this.Parameter_Width    = INPUT_WIDTH;
         this.Parameter_height   = INPUT_HEIGHT;
@@ -105,10 +107,10 @@ public class USERINPUT_TextField {
 
             // test if the text is a valid int within a valid range
             try {
-                int intValue = Integer.parseInt(TextInput);
 
-                //TODO: add global variable for min an max ident numbers;
-                if (intValue >= 0 && intValue < 9999999) {
+                int intValue = Integer.parseInt(TextInput);
+                
+                if (intValue >= IDENT_MIN && intValue < IDENT_MAX) {
                     return change;
                 }
             } catch (NumberFormatException e) {

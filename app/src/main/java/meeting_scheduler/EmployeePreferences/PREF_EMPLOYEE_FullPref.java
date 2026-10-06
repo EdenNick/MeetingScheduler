@@ -76,7 +76,7 @@ public class PREF_EMPLOYEE_FullPref {
 
         String[] Output     = new String[7];
         String[] Weekday    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT);
-        int      weekLength = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.WEEKLENGTH, 0);
+        int      weekLength = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 0);
 
         for (int Position_day = 0; Position_day < weekLength; Position_day++) {
             if (Weekdays[Position_day].equals(Weekday[Position_day])) {

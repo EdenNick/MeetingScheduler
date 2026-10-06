@@ -38,7 +38,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.SystemInfoManager;
 // System Messages
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages; // TODO: REMOVE
+import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
@@ -50,6 +50,8 @@ import meeting_scheduler.UserInput.USERINPUT_JsonFormatting;
 import meeting_scheduler.UserInput.USERINPUT_TimeInputManager;
 // FileManagement
 import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
+//global
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -269,33 +271,55 @@ public class SCENE_CREATE_DataCard {
     } // ConstructCardManagerScene()
 
     
+
     /**
      * Set_SizeShape()
      * Description: Sets the various sizes and shapes for the various nodes in this scene
      */
     private void Set_SizeShape() {
 
-        // UI interface boxes
-        // ############################################################
+
+        // this.Manager_EndTime_Min
+        double Width    = 0.0;
+        double Height   = 0.0;
+        double Spacing  = 0.0;
+        double Padding  = 0.0;
+
         // UI_FullInterface
-        this.UI_FullInterface.setSpacing(10.0);
-        this.UI_FullInterface.setPrefSize(400.0, 600.0);
-        this.UI_FullInterface.setPadding(new Insets(10));
+        Width   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 6);      // 6 - 400
+        Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 9);    // 9 - 600
+        Spacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 1);    // 0 - 10
+        Padding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1);    // 1 - 10
+
+        this.UI_FullInterface.setSpacing(Spacing);
+        this.UI_FullInterface.setPrefSize(Width, Height);
+        this.UI_FullInterface.setPadding(new Insets(Padding));
 
 
         // Display_InputPref
-        this.Display_InputPref.setPrefSize(600.0, 600.0);
-        this.Display_InputPref.setPadding(new Insets(10));
-        // ############################################################
+        Width   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 7);      // 7 - 400
+        Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 9);    // 9 - 600
+        Spacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 1);    // 0 - 10
+        Padding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1);    // 1 - 10
+
+        this.Display_InputPref.setHgap(Spacing);
+        this.Display_InputPref.setVgap(Spacing);
+        this.Display_InputPref.setPrefSize(Width, Height);
+        this.Display_InputPref.setPadding(new Insets(Padding));
 
 
-        // Inputs
-        // ############################################################
         // Input_Name
-        this.Input_Name.setPrefSize(50.0, 25.0);
+        Width   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
+        Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+
+        this.Input_Name.setPrefSize(Width, Height);
+
 
         // Input_Ident
-        this.Input_Ident.setPrefSize(50.0, 25.0);
+        Width   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
+        Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+
+        this.Input_Ident.setPrefSize(Width, Height);
         // ############################################################
 
     }
@@ -314,16 +338,15 @@ public class SCENE_CREATE_DataCard {
         // Display_InputPref
         this.Display_InputPref.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DATACARD_TimeOutput);
 
-
-
-
         // Input_Name
         this.Input_Name.setPromptText(SCENE_VARIABLES_Local.Prompt_Name2);
 
         // Input_Ident
         this.Input_Ident.setPromptText(SCENE_VARIABLES_Local.Prompt_ID2);
 
-    }   
+    }// Set_TextStyle()
+
+
 
     /**
      * cardUIManagement()
@@ -333,7 +356,7 @@ public class SCENE_CREATE_DataCard {
 
 
         this.OBJ_TimeInput_Manager = new USERINPUT_TimeInputManager(this.Button_AddPref);
-        this.UI_TimeInterface = OBJ_TimeInput_Manager.Return_UI_TimeInput();
+        this.UI_TimeInterface = this.OBJ_TimeInput_Manager.Return_UI_TimeInput();
 
         // Vbox for UI
         // ############################################################
@@ -549,14 +572,6 @@ public class SCENE_CREATE_DataCard {
 
 
 
-
-
-                // checks user submitted info
-                // ############################################################
-                //OBJ_JSONFileFormatter.CheckUserInfo(name, id, preferredDays, this.List_UserTimes);
-                // ############################################################
-
-
                 // writes to file
                 // ############################################################
 				try {
@@ -573,9 +588,7 @@ public class SCENE_CREATE_DataCard {
                 LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_ToWrite = OBJ_JSONFileFormatter.JsonFileDefault_Formatting(List_FullPrefEmployee);
 
 
-
                 OBJ_JsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_ToWrite);
-
                 // ############################################################
 
                 // System Message

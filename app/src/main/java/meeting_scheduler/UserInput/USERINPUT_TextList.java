@@ -7,28 +7,23 @@ package meeting_scheduler.UserInput;
 // ############################################################
 // javafx
 import javafx.scene.control.ComboBox;
-import meeting_scheduler.global; // TODO: SWITCH TO SYSTEMINFOMANAGER
+import meeting_scheduler.global;
 // ############################################################
 
 
 
 public class USERINPUT_TextList {
 
-    private final String Parameter_Prompt;
-
-    private final global.TextListState Enum_State;
-
-    private final ComboBox<String> ComboBox;
-
-    private final int Parameter_Width;
-
-    private final int Parameter_height;
+    private final global.TextListState  Enum_State;
+    private final ComboBox<String>      ComboBox;
+    private final String    Parameter_Prompt;
+    private final int       Parameter_Width;
+    private final int       Parameter_height;
 
     public USERINPUT_TextList(global.TextListState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, int INPUT_WIDTH, int INPUT_HEIGHT) {
-        this.ComboBox = new ComboBox<>();
-
+        
+        this.ComboBox           = new ComboBox<>();
         this.Enum_State         = INPUT_ENUM_STATE;
-
         this.Parameter_Prompt   = INPUT_PROMPT_TEXT;
         this.Parameter_Width    = INPUT_WIDTH;
         this.Parameter_height   = INPUT_HEIGHT;

@@ -28,6 +28,7 @@ public class GlobalValuesManager {
     private final static String PropPath_Unique     = "UNIQUE.";
 
     private final static String PropPath_Int        = "INT.";
+    private final static String PropPath_String     = "STRING.";
     private final static String PropPath_Double     = "DOUBLE.";
     private final static String PropPath_Spacing    = "SPACING.";
     private final static String PropPath_Padding    = "PADDING.";
@@ -47,10 +48,11 @@ public class GlobalValuesManager {
 
 
 
-    private static int[] GLOBAL_VALUE_WeekLength;
+    private static int[] GLOBAL_VALUE_int;
     private static int[] GLOBAL_VALUE_TimeIntervals;
     private static int[] GLOBAL_VALUE_IDENTIntervals;
 
+    private static String[] GLOBAL_VALUE_Strings;
     private static String[] GLOBAL_VALUE_Weekday_Short;
     private static String[] GLOBAL_VALUE_Weekday_ShortCap;
     private static String[] GLOBAL_VALUE_Weekday_Long;
@@ -78,20 +80,22 @@ public class GlobalValuesManager {
         // void Global_Array_WeekDay_Set (String[] INPUT_SHORT, String[] INPUT_SHORTCAP, String[] INPUT_LONG, String[] INPUT_LONGCAP)
         global.Global_Array_WeekDay_Set     (GLOBAL_VALUE_Weekday_Short, GLOBAL_VALUE_Weekday_ShortCap, GLOBAL_VALUE_Weekday_Long, GLOBAL_VALUE_Weekday_LongCap);
 
-        // void Global_Array_BasicValue_Set (int[] INPUT_WEEKLENGTH, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL, String[] INPUT_AMPM)
-        global.Global_Array_BasicValue_Set  (GLOBAL_VALUE_WeekLength, GLOBAL_VALUE_TimeIntervals, GLOBAL_VALUE_IDENTIntervals, GLOBAL_VALUE_AMPM);
+        // void Global_Array_BasicValue_Set (int[] INPUT_WEEKLENGTH, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL, String[] INPUT_AMPM, String[] INPUT_STRINGS)
+        global.Global_Array_BasicValue_Set  (GLOBAL_VALUE_int, GLOBAL_VALUE_TimeIntervals, GLOBAL_VALUE_IDENTIntervals, GLOBAL_VALUE_AMPM, GLOBAL_VALUE_Strings);
 
         // void Global_Array_UISpacing_Set (double[] INPUT_SPACE, double[] INPUT_PAD, double[] INPUT_WIDTH, double[] INPUT_HEIGTH, double[] INPUT_ANCHOR)
         global.Global_Array_UISpacing_Set   (GLOBAL_VALUE_Spacing, GLOBAL_VALUE_Padding, GLOBAL_VALUE_Width, GLOBAL_VALUE_Height, GLOBAL_VALUE_Anchor);
     }
 
     private static void Set_Global_Values_intArrays() {
-        GlobalValuesManager.GLOBAL_VALUE_WeekLength         = GetValues_ConvertToInt(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Int);
+        GlobalValuesManager.GLOBAL_VALUE_int                = GetValues_ConvertToInt(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Int);
         GlobalValuesManager.GLOBAL_VALUE_TimeIntervals      = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_Time);
         GlobalValuesManager.GLOBAL_VALUE_IDENTIntervals     = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_ID);
     }
 
     private static void Set_Global_Values_StringArrays() {
+        
+        GlobalValuesManager.GLOBAL_VALUE_Strings            = Get_Global_Values_Property(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_String);
         GlobalValuesManager.GLOBAL_VALUE_Weekday_Short      = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Short);
         GlobalValuesManager.GLOBAL_VALUE_Weekday_ShortCap   = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_ShortCap);
         GlobalValuesManager.GLOBAL_VALUE_Weekday_Long       = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Long);

@@ -27,10 +27,11 @@ public final class global {
 
     // GLOBAL BASIC VALUES - miscellaneous standard values
     // ############################################################  
-    private static int[]    Global_Data_WeekLength;
+    private static int[]    Global_Data_INTValues;
     private static int[]    Global_Data_TimeIntervals;
     private static int[]    Global_Data_IdentConstraint;
     private static String[] Global_Data_AMPM;
+    private static String[] Global_Data_StringValues;
     // ############################################################
 
 
@@ -80,7 +81,7 @@ public final class global {
     // GLOBAL ENUM CHECK BASICVALUES - used to selecg between defualt basic int values
     // ############################################################
     public static enum BASICVALUESINT {
-        WEEKLENGTH, TIMEINTERVALS, IDENTCONSTRAINT
+        INT, TIMEINTERVALS, IDENTCONSTRAINT
     }
     // ############################################################
 
@@ -88,7 +89,7 @@ public final class global {
     // GLOBAL ENUM CHECK BASICVALUES - used to selecg between defualt basic stringvalues
     // ############################################################
     public static enum BASICVALUESSTRING {
-        AMPM
+        AMPM, STRING
     }
     // ############################################################
 
@@ -293,25 +294,26 @@ public final class global {
     /**
      * Global_Array_BasicValue_Set()
      * Description: Sets basic standardized value arrays used throughout the program
-     * @param INPUT_WEEKLENGTH
+     * @param INPUT_INT
      * @param INPUT_TIMEINTERVALS
      * @param INPUT_IDENTINTERVAL
      * @param INPUT_AMPM
      */
-    public static void Global_Array_BasicValue_Set (int[] INPUT_WEEKLENGTH, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL, String[] INPUT_AMPM) {
+    public static void Global_Array_BasicValue_Set (int[] INPUT_INT, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL, String[] INPUT_AMPM , String[] INPUT_STRING) {
         if (false == STATE_BASICVALUES_SET) {
-            Global_Array_WeekLength_Set     (INPUT_WEEKLENGTH);     // - int[]
+            Global_Array_intValues_Set      (INPUT_INT);            // - int[]
             Global_Array_TimeIntervals_Set  (INPUT_TIMEINTERVALS);  // - int[]
             Global_Array_IdentConstraint_Set(INPUT_IDENTINTERVAL);  // - int[]
             Global_Array_AMPM_Set           (INPUT_AMPM);           // - String[]
-            global.STATE_BASICVALUES_SET        = true;
+            Global_Array_String_Set         (INPUT_STRING);         // - String[]
+            global.STATE_BASICVALUES_SET = true;
         } else {
             System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-CreateGlobalValues |INFO: Attempting to load global values in after initialization occured");
         }
     }
 
-    private static void Global_Array_WeekLength_Set         (int[] INPUT_WEEKLENGTH) {
-        global.Global_Data_WeekLength       = INPUT_WEEKLENGTH.clone();
+    private static void Global_Array_intValues_Set          (int[] INPUT_INT) {
+        global.Global_Data_INTValues        = INPUT_INT.clone();
     }
 
     private static void Global_Array_TimeIntervals_Set      (int[] INPUT_TIMEINTERVALS) {
@@ -326,11 +328,15 @@ public final class global {
         global.Global_Data_AMPM             = INPUT_AMPM.clone();
     }
 
+    private static void Global_Array_String_Set             (String[] INPUT_STRING) {
+        global.Global_Data_StringValues     = INPUT_STRING.clone();
+    }
 
 
-    public static int Global_Array_WeekLength_Get           (int INPUT_POSITION) {
-        if ( (INPUT_POSITION < global.Global_Data_WeekLength.length) && (INPUT_POSITION >= 0) && (global.Global_Data_WeekLength.length > 0)) {
-            return global.Global_Data_WeekLength[INPUT_POSITION];
+
+    public static int Global_Array_intValues_Get           (int INPUT_POSITION) {
+        if ( (INPUT_POSITION < global.Global_Data_INTValues.length) && (INPUT_POSITION >= 0) && (global.Global_Data_INTValues.length > 0)) {
+            return global.Global_Data_INTValues[INPUT_POSITION];
         } else {
             System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_WeekLength");
             return 0;
@@ -366,6 +372,15 @@ public final class global {
 
     public static String[] Global_Array_AMPM_GetFull        () {
         return global.Global_Data_AMPM.clone();
+    }
+
+    public static String Global_Array_String_Get              (int INPUT_POSITION) {
+        if ( (INPUT_POSITION < global.Global_Data_StringValues.length) && (INPUT_POSITION >= 0) && (global.Global_Data_StringValues.length > 0)) {
+            return global.Global_Data_StringValues[INPUT_POSITION];
+        } else {
+            System.out.println("|TYPE: ERROR  |CLASS: global |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid array access: Global_Data_StringValues");
+            return "INVALID STRING";
+        }
     }
 
 

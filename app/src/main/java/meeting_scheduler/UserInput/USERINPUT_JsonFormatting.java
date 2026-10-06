@@ -17,23 +17,23 @@ import com.fasterxml.jackson.databind.DatabindException;
 // EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
+//global
+import meeting_scheduler.global;
 // ############################################################
 
 
 
 public class USERINPUT_JsonFormatting {
 
-    // TODO: switch to global
-    public static final String[]    WEEKDAYS        = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-    public  boolean                                 Input = false;
-    
+    private static final String[] WEEKDAYS = global.Global_Array_WeekDay_Short_Get();
 
-    //private MANAGEFILE_JsonManager  JsonFileManager;
-    private HashMap<Integer, PREF_EMPLOYEE_FullPref> HashSet_EmployeePreference;
-
-    // iterator
-    private ListIterator<PREF_EMPLOYEE_FullPref>  Iterator_DefaultJson;
+    private HashMap<Integer, PREF_EMPLOYEE_FullPref>    HashSet_EmployeePreference;
+    private ListIterator<PREF_EMPLOYEE_FullPref>        Iterator_DefaultJson;
+    // private boolean Input = false;
     
+    /**
+     * Constructor()
+     */
     public USERINPUT_JsonFormatting() {
         //this.JsonFileManager = new MANAGEFILE_JsonManager();
 
@@ -44,7 +44,6 @@ public class USERINPUT_JsonFormatting {
 
 
         this.HashSet_EmployeePreference = new HashMap<>();
-
 
         int Size_PreferenceList = INPUT_FullEmployeePreference.size();
 
@@ -70,8 +69,6 @@ public class USERINPUT_JsonFormatting {
                 String[]    NewPreference_Days      = new String[7];
 
                 LinkedList<PREF_EMPLOYEE_TimePref> NewPreference_times = new LinkedList<>();
-
-
 
 
 
@@ -171,7 +168,7 @@ public class USERINPUT_JsonFormatting {
 
     public void JsonFileDefault_Formatremovals() throws StreamReadException, DatabindException, IOException {
 
-        //JsonfileManager.WriteTo_DefaultEmployeePreference();
+        //TODO: 
     }
 
     

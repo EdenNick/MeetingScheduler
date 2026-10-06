@@ -163,8 +163,8 @@ public final class SystemInfoManager {
         } else {
             switch(INPUT_ENUM) {
 
-                case WEEKLENGTH:
-                    ReturnValue = global.Global_Array_WeekLength_Get        (INPUT_POSITION);
+                case INT:
+                    ReturnValue = global.Global_Array_intValues_Get        (INPUT_POSITION);
                     break;
 
                 case TIMEINTERVALS:
@@ -204,8 +204,13 @@ public final class SystemInfoManager {
             switch(INPUT_ENUM) {
 
                 case AMPM:
-                    ReturnValue = global.Global_Array_AMPM_Get(INPUT_POSITION);
+                    ReturnValue = global.Global_Array_AMPM_Get      (INPUT_POSITION);
                     break;
+
+                case STRING:
+                    ReturnValue = global.Global_Array_String_Get    (INPUT_POSITION);
+                    break;
+                
                 default:
                     System.out.println("|TYPE: ERROR |CLASS: SystemInfoManager |ACTION: SYSTEM-GetGlobalValues |INFO: Invalid enum input, defaulting to string 'ERROR'");
                     break;

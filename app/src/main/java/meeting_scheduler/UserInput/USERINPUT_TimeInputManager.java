@@ -28,9 +28,9 @@ import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
 // EmployeePreferences
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 // SceneManagement
-import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
-//
-import meeting_scheduler.global; // TODO: SWITCH to GLOBALINFOMANAGEMENT
+import meeting_scheduler.SystemInfoManager;
+// global
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -39,12 +39,10 @@ public class USERINPUT_TimeInputManager {
     
 
     private final USERINPUT_TextList OBJ_TextList_Weekday;
-
     private final USERINPUT_DayTimeInput OBJ_DayTimeInput_Times;
 
 
     private final ComboBox<String> Manager_WeekDay;
-
     private final ComboBox<String> Manager_AMPM_Start;
     private final ComboBox<String> Manager_AMPM_End;
 
@@ -72,10 +70,8 @@ public class USERINPUT_TimeInputManager {
     private Label LabelEndMinute;
 
 
-    //private final MANAGESCHEDULE_Calculate SCHEDULECALCULATOR;
 
-
-    // TODO: implement more system messages
+    
     
     /**
      * Constructor
@@ -155,59 +151,82 @@ public class USERINPUT_TimeInputManager {
 
 
     private void SET_SizeShape() {
+
+        double Width = 0.0;
+        double Height = 0.0;
+
+
         // this.Manager_WeekDay
-        this.Manager_WeekDay.setPrefSize(100.0,25.0);
+        Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
+        Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.Manager_WeekDay.setPrefSize(Width,Height);
 
         // this.Manager_AMPM_Start
-        this.Manager_AMPM_Start.setPrefSize(80.0,25.0);
+        Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
+        Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.Manager_AMPM_Start.setPrefSize(Width,Height);
+
         // this.Manager_AMPM_End
-        this.Manager_AMPM_End.setPrefSize(80.0,25.0);
+        Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
+        Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.Manager_AMPM_End.setPrefSize(Width,Height);
 
         // this.Manager_StartTime_Hour
-        this.Manager_StartTime_Hour.setPrefSize(60.0,25.0);
+        Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
+        Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.Manager_StartTime_Hour.setPrefSize(Width,Height);
+
         // this.Manager_StartTime_Min
-        this.Manager_StartTime_Min.setPrefSize(60.0,25.0);
+        Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
+        Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.Manager_StartTime_Min.setPrefSize(Width,Height);
+
         // this.Manager_EndTime_Hour
-        this.Manager_EndTime_Hour.setPrefSize(60.0,25.0);
+        Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
+        Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.Manager_EndTime_Hour.setPrefSize(Width,Height);
+
         // this.Manager_EndTime_Min
-        this.Manager_EndTime_Min.setPrefSize(60.0,25.0);
+        Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
+        Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.Manager_EndTime_Min.setPrefSize(Width,Height);
     }
 
 
     private void CONSTRUCT_UI_Labels() {
         // Label - Weekday Prompt
-        this.LabelDay           = new Label(SCENE_VARIABLES_Local.Prompt_Day);
-        this.LabelDay.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.LabelDay           = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 5));
+        this.LabelDay.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Beginning time Prompt
-        this.LabelBeginningTime = new Label(SCENE_VARIABLES_Local.Prompt_BeginningTime);
-        this.LabelBeginningTime.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.LabelBeginningTime = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 6));
+        this.LabelBeginningTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Beginning Hour Label
-        this.LabelBeginHour     = new Label(SCENE_VARIABLES_Local.Prompt_HourLabel);
-        this.LabelBeginHour.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.LabelBeginHour     = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
+        this.LabelBeginHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Beginning Minute Label
-        this.LabelBeginMinute   = new Label(SCENE_VARIABLES_Local.Prompt_MinuteLabel);
-        this.LabelBeginMinute.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.LabelBeginMinute   = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
+        this.LabelBeginMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Ending time Prompt
-        this.LabelEndingTime    = new Label(SCENE_VARIABLES_Local.Prompt_EndingTime);
-        this.LabelEndingTime.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.LabelEndingTime    = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 7));
+        this.LabelEndingTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Ending hour Label
-        this.LabelEndHour       = new Label(SCENE_VARIABLES_Local.Prompt_HourLabel);
-        this.LabelEndHour.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.LabelEndHour       = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
+        this.LabelEndHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Ending Minute Label
-        this.LabelEndMinute     = new Label(SCENE_VARIABLES_Local.Prompt_MinuteLabel);
-        this.LabelEndMinute.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        this.LabelEndMinute     = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
+        this.LabelEndMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
     } // CONSTRUCT_UI_Labels()
 
 
@@ -220,7 +239,7 @@ public class USERINPUT_TimeInputManager {
         this.UI_AddStartTime = new HBox(10);
         //AddStartTime.setPrefSize(300.0, 500.0);
         this.UI_AddStartTime.setPadding(new Insets(10));
-        this.UI_AddStartTime.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DATACARD_TimePref);
+        this.UI_AddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
 
         this.UI_AddStartTime.getChildren().addAll(
 
@@ -242,7 +261,7 @@ public class USERINPUT_TimeInputManager {
         this.UI_addEndingTime = new HBox(10);
         //AddStartTime.setPrefSize(200.0, 400.0);
         this.UI_addEndingTime.setPadding(new Insets(10));
-        this.UI_addEndingTime.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DATACARD_TimePref);
+        this.UI_addEndingTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
         this.UI_addEndingTime.getChildren().addAll(
 
             LabelEndHour,
@@ -263,7 +282,7 @@ public class USERINPUT_TimeInputManager {
         this.UI_TimeInterface = new VBox(10);
         //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
         this.UI_TimeInterface.setPadding(new Insets(10));
-        this.UI_TimeInterface.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DATACARD_TimePref);
+        this.UI_TimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
 
         Region ButtonSpace = new Region();
         VBox.setVgrow(ButtonSpace, Priority.ALWAYS);
@@ -410,8 +429,11 @@ public class USERINPUT_TimeInputManager {
         // VBox creation and preference set
         // ############################################################
         VBox IndividualDataCard = new VBox();
-        IndividualDataCard.setPrefSize(130.0, 100.0);
-        IndividualDataCard.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DATACARD_TimeOutputCard);
+        double Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2);      // 2 - 150
+        double Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7);    // 7 - 100
+        IndividualDataCard.setPrefSize(Width, Height);
+        // IndividualDataCard.setPrefSize(130.0, 100.0);
+        IndividualDataCard.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 22));
         IndividualDataCard.setAlignment(Pos.CENTER);
         // ############################################################
 

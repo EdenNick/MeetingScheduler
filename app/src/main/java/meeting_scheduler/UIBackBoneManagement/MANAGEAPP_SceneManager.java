@@ -7,12 +7,14 @@ package meeting_scheduler.UIBackBoneManagement;
 // ############################################################
 // Stage
 import javafx.stage.Stage;
-import meeting_scheduler.SystemInfoManager;
 // SceneManagement
 import meeting_scheduler.SceneManagement.SCENE_CREATE_DataCard;
 import meeting_scheduler.SceneManagement.SCENE_CREATE_Instruct;
 import meeting_scheduler.SceneManagement.SCENE_CREATE_MainMenu;
 import meeting_scheduler.SceneManagement.SCENE_CREATE_Schedule;
+// global 
+import meeting_scheduler.global;
+import meeting_scheduler.SystemInfoManager;
 // ############################################################
 
 
@@ -49,10 +51,9 @@ public class MANAGEAPP_SceneManager {
         Schedule    = new SCENE_CREATE_Schedule(ApplicationStage);
         Instruct    = new SCENE_CREATE_Instruct(ApplicationStage);
 
-        // TODO: possibly change this to a global variable as it is accessed across multiple folders and obejects
         // Default Window width and height values, all scenes access these variables
-        MANAGEAPP_SceneManager.WindowWidth     = MANAGEAPP_LocalVariables.APP_Window_StartWidth;
-        MANAGEAPP_SceneManager.WindowHeight    = MANAGEAPP_LocalVariables.APP_Window_StartHeight;
+        MANAGEAPP_SceneManager.WindowWidth     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 1);
+        MANAGEAPP_SceneManager.WindowHeight    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 2);
 
     }
 

@@ -772,18 +772,6 @@ public class SCENE_CREATE_Schedule {
 
             // Reset List_UserTimes - clearing all elements in the Linked list
             this.SCHEDULE_TIMES.clear();
-
-            // Reset List_VBoxTimeInputs
-
-            // // clear all nodes in each Vbox
-            // for (VBox vbox : List_VBoxTimeInputs) {
-            //     vbox.getChildren().clear();
-            // }
-
-            // // clear all the elements in the linked list
-            // this.List_VBoxTimeInputs.clear();
-
-            // Reset FlowPane_VBoxDisplay
             
             // clear all elements in each node fo the flowpane
             for (Node node: FlowPane_VBoxDisplay.getChildren()) {
@@ -1063,11 +1051,6 @@ public class SCENE_CREATE_Schedule {
      */
     private void SchedulingInterface() {
 
-        // contains UI elements
-        // add nodes here not UIInterfaceNode
-        // this.UIInput_FullUI_VBOX = new VBox(10);
-        // this.UIInput_FullUI_VBOX.setPadding(new Insets(10));
-
 
         // UI Sub node creation
         // ############################################################
@@ -1089,7 +1072,7 @@ public class SCENE_CREATE_Schedule {
 
 
         // Add all Nodes
-        // ############################################################ // TODO: CHANGE TIME INPUT
+        // ############################################################
         this.UIInput_FullUI_VBOX.getChildren().addAll(
             // people Input
             UIInput_PeopleUI_VBOX,
@@ -1192,16 +1175,6 @@ public class SCENE_CREATE_Schedule {
         // ############################################################
 
 
-        // Initial Setup of functions
-        // ############################################################
-        // retrieve the list of user preferences from the relevant json file
-        // try {
-        //     Scheduler_fileReader.RetrieveFromFile();
-        // } catch (IOException e) {
-        //     // ERROR
-        //     e.printStackTrace();
-        // }
-
         // Retrieve the list from the file reader
         try {
 			this.FileUserInfo   = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
@@ -1220,10 +1193,6 @@ public class SCENE_CREATE_Schedule {
         // LinkedList of all people in the file showing both ID and full name
         this.PersonList     = new LinkedList<>();
 
-        // // Add people to the list
-        // for (PROG_DAL_A_InfoInput FilePerson : FileUserInfo) {
-        //     PersonList.add("|ID: " + FilePerson.EmployeeID + " Name: " + FilePerson.EmployeeName + "|");
-        // }
 
         // Add people to the list
         for (PREF_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
@@ -1422,21 +1391,10 @@ public class SCENE_CREATE_Schedule {
 
         // Output Section
         // ############################################################
-
         // Add days to the combobox
         this.userInput_SelectDays.getItems().addAll(SCENE_VARIABLES_Local.WEEKDAYS);
         // add defualt text to output
         this.OutputDays.getChildren().add(new Text(SCENE_VARIABLES_Local.EmptyText));
-
-        // this.OutputDays.getChildren().addListener((javafx.collections.ListChangeListener<Node>) change -> {
-
-        //     // ensures OutputDays has enough nodes to complete all operations without index out of bound errors
-        //     // Also exists due to reset button activating this listner -> do not remove the if statmenet
-        //     if (this.OutputDays.getChildren().size() > 1) {
-
-
-        //     } // if()
-        // });
         // // ############################################################
 
 
@@ -1473,129 +1431,20 @@ public class SCENE_CREATE_Schedule {
      * InputTimePreference()
      * Description: user input for the specific times they want scheduled
      */
-    private void InputTimePreference() { // TODO: CHANGE TIME INPUT
+    private void InputTimePreference() {
 
         // // Node construction
         // // ############################################################
-        // // Primary Node
-        // HBox Primary_InputTime      = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // // Primary Node input
-        // VBox Input_InputTime        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // // Secondary Node
-        // HBox Secondary_InputTime    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // // HBox for beginning Hour/Min input
-        // HBox Add_StartTime          = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // // hbox for ending hour/min input
-        // HBox Add_EndTime            = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        // // flowpane to hold time output boxes   -   NOTE: must be declared within class to work not method
         this.FlowPane_VBoxDisplay   = new FlowPane();
-        // // linkedlist for input VBoxes  - used for iteration only
-        // //this.List_VBoxTimeInputs    = new LinkedList<>();
-        // // ############################################################
 
-
-        // // Node sizing
-        // // ############################################################
-        // // Primary Node input
-        // Input_InputTime             .setPrefSize(300.0, 200.0);
-        // // HBox for beginning Hour/Min input
-        // Add_StartTime               .setPadding(new Insets(10));
-        // // hbox for ending hour/min input
-        // Add_EndTime                 .setPadding(new Insets(10));
-        // // flowpane to hold time output boxes
+        // // flowpane to hold time output boxes // TODO
         this.FlowPane_VBoxDisplay   .setPrefSize(270.0, 190.0);
         this.FlowPane_VBoxDisplay   .setPadding(new Insets(10));
         this.FlowPane_VBoxDisplay   .setHgap(5.0);
         this.FlowPane_VBoxDisplay   .setVgap(2.0);
-        // // ############################################################
 
-        // // label creation
-        // // ############################################################
-        // Label Label_inputTime   = new Label("Input the times to schedule");
-        // Label Label_BeginHour   = new Label("Hour");
-        // Label Label_BeginMinute = new Label("Minute");
-        // Label Label_EndHour     = new Label("Hour");
-        // Label Label_EndMinute   = new Label("Minute");
-        // // ############################################################
-
-
-        // // styling
-        // // ############################################################
-        // Label_inputTime             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        // Label_BeginHour             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        // Label_BeginMinute           .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        // Label_EndHour               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        // Label_EndMinute             .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        // Add_StartTime               .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
-        // Add_EndTime                 .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
         this.FlowPane_VBoxDisplay   .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
         // // ############################################################
-
-
-
-        // // Input creation functions
-        // // ############################################################
-
-        // // 
-        // // // beginning time input
-        // // Add_StartTime.getChildren().addAll(
-
-        // //     Label_BeginHour,
-        // //     Scheduler_UserTimeInputs.Return_Hour_Begin(),
-
-        // //     Label_BeginMinute,
-        // //     Scheduler_UserTimeInputs.Return_Minute_Begin(),
-
-        // //     Scheduler_UserTimeInputs.Return_AMPM_StartTime()
-
-        // // );
-        
-        // // // ending time input
-        // // Add_EndTime.getChildren().addAll(
-
-        // //     Label_EndHour,
-        // //     Scheduler_UserTimeInputs.Return_Hour_End(),
-
-        // //     Label_EndMinute,
-        // //     Scheduler_UserTimeInputs.Return_Minute_End(),
-
-        // //     Scheduler_UserTimeInputs.Return_AMPM_EndTime()
-
-        // // );
-        // // // ############################################################
-
-
-        // // Add all to the nodes
-        // // ############################################################
-        // // primary node output
-        // // - FlowPane_VBoxDisplay
-        // // primary node input
-        // Input_InputTime             .getChildren().addAll(Label_inputTime, Add_StartTime, Add_EndTime, this.INPUT_TimePreferences);
-        // // primary node
-        // Primary_InputTime           .getChildren().addAll(Input_InputTime, this.FlowPane_VBoxDisplay);
-        // // ############################################################
-
-        // // Secondary Node
-        // // ############################################################
-        // Secondary_InputTime         .getChildren().addAll(this.RESET_TimeInput);
-        // // ############################################################
-
-
-        // // add all to Time Ui holder UIInput_TimeUI_VBOX
-        // // ############################################################
-        // this.UIInput_TimeUI_VBOX    .getChildren().addAll(Primary_InputTime, Secondary_InputTime);
-        // // ############################################################
-
-
-
-
-
-
-
-
-
-
-
 
 
         this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInputManager(this.INPUT_TimePreferences); // TODO: schedule calculator
@@ -1695,16 +1544,8 @@ public class SCENE_CREATE_Schedule {
 
             while ((change.next()) && (ScheduleNumber < this.SCHEDULE_LIST) ) {
 
-                if (change.wasAdded()) {
+                if (change.wasAdded()) { // TODO; possibly chnage so this is its own object
 
-
-                    // // ensure list of people is up to date
-                    // try {
-                    //     Scheduler_fileReader.RetrieveFromFile();
-                    // } catch (IOException e) {
-                    //     // error
-                    //     e.printStackTrace();
-                    // }
 
                     // Node Creation
                     // ############################################################

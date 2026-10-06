@@ -20,8 +20,8 @@ public class USERINPUT_TextField {
 
     private final String    Parameter_Prompt;
     private final TextField TextField;
-    private final int       Parameter_Width;
-    private final int       Parameter_height;
+    private final double    Parameter_Width;
+    private final double    Parameter_height;
 
     private final int IDENT_MIN = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 0);
     private final int IDENT_MAX = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 1);
@@ -32,7 +32,7 @@ public class USERINPUT_TextField {
      * @param INPUT_WIDTH
      * @param INPUT_HEIGHT
      */
-    public USERINPUT_TextField(global.TextFieldState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, int INPUT_WIDTH, int INPUT_HEIGHT) {
+    public USERINPUT_TextField(global.TextFieldState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, double INPUT_WIDTH, double INPUT_HEIGHT) {
 
         this.TextField          = new TextField();
         this.Parameter_Prompt   = INPUT_PROMPT_TEXT;

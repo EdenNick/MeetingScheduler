@@ -35,39 +35,39 @@ import meeting_scheduler.global;
 
 
 
-public class USERINPUT_TimeInputManager {
+public class ManageDayTime {
     
 
-    private final USERINPUT_TextList OBJ_TextList_Weekday;
-    private final USERINPUT_DayTimeInput OBJ_DayTimeInput_Times;
+    private final InputComboBox OBJ_TEXTLIST_WEEKDAY;
+    private final InputDayTime  OBJ_DAYTIMEINPUT_TIMES;
 
 
-    private final ComboBox<String> Manager_WeekDay;
-    private final ComboBox<String> Manager_AMPM_Start;
-    private final ComboBox<String> Manager_AMPM_End;
+    private final ComboBox<String> MANAGER_WEEKDAY;
+    private final ComboBox<String> MANAGER_AMPM_START;
+    private final ComboBox<String> MANAGER_AMPM_END;
 
-    private final TextField Manager_StartTime_Hour;
-    private final TextField Manager_StartTime_Min;
-    private final TextField Manager_EndTime_Hour;
-    private final TextField Manager_EndTime_Min;
+    private final TextField MANAGER_STARTTIME_HOUR;
+    private final TextField MANAGER_STARTTIME_MIN;
+    private final TextField MANAGER_ENDTIME_HOUR;
+    private final TextField MANAGER_ENDTIME_MIN;
 
-    private PREF_EMPLOYEE_TimePref FullUserPreference;
+    private PREF_EMPLOYEE_TimePref fullUserPreference;
     // private PREF_EMPLOYEE_TimePref PartialUserPreference;
 
-    private Iterator<Node>      Iterator_FlowPaneDisplay;
+    private Iterator<Node>      IteratorFlowPaneDisplay;
 
-    private HBox UI_AddStartTime;
-    private HBox UI_addEndingTime;
+    private HBox UIAddStartTime;
+    private HBox UIAddEndtime;
 
-    private VBox UI_TimeInterface;
+    private VBox UITimeInterface;
 
-    private Label LabelDay;
-    private Label LabelBeginningTime;
-    private Label LabelBeginHour;
-    private Label LabelBeginMinute;
-    private Label LabelEndingTime;
-    private Label LabelEndHour;
-    private Label LabelEndMinute;
+    private Label labelDay;
+    private Label labelBeginningTime;
+    private Label labelBeginHour;
+    private Label labelBeginMinute;
+    private Label labelEndingTime;
+    private Label labelEndHour;
+    private Label labelEndMinute;
 
 
 
@@ -76,25 +76,25 @@ public class USERINPUT_TimeInputManager {
     /**
      * Constructor
      */
-    public USERINPUT_TimeInputManager(Button UI_INPUT_AddPreferenceButton) {
+    public ManageDayTime(Button UI_INPUT_AddPreferenceButton) {
 
         // Objects
         // ############################################################
-        this.OBJ_TextList_Weekday   = new USERINPUT_TextList(global.TextListState.WEEK, null, 0, 0);
-        this.OBJ_DayTimeInput_Times = new USERINPUT_DayTimeInput();
+        this.OBJ_TEXTLIST_WEEKDAY   = new InputComboBox(global.TextListState.WEEK, null, 0, 0);
+        this.OBJ_DAYTIMEINPUT_TIMES = new InputDayTime();
         // ############################################################
 
         // UI
         // ############################################################
-        this.Manager_WeekDay        = OBJ_TextList_Weekday.Return_Field_Constructed();
+        this.MANAGER_WEEKDAY        = OBJ_TEXTLIST_WEEKDAY.Return_Field_Constructed();
 
-        this.Manager_AMPM_Start     = OBJ_DayTimeInput_Times.Return_ComboBox_StartTime();
-        this.Manager_AMPM_End       = OBJ_DayTimeInput_Times.Return_ComboBox_EndTime();
+        this.MANAGER_AMPM_START     = OBJ_DAYTIMEINPUT_TIMES.Return_ComboBox_StartTime();
+        this.MANAGER_AMPM_END       = OBJ_DAYTIMEINPUT_TIMES.Return_ComboBox_EndTime();
 
-        this.Manager_StartTime_Hour = OBJ_DayTimeInput_Times.Return_TextField_Hour_StartTime();
-        this.Manager_StartTime_Min  = OBJ_DayTimeInput_Times.Return_TextField_Min_StartTime();
-        this.Manager_EndTime_Hour   = OBJ_DayTimeInput_Times.Return_TextField_Hour_EndTime();
-        this.Manager_EndTime_Min    = OBJ_DayTimeInput_Times.Return_TextField_Min_EndTime();
+        this.MANAGER_STARTTIME_HOUR = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Hour_StartTime();
+        this.MANAGER_STARTTIME_MIN  = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_StartTime();
+        this.MANAGER_ENDTIME_HOUR   = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Hour_EndTime();
+        this.MANAGER_ENDTIME_MIN    = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_EndTime();
         // ############################################################
 
 
@@ -111,21 +111,21 @@ public class USERINPUT_TimeInputManager {
 
 
     // TEMP
-    public USERINPUT_TimeInputManager() {
+    public ManageDayTime() {
 
-        this.OBJ_TextList_Weekday   = new USERINPUT_TextList(global.TextListState.WEEK, null, 0, 0);
+        this.OBJ_TEXTLIST_WEEKDAY   = new InputComboBox(global.TextListState.WEEK, null, 0, 0);
 
-        this.OBJ_DayTimeInput_Times = new USERINPUT_DayTimeInput();
+        this.OBJ_DAYTIMEINPUT_TIMES = new InputDayTime();
 
-        this.Manager_WeekDay        = OBJ_TextList_Weekday.Return_Field_Constructed();
+        this.MANAGER_WEEKDAY        = OBJ_TEXTLIST_WEEKDAY.Return_Field_Constructed();
 
-        this.Manager_AMPM_Start     = OBJ_DayTimeInput_Times.Return_ComboBox_StartTime();
-        this.Manager_AMPM_End       = OBJ_DayTimeInput_Times.Return_ComboBox_EndTime();
+        this.MANAGER_AMPM_START     = OBJ_DAYTIMEINPUT_TIMES.Return_ComboBox_StartTime();
+        this.MANAGER_AMPM_END       = OBJ_DAYTIMEINPUT_TIMES.Return_ComboBox_EndTime();
 
-        this.Manager_StartTime_Hour = OBJ_DayTimeInput_Times.Return_TextField_Hour_StartTime();
-        this.Manager_StartTime_Min  = OBJ_DayTimeInput_Times.Return_TextField_Min_StartTime();
-        this.Manager_EndTime_Hour   = OBJ_DayTimeInput_Times.Return_TextField_Hour_EndTime();
-        this.Manager_EndTime_Min    = OBJ_DayTimeInput_Times.Return_TextField_Min_EndTime();
+        this.MANAGER_STARTTIME_HOUR = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Hour_StartTime();
+        this.MANAGER_STARTTIME_MIN  = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_StartTime();
+        this.MANAGER_ENDTIME_HOUR   = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Hour_EndTime();
+        this.MANAGER_ENDTIME_MIN    = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_EndTime();
 
 
         // CREATE labels
@@ -141,11 +141,11 @@ public class USERINPUT_TimeInputManager {
 
     // Returns user preferences meant for input into Json File
     public PREF_EMPLOYEE_TimePref Return_UserPreference() {
-        return this.FullUserPreference;
+        return this.fullUserPreference;
     }
 
     public VBox Return_UI_TimeInput() {
-        return this.UI_TimeInterface;
+        return this.UITimeInterface;
     }
 
 
@@ -156,77 +156,77 @@ public class USERINPUT_TimeInputManager {
         double Height = 0.0;
 
 
-        // this.Manager_WeekDay
+        // this.MANAGER_WEEKDAY
         Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
         Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.Manager_WeekDay.setPrefSize(Width,Height);
+        this.MANAGER_WEEKDAY.setPrefSize(Width,Height);
 
-        // this.Manager_AMPM_Start
+        // this.MANAGER_AMPM_START
         Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
         Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.Manager_AMPM_Start.setPrefSize(Width,Height);
+        this.MANAGER_AMPM_START.setPrefSize(Width,Height);
 
-        // this.Manager_AMPM_End
+        // this.MANAGER_AMPM_END
         Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);      // 1 - 100
         Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.Manager_AMPM_End.setPrefSize(Width,Height);
+        this.MANAGER_AMPM_END.setPrefSize(Width,Height);
 
-        // this.Manager_StartTime_Hour
+        // this.MANAGER_STARTTIME_HOUR
         Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
         Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.Manager_StartTime_Hour.setPrefSize(Width,Height);
+        this.MANAGER_STARTTIME_HOUR.setPrefSize(Width,Height);
 
-        // this.Manager_StartTime_Min
+        // this.MANAGER_STARTTIME_MIN
         Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
         Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.Manager_StartTime_Min.setPrefSize(Width,Height);
+        this.MANAGER_STARTTIME_MIN.setPrefSize(Width,Height);
 
-        // this.Manager_EndTime_Hour
+        // this.MANAGER_ENDTIME_HOUR
         Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
         Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.Manager_EndTime_Hour.setPrefSize(Width,Height);
+        this.MANAGER_ENDTIME_HOUR.setPrefSize(Width,Height);
 
-        // this.Manager_EndTime_Min
+        // this.MANAGER_ENDTIME_MIN
         Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);      // 0 - 50
         Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.Manager_EndTime_Min.setPrefSize(Width,Height);
+        this.MANAGER_ENDTIME_MIN.setPrefSize(Width,Height);
     }
 
 
     private void CONSTRUCT_UI_Labels() {
         // Label - Weekday Prompt
-        this.LabelDay           = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 5));
-        this.LabelDay.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelDay           = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 5));
+        this.labelDay.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Beginning time Prompt
-        this.LabelBeginningTime = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 6));
-        this.LabelBeginningTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelBeginningTime = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 6));
+        this.labelBeginningTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Beginning Hour Label
-        this.LabelBeginHour     = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
-        this.LabelBeginHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelBeginHour     = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
+        this.labelBeginHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Beginning Minute Label
-        this.LabelBeginMinute   = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
-        this.LabelBeginMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelBeginMinute   = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
+        this.labelBeginMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Ending time Prompt
-        this.LabelEndingTime    = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 7));
-        this.LabelEndingTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelEndingTime    = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 7));
+        this.labelEndingTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Ending hour Label
-        this.LabelEndHour       = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
-        this.LabelEndHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelEndHour       = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
+        this.labelEndHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
 
 
         // Label - Ending Minute Label
-        this.LabelEndMinute     = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
-        this.LabelEndMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelEndMinute     = new Label(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
+        this.labelEndMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
     } // CONSTRUCT_UI_Labels()
 
 
@@ -236,20 +236,20 @@ public class USERINPUT_TimeInputManager {
 
         // HBox for beginning Hour/Min
         // ############################################################
-        this.UI_AddStartTime = new HBox(10);
+        this.UIAddStartTime = new HBox(10);
         //AddStartTime.setPrefSize(300.0, 500.0);
-        this.UI_AddStartTime.setPadding(new Insets(10));
-        this.UI_AddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UIAddStartTime.setPadding(new Insets(10));
+        this.UIAddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
 
-        this.UI_AddStartTime.getChildren().addAll(
+        this.UIAddStartTime.getChildren().addAll(
 
-            LabelBeginHour,
-            this.Manager_StartTime_Hour,
+            labelBeginHour,
+            this.MANAGER_STARTTIME_HOUR,
 
-            LabelBeginMinute,
-            this.Manager_StartTime_Min,
+            labelBeginMinute,
+            this.MANAGER_STARTTIME_MIN,
 
-            this.Manager_AMPM_Start
+            this.MANAGER_AMPM_START
 
         );
         // ############################################################
@@ -258,19 +258,19 @@ public class USERINPUT_TimeInputManager {
 
         // HBox for Ending Hour/Min
         // ############################################################
-        this.UI_addEndingTime = new HBox(10);
+        this.UIAddEndtime = new HBox(10);
         //AddStartTime.setPrefSize(200.0, 400.0);
-        this.UI_addEndingTime.setPadding(new Insets(10));
-        this.UI_addEndingTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
-        this.UI_addEndingTime.getChildren().addAll(
+        this.UIAddEndtime.setPadding(new Insets(10));
+        this.UIAddEndtime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UIAddEndtime.getChildren().addAll(
 
-            LabelEndHour,
-            this.Manager_EndTime_Hour,
+            labelEndHour,
+            this.MANAGER_ENDTIME_HOUR,
 
-            LabelEndMinute,
-            this.Manager_EndTime_Min,
+            labelEndMinute,
+            this.MANAGER_ENDTIME_MIN,
 
-            Manager_AMPM_End
+            MANAGER_AMPM_END
 
         );
         // ############################################################
@@ -279,24 +279,24 @@ public class USERINPUT_TimeInputManager {
 
         // Vbox for adding time intervals
         // ############################################################
-        this.UI_TimeInterface = new VBox(10);
+        this.UITimeInterface = new VBox(10);
         //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
-        this.UI_TimeInterface.setPadding(new Insets(10));
-        this.UI_TimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UITimeInterface.setPadding(new Insets(10));
+        this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
 
         Region ButtonSpace = new Region();
         VBox.setVgrow(ButtonSpace, Priority.ALWAYS);
 
-        this.UI_TimeInterface.getChildren().addAll(
+        this.UITimeInterface.getChildren().addAll(
 
-            LabelDay,
-            this.Manager_WeekDay,
+            labelDay,
+            this.MANAGER_WEEKDAY,
             
-            LabelBeginningTime,
-            UI_AddStartTime,
+            labelBeginningTime,
+            UIAddStartTime,
 
-            LabelEndingTime,
-            UI_addEndingTime,
+            labelEndingTime,
+            UIAddEndtime,
 
             ButtonSpace,
 
@@ -315,27 +315,27 @@ public class USERINPUT_TimeInputManager {
      */
     public int CHECK_FullTimeInput() {
 
-        if (this.Manager_WeekDay.getValue() == null)  {               // Error Return
+        if (this.MANAGER_WEEKDAY.getValue() == null)  {               // Error Return
             // user has not submitted a weekday
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_weekday);
             return 1;
 
-        } else if (this.Manager_StartTime_Hour.getText().isBlank())   {   // Error Return
+        } else if (this.MANAGER_STARTTIME_HOUR.getText().isBlank())   {   // Error Return
             // user has not submitted a beginning hour
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartHour);
             return 1;
 
-        } else if (this.Manager_StartTime_Min.getText().isBlank()) {   // Error Return
+        } else if (this.MANAGER_STARTTIME_MIN.getText().isBlank()) {   // Error Return
             // user has not submitted a beginning minute
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartMin);
             return 1;
 
-        } else if (this.Manager_EndTime_Hour.getText().isBlank())     {   // Error Return
+        } else if (this.MANAGER_ENDTIME_HOUR.getText().isBlank())     {   // Error Return
             // user has not submitted a ending hour
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndHour);
             return 1;
 
-        } else if (this.Manager_EndTime_Min.getText().isBlank())   {   // Error Return
+        } else if (this.MANAGER_ENDTIME_MIN.getText().isBlank())   {   // Error Return
             // user has not submitted a ending minute
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndMin);
             return 1;
@@ -345,14 +345,14 @@ public class USERINPUT_TimeInputManager {
             // Correct info has been submitted
             System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
 
-            String  WeekDay     = this.Manager_WeekDay.getValue();
-            int     BeginHour   = Integer.parseInt(this.Manager_StartTime_Hour  .getText());
-            int     BeginMinute = Integer.parseInt(this.Manager_StartTime_Min   .getText());
-            int     EndHour     = Integer.parseInt(this.Manager_EndTime_Hour    .getText());
-            int     EndMinute   = Integer.parseInt(this.Manager_EndTime_Min     .getText());
+            String  WeekDay     = this.MANAGER_WEEKDAY.getValue();
+            int     BeginHour   = Integer.parseInt(this.MANAGER_STARTTIME_HOUR  .getText());
+            int     BeginMinute = Integer.parseInt(this.MANAGER_STARTTIME_MIN   .getText());
+            int     EndHour     = Integer.parseInt(this.MANAGER_ENDTIME_HOUR    .getText());
+            int     EndMinute   = Integer.parseInt(this.MANAGER_ENDTIME_MIN     .getText());
 
             // new user preference
-            this.FullUserPreference = new PREF_EMPLOYEE_TimePref(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+            this.fullUserPreference = new PREF_EMPLOYEE_TimePref(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 
@@ -368,22 +368,22 @@ public class USERINPUT_TimeInputManager {
      */
     public int CHECK_PartialTimeInput() {
 
-        if (this.Manager_StartTime_Hour.getText().isBlank())   {   // Error Return
+        if (this.MANAGER_STARTTIME_HOUR.getText().isBlank())   {   // Error Return
             // user has not submitted a beginning hour
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartHour);
             return 1;
 
-        } else if (this.Manager_StartTime_Min.getText().isBlank()) {   // Error Return
+        } else if (this.MANAGER_STARTTIME_MIN.getText().isBlank()) {   // Error Return
             // user has not submitted a beginning minute
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartMin);
             return 1;
 
-        } else if (this.Manager_EndTime_Hour.getText().isBlank())     {   // Error Return
+        } else if (this.MANAGER_ENDTIME_HOUR.getText().isBlank())     {   // Error Return
             // user has not submitted a ending hour
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndHour);
             return 1;
 
-        } else if (this.Manager_EndTime_Min.getText().isBlank())   {   // Error Return
+        } else if (this.MANAGER_ENDTIME_MIN.getText().isBlank())   {   // Error Return
             // user has not submitted a ending minute
             System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndMin);
             return 1;
@@ -393,13 +393,13 @@ public class USERINPUT_TimeInputManager {
             // Correct info has been submitted
             System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
 
-            int     BeginHour   = Integer.parseInt(this.Manager_StartTime_Hour  .getText());
-            int     BeginMinute = Integer.parseInt(this.Manager_StartTime_Min   .getText());
-            int     EndHour     = Integer.parseInt(this.Manager_EndTime_Hour    .getText());
-            int     EndMinute   = Integer.parseInt(this.Manager_EndTime_Min     .getText());
+            int     BeginHour   = Integer.parseInt(this.MANAGER_STARTTIME_HOUR  .getText());
+            int     BeginMinute = Integer.parseInt(this.MANAGER_STARTTIME_MIN   .getText());
+            int     EndHour     = Integer.parseInt(this.MANAGER_ENDTIME_HOUR    .getText());
+            int     EndMinute   = Integer.parseInt(this.MANAGER_ENDTIME_MIN     .getText());
 
             // new user preference
-            this.FullUserPreference = new PREF_EMPLOYEE_TimePref(null, BeginHour, BeginMinute, EndHour, EndMinute);
+            this.fullUserPreference = new PREF_EMPLOYEE_TimePref(null, BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 
@@ -444,12 +444,12 @@ public class USERINPUT_TimeInputManager {
         int Index = (List_UserTimes.size() + 1);
 
         // Starting Time
-        String  StartTimeFrame  = this.Manager_AMPM_Start.getValue();
+        String  StartTimeFrame  = this.MANAGER_AMPM_START.getValue();
         int     StartHour       = Input_UserTime.GetStartTimeHour();
         String  startMin        = Integer.toString(Input_UserTime.GetStartTimeMin());
 
         // Ending Time
-        String  EndTimeFrame    = this.Manager_AMPM_End.getValue();
+        String  EndTimeFrame    = this.MANAGER_AMPM_END.getValue();
         int     EndHour         = Input_UserTime.GetEndTimeHour();
         String  EndMin          = Integer.toString(Input_UserTime.GetEndTimeMin());
 
@@ -489,14 +489,14 @@ public class USERINPUT_TimeInputManager {
             IndividualDataCard.getChildren().clear();
 
             // Create new iterator to iterate over nodes in the linkedlist UserPreferences
-            Iterator_FlowPaneDisplay = FlowPane_VBoxDisplay.getChildren().iterator();
+            IteratorFlowPaneDisplay = FlowPane_VBoxDisplay.getChildren().iterator();
 
             // loop through list to remove empty Vbox node
             int LinkedListIndex = 0;
-            while (Iterator_FlowPaneDisplay.hasNext()) {
+            while (IteratorFlowPaneDisplay.hasNext()) {
 
                 // next Vbox in iterator
-                Node Node_FlowPane = Iterator_FlowPaneDisplay.next();
+                Node Node_FlowPane = IteratorFlowPaneDisplay.next();
 
                 // if the Vbox is empty remove it from the list and remove the relevant time preference from List_UserTimes
                 if (Node_FlowPane instanceof VBox Vbox_flowPane) {
@@ -513,7 +513,7 @@ public class USERINPUT_TimeInputManager {
 
                 LinkedListIndex++;
 
-            } // while (Iterator_FlowPaneDisplay.hasNext())
+            } // while (IteratorFlowPaneDisplay.hasNext())
             
 
             // removes the VBox node from the flowPane

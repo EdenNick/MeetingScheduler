@@ -35,11 +35,11 @@ import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
 import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
-import meeting_scheduler.UserInput.USERINPUT_JsonFormatting;
-import meeting_scheduler.UserInput.USERINPUT_TimeInputManager;
+import meeting_scheduler.UserInput.ManageJsonFormat;
+import meeting_scheduler.UserInput.ManageDayTime;
 import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
 import meeting_scheduler.global;
-import meeting_scheduler.UserInput.USERINPUT_TextField;
+import meeting_scheduler.UserInput.InputTextField;
 // ############################################################
 
 
@@ -71,8 +71,8 @@ public class SCENE_CREATE_DataCard {
     private Label       labelIdent;         // Label for the Id Input
     private TextField   textfieldIdent;     // Input field for the ID number
     private TextField   textfieldName;      // InputField for the employee name
-    private USERINPUT_TextField textfieldIdentCreator;  // Obj that creates the ident textfield
-    private USERINPUT_TextField textfieldNameCreator;   // Obj that creates the name textfield
+    private InputTextField textfieldIdentCreator;  // Obj that creates the ident textfield
+    private InputTextField textfieldNameCreator;   // Obj that creates the name textfield
     // ############################################################
 
     // Action Events
@@ -92,8 +92,8 @@ public class SCENE_CREATE_DataCard {
     // Data Manager Objects
     // ############################################################
     private MANAGEFILE_JsonManager      ObjJsonFileManager;
-    private USERINPUT_JsonFormatting    ObjJsonFileFormatter;
-    private USERINPUT_TimeInputManager  ObjTimeInputManager;
+    private ManageJsonFormat    ObjJsonFileFormatter;
+    private ManageDayTime  ObjTimeInputManager;
     // ############################################################
 
     // UI formatting variables
@@ -124,7 +124,7 @@ public class SCENE_CREATE_DataCard {
         
         this.APPLICATION_STAGE       = stage;
         this.listUserAddedPref         = new LinkedList<>();
-        this.ObjJsonFileFormatter  = new USERINPUT_JsonFormatting();
+        this.ObjJsonFileFormatter  = new ManageJsonFormat();
         this.ObjJsonFileManager    = new MANAGEFILE_JsonManager();
 
 
@@ -272,7 +272,7 @@ public class SCENE_CREATE_DataCard {
      */
     private void Create_UIDisplays() {
 
-        this.ObjTimeInputManager = new USERINPUT_TimeInputManager(this.buttonAddPref);
+        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref);
         this.uiInputTime = this.ObjTimeInputManager.Return_UI_TimeInput();
 
         // Vbox for UI
@@ -599,12 +599,12 @@ public class SCENE_CREATE_DataCard {
         // textfieldIdent
         double InputIdentWidth      = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);   // 0 - 50
         double InputIdentHeight     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);  // 1 - 25
-        this.textfieldIdentCreator  = new USERINPUT_TextField(global.TextFieldState.TEXT, TEXT_TWO, InputIdentWidth, InputIdentHeight);
+        this.textfieldIdentCreator  = new InputTextField(global.TextFieldState.TEXT, TEXT_TWO, InputIdentWidth, InputIdentHeight);
         this.textfieldIdent = textfieldIdentCreator.Return_Field_constructed();
         // textfieldName
         double InputNameWidth       = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);   // 0 - 50
         double InputNameHeight      = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);  // 1 - 25
-        this.textfieldNameCreator   = new USERINPUT_TextField(global.TextFieldState.TEXT, TEXT_TWO, InputNameWidth, InputNameHeight);
+        this.textfieldNameCreator   = new InputTextField(global.TextFieldState.TEXT, TEXT_TWO, InputNameWidth, InputNameHeight);
         this.textfieldName = textfieldNameCreator.Return_Field_constructed();
         // ############################################################
 

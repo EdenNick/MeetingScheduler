@@ -59,7 +59,7 @@ import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
 import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
 // UserInput
-import meeting_scheduler.UserInput.USERINPUT_TimeInputManager;
+import meeting_scheduler.UserInput.ManageDayTime;
 // ############################################################
 
 
@@ -149,7 +149,7 @@ public class SCENE_CREATE_Schedule {
     // Schedule Calculator
     private final MANAGESCHEDULE_Calculate      ScheduleCalculator;
     // User Time Input manager
-    private USERINPUT_TimeInputManager    Scheduler_UserTimeInputs;
+    private ManageDayTime    Scheduler_UserTimeInputs;
     // Json File manager
     private final MANAGEFILE_JsonManager        Scheduler_fileReader;
     // ############################################################
@@ -1447,7 +1447,7 @@ public class SCENE_CREATE_Schedule {
         // // ############################################################
 
 
-        this.Scheduler_UserTimeInputs   = new USERINPUT_TimeInputManager(this.INPUT_TimePreferences); // TODO: schedule calculator
+        this.Scheduler_UserTimeInputs   = new ManageDayTime(this.INPUT_TimePreferences); // TODO: schedule calculator
 
         // add all to Time Ui holder UIInput_TimeUI_VBOX
         // ############################################################

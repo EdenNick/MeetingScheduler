@@ -14,14 +14,13 @@ import meeting_scheduler.SystemInfoManager;
 
 
 
-public class USERINPUT_TextField {
+public class InputTextField {
 
 
-
-    private final String    Parameter_Prompt;
-    private final TextField TextField;
-    private final double    Parameter_Width;
-    private final double    Parameter_height;
+    private final TextField TEXTFIELD;
+    private final String    PARAM_PROMPT;
+    private final double    PARAM_WIDTH;
+    private final double    PARAM_HEIGHT;
 
     private final int IDENT_MIN = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 0);
     private final int IDENT_MAX = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 1);
@@ -32,12 +31,12 @@ public class USERINPUT_TextField {
      * @param INPUT_WIDTH
      * @param INPUT_HEIGHT
      */
-    public USERINPUT_TextField(global.TextFieldState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, double INPUT_WIDTH, double INPUT_HEIGHT) {
+    public InputTextField(global.TextFieldState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, double INPUT_WIDTH, double INPUT_HEIGHT) {
 
-        this.TextField          = new TextField();
-        this.Parameter_Prompt   = INPUT_PROMPT_TEXT;
-        this.Parameter_Width    = INPUT_WIDTH;
-        this.Parameter_height   = INPUT_HEIGHT;
+        this.TEXTFIELD      = new TextField();
+        this.PARAM_PROMPT   = INPUT_PROMPT_TEXT;
+        this.PARAM_WIDTH    = INPUT_WIDTH;
+        this.PARAM_HEIGHT   = INPUT_HEIGHT;
 
 
         Construct_Field_BasicParameters();
@@ -58,15 +57,15 @@ public class USERINPUT_TextField {
 
 
     private void Construct_Field_BasicParameters() {
-        this.TextField.setPromptText(this.Parameter_Prompt);
-        this.TextField.setPrefSize(this.Parameter_Width, this.Parameter_height);
+        this.TEXTFIELD.setPromptText(this.PARAM_PROMPT);
+        this.TEXTFIELD.setPrefSize(this.PARAM_WIDTH, this.PARAM_HEIGHT);
     }
 
 
 
     private void Construct_Field_Text() {
 
-        this.TextField.setTextFormatter(new TextFormatter<>(change -> {
+        this.TEXTFIELD.setTextFormatter(new TextFormatter<>(change -> {
             
             // User input text
             String TextInput = change.getControlNewText();
@@ -95,7 +94,7 @@ public class USERINPUT_TextField {
 
     private void Construct_Field_Numeric() {
 
-        this.TextField.setTextFormatter(new TextFormatter<>(change -> {
+        this.TEXTFIELD.setTextFormatter(new TextFormatter<>(change -> {
             
             // User input text
             String TextInput = change.getControlNewText();
@@ -125,6 +124,6 @@ public class USERINPUT_TextField {
 
 
     public TextField Return_Field_constructed() {
-        return this.TextField;
+        return this.TEXTFIELD;
     }
 }

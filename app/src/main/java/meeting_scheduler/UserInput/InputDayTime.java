@@ -16,7 +16,7 @@ import meeting_scheduler.global;
 
 
 
-public class USERINPUT_DayTimeInput {
+public class InputDayTime {
 
     private final ComboBox<String> AMPM_START;
     private final ComboBox<String> AMPM_END;
@@ -30,7 +30,7 @@ public class USERINPUT_DayTimeInput {
     /**
      * Constructor
      */
-    public USERINPUT_DayTimeInput() {
+    public InputDayTime() {
         
         this.INPUTTIME_HOUR_Start   = new TextField();
         this.INPUTTIME_MIN_Start    = new TextField();

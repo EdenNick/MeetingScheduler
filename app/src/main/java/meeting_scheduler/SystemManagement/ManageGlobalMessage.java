@@ -1,24 +1,21 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.GlobalManagers;
+package meeting_scheduler.SystemManagement;
 // ############################################################
 
 //Imports
 // ############################################################
-// io
 import java.io.IOException;
 import java.io.InputStream;
-// util
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Properties;
-// global 
 import meeting_scheduler.global;
 // ############################################################
 
 
 
-public class GlobalMessageManager {
+public class ManageGlobalMessage {
 
 
     private static String[] Global_Message_Type;
@@ -67,7 +64,7 @@ public class GlobalMessageManager {
 
 
 
-    private GlobalMessageManager() {
+    private ManageGlobalMessage() {
         // 
     }
 
@@ -78,8 +75,8 @@ public class GlobalMessageManager {
         Set_Global_Message_Info();
 
         // public static void Global_Message_Set(String[] Input_Types, String[] Input_Class, String[] Input_Methods, String[] Input_Info)
-        global.Global_Message_Set(GlobalMessageManager.Global_Message_Type, GlobalMessageManager.Global_Message_Class, 
-            GlobalMessageManager.Global_Message_Action, GlobalMessageManager.Global_Message_Info);
+        global.Global_Message_Set(ManageGlobalMessage.Global_Message_Type, ManageGlobalMessage.Global_Message_Class, 
+            ManageGlobalMessage.Global_Message_Action, ManageGlobalMessage.Global_Message_Info);
     }
 
     
@@ -113,7 +110,7 @@ public class GlobalMessageManager {
         AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         // add all together
-        GlobalMessageManager.Global_Message_Type = AddAll.toArray(new String[0]);
+        ManageGlobalMessage.Global_Message_Type = AddAll.toArray(new String[0]);
 
         int maxLength = 0;
         for (int pos = 0; pos < Global_Message_Type.length; pos++) {
@@ -122,7 +119,7 @@ public class GlobalMessageManager {
             }
         }
 
-        GlobalMessageManager.Global_Message_Type_Length = maxLength;
+        ManageGlobalMessage.Global_Message_Type_Length = maxLength;
     } // Set_Global_Message_Type
 
 
@@ -182,7 +179,7 @@ public class GlobalMessageManager {
 
 
         // add all together
-        GlobalMessageManager.Global_Message_Class = AddAll.toArray(new String[0]);
+        ManageGlobalMessage.Global_Message_Class = AddAll.toArray(new String[0]);
 
         int maxLength = 0;
         for (int pos = 0; pos < Global_Message_Class.length; pos++) {
@@ -191,7 +188,7 @@ public class GlobalMessageManager {
             }
         }
 
-        GlobalMessageManager.Global_Message_Class_Length = maxLength;
+        ManageGlobalMessage.Global_Message_Class_Length = maxLength;
 
     } // Set_Global_Message_Class
 
@@ -212,7 +209,7 @@ public class GlobalMessageManager {
         AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         // add all together
-        GlobalMessageManager.Global_Message_Action = AddAll.toArray(new String[0]);
+        ManageGlobalMessage.Global_Message_Action = AddAll.toArray(new String[0]);
 
         int maxLength = 0;
         for (int pos = 0; pos < Global_Message_Action.length; pos++) {
@@ -221,7 +218,7 @@ public class GlobalMessageManager {
             }
         }
 
-        GlobalMessageManager.Global_Message_Action_Length = maxLength;
+        ManageGlobalMessage.Global_Message_Action_Length = maxLength;
 
     } // Set_Global_Message_Method
 
@@ -238,7 +235,7 @@ public class GlobalMessageManager {
         AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         // add all togehter
-        GlobalMessageManager.Global_Message_Info = AddAll.toArray(new String[0]);
+        ManageGlobalMessage.Global_Message_Info = AddAll.toArray(new String[0]);
 
         int maxLength = 0;
         for (int pos = 0; pos < Global_Message_Info.length; pos++) {
@@ -247,7 +244,7 @@ public class GlobalMessageManager {
             }
         }
 
-        GlobalMessageManager.Global_Message_Info_Length = maxLength;
+        ManageGlobalMessage.Global_Message_Info_Length = maxLength;
 
     } // Set_Global_Message_Info
 
@@ -272,7 +269,7 @@ public class GlobalMessageManager {
         LinkedList<String> ArraylistPropStrings = new LinkedList<>();
 
         // TRY/CATCH
-        try ( InputStream FileInput = GlobalMessageManager.class.getResourceAsStream(FilePath) ) {
+        try ( InputStream FileInput = ManageGlobalMessage.class.getResourceAsStream(FilePath) ) {
             
             // Load Props from File
             Prop_Type.load(FileInput);

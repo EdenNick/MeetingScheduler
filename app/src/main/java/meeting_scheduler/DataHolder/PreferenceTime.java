@@ -1,17 +1,16 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.EmployeePreferences;
+package meeting_scheduler.DataHolder;
 // ############################################################
 
 // Imports
 // ############################################################
-// time
 import java.time.LocalTime;
 // ############################################################
 
 
 
-public class PREF_EMPLOYEE_TimePref {
+public class PreferenceTime {
 
     // fields must remain public for Json file manipulation
     public String      TIMEPREF_Weekday;
@@ -23,7 +22,7 @@ public class PREF_EMPLOYEE_TimePref {
      * Default consturctor
      * Meant for use with Json files, do not alter this.
      */
-    public PREF_EMPLOYEE_TimePref() {
+    public PreferenceTime() {
         // DO NOT ADD CODE HERE
     }
 
@@ -37,7 +36,7 @@ public class PREF_EMPLOYEE_TimePref {
      * @param EndHOUR
      * @param EndMIN
      */
-    public PREF_EMPLOYEE_TimePref(String INPUT_DAY, int INPUT_START_HOUR, int INPUT_START_MINUTE, int INPUT_END_HOUR, int INPUT_END_MINUTE) {
+    public PreferenceTime(String INPUT_DAY, int INPUT_START_HOUR, int INPUT_START_MINUTE, int INPUT_END_HOUR, int INPUT_END_MINUTE) {
         
         this.TIMEPREF_Weekday       = INPUT_DAY;
         this.TIMEPREF_TimeStart     = LocalTime.of(INPUT_START_HOUR, INPUT_START_MINUTE);    // (hour:min)    Military Time
@@ -51,7 +50,7 @@ public class PREF_EMPLOYEE_TimePref {
      * Copy Constructor
      * @param TIMEPREF_COPY
      */
-    public PREF_EMPLOYEE_TimePref(PREF_EMPLOYEE_TimePref TIMEPREF_COPY) {
+    public PreferenceTime(PreferenceTime TIMEPREF_COPY) {
         
         this.TIMEPREF_Weekday       = TIMEPREF_COPY.GetWeekDay();
         this.TIMEPREF_TimeStart     = TIMEPREF_COPY.GetStartTime();                         // (hour:min)    Military Time
@@ -66,7 +65,7 @@ public class PREF_EMPLOYEE_TimePref {
      * @param TIMEPREF_INPUT
      * @return
      */
-    public boolean IsTimePreferenceEqual(PREF_EMPLOYEE_TimePref TIMEPREF_INPUT) {
+    public boolean IsTimePreferenceEqual(PreferenceTime TIMEPREF_INPUT) {
         
         // IF - returns false if objects have a different weekday
         if (!this.TIMEPREF_Weekday.equals(TIMEPREF_INPUT.GetWeekDay()))             {

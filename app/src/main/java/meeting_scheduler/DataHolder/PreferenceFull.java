@@ -1,11 +1,10 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.EmployeePreferences;
+package meeting_scheduler.DataHolder;
 // ############################################################
 
 // Imports
 // ############################################################
-// util
 import java.util.LinkedList;
 import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
@@ -13,14 +12,14 @@ import meeting_scheduler.SystemInfoManager;
 
 
 
-public class PREF_EMPLOYEE_FullPref {
+public class PreferenceFull {
 
     // fields must remain public in order for JSON file retrieval and write to work
     public boolean                  EMPLOYEE_Delete;
     public String                   EMPLOYEE_Name;
     public int                      EMPLOYEE_Ident;
     public String[]                 EMPLOYEE_Days = new String[7];
-    public PREF_EMPLOYEE_TimePref[] EMPLOYEE_Intervals;
+    public PreferenceTime[] EMPLOYEE_Intervals;
 
 
 
@@ -28,7 +27,7 @@ public class PREF_EMPLOYEE_FullPref {
      * Default Constructor
      * used for json operations
      */
-    public PREF_EMPLOYEE_FullPref(){
+    public PreferenceFull(){
         // com.fasterxml.jackson requires a no argument constructor - Do NOT put anything here
     }
 
@@ -42,12 +41,12 @@ public class PREF_EMPLOYEE_FullPref {
      * @param EMPLOYEE_Days
      * @param EMPLOYEE_Intervals
      */
-    public PREF_EMPLOYEE_FullPref(boolean INPUT_DELETE, String INPUT_NAME, int INPUT_IDENT, String[] INPUT_DAYS, LinkedList<PREF_EMPLOYEE_TimePref> INPUT_INTERVALS) {
+    public PreferenceFull(boolean INPUT_DELETE, String INPUT_NAME, int INPUT_IDENT, String[] INPUT_DAYS, LinkedList<PreferenceTime> INPUT_INTERVALS) {
         this.EMPLOYEE_Delete    = INPUT_DELETE;
         this.EMPLOYEE_Name      = INPUT_NAME;
         this.EMPLOYEE_Ident     = INPUT_IDENT;
         this.EMPLOYEE_Days      = CheckOrder(INPUT_DAYS);
-        this.EMPLOYEE_Intervals = INPUT_INTERVALS.toArray(new PREF_EMPLOYEE_TimePref[0]);
+        this.EMPLOYEE_Intervals = INPUT_INTERVALS.toArray(new PreferenceTime[0]);
     }
 
 
@@ -56,7 +55,7 @@ public class PREF_EMPLOYEE_FullPref {
      * Copy Constructor
      * @param FULLPREF_COPY
      */
-    public PREF_EMPLOYEE_FullPref(PREF_EMPLOYEE_FullPref FULLPREF_COPY) {
+    public PreferenceFull(PreferenceFull FULLPREF_COPY) {
         this.EMPLOYEE_Delete    = FULLPREF_COPY.GetStatus();
         this.EMPLOYEE_Name      = FULLPREF_COPY.GetName();
         this.EMPLOYEE_Ident     = FULLPREF_COPY.GetIdent();
@@ -110,7 +109,7 @@ public class PREF_EMPLOYEE_FullPref {
     }
 
     // Return - employee interval preferences
-    public PREF_EMPLOYEE_TimePref[] GetIntervals() {
+    public PreferenceTime[] GetIntervals() {
         return this.EMPLOYEE_Intervals.clone();
     }
     

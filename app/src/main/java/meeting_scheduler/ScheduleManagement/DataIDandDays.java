@@ -1,6 +1,7 @@
 // Package  - DO Not Change
 // ############################################################
 package meeting_scheduler.ScheduleManagement;
+// ############################################################
 
 // IMPORTS
 // ############################################################
@@ -9,7 +10,7 @@ import java.util.Arrays;
 
 
 
-public class MANAGESCHEDULE_IDandDays {
+public class DataIDandDays {
 
     private int[] Ident;
 
@@ -22,7 +23,7 @@ public class MANAGESCHEDULE_IDandDays {
      * Primary Constructor
      * @param INPUT_ARRAYLENGTH
      */
-    public MANAGESCHEDULE_IDandDays(int INPUT_ARRAYLENGTH) {
+    public DataIDandDays(int INPUT_ARRAYLENGTH) {
 
         this.Ident          = new int[INPUT_ARRAYLENGTH];
         this.WeekDays       = new String[INPUT_ARRAYLENGTH][];
@@ -39,7 +40,7 @@ public class MANAGESCHEDULE_IDandDays {
      * Copy Constructor
      * @param INPUT_ARRAYLENGTH
      */
-    public MANAGESCHEDULE_IDandDays(MANAGESCHEDULE_IDandDays INPUT_COPY) {
+    public DataIDandDays(DataIDandDays INPUT_COPY) {
         this.Ident          = INPUT_COPY.Return_Idents();
         this.WeekDays       = INPUT_COPY.Return_Weekdays();
         this.ArraySetLength = INPUT_COPY.Return_Size();

@@ -5,20 +5,15 @@ package meeting_scheduler.UserInput;
 
 // Imports
 // ############################################################
-// io
 import java.io.IOException;
-// util
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.HashMap;
-// jackson
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-// EmployeePreferences
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-//global
 import meeting_scheduler.global;
+import meeting_scheduler.DataHolder.PreferenceFull;
+import meeting_scheduler.DataHolder.PreferenceTime;
 // ############################################################
 
 
@@ -27,8 +22,8 @@ public class ManageJsonFormat {
 
     private static final String[] WEEKDAYS = global.Global_Array_WeekDay_Short_Get();
 
-    private HashMap<Integer, PREF_EMPLOYEE_FullPref>    HashSetEmployeePreference;
-    private ListIterator<PREF_EMPLOYEE_FullPref>        IteratorDefaultJson;
+    private HashMap<Integer, PreferenceFull>    HashSetEmployeePreference;
+    private ListIterator<PreferenceFull>        IteratorDefaultJson;
     // private boolean Input = false;
     
     /**
@@ -40,7 +35,7 @@ public class ManageJsonFormat {
     }
     
     //
-    public LinkedList<PREF_EMPLOYEE_FullPref> JsonFileDefault_Formatting(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_FullEmployeePreference) {
+    public LinkedList<PreferenceFull> JsonFileDefault_Formatting(LinkedList<PreferenceFull> INPUT_FullEmployeePreference) {
 
 
         this.HashSetEmployeePreference = new HashMap<>();
@@ -60,7 +55,7 @@ public class ManageJsonFormat {
                 HashSetEmployeePreference.remove(INPUT_FullEmployeePreference.get(Position_PreferenceList).GetIdent());
 
                 // store that element as a unique preference and ID number
-                PREF_EMPLOYEE_FullPref EMPLOYEE_Duplicate = INPUT_FullEmployeePreference.get(Position_PreferenceList);
+                PreferenceFull EMPLOYEE_Duplicate = INPUT_FullEmployeePreference.get(Position_PreferenceList);
                 
                 // Existing data
                 boolean     NewPreference_Delete    = EMPLOYEE_Duplicate.GetStatus();
@@ -68,7 +63,7 @@ public class ManageJsonFormat {
                 String      NewPreference_Name      = EMPLOYEE_Duplicate.GetName();
                 String[]    NewPreference_Days      = new String[7];
 
-                LinkedList<PREF_EMPLOYEE_TimePref> NewPreference_times = new LinkedList<>();
+                LinkedList<PreferenceTime> NewPreference_times = new LinkedList<>();
 
 
 
@@ -78,7 +73,7 @@ public class ManageJsonFormat {
                 while (IteratorDefaultJson.hasNext()) {
 
                     // Next employee in the list and their ID number
-                    PREF_EMPLOYEE_FullPref Next_Employee = IteratorDefaultJson.next();
+                    PreferenceFull Next_Employee = IteratorDefaultJson.next();
                     int Next_employeeIdent = Next_Employee.GetIdent();
 
                     // IF - when employee ids match the Duplicate_Employee id, their prefered intervals are added to a shared list
@@ -133,7 +128,7 @@ public class ManageJsonFormat {
 
 
                 // Create new preference for a person and add them to the hash set
-                PREF_EMPLOYEE_FullPref NEWEmployeePreference = new PREF_EMPLOYEE_FullPref(NewPreference_Delete, NewPreference_Name, NewPreference_Ident, NewPreference_week, NewPreference_times);
+                PreferenceFull NEWEmployeePreference = new PreferenceFull(NewPreference_Delete, NewPreference_Name, NewPreference_Ident, NewPreference_week, NewPreference_times);
 
 
                 HashSetEmployeePreference.put(EmployeePreference_Key, NEWEmployeePreference);
@@ -156,7 +151,7 @@ public class ManageJsonFormat {
 
         // Add all objects in the hashset to the json preference file
 
-        LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_formatted = new LinkedList<>(HashSetEmployeePreference.values());
+        LinkedList<PreferenceFull> EMPLOYEES_formatted = new LinkedList<>(HashSetEmployeePreference.values());
         //this.JsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_WriteToFile);
 
         return EMPLOYEES_formatted;

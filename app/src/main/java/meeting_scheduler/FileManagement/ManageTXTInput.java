@@ -5,30 +5,24 @@ package meeting_scheduler.FileManagement;
 
 // Imports
 // ############################################################
-// reader/writer
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-// exception
 import java.io.IOException;
-// file
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
-// Util
 import java.util.ArrayList;
 import java.util.List;
-
-import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 // ############################################################
 
 
 
-public class MANAGEFILE_TXTInput {
+public class ManageTXTInput {
 
     static Path     FilePath;
-    static Path     TemporaryFilePath = Paths.get(SCENE_VARIABLES_Local.TXT_InputTempFile);
+    static Path     TemporaryFilePath = Paths.get("src\\PROG_DATA_TempFile.txt");
     static boolean  Locked = false;
 
 

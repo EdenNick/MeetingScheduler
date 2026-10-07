@@ -15,10 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.LinkedList;
 
-// import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
+import meeting_scheduler.DataHolder.PreferenceTime;
 // import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
-import meeting_scheduler.FileManagement.MANAGEFILE_TXTOutput;
+import meeting_scheduler.FileManagement.ManageTXTOutput;
 import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
 // import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
 // import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
@@ -44,10 +43,10 @@ class AppTest {
     private final LinkedList<String>                TEST_IDs;
 
     // private final MANAGESCHEDULE_Schedule               TEST_Schedule;
-    private final PREF_EMPLOYEE_TimePref              TEST_TimeInterval;
+    private final PreferenceTime              TEST_TimeInterval;
     // private final PREF_EMPLOYEE_TimePref              TEST_TimeInterval2;
     // private final PREF_EMPLOYEE_FullPref              TEST_InfoInputPerson;
-    private final LinkedList<PREF_EMPLOYEE_TimePref>  TEST_TimeInputIntervals;
+    private final LinkedList<PreferenceTime>  TEST_TimeInputIntervals;
 
 
     // private final MANAGEFILE_JsonManager            TEST_JsonFilemanager;
@@ -63,9 +62,9 @@ class AppTest {
         this.TEST_IDs.add("1");
 
 
-        this.TEST_TimeInterval          = new PREF_EMPLOYEE_TimePref("Mon", 3, 50, 14, 07);
+        this.TEST_TimeInterval          = new PreferenceTime("Mon", 3, 50, 14, 07);
         //this.TEST_TimeInterval2         = new PREF_EMPLOYEE_TimePref("Mon", 8, 0, 12, 0);
-        this.TEST_TimeInputIntervals    = new LinkedList<PREF_EMPLOYEE_TimePref>();
+        this.TEST_TimeInputIntervals    = new LinkedList<PreferenceTime>();
         this.TEST_TimeInputIntervals.add(TEST_TimeInterval);
 
 
@@ -197,7 +196,7 @@ class AppTest {
     @Test void TEST_TXTOutput() {
         
         // file reader object
-        MANAGEFILE_TXTOutput fileReader = new MANAGEFILE_TXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
+        ManageTXTOutput fileReader = new ManageTXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
 
         // retrieve text from the instructions file
         LinkedList<String> InstructionFileText = new LinkedList<>(fileReader.ReadFile());

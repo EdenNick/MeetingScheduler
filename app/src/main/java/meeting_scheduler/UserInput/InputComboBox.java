@@ -5,7 +5,6 @@ package meeting_scheduler.UserInput;
 
 // IMPORTS
 // ############################################################
-// javafx
 import javafx.scene.control.ComboBox;
 import meeting_scheduler.global;
 // ############################################################

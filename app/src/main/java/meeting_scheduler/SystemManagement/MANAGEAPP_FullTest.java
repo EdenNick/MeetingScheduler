@@ -1,6 +1,6 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.UIBackBoneManagement;
+package meeting_scheduler.SystemManagement;
 // ############################################################
 
 // Imports
@@ -16,9 +16,9 @@ import java.util.List;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.FileManagement.MANAGEFILE_TXTInput;
+import meeting_scheduler.DataHolder.PreferenceFull;
+import meeting_scheduler.DataHolder.PreferenceTime;
+import meeting_scheduler.FileManagement.ManageTXTInput;
 
 
 
@@ -52,8 +52,8 @@ public class MANAGEAPP_FullTest {
     static  String                              TestName                = "John Smith";
     static  int                                 TestID                  = 1;
     static  String[]                            TestEmployeeMEETINGDAYS = {"mon", "tue", "wed"};
-    static  LinkedList<PREF_EMPLOYEE_TimePref>    TestTimeInterval        = new LinkedList<>();
-    private PREF_EMPLOYEE_FullPref                staticInfo;
+    static  LinkedList<PreferenceTime>    TestTimeInterval        = new LinkedList<>();
+    private PreferenceFull                staticInfo;
 
 
     // Constructor - Fills objects with parameters for testing
@@ -63,9 +63,9 @@ public class MANAGEAPP_FullTest {
         // TODO: System Message
 
         // Adds a single beignning and ending time to the list
-        MANAGEAPP_FullTest.TestTimeInterval.add(new PREF_EMPLOYEE_TimePref("Mon",8, 0, 12, 0));
-        MANAGEAPP_FullTest.TestTimeInterval.add(new PREF_EMPLOYEE_TimePref("Mon",14, 1, 15, 30));
-        MANAGEAPP_FullTest.TestTimeInterval.add(new PREF_EMPLOYEE_TimePref("Fri",12, 5, 17, 45));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new PreferenceTime("Mon",8, 0, 12, 0));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new PreferenceTime("Mon",14, 1, 15, 30));
+        MANAGEAPP_FullTest.TestTimeInterval.add(new PreferenceTime("Fri",12, 5, 17, 45));
 
         // creates userinfo object and sets all input testing data
         //this.staticInfo = new PREF_EMPLOYEE_FullPref(TestName, TestID, TestEmployeeMEETINGDAYS, TestTimeInterval);
@@ -166,7 +166,7 @@ public class MANAGEAPP_FullTest {
 
         //int IndexPosition = 0;
 
-        for (PREF_EMPLOYEE_TimePref TimeInterval : staticInfo.GetIntervals()) {
+        for (PreferenceTime TimeInterval : staticInfo.GetIntervals()) {
 
             TimeInterval.TEST_TimeConversion();
 
@@ -191,7 +191,7 @@ public class MANAGEAPP_FullTest {
 
 
         // Sets file to perform an action on.
-        MANAGEFILE_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
+        ManageTXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
 
         // Data to add to the file
         TestTextLine.add("ID: " + ID);                                  // Keep an Eye on this variable, caused problems when deleting file info
@@ -201,7 +201,7 @@ public class MANAGEAPP_FullTest {
         TestTextLine.add("####################");
 
 
-        MANAGEFILE_TXTInput.writeData(TestTextLine);
+        ManageTXTInput.writeData(TestTextLine);
 
 
         System.out.println("TEST_File_AddCardToFile:    Test: Complete");
@@ -219,10 +219,10 @@ public class MANAGEAPP_FullTest {
         System.out.println("TEST_File_RemCardFromFile   Test: Start");
 
         // Sets file to perform an action on.
-        MANAGEFILE_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
+        ManageTXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
 
         // Delete data with User ID "001".
-        MANAGEFILE_TXTInput.DeleteData("001");
+        ManageTXTInput.DeleteData("001");
 
 
         System.out.println("TEST_File_RemCardFromFile   Test: Complete");
@@ -242,7 +242,7 @@ public class MANAGEAPP_FullTest {
 
         List<String> TestTextLine = new ArrayList<>();
 
-        MANAGEFILE_TXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
+        ManageTXTInput.setFileName("app\\src\\main\\java\\meeting_scheduler\\DataLayer\\PROG_DATA_B_TextTestFile.txt");
 
         // adding a series of blank spaces to the file to simulate unformated lines of space
         TestTextLine.add(" ");
@@ -250,7 +250,7 @@ public class MANAGEAPP_FullTest {
         TestTextLine.add("      ");
         TestTextLine.add("  ");
 
-        MANAGEFILE_TXTInput.OrganizeData();
+        ManageTXTInput.OrganizeData();
 
         System.out.println("TEST_FILE_OrganizeUserInfo  Test: Complete");
 

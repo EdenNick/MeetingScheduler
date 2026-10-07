@@ -5,25 +5,21 @@ package meeting_scheduler.FileManagement;
 
 // Imports
 // ############################################################
-// Java.io
 import java.io.File;
 import java.io.IOException;
-// java.util
 import java.util.LinkedList;
-// jackson (json file manager)
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import meeting_scheduler.SystemInfoManager;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.DataHolder.PreferenceFull;
 // ############################################################
 
 
 
-public class MANAGEFILE_JsonInput {
+public class ManageJsonInput {
 
     // Class parameters
     // ############################################################
@@ -38,11 +34,11 @@ public class MANAGEFILE_JsonInput {
     //TODO: possibly implement enum for multiple files?
 
     // Retreived File
-    private LinkedList<PREF_EMPLOYEE_FullPref> JSONFileInputList;
+    private LinkedList<PreferenceFull> JSONFileInputList;
 
 
     // Default Contructor
-    public MANAGEFILE_JsonInput(File INPUT_FILE) {
+    public ManageJsonInput(File INPUT_FILE) {
 
         this.DATAFILE_Preferences = INPUT_FILE;
 
@@ -53,7 +49,7 @@ public class MANAGEFILE_JsonInput {
     }
 
 
-    public void WriteTo_Default_EmployeePrefFile(LinkedList<PREF_EMPLOYEE_FullPref> INPUT_DATACARDLIST) throws StreamWriteException, DatabindException, IOException {
+    public void WriteTo_Default_EmployeePrefFile(LinkedList<PreferenceFull> INPUT_DATACARDLIST) throws StreamWriteException, DatabindException, IOException {
 
         this.JSONFileInputList = new LinkedList<>(INPUT_DATACARDLIST);
 

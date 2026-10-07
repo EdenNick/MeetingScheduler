@@ -5,10 +5,8 @@ package meeting_scheduler.UserInput;
 
 // Imports
 // ############################################################
-// Util
 import java.util.Iterator;
 import java.util.LinkedList;
-// Javafx
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,13 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-// DataAccessLayer
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-// EmployeePreferences
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-// SceneManagement
+import meeting_scheduler.DataHolder.PreferenceTime;
 import meeting_scheduler.SystemInfoManager;
-// global
 import meeting_scheduler.global;
 // ############################################################
 
@@ -51,7 +44,7 @@ public class ManageDayTime {
     private final TextField MANAGER_ENDTIME_HOUR;
     private final TextField MANAGER_ENDTIME_MIN;
 
-    private PREF_EMPLOYEE_TimePref fullUserPreference;
+    private PreferenceTime fullUserPreference;
     // private PREF_EMPLOYEE_TimePref PartialUserPreference;
 
     private Iterator<Node>      IteratorFlowPaneDisplay;
@@ -140,7 +133,7 @@ public class ManageDayTime {
 
 
     // Returns user preferences meant for input into Json File
-    public PREF_EMPLOYEE_TimePref Return_UserPreference() {
+    public PreferenceTime Return_UserPreference() {
         return this.fullUserPreference;
     }
 
@@ -317,33 +310,33 @@ public class ManageDayTime {
 
         if (this.MANAGER_WEEKDAY.getValue() == null)  {               // Error Return
             // user has not submitted a weekday
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_weekday);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_weekday);
             return 1;
 
         } else if (this.MANAGER_STARTTIME_HOUR.getText().isBlank())   {   // Error Return
             // user has not submitted a beginning hour
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartHour);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartHour);
             return 1;
 
         } else if (this.MANAGER_STARTTIME_MIN.getText().isBlank()) {   // Error Return
             // user has not submitted a beginning minute
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartMin);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartMin);
             return 1;
 
         } else if (this.MANAGER_ENDTIME_HOUR.getText().isBlank())     {   // Error Return
             // user has not submitted a ending hour
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndHour);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndHour);
             return 1;
 
         } else if (this.MANAGER_ENDTIME_MIN.getText().isBlank())   {   // Error Return
             // user has not submitted a ending minute
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndMin);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndMin);
             return 1;
 
         } else {                                                // No Error return
 
             // Correct info has been submitted
-            System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
+            //System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
 
             String  WeekDay     = this.MANAGER_WEEKDAY.getValue();
             int     BeginHour   = Integer.parseInt(this.MANAGER_STARTTIME_HOUR  .getText());
@@ -352,7 +345,7 @@ public class ManageDayTime {
             int     EndMinute   = Integer.parseInt(this.MANAGER_ENDTIME_MIN     .getText());
 
             // new user preference
-            this.fullUserPreference = new PREF_EMPLOYEE_TimePref(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
+            this.fullUserPreference = new PreferenceTime(WeekDay, BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 
@@ -370,28 +363,28 @@ public class ManageDayTime {
 
         if (this.MANAGER_STARTTIME_HOUR.getText().isBlank())   {   // Error Return
             // user has not submitted a beginning hour
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartHour);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartHour);
             return 1;
 
         } else if (this.MANAGER_STARTTIME_MIN.getText().isBlank()) {   // Error Return
             // user has not submitted a beginning minute
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartMin);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_StartMin);
             return 1;
 
         } else if (this.MANAGER_ENDTIME_HOUR.getText().isBlank())     {   // Error Return
             // user has not submitted a ending hour
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndHour);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndHour);
             return 1;
 
         } else if (this.MANAGER_ENDTIME_MIN.getText().isBlank())   {   // Error Return
             // user has not submitted a ending minute
-            System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndMin);
+            //System.out.println(PROG_DAL_D_SystemMessages.INFO_PreferenceInput_EndMin);
             return 1;
 
         } else {                                                // No Error return
 
             // Correct info has been submitted
-            System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
+            //System.out.println(PROG_DAL_D_SystemMessages.PASS_PreferenceInput_CorrectInput);
 
             int     BeginHour   = Integer.parseInt(this.MANAGER_STARTTIME_HOUR  .getText());
             int     BeginMinute = Integer.parseInt(this.MANAGER_STARTTIME_MIN   .getText());
@@ -399,7 +392,7 @@ public class ManageDayTime {
             int     EndMinute   = Integer.parseInt(this.MANAGER_ENDTIME_MIN     .getText());
 
             // new user preference
-            this.fullUserPreference = new PREF_EMPLOYEE_TimePref(null, BeginHour, BeginMinute, EndHour, EndMinute);
+            this.fullUserPreference = new PreferenceTime(null, BeginHour, BeginMinute, EndHour, EndMinute);
             
             return 0;
 
@@ -413,7 +406,7 @@ public class ManageDayTime {
      * UserInputGraphicCalculation()
      * Descriiption: manages the visual output of the user submitted data for card info input
      */
-    public void UserInputGraphic(PREF_EMPLOYEE_TimePref Input_UserTime, LinkedList<PREF_EMPLOYEE_TimePref> List_UserTimes, FlowPane FlowPane_VBoxDisplay, boolean FullInput) {
+    public void UserInputGraphic(PreferenceTime Input_UserTime, LinkedList<PreferenceTime> List_UserTimes, FlowPane FlowPane_VBoxDisplay, boolean FullInput) {
 
 
         // PROG_DAL_A_TimeInput Input_UserTime              - Input time being processed and formatted correctly
@@ -633,7 +626,7 @@ public class ManageDayTime {
 
         // List_UserTimes - list of all timeinputs
         // ############################################################
-        List_UserTimes.add(new PREF_EMPLOYEE_TimePref(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
+        List_UserTimes.add(new PreferenceTime(NewWeekday, NewStartHour, NewStartMin, NewEndHour, NewEndMin));
         // ############################################################
 
 

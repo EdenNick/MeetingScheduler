@@ -5,16 +5,12 @@ package meeting_scheduler.SceneManagement;
 
 // Imports
 // ############################################################
-// io 
 import java.io.IOException;
-// util
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
-// jackson
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-// javaFX
 import javafx.util.Duration;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -47,24 +43,19 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import meeting_scheduler.SystemInfoManager;
-// EmployeePreferences
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-// FileManagement
-import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
-// ScheduleManagement
-import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Calculate;
-import meeting_scheduler.ScheduleManagement.MANAGESCHEDULE_Schedule;
-// UIBackBoneManagement
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
-// UserInput
+import meeting_scheduler.DataHolder.PreferenceFull;
+import meeting_scheduler.DataHolder.PreferenceTime;
+import meeting_scheduler.FileManagement.ManageJsonFile;
+import meeting_scheduler.ScheduleManagement.ManageScheduleCalculation;
+import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
+import meeting_scheduler.SystemManagement.ManageAppWindow;
+import meeting_scheduler.SystemManagement.ManageScenes;
 import meeting_scheduler.UserInput.ManageDayTime;
 // ############################################################
 
 
 
-public class SCENE_CREATE_Schedule {
+public class SceneScheduling {
 
     // Apllication
     // ############################################################
@@ -138,20 +129,20 @@ public class SCENE_CREATE_Schedule {
 
     // File User Info
     // ############################################################
-    private LinkedList<PREF_EMPLOYEE_FullPref>  FileUserInfo;
+    private LinkedList<PreferenceFull>  FileUserInfo;
     private LinkedList<String>                  PersonList;
-    private LinkedList<PREF_EMPLOYEE_FullPref>  FilePeople;
+    private LinkedList<PreferenceFull>  FilePeople;
     // ############################################################
 
 
     // Data manager Objects
     // ############################################################
     // Schedule Calculator
-    private final MANAGESCHEDULE_Calculate      ScheduleCalculator;
+    private final ManageScheduleCalculation      ScheduleCalculator;
     // User Time Input manager
     private ManageDayTime    Scheduler_UserTimeInputs;
     // Json File manager
-    private final MANAGEFILE_JsonManager        Scheduler_fileReader;
+    private final ManageJsonFile        Scheduler_fileReader;
     // ############################################################
     
 
@@ -181,21 +172,21 @@ public class SCENE_CREATE_Schedule {
     private FlowPane                            FlowPane_VBoxDisplay;   // dispalys time inputs
     //private LinkedList<VBox>                    List_VBoxTimeInputs;    // contains a set of user prefered times - used exclusivley for iteration
     // time output
-    private LinkedList<PREF_EMPLOYEE_TimePref>    SCHEDULE_TIMES;         // List of prefered times for an individual
+    private LinkedList<PreferenceTime>    SCHEDULE_TIMES;         // List of prefered times for an individual
     // ############################################################
 
 
     // Calculated Schedules
     // ############################################################
-    private LinkedList<MANAGESCHEDULE_Schedule>     CalculatedScheduleList;
-    private ObservableList<MANAGESCHEDULE_Schedule> Schedules;
+    private LinkedList<DataCompleteSchedule>     CalculatedScheduleList;
+    private ObservableList<DataCompleteSchedule> Schedules;
     // ############################################################
 
 
     /**
      * Constructor class
      */
-    public SCENE_CREATE_Schedule(Stage stage) {
+    public SceneScheduling(Stage stage) {
 
         // Primary Objects
         // ############################################################
@@ -203,7 +194,7 @@ public class SCENE_CREATE_Schedule {
         this.ApplicationStage           = stage;
         
         // Schedule Calculator  - Object used to calculate viable schedules based off of input user preferences
-        this.ScheduleCalculator         = new MANAGESCHEDULE_Calculate();
+        this.ScheduleCalculator         = new ManageScheduleCalculation();
 
         // User time inputs     - Object which is used to create the necessary input ui for user time inputs, verifies correct input
         // contains methods used to store and dispaly this information. In this case it is used to input correct times to create a schedule
@@ -211,7 +202,7 @@ public class SCENE_CREATE_Schedule {
 
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. 
         // Used to retrieve current user preferences to create a schedule
-        this.Scheduler_fileReader       = new MANAGEFILE_JsonManager();
+        this.Scheduler_fileReader       = new ManageJsonFile();
         // ############################################################
 
 
@@ -379,7 +370,7 @@ public class SCENE_CREATE_Schedule {
         
         // Scene creation to be set to the current scene
         // ############################################################
-        this.SchedulingScene = new Scene(Schedule_RootNode, MANAGEAPP_SceneManager.WindowWidth, MANAGEAPP_SceneManager.WindowHeight);
+        this.SchedulingScene = new Scene(Schedule_RootNode, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
         // ############################################################
 
 
@@ -494,7 +485,7 @@ public class SCENE_CREATE_Schedule {
         this.EVENT_RETURN_HOME = event -> {
             
             fadeMenuNodes.setOnFinished(event2 -> {
-                 MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu(); 
+                 ManageAppWindow.SceneManager.SwapToMainMenu(); 
             });
 
             fadeMenuNodes.play();
@@ -526,7 +517,7 @@ public class SCENE_CREATE_Schedule {
             this.PersonList.clear();
 
             // Add people to the list
-            for (PREF_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
+            for (PreferenceFull FilePerson : FileUserInfo) {
                 String format = String.format("|ID: %-7d", FilePerson.GetIdent());
                 PersonList.add(format + "| Name: " + FilePerson.GetName());
             }
@@ -802,7 +793,7 @@ public class SCENE_CREATE_Schedule {
             if ( (Scheduler_UserTimeInputs.CHECK_PartialTimeInput() == 0) && (SCHEDULE_TIMES.size() < 4) ){
 
                 // Temp user preference created for clean seperation of object use
-                PREF_EMPLOYEE_TimePref TempUserPreferrence = Scheduler_UserTimeInputs.Return_UserPreference();
+                PreferenceTime TempUserPreferrence = Scheduler_UserTimeInputs.Return_UserPreference();
 
 
                 /**
@@ -1101,8 +1092,8 @@ public class SCENE_CREATE_Schedule {
         // ############################################################
         this.UIInput_FullUIHolder_ScrollPane = new ScrollPane(this.UIInput_FullUI_VBOX);
         // sets default interface dimensions
-        this.UIInput_FullUIHolder_ScrollPane.setPrefWidth((MANAGEAPP_SceneManager.WindowWidth / 2) - 80.0);
-        this.UIInput_FullUIHolder_ScrollPane.setPrefHeight(MANAGEAPP_SceneManager.WindowHeight - 100.0);
+        this.UIInput_FullUIHolder_ScrollPane.setPrefWidth((ManageScenes.WindowWidth / 2) - 80.0);
+        this.UIInput_FullUIHolder_ScrollPane.setPrefHeight(ManageScenes.WindowHeight - 100.0);
 
         this.UIInput_FullUIHolder_ScrollPane.setFitToHeight(true);
         this.UIInput_FullUIHolder_ScrollPane.setFitToWidth(true);
@@ -1195,7 +1186,7 @@ public class SCENE_CREATE_Schedule {
 
 
         // Add people to the list
-        for (PREF_EMPLOYEE_FullPref FilePerson : FileUserInfo) {
+        for (PreferenceFull FilePerson : FileUserInfo) {
             String format = String.format("|ID: %-7d", FilePerson.GetIdent());
             PersonList.add(format + "| Name: " + FilePerson.GetName());
         }
@@ -1521,8 +1512,8 @@ public class SCENE_CREATE_Schedule {
         //this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         // sets default interface dimensions
-        this.UIOutput_FullUIHolder_scrollPane.setPrefWidth((MANAGEAPP_SceneManager.WindowWidth / 2) - 80.0);
-        this.UIOutput_FullUIHolder_scrollPane.setPrefHeight(MANAGEAPP_SceneManager.WindowHeight - 100.0);
+        this.UIOutput_FullUIHolder_scrollPane.setPrefWidth((ManageScenes.WindowWidth / 2) - 80.0);
+        this.UIOutput_FullUIHolder_scrollPane.setPrefHeight(ManageScenes.WindowHeight - 100.0);
 
         // updates interface dimensions
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
@@ -1538,7 +1529,7 @@ public class SCENE_CREATE_Schedule {
 
        //this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        Schedules.addListener((ListChangeListener<MANAGESCHEDULE_Schedule>) change -> {
+        Schedules.addListener((ListChangeListener<DataCompleteSchedule>) change -> {
 
             int ScheduleNumber = 0;
 

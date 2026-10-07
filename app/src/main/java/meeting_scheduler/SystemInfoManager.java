@@ -3,8 +3,11 @@
 package meeting_scheduler;
 // ############################################################
 
-import meeting_scheduler.GlobalManagers.GlobalMessageManager;
-import meeting_scheduler.GlobalManagers.GlobalValuesManager;
+// Imports
+// ############################################################
+import meeting_scheduler.SystemManagement.ManageGlobalMessage;
+import meeting_scheduler.SystemManagement.ManageGlobalValue;
+// ############################################################
 
 
 
@@ -38,9 +41,9 @@ public final class SystemInfoManager {
 
         if (ACCESS_VALUES == false) {
             // Sets up default standardized values
-            GlobalValuesManager.VALUES_SETUP();
+            ManageGlobalValue.VALUES_SETUP();
             // Sets up system messages
-            GlobalMessageManager.MESSAGE_SETUP();
+            ManageGlobalMessage.MESSAGE_SETUP();
             // Gets message sizes for safe access
             Get_Lengths();
 
@@ -274,10 +277,10 @@ public final class SystemInfoManager {
         SystemInfoManager.ARRAYLENGTH_MESSAGE_INFO      = global.Global_Message_Info_Return();
 
         // maximum string length of each type of message
-        SystemInfoManager.TYPE_LENGTH                   = GlobalMessageManager.Return_Length_Type();
-        SystemInfoManager.CLASS_LENGTH                  = GlobalMessageManager.Return_Length_Class();
-        SystemInfoManager.ACTION_LENGTH                 = GlobalMessageManager.Return_Length_Action();
-        SystemInfoManager.INFO_LENGTH                   = GlobalMessageManager.Return_Length_info();
+        SystemInfoManager.TYPE_LENGTH                   = ManageGlobalMessage.Return_Length_Type();
+        SystemInfoManager.CLASS_LENGTH                  = ManageGlobalMessage.Return_Length_Class();
+        SystemInfoManager.ACTION_LENGTH                 = ManageGlobalMessage.Return_Length_Action();
+        SystemInfoManager.INFO_LENGTH                   = ManageGlobalMessage.Return_Length_info();
 
     } // Get_Lengths() 
 

@@ -5,7 +5,6 @@ package meeting_scheduler.SceneManagement;
 
 // Imports
 // ############################################################
-// javafx
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
@@ -29,14 +28,13 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.SystemInfoManager;
-// UIBackBoneManagement
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
+import meeting_scheduler.SystemManagement.ManageAppWindow;
+import meeting_scheduler.SystemManagement.ManageScenes;
 // ############################################################
 
 
 
-public class SCENE_CREATE_MainMenu {
+public class SceneMainMenu {
 
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
@@ -80,7 +78,7 @@ public class SCENE_CREATE_MainMenu {
     /**
      * Constructor class
      */
-    public SCENE_CREATE_MainMenu(Stage stage) {
+    public SceneMainMenu(Stage stage) {
         this.ApplicationStage = stage;
     }
 
@@ -132,8 +130,8 @@ public class SCENE_CREATE_MainMenu {
         // menu button holder node
         Menu_UI_ButtonHolder    = new VBox(SCENE_VARIABLES_Local.MENU_UI_Spacing);
         Menu_UI_ButtonHolder    .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_MENU_MenuOptions);
-        Menu_UI_ButtonHolder    .setPrefWidth(MANAGEAPP_SceneManager.WindowWidth / 1.5);
-        Menu_UI_ButtonHolder    .setPrefHeight(MANAGEAPP_SceneManager.WindowHeight / 1.5);
+        Menu_UI_ButtonHolder    .setPrefWidth(ManageScenes.WindowWidth / 1.5);
+        Menu_UI_ButtonHolder    .setPrefHeight(ManageScenes.WindowHeight / 1.5);
         Menu_UI_ButtonHolder    .setAlignment(Pos.CENTER);
         // ############################################################
 
@@ -188,7 +186,7 @@ public class SCENE_CREATE_MainMenu {
 
         // Scene Creation with Root Node Menu_RootNode
         // ############################################################
-        this.Menu_Scene = new Scene(Menu_RootNode, MANAGEAPP_SceneManager.WindowWidth, MANAGEAPP_SceneManager.WindowHeight);
+        this.Menu_Scene = new Scene(Menu_RootNode, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
         // ############################################################
 
 
@@ -285,7 +283,7 @@ public class SCENE_CREATE_MainMenu {
         this.DatacardScenechange = event -> {
 
             Transition_fadeMenu.setOnFinished(event2 -> {
-                MANAGEAPP_AppWindow.SceneManager.SwapToDataCard();
+                ManageAppWindow.SceneManager.SwapToDataCard();
             });
 
             Transition_fadeMenu.play();
@@ -303,7 +301,7 @@ public class SCENE_CREATE_MainMenu {
         this.ScheduleSceneChange = event -> {
 
             Transition_fadeMenu.setOnFinished(event2 -> {
-                MANAGEAPP_AppWindow.SceneManager.SwapToSchedule();
+                ManageAppWindow.SceneManager.SwapToSchedule();
             });
 
             Transition_fadeMenu.play();
@@ -321,7 +319,7 @@ public class SCENE_CREATE_MainMenu {
         this.InstructionSceneChange = event -> {
 
             Transition_fadeMenu.setOnFinished(event2 -> {
-                MANAGEAPP_AppWindow.SceneManager.SwapToInstruct();
+                ManageAppWindow.SceneManager.SwapToInstruct();
             });
 
             Transition_fadeMenu.play();

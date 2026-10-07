@@ -1,34 +1,31 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.UIBackBoneManagement;
+package meeting_scheduler.SystemManagement;
 // ############################################################
 
 // Imports
 // ############################################################
-// Stage
 import javafx.stage.Stage;
-// SceneManagement
-import meeting_scheduler.SceneManagement.SCENE_CREATE_DataCard;
-import meeting_scheduler.SceneManagement.SCENE_CREATE_Instruct;
-import meeting_scheduler.SceneManagement.SCENE_CREATE_MainMenu;
-import meeting_scheduler.SceneManagement.SCENE_CREATE_Schedule;
-// global 
+import meeting_scheduler.SceneManagement.SceneDataCard;
+import meeting_scheduler.SceneManagement.SceneInstructions;
+import meeting_scheduler.SceneManagement.SceneMainMenu;
+import meeting_scheduler.SceneManagement.SceneScheduling;
 import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
 // ############################################################
 
 
 
-public class MANAGEAPP_SceneManager {
+public class ManageScenes {
 
     // Stage
     private final Stage ApplicationStage;
 
     // Objects
-    private final SCENE_CREATE_MainMenu MainMenu;
-    private final SCENE_CREATE_DataCard DataCard;
-    private final SCENE_CREATE_Schedule Schedule;
-    private final SCENE_CREATE_Instruct Instruct;
+    private final SceneMainMenu MainMenu;
+    private final SceneDataCard DataCard;
+    private final SceneScheduling Schedule;
+    private final SceneInstructions Instruct;
 
     // window size
     public static int WindowWidth;
@@ -40,20 +37,20 @@ public class MANAGEAPP_SceneManager {
      * Constructor
      * @param stage
      */
-    public MANAGEAPP_SceneManager (Stage stage) {
+    public ManageScenes (Stage stage) {
         
         // Set local reference to the application stage for use within the class.
         this.ApplicationStage = stage;
 
         // Initialize all scenes used by the app, they all must share the same stage in order to be changes to be caried out
-        MainMenu    = new SCENE_CREATE_MainMenu(ApplicationStage);
-        DataCard    = new SCENE_CREATE_DataCard(ApplicationStage);
-        Schedule    = new SCENE_CREATE_Schedule(ApplicationStage);
-        Instruct    = new SCENE_CREATE_Instruct(ApplicationStage);
+        MainMenu    = new SceneMainMenu(ApplicationStage);
+        DataCard    = new SceneDataCard(ApplicationStage);
+        Schedule    = new SceneScheduling(ApplicationStage);
+        Instruct    = new SceneInstructions(ApplicationStage);
 
         // Default Window width and height values, all scenes access these variables
-        MANAGEAPP_SceneManager.WindowWidth     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 1);
-        MANAGEAPP_SceneManager.WindowHeight    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 2);
+        ManageScenes.WindowWidth     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 1);
+        ManageScenes.WindowHeight    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 2);
 
     }
 
@@ -71,12 +68,12 @@ public class MANAGEAPP_SceneManager {
 
         // Listener - width listener, updates the scene manager width for scenes to use
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
-            MANAGEAPP_SceneManager.WindowWidth = newWidth.intValue();
+            ManageScenes.WindowWidth = newWidth.intValue();
         });
 
         // Listener - height listener, updates the scene manager height for scenes to use
         this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
-            MANAGEAPP_SceneManager.WindowHeight = newHeight.intValue();
+            ManageScenes.WindowHeight = newHeight.intValue();
         });
 
         // construction - creates main menu page        - CALL ONCE

@@ -5,17 +5,16 @@ package meeting_scheduler.FileManagement;
 
 // Imports
 // ############################################################
-// reader
 import java.io.BufferedReader;
 import java.io.IOException;
-// stream
 import java.io.InputStream;
 import java.io.InputStreamReader;
-// util
 import java.util.LinkedList;
 // ############################################################
 
-public class MANAGEFILE_TXTOutput {
+
+
+public class ManageTXTOutput {
 
     private String              FILENAME    = "";
     private String              InvalidText = " File could not be read";
@@ -32,7 +31,7 @@ public class MANAGEFILE_TXTOutput {
      * used when the full contents of a single file Need to be read;
      * @param FileToRead
      */
-    public MANAGEFILE_TXTOutput(String FileToRead) {
+    public ManageTXTOutput(String FileToRead) {
 
         this.FILENAME = FileToRead;
         this.FileText = new LinkedList<String>();
@@ -51,7 +50,7 @@ public class MANAGEFILE_TXTOutput {
      * @param FileToRead
      * @param ID
      */
-    public MANAGEFILE_TXTOutput(String FileToRead, LinkedList<String> ID) {
+    public ManageTXTOutput(String FileToRead, LinkedList<String> ID) {
 
         this.FILENAME = FileToRead;
         this.USERID   = new LinkedList<String>(ID);

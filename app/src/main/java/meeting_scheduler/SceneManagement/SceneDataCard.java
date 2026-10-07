@@ -30,21 +30,20 @@ import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.SystemInfoManager;
-import meeting_scheduler.DataAccessLayer.PROG_DAL_D_SystemMessages;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
+import meeting_scheduler.DataHolder.PreferenceFull;
+import meeting_scheduler.DataHolder.PreferenceTime;
 import meeting_scheduler.UserInput.ManageJsonFormat;
 import meeting_scheduler.UserInput.ManageDayTime;
-import meeting_scheduler.FileManagement.MANAGEFILE_JsonManager;
+import meeting_scheduler.FileManagement.ManageJsonFile;
+import meeting_scheduler.SystemManagement.ManageAppWindow;
+import meeting_scheduler.SystemManagement.ManageScenes;
 import meeting_scheduler.global;
 import meeting_scheduler.UserInput.InputTextField;
 // ############################################################
 
 
 
-public class SCENE_CREATE_DataCard {
+public class SceneDataCard {
 
     // Application Window variables
     // ############################################################
@@ -85,13 +84,13 @@ public class SCENE_CREATE_DataCard {
 
     // User Data
     // ############################################################
-    private LinkedList<PREF_EMPLOYEE_TimePref> listUserAddedPref;
-    private LinkedList<PREF_EMPLOYEE_FullPref> listEmployeeFullPref;
+    private LinkedList<PreferenceTime> listUserAddedPref;
+    private LinkedList<PreferenceFull> listEmployeeFullPref;
     // ############################################################
 
     // Data Manager Objects
     // ############################################################
-    private MANAGEFILE_JsonManager      ObjJsonFileManager;
+    private ManageJsonFile      ObjJsonFileManager;
     private ManageJsonFormat    ObjJsonFileFormatter;
     private ManageDayTime  ObjTimeInputManager;
     // ############################################################
@@ -120,12 +119,12 @@ public class SCENE_CREATE_DataCard {
     /**
      * Constructor class
      */
-    public SCENE_CREATE_DataCard(Stage stage) {
+    public SceneDataCard(Stage stage) {
         
         this.APPLICATION_STAGE       = stage;
         this.listUserAddedPref         = new LinkedList<>();
         this.ObjJsonFileFormatter  = new ManageJsonFormat();
-        this.ObjJsonFileManager    = new MANAGEFILE_JsonManager();
+        this.ObjJsonFileManager    = new ManageJsonFile();
 
 
         this.ANCHOR_PRIMARY = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);      // 1 - 10
@@ -242,7 +241,7 @@ public class SCENE_CREATE_DataCard {
 
         // create menu scene with the current node layout
         // ############################################################
-        this.sceneDatacard = new Scene(rootnodeDatacard, MANAGEAPP_SceneManager.WindowWidth, MANAGEAPP_SceneManager.WindowHeight);
+        this.sceneDatacard = new Scene(rootnodeDatacard, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
         // ############################################################
 
         // fade all objects before the scene is set
@@ -321,7 +320,7 @@ public class SCENE_CREATE_DataCard {
         this.EVENT_RETURNHOME = event -> {
             
             effectFade.setOnFinished(event2 -> {
-                MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();
+                ManageAppWindow.SceneManager.SwapToMainMenu();
             });
 
             effectFade.play();
@@ -341,14 +340,12 @@ public class SCENE_CREATE_DataCard {
         // ############################################################
         this.EVENT_ADDINFO = event -> {
 
-            System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_AddInfo);
-
             // checks to ensure all variables are input
 
             if ( (ObjTimeInputManager.CHECK_FullTimeInput() == 0) && (listUserAddedPref.size() < this.MAX_TIME_INPUT) ) {
 
                 // Temp user preference created for clean seperation of object use
-                PREF_EMPLOYEE_TimePref TempUserPreferrence = ObjTimeInputManager.Return_UserPreference();
+                PreferenceTime TempUserPreferrence = ObjTimeInputManager.Return_UserPreference();
 
                 /**
                  * ############################################################
@@ -453,7 +450,7 @@ public class SCENE_CREATE_DataCard {
 
                 for (String Day : this.WEEKDAYS) {
 
-                    for (PREF_EMPLOYEE_TimePref preference : this.listUserAddedPref) {
+                    for (PreferenceTime preference : this.listUserAddedPref) {
                         if (preference.GetWeekDay().equals(Day)) {
 
                             preferredDaysList.add(Day); // each day should only be added once
@@ -482,11 +479,11 @@ public class SCENE_CREATE_DataCard {
 					e.printStackTrace();
 				}
                 
-                PREF_EMPLOYEE_FullPref EMPLOYEE_Input = new PREF_EMPLOYEE_FullPref(false, name, id, preferredDays, this.listUserAddedPref);
+                PreferenceFull EMPLOYEE_Input = new PreferenceFull(false, name, id, preferredDays, this.listUserAddedPref);
                 
                 listEmployeeFullPref.add(EMPLOYEE_Input);
 
-                LinkedList<PREF_EMPLOYEE_FullPref> EMPLOYEES_ToWrite = ObjJsonFileFormatter.JsonFileDefault_Formatting(listEmployeeFullPref);
+                LinkedList<PreferenceFull> EMPLOYEES_ToWrite = ObjJsonFileFormatter.JsonFileDefault_Formatting(listEmployeeFullPref);
 
                 ObjJsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_ToWrite);
 

@@ -5,28 +5,25 @@ package meeting_scheduler.ScheduleManagement;
 
 // Imports
 // ############################################################
-// util
 import java.util.LinkedList;
-// EmployeePreferences
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_TimePref;
+import meeting_scheduler.DataHolder.PreferenceTime;
 // ############################################################
 
 
-
-public class MANAGESCHEDULE_Schedule {
+public class DataCompleteSchedule {
 
     //TODO: change datatypes
 
     public String                   WeekDay;            // Holds The Day the TimeInterval exists on
-    public PREF_EMPLOYEE_TimePref   Interval;           // Holds a specific interval for that day
+    public PreferenceTime   Interval;           // Holds a specific interval for that day
     public LinkedList<String>       USERIDs;            // Total ammount of people that can meet for that interval
     public boolean                  Schedule = false;   // true if all the people that are in USERIDs are all the people the user wants scheduled, false otherwise.
 
 
-    public MANAGESCHEDULE_Schedule(String day, PREF_EMPLOYEE_TimePref times, LinkedList<String> IDs, boolean schedule) {
+    public DataCompleteSchedule(String day, PreferenceTime times, LinkedList<String> IDs, boolean schedule) {
 
         this.WeekDay    = day;
-        this.Interval   = new PREF_EMPLOYEE_TimePref(times);
+        this.Interval   = new PreferenceTime(times);
         this.USERIDs    = new LinkedList<String>(IDs);
         this.Schedule   = schedule;
 

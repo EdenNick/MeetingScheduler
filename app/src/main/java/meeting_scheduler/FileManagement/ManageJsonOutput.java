@@ -5,23 +5,22 @@ package meeting_scheduler.FileManagement;
 
 // Imports
 // ############################################################
-// Java.io
 import java.io.File;
 import java.io.IOException;
-// java.util
 import java.util.LinkedList;
-// jackson (json file manager)
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import meeting_scheduler.SystemInfoManager;
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.DataHolder.PreferenceFull;
+// ############################################################
 
-public class MANAGEFILE_JsonOutput {
+
+
+public class ManageJsonOutput {
 
     // Class parameters
     // ############################################################
@@ -35,11 +34,11 @@ public class MANAGEFILE_JsonOutput {
     //TODO: implement a lock system
 
     // Retreived File
-    private LinkedList<PREF_EMPLOYEE_FullPref> JsonFileRetrievedList;
+    private LinkedList<PreferenceFull> JsonFileRetrievedList;
 
 
     // Contructor
-    public MANAGEFILE_JsonOutput(File INPUT_FILE) {
+    public ManageJsonOutput(File INPUT_FILE) {
         
         this.DATAFILE_Preferences = INPUT_FILE;
 
@@ -57,11 +56,11 @@ public class MANAGEFILE_JsonOutput {
      * @throws DatabindException 
      * @throws StreamReadException 
      */
-    public LinkedList<PREF_EMPLOYEE_FullPref> Retrieve_DefaultFile() throws StreamReadException, DatabindException, IOException {
+    public LinkedList<PreferenceFull> Retrieve_DefaultFile() throws StreamReadException, DatabindException, IOException {
 
         // retrieves existing datacards from the json file
         try {
-            JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<PREF_EMPLOYEE_FullPref>>() {});
+            JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<PreferenceFull>>() {});
 
             // System Message
             // 5 - SUCCESS | 25 - MANAGEFILE_JsonOutput | 10 - SYSTEM-FileAccess | 8 - try/catch Json file read Successful

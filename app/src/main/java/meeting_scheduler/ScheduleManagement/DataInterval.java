@@ -3,37 +3,28 @@
 package meeting_scheduler.ScheduleManagement;
 // ############################################################
 
-// IMPORTS
+// Imports
 // ############################################################
-import meeting_scheduler.EmployeePreferences.PREF_EMPLOYEE_FullPref;
+import meeting_scheduler.DataHolder.PreferenceFull;
 // ############################################################
 
 
 
-public class MANAGESCHEDULE_Interval {
+public class DataInterval {
 
-    private final PREF_EMPLOYEE_FullPref  PERSON;
+    private final PreferenceFull    PERSON;
+    private final int               INTERVAL;
 
-    private final int                   INTERVAL;
-
-
-    public MANAGESCHEDULE_Interval(PREF_EMPLOYEE_FullPref person, int interval) {
-
-        this.PERSON     = new PREF_EMPLOYEE_FullPref(person);
-
+    public DataInterval(PreferenceFull person, int interval) {
+        this.PERSON     = new PreferenceFull(person);
         this.INTERVAL   = interval;
-
     }
     
-    public PREF_EMPLOYEE_FullPref getPerson() {
-        
+    public PreferenceFull getPerson() {
         return this.PERSON;
-
     }
 
     public int getInterval() {
-
         return this.INTERVAL;
-
     }
 }

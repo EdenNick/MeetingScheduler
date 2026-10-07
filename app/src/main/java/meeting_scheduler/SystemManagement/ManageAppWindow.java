@@ -1,26 +1,25 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.UIBackBoneManagement;
+package meeting_scheduler.SystemManagement;
 // ############################################################
 
 // Imports
 // ############################################################
-// Javafx
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-// global
 import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
 // ############################################################
 
 
-public class MANAGEAPP_AppWindow extends Application {
+
+public class ManageAppWindow extends Application {
 
     // Local Variables
-    public static MANAGEAPP_SceneManager SceneManager;
+    public static ManageScenes SceneManager;
 
     
     /**
@@ -32,10 +31,10 @@ public class MANAGEAPP_AppWindow extends Application {
     public void start(Stage stage) {
 
         // SceneManager - manages various scenes contained within the appliation
-        MANAGEAPP_AppWindow.SceneManager = new MANAGEAPP_SceneManager(stage);
+        ManageAppWindow.SceneManager = new ManageScenes(stage);
 
         // Startup - initializes construction for all scenes and sets the applicaiton window dimensions
-        MANAGEAPP_AppWindow.SceneManager.StartUp();
+        ManageAppWindow.SceneManager.StartUp();
 
         // Set True for testing, keep false otherwise
         boolean test = false;
@@ -73,7 +72,7 @@ public class MANAGEAPP_AppWindow extends Application {
         stage.setTitle(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 0));
 
         // MainMenu - the application shows the main menu scene on startup
-        MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();
+        ManageAppWindow.SceneManager.SwapToMainMenu();
 
     }
 

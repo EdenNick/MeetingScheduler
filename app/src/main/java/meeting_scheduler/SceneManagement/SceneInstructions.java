@@ -5,9 +5,7 @@ package meeting_scheduler.SceneManagement;
 
 // Imports
 // ############################################################
-// util
 import java.util.LinkedList;
-// javafx
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -30,16 +28,14 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.SystemInfoManager;
-// FileManagement
-import meeting_scheduler.FileManagement.MANAGEFILE_TXTOutput;
-// UIBackBoneManagement
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_SceneManager;
+import meeting_scheduler.FileManagement.ManageTXTOutput;
+import meeting_scheduler.SystemManagement.ManageAppWindow;
+import meeting_scheduler.SystemManagement.ManageScenes;
 // ############################################################
 
 
 
-public class SCENE_CREATE_Instruct {
+public class SceneInstructions {
     
 
 
@@ -76,7 +72,7 @@ public class SCENE_CREATE_Instruct {
 
     // File manager
     // ############################################################
-    MANAGEFILE_TXTOutput fileReader;
+    ManageTXTOutput fileReader;
     // ############################################################
 
     // data management
@@ -91,11 +87,11 @@ public class SCENE_CREATE_Instruct {
     /**
      * Constructor class
      */
-    public SCENE_CREATE_Instruct(Stage stage) {
+    public SceneInstructions(Stage stage) {
         // set the stage
         this.ApplicationStage = stage;
         // create the file reader object and set it to read from the instructions file
-        this.fileReader = new MANAGEFILE_TXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
+        this.fileReader = new ManageTXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
 
     } // PROG_UI_B_InstructionsScene(Stage stage)
 
@@ -194,7 +190,7 @@ public class SCENE_CREATE_Instruct {
 
         // Scene Creation with Root Node Instruction_RootNode
         // ############################################################
-        this.InstructionScene = new Scene(Instruction_RootNode, MANAGEAPP_SceneManager.WindowWidth, MANAGEAPP_SceneManager.WindowHeight);
+        this.InstructionScene = new Scene(Instruction_RootNode, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
         // ############################################################
 
 
@@ -239,7 +235,7 @@ public class SCENE_CREATE_Instruct {
         this.ReturnHome = event -> {
 
             Transition_FadeNodes.setOnFinished(event2 -> {
-                MANAGEAPP_AppWindow.SceneManager.SwapToMainMenu();
+                ManageAppWindow.SceneManager.SwapToMainMenu();
             });
 
             Transition_FadeNodes.play();
@@ -300,8 +296,8 @@ public class SCENE_CREATE_Instruct {
         this.instructionScrollPane.setFitToHeight(true);
         this.instructionScrollPane.setFitToWidth(true);
         // set width/height
-        this.instructionScrollPane.setPrefWidth(MANAGEAPP_SceneManager.WindowWidth / 1.5);
-        this.instructionScrollPane.setPrefHeight(MANAGEAPP_SceneManager.WindowHeight / 1.5);
+        this.instructionScrollPane.setPrefWidth(ManageScenes.WindowWidth / 1.5);
+        this.instructionScrollPane.setPrefHeight(ManageScenes.WindowHeight / 1.5);
         // ############################################################
 
 

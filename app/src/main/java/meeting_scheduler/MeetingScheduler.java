@@ -5,13 +5,8 @@ package meeting_scheduler;
 
 // Imports
 // ############################################################
-// io
-// import java.io.File;
-// javafx
 import javafx.application.Application;
-// import meeting_scheduler.SceneManagement.SCENE_VARIABLES_Local;
-// UIBackBoneManagement
-import meeting_scheduler.UIBackBoneManagement.MANAGEAPP_AppWindow;
+import meeting_scheduler.SystemManagement.ManageAppWindow;
 // ############################################################
 
 
@@ -40,7 +35,7 @@ public class MeetingScheduler {
 
 
         // launch application window
-        Application.launch (MANAGEAPP_AppWindow.class, args);
+        Application.launch (ManageAppWindow.class, args);
 
 
 

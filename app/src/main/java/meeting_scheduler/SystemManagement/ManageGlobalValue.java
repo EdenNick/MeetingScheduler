@@ -1,23 +1,20 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.GlobalManagers;
+package meeting_scheduler.SystemManagement;
 // ############################################################
 
 // IMPORTS
 // ############################################################
-// io
 import java.io.IOException;
 import java.io.InputStream;
-// util
 import java.util.ArrayList;
 import java.util.Properties;
-// global
 import meeting_scheduler.global;
 // ############################################################
 
 
 
-public class GlobalValuesManager {
+public class ManageGlobalValue {
     
 
     private final static String FILEPATH_ValuesArrays = "/GlobalValuesArrays.properties";
@@ -67,7 +64,7 @@ public class GlobalValuesManager {
     private static double[] GLOBAL_VALUE_Anchor;
 
     
-    private GlobalValuesManager() {
+    private ManageGlobalValue() {
         // prevents instatiation
     }
 
@@ -88,27 +85,27 @@ public class GlobalValuesManager {
     }
 
     private static void Set_Global_Values_intArrays() {
-        GlobalValuesManager.GLOBAL_VALUE_int                = GetValues_ConvertToInt(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Int);
-        GlobalValuesManager.GLOBAL_VALUE_TimeIntervals      = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_Time);
-        GlobalValuesManager.GLOBAL_VALUE_IDENTIntervals     = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_ID);
+        ManageGlobalValue.GLOBAL_VALUE_int                = GetValues_ConvertToInt(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Int);
+        ManageGlobalValue.GLOBAL_VALUE_TimeIntervals      = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_Time);
+        ManageGlobalValue.GLOBAL_VALUE_IDENTIntervals     = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_ID);
     }
 
     private static void Set_Global_Values_StringArrays() {
         
-        GlobalValuesManager.GLOBAL_VALUE_Strings            = Get_Global_Values_Property(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_String);
-        GlobalValuesManager.GLOBAL_VALUE_Weekday_Short      = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Short);
-        GlobalValuesManager.GLOBAL_VALUE_Weekday_ShortCap   = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_ShortCap);
-        GlobalValuesManager.GLOBAL_VALUE_Weekday_Long       = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Long);
-        GlobalValuesManager.GLOBAL_VALUE_Weekday_LongCap    = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_LongCap);
-        GlobalValuesManager.GLOBAL_VALUE_AMPM               = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_AMPM);
+        ManageGlobalValue.GLOBAL_VALUE_Strings            = Get_Global_Values_Property(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_String);
+        ManageGlobalValue.GLOBAL_VALUE_Weekday_Short      = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Short);
+        ManageGlobalValue.GLOBAL_VALUE_Weekday_ShortCap   = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_ShortCap);
+        ManageGlobalValue.GLOBAL_VALUE_Weekday_Long       = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Long);
+        ManageGlobalValue.GLOBAL_VALUE_Weekday_LongCap    = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_LongCap);
+        ManageGlobalValue.GLOBAL_VALUE_AMPM               = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_AMPM);
     }
 
     private static void Set_Global_Values_doubleArrays() {
-        GlobalValuesManager.GLOBAL_VALUE_Spacing            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Spacing);
-        GlobalValuesManager.GLOBAL_VALUE_Padding            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Padding);
-        GlobalValuesManager.GLOBAL_VALUE_Width              = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Width);
-        GlobalValuesManager.GLOBAL_VALUE_Height             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Height);
-        GlobalValuesManager.GLOBAL_VALUE_Anchor             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_ANCHOR);
+        ManageGlobalValue.GLOBAL_VALUE_Spacing            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Spacing);
+        ManageGlobalValue.GLOBAL_VALUE_Padding            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Padding);
+        ManageGlobalValue.GLOBAL_VALUE_Width              = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Width);
+        ManageGlobalValue.GLOBAL_VALUE_Height             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Height);
+        ManageGlobalValue.GLOBAL_VALUE_Anchor             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_ANCHOR);
     }
 
 
@@ -162,7 +159,7 @@ public class GlobalValuesManager {
         ArrayList<String> ArraylistPropStrings = new ArrayList<>();
 
         // TRY/CATCH
-        try ( InputStream FileInput = GlobalValuesManager.class.getResourceAsStream(FilePath) ) {
+        try ( InputStream FileInput = ManageGlobalValue.class.getResourceAsStream(FilePath) ) {
             
             
             // Load Props from File

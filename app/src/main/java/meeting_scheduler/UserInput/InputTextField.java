@@ -5,7 +5,6 @@ package meeting_scheduler.UserInput;
 
 // Imports
 // ############################################################
-// javafx
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import meeting_scheduler.global;

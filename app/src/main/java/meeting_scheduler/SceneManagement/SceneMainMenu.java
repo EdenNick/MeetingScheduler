@@ -30,48 +30,65 @@ import javafx.util.Duration;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
+import meeting_scheduler.global;
 // ############################################################
 
 
 
 public class SceneMainMenu {
 
+    // Application Window variables
+    // ############################################################
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
-
-    // Scene
-    private Scene   Menu_Scene;
-
-    // Root Node
-    private AnchorPane  Menu_RootNode;
-
-    // Format Nodes
-    private VBox    Menu_UI_ButtonHolder;
-
-    // Buttons
-    private Button  Button_EndProgram;
-    private Button  Button_SchedulePage;
-    private Button  Button_DataCardPage;
-    private Button  InstructionButton;
-
-    // transitions
-    private ParallelTransition Transition_fadeMenu;
-    private ParallelTransition Transition_UnFadeMenu;
-
-    //graphics
-    private Circle  circleDecoration;
-
-    // Stage width/height
-    private double  StageWidth;
+    private Scene   sceneMenu;
+    private double  stageWidth;
     private double  stageHeight;
+    private ParallelTransition TransitionFadeMenu;
+    private ParallelTransition TransitionUnFadeMenu;
+    private final int TIME_FADE;
+    private final int TIME_UNFADE;
+    private final int OPACIY_FADE;
+    private final int OPACITY_UNFADE;
+    // ############################################################
 
+    // Nodes
+    // ############################################################
+    private AnchorPane  rootNodeAnchorPane;
+    private VBox    ButtonHolderVBox;
+    private Button  ButtonDataCardPage;
+    private Button  ButtonSchedulePage;
+    private Button  ButtonInstructionPage;
+    private Button  ButtonEndProgram;
+    // ############################################################
+
+    // Graphic
+    // ############################################################
+    private Circle  circleDecoration;
+    // ############################################################
 
     // Action events
-    private EventHandler<ActionEvent> closeProgram              = null;
-    private EventHandler<ActionEvent> DatacardScenechange       = null;
-    private EventHandler<ActionEvent> ScheduleSceneChange       = null;
-    private EventHandler<ActionEvent> InstructionSceneChange    = null;
+    // ############################################################
+    private EventHandler<ActionEvent> eventCloseProgram              = null;
+    private EventHandler<ActionEvent> eventScenechangeDataCard       = null;
+    private EventHandler<ActionEvent> eventSceneChangeSchedule       = null;
+    private EventHandler<ActionEvent> eventSceneChangeInstruction    = null;
+    // ############################################################
 
+
+    // Styling Variables
+    // ############################################################
+    private final String STYLE_FILE;
+    private final String STYLE_ONE;
+    private final String STYLE_TWO;
+    private final double SPACING;
+    private final double ANCHOR_DEFAULT;
+    private final double ANCHOR_SECONDARY;
+    private final double ENDBUTTON_WIDTH;
+    private final double ENDBUTTON_HEIGHT;
+    private final double MENUBUTTON_WIDTH;
+    private final double MENUBUTTON_HEIGHT;
+    // ############################################################
 
 
 
@@ -79,8 +96,35 @@ public class SceneMainMenu {
      * Constructor class
      */
     public SceneMainMenu(Stage stage) {
+
+        // Set local stage variable to reference the global stage variable, Allows scene manager to work properly
+        // ############################################################
         this.ApplicationStage = stage;
-    }
+        // ############################################################
+
+        // Set local styling variable
+        // ############################################################
+        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_STYLE_FILEs.css
+        this.STYLE_ONE  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 17); // 17 - MainMenu_UI_MenuOptions
+        this.STYLE_TWO  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 18); // 18 - MainMenu_ButtonEndProgram
+
+        this.SPACING            = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 2); // 2 - 20
+        this.ANCHOR_DEFAULT     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.ANCHOR_SECONDARY   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 5);  // 5 - 30
+
+        this.MENUBUTTON_WIDTH   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 4);   // 4 - 250
+        this.MENUBUTTON_HEIGHT  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 6);  // 6 - 50
+
+        this.ENDBUTTON_WIDTH    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);   // 1 - 100
+        this.ENDBUTTON_HEIGHT   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 6);  // 6 - 50
+        
+        this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
+        this.TIME_UNFADE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
+        this.OPACIY_FADE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 6); // 6 - 0
+        this.OPACITY_UNFADE = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
+        // ############################################################
+
+    } // SceneMainMenu()
 
 
     
@@ -91,25 +135,29 @@ public class SceneMainMenu {
     public void ChangeToMainMenu() {
         
         // Gets the current size of the stage
-        this.StageWidth   = this.ApplicationStage.getWidth();
+        this.stageWidth   = this.ApplicationStage.getWidth();
         this.stageHeight  = this.ApplicationStage.getHeight();
 
         // sets the correct size for the stage
-        this.ApplicationStage.setWidth  (StageWidth);
+        this.ApplicationStage.setWidth  (stageWidth);
         this.ApplicationStage.setHeight (stageHeight);
 
         // Sets the stage to the main menu scene
-        this.ApplicationStage.setScene  (this.Menu_Scene);
+        this.ApplicationStage.setScene  (this.sceneMenu);
 
         // Shows the change
         this.ApplicationStage.show();
 
         // Unfades the stage
-        Transition_UnFadeMenu.play();
+        TransitionUnFadeMenu.play();
+
+
 
         // System Message
+        // ############################################################
         // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 8 - SYSTEM-SetScenes | 13 - Scene Switch to Main Menu
         SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,8,13);
+        // ############################################################
 
     } // ChangeToMainMenu()
 
@@ -122,17 +170,10 @@ public class SceneMainMenu {
     public void ConstructMainMenuScene() {
 
 
-        // Nodes
+        // Root Node construction
         // ############################################################
-        // Root Node
-        Menu_RootNode           = new AnchorPane();
-        Menu_RootNode           .getStylesheets().add(getClass().getResource(SCENE_VARIABLES_Local.CSS_Styles).toExternalForm());
-        // menu button holder node
-        Menu_UI_ButtonHolder    = new VBox(SCENE_VARIABLES_Local.MENU_UI_Spacing);
-        Menu_UI_ButtonHolder    .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_MENU_MenuOptions);
-        Menu_UI_ButtonHolder    .setPrefWidth(ManageScenes.WindowWidth / 1.5);
-        Menu_UI_ButtonHolder    .setPrefHeight(ManageScenes.WindowHeight / 1.5);
-        Menu_UI_ButtonHolder    .setAlignment(Pos.CENTER);
+        rootNodeAnchorPane = new AnchorPane();
+        rootNodeAnchorPane.getStylesheets().add(getClass().getResource(this.STYLE_FILE).toExternalForm());
         // ############################################################
 
         // event handler creation
@@ -140,72 +181,78 @@ public class SceneMainMenu {
         MainMenuEventHandlers();
         // ############################################################
 
-
         // Button Creation
         // ############################################################
         MainMenuButtons();
         // ############################################################
 
+        // Node Creation and Set
+        // ############################################################
+        NodeConstructionSet();
+        // ############################################################
 
         // Graphics creation
         // ############################################################
         mainMenuGraphics();
         // ############################################################
 
-        
-
-        // Combine Nodes
+        // Set Nodes to Root Node
         // ############################################################
         // menu UI - add scene transition buttons
-        Menu_UI_ButtonHolder    .getChildren().addAll(Button_DataCardPage, Button_SchedulePage, InstructionButton);
+        ButtonHolderVBox.getChildren().addAll(ButtonSchedulePage, ButtonDataCardPage, ButtonInstructionPage);
         // Root Node - UI components and background effects
-        Menu_RootNode           .getChildren().addAll(circleDecoration, Menu_UI_ButtonHolder, Button_EndProgram);
+        rootNodeAnchorPane.getChildren().addAll(circleDecoration, ButtonHolderVBox, ButtonEndProgram);
         // ############################################################
-
-
-
 
         // Node Position setting
         // ############################################################
         // Root Node - set Menu buttons position
-        AnchorPane.setTopAnchor     (Menu_UI_ButtonHolder,  SCENE_VARIABLES_Local.MENU_UI_TopAnchor);
-        AnchorPane.setLeftAnchor    (Menu_UI_ButtonHolder,  SCENE_VARIABLES_Local.MENU_UI_LeftAnchor);
+        AnchorPane.setTopAnchor     (ButtonHolderVBox,  this.ANCHOR_SECONDARY);
+        AnchorPane.setLeftAnchor    (ButtonHolderVBox,  this.ANCHOR_DEFAULT);
         // Root Node - set end program button position
-        AnchorPane.setBottomAnchor  (Button_EndProgram,     SCENE_VARIABLES_Local.MENU_EndProg_BottomAnchor);
-        AnchorPane.setRightAnchor   (Button_EndProgram,     SCENE_VARIABLES_Local.MENU_EndProg_RightAnchor);
+        AnchorPane.setBottomAnchor  (ButtonEndProgram,     this.ANCHOR_DEFAULT);
+        AnchorPane.setRightAnchor   (ButtonEndProgram,     this.ANCHOR_DEFAULT);
         // ############################################################
-
-
 
         // Scene transition creation- must be called after all nodes have been added to root node or it won't work properly
         // ############################################################
         MainMenuSceneTransitions();
         // ############################################################
 
-
-
-        // Scene Creation with Root Node Menu_RootNode
+        // Scene Creation with Root Node rootNodeAnchorPane
         // ############################################################
-        this.Menu_Scene = new Scene(Menu_RootNode, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
+        this.sceneMenu = new Scene(rootNodeAnchorPane, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
         // ############################################################
-
-
 
         // Fade all nodes - required so when the program starts the scene can fade in
         // ############################################################
-        Transition_fadeMenu.play();
+        TransitionFadeMenu.play();
         // ############################################################
 
 
+
         // System Message
+        // ############################################################
         // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 5 - SYSTEM-CreateScenes | 15 - Scene created and set
         SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,5,15);
+        // ############################################################
         
     } // ConstructMainMenuScene()
 
 
 
-
+    /**
+     * NodeConstructionSet()
+     * Description: constructs the various nodes and sets their default parameters
+     */
+    private void NodeConstructionSet() {
+        // menu button holder node
+        ButtonHolderVBox= new VBox(this.SPACING);
+        ButtonHolderVBox.getStyleClass().add(this.STYLE_ONE);
+        ButtonHolderVBox.setPrefWidth(ManageScenes.WindowWidth / 1.5);
+        ButtonHolderVBox.setPrefHeight(ManageScenes.WindowHeight / 1.5);
+        ButtonHolderVBox.setAlignment(Pos.CENTER);
+    } // NodeConstructionSet()
 
 
 
@@ -217,42 +264,39 @@ public class SceneMainMenu {
 
         // End program button
         // ############################################################
-        Button_EndProgram = new Button("End program");
-        Button_EndProgram.setOnAction(this.closeProgram);
-        Button_EndProgram.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_MENU_Endprogram);
-        Button_EndProgram.setPrefWidth(SCENE_VARIABLES_Local.MENU_endButtonWidth);
-        Button_EndProgram.setPrefHeight(SCENE_VARIABLES_Local.MENU_endButtonHeight);
+        this.ButtonEndProgram = new Button("End program");
+        this.ButtonEndProgram.setOnAction(this.eventCloseProgram);
+        this.ButtonEndProgram.getStyleClass().add(this.STYLE_TWO);
+        this.ButtonEndProgram.setPrefWidth(this.ENDBUTTON_WIDTH);
+        this.ButtonEndProgram.setPrefHeight(this.ENDBUTTON_HEIGHT);
         // ############################################################
-
 
         // Data card page button
         // ############################################################
-        Button_DataCardPage = new Button("Manage Data Cards");
-        Button_DataCardPage.setOnAction(this.DatacardScenechange);
-        //Button_DataCardPage.setPrefWidth(PROG_UI_D_DataVariables.MENU_ButtonWidth);
-        //Button_DataCardPage.setPrefHeight(PROG_UI_D_DataVariables.MENU_ButtonHeight);
+        this.ButtonDataCardPage = new Button("Manage Data Cards");
+        this.ButtonDataCardPage.setOnAction(this.eventScenechangeDataCard);
+        this.ButtonDataCardPage.setPrefWidth(this.MENUBUTTON_WIDTH);
+        this.ButtonDataCardPage.setPrefHeight(this.MENUBUTTON_HEIGHT);
         // ############################################################
         
+        // Schedule page button
+        // ############################################################
+        this.ButtonSchedulePage = new Button("Schedule"); 
+        this.ButtonSchedulePage.setOnAction(this.eventSceneChangeSchedule);
+        this.ButtonSchedulePage.setPrefWidth(this.MENUBUTTON_WIDTH);
+        this.ButtonSchedulePage.setPrefHeight(this.MENUBUTTON_HEIGHT);
+        // ############################################################
 
         // Schedule page button
         // ############################################################
-        Button_SchedulePage = new Button("Schedule"); 
-        Button_SchedulePage.setOnAction(this.ScheduleSceneChange);
-        Button_SchedulePage.setPrefWidth(SCENE_VARIABLES_Local.MENU_ButtonWidth);
-        Button_SchedulePage.setPrefHeight(SCENE_VARIABLES_Local.MENU_ButtonHeight);
+        ButtonInstructionPage = new Button("Instructions");
+        ButtonInstructionPage.setOnAction(this.eventSceneChangeInstruction);
+        ButtonInstructionPage.setPrefWidth(this.MENUBUTTON_WIDTH);
+        ButtonInstructionPage.setPrefHeight(this.MENUBUTTON_HEIGHT);
         // ############################################################
-
-
-        // Schedule page button
-        // ############################################################
-        InstructionButton = new Button("Instructions");
-        InstructionButton.setOnAction(this.InstructionSceneChange);
-        InstructionButton.setPrefWidth(SCENE_VARIABLES_Local.MENU_ButtonWidth);
-        InstructionButton.setPrefHeight(SCENE_VARIABLES_Local.MENU_ButtonHeight);
-        // ############################################################
-
 
     } // MainMenuButtons()
+
 
 
     /**
@@ -263,34 +307,42 @@ public class SceneMainMenu {
 
         // Exits the program
         // ############################################################
-        this.closeProgram = event -> {
+        this.eventCloseProgram = event -> {
             
-            Transition_fadeMenu.setOnFinished(event2 -> {
+            TransitionFadeMenu.setOnFinished(event2 -> {
                 Platform.exit();
             });
 
-            Transition_fadeMenu.play();
+            TransitionFadeMenu.play();
+
+
 
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 23 - closing program
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,23);
+            // ############################################################
         };
         // ############################################################
 
 
         // changes scene to data card management
         // ############################################################
-        this.DatacardScenechange = event -> {
+        this.eventScenechangeDataCard = event -> {
 
-            Transition_fadeMenu.setOnFinished(event2 -> {
+            TransitionFadeMenu.setOnFinished(event2 -> {
                 ManageAppWindow.SceneManager.SwapToDataCard();
             });
 
-            Transition_fadeMenu.play();
+            TransitionFadeMenu.play();
+
+
 
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 11 - Scene Switch to Datacard page
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,11);
+            // ############################################################
 
         };
         // ############################################################
@@ -298,17 +350,21 @@ public class SceneMainMenu {
 
         // changes the scene to schedule managment
         // ############################################################
-        this.ScheduleSceneChange = event -> {
+        this.eventSceneChangeSchedule = event -> {
 
-            Transition_fadeMenu.setOnFinished(event2 -> {
+            TransitionFadeMenu.setOnFinished(event2 -> {
                 ManageAppWindow.SceneManager.SwapToSchedule();
             });
 
-            Transition_fadeMenu.play();
+            TransitionFadeMenu.play();
+
+
 
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 11 - Scene Switch to Scheduling page
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,14);
+            // ############################################################
 
         };
         // ############################################################
@@ -316,25 +372,26 @@ public class SceneMainMenu {
 
         // changes the scene to schedule managment
         // ############################################################
-        this.InstructionSceneChange = event -> {
+        this.eventSceneChangeInstruction = event -> {
 
-            Transition_fadeMenu.setOnFinished(event2 -> {
+            TransitionFadeMenu.setOnFinished(event2 -> {
                 ManageAppWindow.SceneManager.SwapToInstruct();
             });
 
-            Transition_fadeMenu.play();
+            TransitionFadeMenu.play();
+
+
 
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 12 - Scene Switch to instruction page
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,12,12);
+            // ############################################################
             
         };
         // ############################################################
 
-    }
-
-
-
+    } // MainMenuEventHandlers()
 
 
 
@@ -354,7 +411,7 @@ public class SceneMainMenu {
 
         BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
 
-        Menu_RootNode.setBackground(new Background(backgroundFill));
+        rootNodeAnchorPane.setBackground(new Background(backgroundFill));
 
         // "earth"
         circleDecoration = new Circle(1500);
@@ -369,11 +426,7 @@ public class SceneMainMenu {
     } // mainMenuGraphics()
 
 
-
-
-
-
-
+    
     /**
      * MainMenuSceneTransitions()
      * Description the fade in and fade out transitions for the main menu
@@ -382,18 +435,18 @@ public class SceneMainMenu {
 
         // Transition to fade button
         // ############################################################
-        Transition_fadeMenu = new ParallelTransition();
+        TransitionFadeMenu = new ParallelTransition();
 
-        for (Node MenuNode : Menu_RootNode.getChildren()) {
+        for (Node MenuNode : rootNodeAnchorPane.getChildren()) {
             
             FadeTransition NodeFade = new FadeTransition(
-                Duration.seconds(SCENE_VARIABLES_Local.MENU_FadeTime),
+                Duration.seconds(this.TIME_FADE),
                 MenuNode
             );
 
-            NodeFade.setToValue(SCENE_VARIABLES_Local.MENU_FadeOpacity);
+            NodeFade.setToValue(this.OPACIY_FADE);
             
-            Transition_fadeMenu.getChildren().addAll(NodeFade);
+            TransitionFadeMenu.getChildren().addAll(NodeFade);
         }
         // ############################################################
 
@@ -401,18 +454,18 @@ public class SceneMainMenu {
 
         // Transition to Unfade button
         // ############################################################
-        Transition_UnFadeMenu = new ParallelTransition();
+        TransitionUnFadeMenu = new ParallelTransition();
 
-        for (Node MenuNode : Menu_RootNode.getChildren()) {
+        for (Node MenuNode : rootNodeAnchorPane.getChildren()) {
             
             FadeTransition NodeUnFade = new FadeTransition(
-                Duration.seconds(SCENE_VARIABLES_Local.MENU_UnFadeTime),
+                Duration.seconds(this.TIME_UNFADE),
                 MenuNode
             );
 
-            NodeUnFade.setToValue(SCENE_VARIABLES_Local.MENU_UnFadeOpacity);
+            NodeUnFade.setToValue(this.OPACITY_UNFADE);
             
-            Transition_UnFadeMenu.getChildren().addAll(NodeUnFade);
+            TransitionUnFadeMenu.getChildren().addAll(NodeUnFade);
         }
         // ############################################################
 

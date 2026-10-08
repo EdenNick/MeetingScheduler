@@ -51,6 +51,7 @@ import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
 import meeting_scheduler.UserInput.ManageDayTime;
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -183,6 +184,42 @@ public class SceneScheduling {
     // ############################################################
 
 
+
+
+    private int maxListAmmount = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 8); // 4 - 20
+    private String Style      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
+    private double DefaultAnchor      = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3); // 3 - 20
+    private double SecondaryAnchor      = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1); // 3 - 10
+    private double Spacing        = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 0); // 2 - 10
+    private double Padding        = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1); // 1 - 10
+    private String StyleOne   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 26); // 26 - Schedule_UI_Base
+    private String Styletwo   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 27); // 27 - Schedule_UI_MainInputs
+    private String Stylethree   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 28); // 28 - Schedule_UI_IndividualInput
+    private String StyleFour   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 29); // 29 - Schedule_UI_NameFlowBox
+    private String StyleFive   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 30); // 30 - Schedule_UI_ComboBox
+    private String StyleSix   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 31); // 31 - Schedule_UI_ScheduleListBox
+     private String StyleSeven      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 16 - default-label
+    private double widthOne     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 7); // 7 - 600
+    private double heightOne    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7); // 7 - 100
+    private double widthTwo     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2); // 2 - 150
+    private double heightTwo    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 2); // 2 - 30
+    private double widththree     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 4); // 4 - 250
+    private double heightthree    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7); // 7 - 100
+    private double widthfour     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 5); // 5 - 300
+    private double heightfour    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7); // 7 - 100
+    private double widthfive     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 4); // 4 - 250
+    private double heightfive    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 2); // 2 - 30
+    private double widthSix     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1); // 1 - 100
+    private double heightSix   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7); // 7 - 100
+
+
+
+
+
+    private String[] WEEKDAY = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT);
+    private int WEEKDAYLength = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 0); // 0 - 7
+
+
     /**
      * Constructor class
      */
@@ -220,7 +257,7 @@ public class SceneScheduling {
         // linked list of current user inputed people they want to include in the schedule(s) - used to update the schedule calculator
         this.SCHEDULE_IDS       = new LinkedList<>();
         // ammount fo schedules the user wants displayed
-        this.SCHEDULE_LIST      = SCENE_VARIABLES_Local.MAXListAmmount;
+        this.SCHEDULE_LIST      = this.maxListAmmount;
         // String[] containg all user selected days
         this.SCHEDULE_DAYS      = new String[7];
         // holds a list of prefered times input by the user - max 4
@@ -297,7 +334,7 @@ public class SceneScheduling {
         // Create Node
         Schedule_RootNode = new AnchorPane();
         // get the CSS styles for the sub-nodes
-        Schedule_RootNode.getStylesheets().add(getClass().getResource(SCENE_VARIABLES_Local.CSS_Styles).toExternalForm());
+        Schedule_RootNode.getStylesheets().add(getClass().getResource(this.Style).toExternalForm());
         // ############################################################
 
 
@@ -339,16 +376,16 @@ public class SceneScheduling {
         // Set Node position within Root Node
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor  (RETURN_ToMenu,                     SCENE_VARIABLES_Local.SCHEDULE_Return_BottomAnchor);
-        AnchorPane.setRightAnchor   (RETURN_ToMenu,                     SCENE_VARIABLES_Local.SCHEDULE_Return_RightAnchor);
+        AnchorPane.setBottomAnchor  (RETURN_ToMenu,                     this.SecondaryAnchor);
+        AnchorPane.setRightAnchor   (RETURN_ToMenu,                     this.SecondaryAnchor);
 
         // Root Node - set UI interface position
-        AnchorPane.setTopAnchor     (UIInput_FullUIHolder_ScrollPane,   SCENE_VARIABLES_Local.SCHEDULE_UIInput_TopAnchor);
-        AnchorPane.setLeftAnchor    (UIInput_FullUIHolder_ScrollPane,   SCENE_VARIABLES_Local.SCHEDULE_UIInput_LeftAnchor);
+        AnchorPane.setTopAnchor     (UIInput_FullUIHolder_ScrollPane,   this.DefaultAnchor);
+        AnchorPane.setLeftAnchor    (UIInput_FullUIHolder_ScrollPane,   this.DefaultAnchor);
 
         // Root Node - set Schedule Display position
-        AnchorPane.setTopAnchor     (UIOutput_FullUIHolder_scrollPane,  SCENE_VARIABLES_Local.SCHEDULE_UIOutput_TopAnchor);
-        AnchorPane.setRightAnchor   (UIOutput_FullUIHolder_scrollPane,  SCENE_VARIABLES_Local.SCHEDULE_UIOutput_RightAnchor);
+        AnchorPane.setTopAnchor     (UIOutput_FullUIHolder_scrollPane,  this.DefaultAnchor);
+        AnchorPane.setRightAnchor   (UIOutput_FullUIHolder_scrollPane,  this.DefaultAnchor);
         // ############################################################
 
         // Add UI to each root node
@@ -400,59 +437,59 @@ public class SceneScheduling {
         
         // Contains All UI Input nodes and elements
         // ############################################################
-        this.UIInput_FullUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_FullUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_Base);
-        this.UIInput_FullUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_FullUI_VBOX = new VBox(this.Spacing);
+        this.UIInput_FullUI_VBOX.getStyleClass().add(this.StyleOne);
+        this.UIInput_FullUI_VBOX.setPadding(new Insets(this.Padding));
         // ############################################################
 
 
 
         // Contains All UI Input for selecting People
         // ############################################################
-        this.UIInput_PeopleUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_PeopleUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_PeopleUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_PeopleUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_PeopleUI_VBOX = new VBox(this.Spacing);
+        this.UIInput_PeopleUI_VBOX.getStyleClass().add(this.Styletwo);
+        this.UIInput_PeopleUI_VBOX.setPrefSize(this.widthOne, this.heightOne);
+        this.UIInput_PeopleUI_VBOX.setPadding(new Insets(this.Padding));
         // ############################################################
 
 
 
         // Contains all UI Inputs for selected the schedule List ammount
         // ############################################################
-        this.UIInput_ListUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_ListUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_ListUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_ListUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_ListUI_VBOX = new VBox(this.Spacing);
+        this.UIInput_ListUI_VBOX.getStyleClass().add(this.Styletwo);
+        this.UIInput_ListUI_VBOX.setPrefSize(this.widthOne, this.heightOne);
+        this.UIInput_ListUI_VBOX.setPadding(new Insets(this.Padding));
         // ############################################################
 
 
 
         // Contains all UI inputs for selecting days for the schedule
         // ############################################################
-        this.UIInput_DayUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_DayUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_DayUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_DayUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_DayUI_VBOX = new VBox(this.Spacing);
+        this.UIInput_DayUI_VBOX.getStyleClass().add(this.Styletwo);
+        this.UIInput_DayUI_VBOX.setPrefSize(this.widthOne, this.heightOne);
+        this.UIInput_DayUI_VBOX.setPadding(new Insets(this.Padding));
         // ############################################################
 
 
 
         // Contains all UI nodes for selecting times for the scheudle
         // ############################################################
-        this.UIInput_TimeUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_TimeUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_TimeUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_TimeUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_TimeUI_VBOX = new VBox(this.Spacing);
+        this.UIInput_TimeUI_VBOX.getStyleClass().add(this.Styletwo);
+        this.UIInput_TimeUI_VBOX.setPrefSize(this.widthOne, this.heightOne);
+        this.UIInput_TimeUI_VBOX.setPadding(new Insets(this.Padding));
         // ############################################################
 
 
 
         // Contains all UI nodes for calculating the schedule
         // ############################################################
-        this.UIInput_CalculateUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
-        this.UIInput_CalculateUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_MainInputs);
-        this.UIInput_CalculateUI_VBOX.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFWidth1, SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFHeight1);
-        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFInsets));
+        this.UIInput_CalculateUI_VBOX = new VBox(this.Spacing);
+        this.UIInput_CalculateUI_VBOX.getStyleClass().add(this.Styletwo);
+        this.UIInput_CalculateUI_VBOX.setPrefSize(this.widthOne, this.heightOne);
+        this.UIInput_CalculateUI_VBOX.setPadding(new Insets(this.Padding));
         // ############################################################
 
 
@@ -464,10 +501,10 @@ public class SceneScheduling {
 
         // Contains all schedule nodes
         // ############################################################
-        this.UIOutput_FullUI_VBOX = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFSpacing);
-        this.UIOutput_FullUI_VBOX.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_Base);
+        this.UIOutput_FullUI_VBOX = new VBox(this.Spacing);
+        this.UIOutput_FullUI_VBOX.getStyleClass().add(this.StyleOne);
         this.UIOutput_FullUI_VBOX.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        this.UIOutput_FullUI_VBOX.setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFInsets));
+        this.UIOutput_FullUI_VBOX.setPadding(new Insets(this.Padding));
         // ############################################################
     }
 
@@ -641,8 +678,9 @@ public class SceneScheduling {
         // ############################################################
         this.EVENT_RESET_List = event -> {
             
+            // TODO: find a better way to do this.
             // Text value set to nothing
-            this.Label_OutputNumber.setText(SCENE_VARIABLES_Local.EmptyText);
+            this.Label_OutputNumber.setText("");
 
             // System Message
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 18 - data has been removed
@@ -690,7 +728,7 @@ public class SceneScheduling {
 
             // Resets the ComboBox Input values to their original state
             this.userInput_SelectDays.getItems().clear();
-            this.userInput_SelectDays.getItems().addAll(SCENE_VARIABLES_Local.WEEKDAYS.clone());
+            this.userInput_SelectDays.getItems().addAll(this.WEEKDAY);
 
             // resets the list of user selected days
             this.SCHEDULE_DAYS  = new String[7];
@@ -721,9 +759,9 @@ public class SceneScheduling {
 
 
                 // adds the day to the string[] containing all selected user days
-                for (int WeekdayIndex = 0; WeekdayIndex < SCENE_VARIABLES_Local.WEEKDAYS.length; WeekdayIndex++) {
+                for (int WeekdayIndex = 0; WeekdayIndex < this.WEEKDAYLength; WeekdayIndex++) {
 
-                    if (UserInput_day.equals(SCENE_VARIABLES_Local.WEEKDAYS[WeekdayIndex])) {
+                    if (UserInput_day.equals(this.WEEKDAY[WeekdayIndex])) {
                         this.SCHEDULE_DAYS[WeekdayIndex] = UserInput_day;
                     }
 
@@ -919,7 +957,7 @@ public class SceneScheduling {
         // ############################################################
         this.RETURN_ToMenu          = new Button("Return Home");
         this.RETURN_ToMenu.setOnAction(this.EVENT_RETURN_HOME);
-        this.RETURN_ToMenu.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.RETURN_ToMenu.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -930,21 +968,21 @@ public class SceneScheduling {
         // ############################################################
         this.RESET_People           = new Button("Reset people to schedule");
         this.RESET_People.setOnAction(this.EVENT_RESET_People);
-        this.RESET_People.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_People.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
         // Add people to schedule Button
         // ############################################################
         this.Input_SelectedPeople   = new Button("Input Selected Ammount");
         this.Input_SelectedPeople.setOnAction(EVENT_ADD_People);
-        this.Input_SelectedPeople.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.Input_SelectedPeople.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
         // People to schedule reset button
         // ############################################################
         this.REMOVELastPerson       = new Button("Remove last person");
         this.REMOVELastPerson.setOnAction(EVENT_REMOVE_Person);
-        this.REMOVELastPerson.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.REMOVELastPerson.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -955,14 +993,14 @@ public class SceneScheduling {
         // ############################################################
         this.RESET_ListNumber       = new Button("Reset number of lists");
         this.RESET_ListNumber.setOnAction(EVENT_RESET_List);
-        this.RESET_ListNumber.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_ListNumber.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
         // Input number of schedule lists to display
         // ############################################################
         this.INPUT_SelectedNumber = new Button("Input Selected Ammount");
         this.INPUT_SelectedNumber.setOnAction(this.EVENT_ADD_List);
-        this.INPUT_SelectedNumber.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.INPUT_SelectedNumber.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -972,14 +1010,14 @@ public class SceneScheduling {
         // ############################################################
         this.RESET_DaySelection     = new Button("Reset days to schedule");
         this.RESET_DaySelection.setOnAction(EVENT_RESET_days);
-        this.RESET_DaySelection.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_DaySelection.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
         // Input selected day
         // ############################################################
         this.INPUT_SelectedDay = new Button("Input Selected Day");
         this.INPUT_SelectedDay.setOnAction(this.EVENT_ADD_Days);
-        this.INPUT_SelectedDay.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.INPUT_SelectedDay.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -988,7 +1026,7 @@ public class SceneScheduling {
         // ############################################################
         this.RESET_TimeInput        = new Button("Reset time input");
         this.RESET_TimeInput.setOnAction(EVENT_RESET_Times);
-        this.RESET_TimeInput.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_TimeInput.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -997,7 +1035,7 @@ public class SceneScheduling {
         // ############################################################
         this.INPUT_TimePreferences  = new Button("Add Info");
         this.INPUT_TimePreferences.setOnAction(EVENT_ADD_timeInput);
-        this.INPUT_TimePreferences.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.INPUT_TimePreferences.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -1009,7 +1047,7 @@ public class SceneScheduling {
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_List);
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_days);
         this.RESET_ALLPreferences.addEventHandler(ActionEvent.ACTION, EVENT_RESET_Times);
-        this.RESET_ALLPreferences.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.RESET_ALLPreferences.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -1018,7 +1056,7 @@ public class SceneScheduling {
         // ############################################################
         this.CALCULATE_Schedule     = new Button("Calculate Schedule");
         this.CALCULATE_Schedule.setOnAction(EVENT_CALCULATE_Schedule);
-        this.CALCULATE_Schedule.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.CALCULATE_Schedule.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -1027,7 +1065,7 @@ public class SceneScheduling {
         // ############################################################
         this.CLEAR_Schedules        = new Button("Clear Schedule list");
         this.CLEAR_Schedules.setOnAction(EVENT_CLEAR_schedule);
-        this.CLEAR_Schedules.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        this.CLEAR_Schedules.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
 
@@ -1121,13 +1159,13 @@ public class SceneScheduling {
         // Node Creation
         // ############################################################
         // Primary Node         - holds User input
-        HBox Primary_InputPeople    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Primary_InputPeople    = new HBox(this.Spacing);
         // Primary Node Input   - Input for user
-        VBox Input_InputPeople      = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Input_InputPeople      = new VBox(this.Spacing);
         // Primary Node Output  - output of selected choiced
-        VBox Output_InputPeople     = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Output_InputPeople     = new VBox(this.Spacing);
         // Secondary Node       - Holds Reset Button
-        VBox Secondary_InputPeople  = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Secondary_InputPeople  = new VBox(this.Spacing);
         // comboBox to display the names available to select
         this.Selectable_PersonList  = new ComboBox<>();
         // flowpane node to hold te name list of selected people
@@ -1139,11 +1177,12 @@ public class SceneScheduling {
 
         // Node set sizing
         // ############################################################
-        Input_InputPeople           .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFHeight);
-        Output_InputPeople          .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFHeight);
-        this.Selectable_PersonList  .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefWidthLarge,     SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefHeightLarge);
-        this.AddedPeople            .setPrefSize(100.0, 100.0);
+        Input_InputPeople           .setPrefSize(this.widththree,   this.heightthree);
+        Output_InputPeople          .setPrefSize(this.widthfour,   this.heightfour);
+        this.Selectable_PersonList  .setPrefSize(this.widthfive,     this.heightfive);
+        this.AddedPeople            .setPrefSize(this.widthSix, this.heightSix);
         // this.AddedPeople         .getStyleClass().add("flowBox-names");
+        
         this.AddedPeople            .setPadding(new Insets(2));
         this.AddedPeople            .setHgap(5.0);
         this.AddedPeople            .setVgap(2.0);
@@ -1160,9 +1199,9 @@ public class SceneScheduling {
         // styling
         // ############################################################
         // labels
-        Label_inputPeople.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        Label_addedPeople.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        this.Selectable_PersonList.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_ComboBox);
+        Label_inputPeople.getStyleClass().add(this.StyleSeven);
+        Label_addedPeople.getStyleClass().add(this.StyleSeven);
+        this.Selectable_PersonList.getStyleClass().add(this.StyleFive);
         // ############################################################
 
 
@@ -1171,13 +1210,17 @@ public class SceneScheduling {
 			this.FileUserInfo   = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
 
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
+            // ############################################################
 
 		} catch (IOException e) {
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
+            // ############################################################
             e.printStackTrace();
         }
         
@@ -1230,13 +1273,13 @@ public class SceneScheduling {
         // Node Creation
         // ############################################################
         // Primary Node
-        HBox Primary_InputList      = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Primary_InputList      = new HBox(this.Spacing);
         // Primary Node Input
-        VBox Input_InputList        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Input_InputList        = new VBox(this.Spacing);
         // Primary Node Output
-        VBox Output_InputList       = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Output_InputList       = new VBox(this.Spacing);
         // Secondary Node
-        HBox Secondary_InputList    = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Secondary_InputList    = new HBox(this.Spacing);
         // Text Field Input
         this.userInput_listAmmount  = new TextField();
         // ############################################################
@@ -1245,11 +1288,11 @@ public class SceneScheduling {
         // Node set sizing
         // ############################################################
         // Primary Node Input
-        Input_InputList             .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFHeight);
+        Input_InputList             .setPrefSize(this.widththree,   this.heightthree);
         // Primary Node Output
-        Output_InputList            .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFHeight);
+        Output_InputList            .setPrefSize(this.widthfour,   this.heightfour);
         // Text Field Input
-        this.userInput_listAmmount  .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefWidthLarge,     SCENE_VARIABLES_Local.SCHEDULE_INPUT_PrefHeightLarge);
+        this.userInput_listAmmount  .setPrefSize(this.widthfive,   this.widthfive);
         // ############################################################
 
         // labels
@@ -1261,7 +1304,7 @@ public class SceneScheduling {
 
         // styling
         // ############################################################
-        Label_inputNumber.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_inputNumber.getStyleClass().add(this.StyleSeven);
         // ############################################################
 
 
@@ -1283,7 +1326,7 @@ public class SceneScheduling {
 
                 int intValue = Integer.parseInt(TextInput);
                 
-                if (intValue >= 0 && intValue < SCENE_VARIABLES_Local.MAXListAmmount) {
+                if (intValue >= 0 && intValue < this.maxListAmmount) {
                     return change;
                 }
 
@@ -1300,7 +1343,7 @@ public class SceneScheduling {
         // Output
         // ############################################################
         // Stores the Ammount input variable
-        this.Label_OutputNumber = new Label(SCENE_VARIABLES_Local.EmptyText);
+        this.Label_OutputNumber = new Label("");
         // ############################################################
 
 
@@ -1338,13 +1381,13 @@ public class SceneScheduling {
         // Node construction
         // ############################################################
         // Primary Node
-        HBox Primary_InputDay       = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Primary_InputDay       = new HBox(this.Spacing);
         // Primary Node input
-        VBox Input_InputDay         = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Input_InputDay         = new VBox(this.Spacing);
         // Primary Node output
-        VBox Output_InputDay        = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Output_InputDay        = new VBox(this.Spacing);
         // secondary node
-        HBox Secondary_InputDay     = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox Secondary_InputDay     = new HBox(this.Spacing);
         // combo box for days of the week, add multiple days
         this.userInput_SelectDays   = new ComboBox<>();
         // flowPane to hold and display selected day inputs
@@ -1356,13 +1399,13 @@ public class SceneScheduling {
         // Node sizing
         // ############################################################
         // Primary Node input
-        Input_InputDay              .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode1_PREFHeight);
+        Input_InputDay              .setPrefSize(this.widththree,   this.heightthree);
         // Primary Node output
-        Output_InputDay             .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFWidth,   SCENE_VARIABLES_Local.SCHEDULE_PrimaryNode2_PREFHeight);
+        Output_InputDay             .setPrefSize(this.widthfour,   this.heightfour);
         // combo box for days of the week, add multiple days
-        this.userInput_SelectDays   .setPrefSize(150.0, 40.0);
+        this.userInput_SelectDays   .setPrefSize(this.widthTwo, this.heightTwo);
          // flowPane to hold and display selected day inputs
-        this.OutputDays             .setPrefSize(150.0, 40.0);
+        this.OutputDays             .setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################
 
         // label creation
@@ -1375,17 +1418,17 @@ public class SceneScheduling {
         // Styling
         // ############################################################
         // labels
-        Label_inputDay  .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
-        Label_OutputDay .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_inputDay  .getStyleClass().add(this.StyleSeven);
+        Label_OutputDay .getStyleClass().add(this.StyleSeven);
         // ############################################################
 
 
         // Output Section
         // ############################################################
         // Add days to the combobox
-        this.userInput_SelectDays.getItems().addAll(SCENE_VARIABLES_Local.WEEKDAYS);
+        this.userInput_SelectDays.getItems().addAll(this.WEEKDAY);
         // add defualt text to output
-        this.OutputDays.getChildren().add(new Text(SCENE_VARIABLES_Local.EmptyText));
+        this.OutputDays.getChildren().add(new Text(""));
         // // ############################################################
 
 
@@ -1434,7 +1477,7 @@ public class SceneScheduling {
         this.FlowPane_VBoxDisplay   .setHgap(5.0);
         this.FlowPane_VBoxDisplay   .setVgap(2.0);
 
-        this.FlowPane_VBoxDisplay   .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_IndividualInput);
+        this.FlowPane_VBoxDisplay   .getStyleClass().add(this.Stylethree);
         // // ############################################################
 
 
@@ -1458,9 +1501,9 @@ public class SceneScheduling {
         // Node Creation
         // ############################################################
         // primary node
-        HBox CalculateButtons   = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        HBox CalculateButtons   = new HBox(this.Spacing);
         // Secondary Node - input
-        VBox Holder_Calculate   = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIINPUT_PREFSpacing);
+        VBox Holder_Calculate   = new VBox(this.Spacing);
         // ############################################################
 
 
@@ -1473,7 +1516,7 @@ public class SceneScheduling {
 
         // Styling
         // ############################################################
-        Label_ScheduleNow.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_DEFAULT);
+        Label_ScheduleNow.getStyleClass().add(this.StyleSeven);
         // ############################################################
 
 
@@ -1503,6 +1546,8 @@ public class SceneScheduling {
      */
     private void SchedulingDisplay() {
 
+
+        // TODO: make this its own class
         
         // scroll pane for scrolling between the vbox nodes
         this.UIOutput_FullUIHolder_scrollPane = new ScrollPane();
@@ -1541,9 +1586,9 @@ public class SceneScheduling {
                     // Node Creation
                     // ############################################################
                     // primary Box conatining schedule Info and user list
-                    VBox        ScheduleBox_Primary     = new VBox(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFSpacing);
+                    VBox        ScheduleBox_Primary     = new VBox(this.Spacing);
                     // secondary box containing only the schedule info
-                    HBox        ScheduleBox_Secondary   = new HBox(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFSpacing);
+                    HBox        ScheduleBox_Secondary   = new HBox(this.Spacing);
                     // List of people in schedule
                     FlowPane    SchedulePeopleList      = new FlowPane();
                     // deletion Button
@@ -1650,26 +1695,26 @@ public class SceneScheduling {
                     // Styling
                     // ############################################################
                     // VBox
-                    ScheduleBox_Primary     .setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFInsets));
-                    ScheduleBox_Primary     .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_primarywidth,     SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_primaryheight);
-                    ScheduleBox_Primary     .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_ScheduleListBox);
+                    ScheduleBox_Primary     .setPadding(new Insets(this.Padding));
+                    ScheduleBox_Primary     .setPrefSize(800,     120);
+                    ScheduleBox_Primary     .getStyleClass().add(this.StyleSix);
 
                     // HBox
-                    ScheduleBox_Secondary   .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth1,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight1);
-                    ScheduleBox_Secondary   .setPadding(new Insets(SCENE_VARIABLES_Local.SCHEDULE_UIOUTPUT_PREFInsets));
-                    ScheduleBox_Secondary   .getStyleClass().add(SCENE_VARIABLES_Local.STYLE_SCHEDULLE_ScheduleListBox);
+                    ScheduleBox_Secondary   .setPrefSize(90,   60);
+                    ScheduleBox_Secondary   .setPadding(new Insets(this.Padding));
+                    ScheduleBox_Secondary   .getStyleClass().add(this.StyleSix);
                     ScheduleBox_Secondary   .setAlignment(Pos.CENTER_LEFT);
 
                     // flowPane
-                    SchedulePeopleList      .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth1,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight1);
+                    SchedulePeopleList      .setPrefSize(90,   60);
 
                     // labels
-                    FullList                .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth2,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight2);
-                    ScheduleDay             .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth3,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight3);
-                    ScheduletimeFrame       .setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondarywidth4,   SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_Secondaryheight4);
+                    FullList                .setPrefSize(50,   120);
+                    ScheduleDay             .setPrefSize(50,   100);
+                    ScheduletimeFrame       .setPrefSize(50,   200);
 
                     // button
-                    DeleteList              .setMaxSize(SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_DeleteButtonWidth, SCENE_VARIABLES_Local.SCHEDULE_OUTPUT_DeleteButtonHeight);
+                    DeleteList              .setMaxSize(50, 50);
                     // ############################################################
 
 

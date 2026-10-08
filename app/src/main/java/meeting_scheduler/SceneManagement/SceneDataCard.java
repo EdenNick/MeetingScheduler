@@ -277,7 +277,7 @@ public class SceneDataCard {
         // Vbox for UI
         // ############################################################
         // Create and set box parameters
-        this.uiInputAll = new VBox();
+        // this.uiInputAll = new VBox();
 
         // add nodes to the box
         this.uiInputAll.getChildren().addAll(
@@ -623,6 +623,7 @@ public class SceneDataCard {
         Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 9);    // 9 - 600
         Spacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 1);    // 0 - 10
         Padding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1);    // 1 - 10
+        this.uiInputAll = new VBox();
         this.uiInputAll.setSpacing(Spacing);
         this.uiInputAll.setPrefSize(Width, Height);
         this.uiInputAll.setPadding(new Insets(Padding));
@@ -633,6 +634,7 @@ public class SceneDataCard {
         Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT   , 9);    // 9 - 600
         Spacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING  , 1);    // 0 - 10
         Padding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING  , 1);    // 1 - 10
+        this.uiOutputPref = new FlowPane();
         this.uiOutputPref.setHgap(Spacing);
         this.uiOutputPref.setVgap(Spacing);
         this.uiOutputPref.setPrefSize(Width, Height);

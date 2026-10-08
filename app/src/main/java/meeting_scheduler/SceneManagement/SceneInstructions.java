@@ -32,6 +32,7 @@ import meeting_scheduler.FileManagement.ManageTXTOutput;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
 // ############################################################
+import meeting_scheduler.global;
 
 
 
@@ -43,24 +44,17 @@ public class SceneInstructions {
     // ############################################################
     // Reference of the application stage used for local operations
     private final Stage ApplicationStage;
-    // Scene
     private Scene       InstructionScene;
-    // Stage width/height
     private double      StageWidth;
     private double      stageHeight;
     // ############################################################
 
     // Nodes
     // ############################################################
-    // Root Node
     private AnchorPane          Instruction_RootNode;
-    // scrollpane
     private ScrollPane          instructionScrollPane;
-    // Textflow
     private TextFlow            InstructionTextFlow;
-    // Buttons
     private Button              Button_ReturnToMenu;
-    // transitions
     private ParallelTransition  Transition_FadeNodes;
     private ParallelTransition  Transition_UnFadeNodes;
     // ############################################################
@@ -81,8 +75,20 @@ public class SceneInstructions {
     // ############################################################
 
 
+    private String Style;
+    private String styleOne;
+    private String styleTwo;
+    private String styleThree;
 
+    private double Anchor;
+    private double returnButtonWidth;
+    private double returnButtonHeight;
+    private double Padding;
 
+    private int FadeTime;
+    private int FadeOpacity;
+    private int UnFadeTime;
+    private int UnFadeOpacity;
 
     /**
      * Constructor class
@@ -91,7 +97,24 @@ public class SceneInstructions {
         // set the stage
         this.ApplicationStage = stage;
         // create the file reader object and set it to read from the instructions file
-        this.fileReader = new ManageTXTOutput(SCENE_VARIABLES_Local.DOC_Instructions);
+        this.fileReader = new ManageTXTOutput("/PROG_UI_D_Instructions.txt");
+
+
+
+    this.Style      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
+    this.styleOne   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 23); // 23 - Instructions_UI_TextHolder
+    this.styleTwo   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 24); // 24 - Instructions_UI_TextTitle
+    this.styleThree = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 25); // 25 - Instructions_UI_ScrollPane
+
+    this.Anchor     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3); // 3 - 20
+    this.Padding    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 0); // 0 - 5
+    this.returnButtonWidth  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2); // 2 - 150
+    this.returnButtonHeight = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 3); // 2 - 30
+    
+    this.FadeTime       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
+    this.FadeOpacity    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 6 - 0
+    this.UnFadeTime     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
+    this.UnFadeOpacity  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
 
     } // PROG_UI_B_InstructionsScene(Stage stage)
 
@@ -140,7 +163,7 @@ public class SceneInstructions {
         // Root Node
         Instruction_RootNode = new AnchorPane();
         // Import styles
-        Instruction_RootNode.getStylesheets().add(getClass().getResource(SCENE_VARIABLES_Local.CSS_Styles).toExternalForm());
+        Instruction_RootNode.getStylesheets().add(getClass().getResource(this.Style).toExternalForm());
         // Text Box
         InstructionTextFlow = new TextFlow();
         // ############################################################
@@ -173,12 +196,12 @@ public class SceneInstructions {
         // Node Visual formatting
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor   (Button_ReturnToMenu,   SCENE_VARIABLES_Local.SCHEDULE_Return_BottomAnchor);
-        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   SCENE_VARIABLES_Local.SCHEDULE_Return_RightAnchor);
+        AnchorPane.setBottomAnchor   (Button_ReturnToMenu,   this.Anchor);
+        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   this.Anchor);
 
         // root Node - set text position
-        AnchorPane.setTopAnchor     (instructionScrollPane, SCENE_VARIABLES_Local.INSTRUCTION_Instruction_TopAnchor);
-        AnchorPane.setLeftAnchor    (instructionScrollPane, SCENE_VARIABLES_Local.INSTRUCTION_Instruction_LeftAnchor);
+        AnchorPane.setTopAnchor     (instructionScrollPane, this.Anchor);
+        AnchorPane.setLeftAnchor    (instructionScrollPane, this.Anchor);
         // ############################################################
 
 
@@ -204,8 +227,10 @@ public class SceneInstructions {
 
 
         // System Message
+        // ############################################################
         // 5 - SUCCESS | 18 - SCENE_CREATE_Instruct | 5 - SYSTEM-CreateScenes | 15 - Scene created and set
         SystemInfoManager.GET_SYSTEM_MESSAGE(5,18,5,15);
+        // ############################################################
 
     } // ConstructInstructionsScene()
 
@@ -221,7 +246,7 @@ public class SceneInstructions {
         // ############################################################
         Button_ReturnToMenu = new Button("Return Home");
         Button_ReturnToMenu.setOnAction(this.ReturnHome);
-        Button_ReturnToMenu.setPrefSize(SCENE_VARIABLES_Local.SCHEDULE_Button_PrefWidthLarge, SCENE_VARIABLES_Local.SCHEDULE_Button_PrefHeightLarge);
+        Button_ReturnToMenu.setPrefSize(this.returnButtonWidth, this.returnButtonHeight);
         // ############################################################
 
     } // ButtonCreation()
@@ -256,6 +281,8 @@ public class SceneInstructions {
      */
     private void InstructionCreation() {
 
+        // TODO: redo this section, this is too unorganized and prone to failure
+
         // Instruction text creation
         // ############################################################
         // retrieves linkedlist of txt file
@@ -277,12 +304,12 @@ public class SceneInstructions {
         // Textflow viisual formatting
         // ############################################################
         // padding/ line spacing
-        this.InstructionTextFlow.setPadding(new Insets(5));
+        this.InstructionTextFlow.setPadding(new Insets(this.Padding));
         this.InstructionTextFlow.setLineSpacing(1);
         // set style for general text
-        this.InstructionTextFlow.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_INSTRUCTION_TextHolder);
+        this.InstructionTextFlow.getStyleClass().add(this.styleOne);
         // set style for title should always be the first node
-        this.InstructionTextFlow.getChildren().get(0).getStyleClass().add(SCENE_VARIABLES_Local.STYLE_INSTRUCTION_TextTitle);
+        this.InstructionTextFlow.getChildren().get(0).getStyleClass().add(this.styleTwo);
         // ############################################################
 
 
@@ -292,7 +319,7 @@ public class SceneInstructions {
         // Create scrollpane
         this.instructionScrollPane = new ScrollPane(this.InstructionTextFlow);
         // set style
-        this.instructionScrollPane.getStyleClass().add(SCENE_VARIABLES_Local.STYLE_INSTRUCTION_ScrollPane);
+        this.instructionScrollPane.getStyleClass().add(this.styleThree);
         this.instructionScrollPane.setFitToHeight(true);
         this.instructionScrollPane.setFitToWidth(true);
         // set width/height
@@ -348,12 +375,11 @@ public class SceneInstructions {
         for (Node InstructionNode : Instruction_RootNode.getChildren()) {
             
             FadeTransition NodeFade = new FadeTransition(
-                Duration.seconds(SCENE_VARIABLES_Local.INSTRUCTION_FadeTime),
+                Duration.seconds(this.FadeTime),
                 InstructionNode
             );
 
-            NodeFade.setToValue(SCENE_VARIABLES_Local.INSTRUCTION_FadeOpacity);
-            
+            NodeFade.setToValue(this.FadeOpacity);
             Transition_FadeNodes.getChildren().addAll(NodeFade);
         }
         // ############################################################
@@ -364,14 +390,13 @@ public class SceneInstructions {
         Transition_UnFadeNodes = new ParallelTransition();
 
         for (Node InstructionNode : Instruction_RootNode.getChildren()) {
-            
+
             FadeTransition NodeUnFade = new FadeTransition(
-                Duration.seconds(SCENE_VARIABLES_Local.INSTRUCTION_UnFadeTime),
+                Duration.seconds(this.UnFadeTime),
                 InstructionNode
             );
 
-            NodeUnFade.setToValue(SCENE_VARIABLES_Local.INSTRUCTION_UnFadeOpacity);
-            
+            NodeUnFade.setToValue(this.UnFadeOpacity);            
             Transition_UnFadeNodes.getChildren().addAll(NodeUnFade);
         }
         // ############################################################

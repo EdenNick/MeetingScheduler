@@ -3,9 +3,14 @@
 package meeting_scheduler.SceneManagement;
 // ############################################################
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 // Imports
 // ############################################################
 import java.util.LinkedList;
+import java.util.Properties;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -19,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -31,15 +37,13 @@ import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.FileManagement.ManageTXTOutput;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
-// ############################################################
 import meeting_scheduler.global;
+// ############################################################
 
 
 
 public class SceneInstructions {
     
-
-
     // Application
     // ############################################################
     // Reference of the application stage used for local operations
@@ -51,70 +55,78 @@ public class SceneInstructions {
 
     // Nodes
     // ############################################################
-    private AnchorPane          Instruction_RootNode;
-    private ScrollPane          instructionScrollPane;
-    private TextFlow            InstructionTextFlow;
-    private Button              Button_ReturnToMenu;
-    private ParallelTransition  Transition_FadeNodes;
-    private ParallelTransition  Transition_UnFadeNodes;
+    private AnchorPane          rootNodeAnchorPane;
+    private ScrollPane          InstructionScrollPane;
+    private Pane                TextHolderPane;
+    private Button              ButtonReturnToMenu;
+    private ParallelTransition  TransitionFadeNodes;
+    private ParallelTransition  TransitionUnFadeNodes;
     // ############################################################
 
     // event handlers
     // ############################################################
-    private EventHandler<ActionEvent> ReturnHome = null;
+    private EventHandler<ActionEvent> EventReturnHome = null;
     // ############################################################
 
     // File manager
     // ############################################################
-    ManageTXTOutput fileReader;
+    // ManageTXTOutput fileReader;
     // ############################################################
 
     // data management
     // ############################################################
-    LinkedList<String> InstructionFileText;
+    // LinkedList<String> InstructionFileText;
+    // ############################################################
+
+    // Styling
+    // ############################################################
+    private final String STYLE_FILE;
+    private final String STYLE_DEFAULT;
+    private final String STYLE_ONE;
+    private final String STYLE_TWO;
+    private final String STYLE_THREE;
+
+    private final double ANCHOR;
+    private final double RETURNBUTOON_WIDTH;
+    private final double RETURNBUTTON_HEIGHT;
+    private final double PADDING;
+
+    private final int TIME_FADE;
+    private final int TIME_UNFADE;
+    private final int OPACITY_FADE;
+    private final int OPACITY_UNFADE;
     // ############################################################
 
 
-    private String Style;
-    private String styleOne;
-    private String styleTwo;
-    private String styleThree;
-
-    private double Anchor;
-    private double returnButtonWidth;
-    private double returnButtonHeight;
-    private double Padding;
-
-    private int FadeTime;
-    private int FadeOpacity;
-    private int UnFadeTime;
-    private int UnFadeOpacity;
 
     /**
      * Constructor class
      */
     public SceneInstructions(Stage stage) {
-        // set the stage
+
+        // set the stage to the global reference so the scene manager can function
+        // ############################################################
         this.ApplicationStage = stage;
-        // create the file reader object and set it to read from the instructions file
-        this.fileReader = new ManageTXTOutput("/PROG_UI_D_Instructions.txt");
+        // ############################################################
 
+        // Set UI Styling
+        // ############################################################
+        this.STYLE_FILE     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
+        this.STYLE_DEFAULT  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16); // 16 - default-label
+        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 23); // 23 - Instructions_UI_TextHolder
+        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 24); // 24 - Instructions_UI_TextTitle
+        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 25); // 25 - Instructions_UI_ScrollPane
 
-
-    this.Style      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
-    this.styleOne   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 23); // 23 - Instructions_UI_TextHolder
-    this.styleTwo   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 24); // 24 - Instructions_UI_TextTitle
-    this.styleThree = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 25); // 25 - Instructions_UI_ScrollPane
-
-    this.Anchor     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3); // 3 - 20
-    this.Padding    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 0); // 0 - 5
-    this.returnButtonWidth  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2); // 2 - 150
-    this.returnButtonHeight = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 3); // 2 - 30
-    
-    this.FadeTime       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
-    this.FadeOpacity    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 6 - 0
-    this.UnFadeTime     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
-    this.UnFadeOpacity  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
+        this.ANCHOR     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.PADDING    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 0); // 0 - 5
+        this.RETURNBUTOON_WIDTH  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2);  // 2 - 150
+        this.RETURNBUTTON_HEIGHT = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 3); // 2 - 30
+        
+        this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
+        this.OPACITY_FADE   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 6); // 6 - 0
+        this.TIME_UNFADE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
+        this.OPACITY_UNFADE = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
+        // ############################################################
 
     } // PROG_UI_B_InstructionsScene(Stage stage)
 
@@ -141,11 +153,15 @@ public class SceneInstructions {
         this.ApplicationStage.show();
 
         // unfades nodes
-        Transition_UnFadeNodes.play();
+        TransitionUnFadeNodes.play();
         
+
+
         // System Message
+        // ############################################################
         // 5 - SUCCESS | 18 - SCENE_CREATE_Instruct | 12 - SYSTEM-SetScenes | 12 - Scene Switch to instruction page
         SystemInfoManager.GET_SYSTEM_MESSAGE(5,18,12,12);
+        // ############################################################
 
     } // changetoInstructionsScene
 
@@ -157,73 +173,65 @@ public class SceneInstructions {
      */
     public void ConstructInstructionsScene() {
 
-
         // Node Construction
         // ############################################################
         // Root Node
-        Instruction_RootNode = new AnchorPane();
+        rootNodeAnchorPane = new AnchorPane();
         // Import styles
-        Instruction_RootNode.getStylesheets().add(getClass().getResource(this.Style).toExternalForm());
+        rootNodeAnchorPane.getStylesheets().add(getClass().getResource(this.STYLE_FILE).toExternalForm());
         // Text Box
-        InstructionTextFlow = new TextFlow();
+        TextHolderPane = new Pane();
         // ############################################################
-
 
         // event handler creation
         // ############################################################
         instructionsEventhandler();
         // ############################################################
 
-
         // Button Creation
         // ############################################################
         ButtonCreation();
         // ############################################################
-
 
         // Instruction Creation
         // ############################################################
         InstructionCreation();
         // ############################################################
 
-
         // Background creation
         // ############################################################
         BackgroundManagement();
         // ############################################################
 
-
         // Node Visual formatting
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor   (Button_ReturnToMenu,   this.Anchor);
-        AnchorPane.setRightAnchor   (Button_ReturnToMenu,   this.Anchor);
+        AnchorPane.setBottomAnchor  (ButtonReturnToMenu,   this.ANCHOR);
+        AnchorPane.setRightAnchor   (ButtonReturnToMenu,   this.ANCHOR);
 
         // root Node - set text position
-        AnchorPane.setTopAnchor     (instructionScrollPane, this.Anchor);
-        AnchorPane.setLeftAnchor    (instructionScrollPane, this.Anchor);
+        AnchorPane.setTopAnchor     (InstructionScrollPane, this.ANCHOR);
+        AnchorPane.setLeftAnchor    (InstructionScrollPane, this.ANCHOR);
         // ############################################################
-
 
         // Add sub-nodes to their positions
         // ############################################################
-        Instruction_RootNode.getChildren().addAll(Button_ReturnToMenu, instructionScrollPane);
+        rootNodeAnchorPane.getChildren().addAll(ButtonReturnToMenu, InstructionScrollPane);
         // ############################################################
 
-
-        // Scene Creation with Root Node Instruction_RootNode
+        // Scene Creation with Root Node rootNodeAnchorPane
         // ############################################################
-        this.InstructionScene = new Scene(Instruction_RootNode, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
+        this.InstructionScene = new Scene(rootNodeAnchorPane, ManageScenes.WindowWidth, ManageScenes.WindowHeight);
         // ############################################################
-
 
         // Scene transition
         // ############################################################
         // create trnasitions
         SceneTransitions();
         // fade all objects before the scene is set
-        Transition_FadeNodes.play();
+        TransitionFadeNodes.play();
         // ############################################################
+
 
 
         // System Message
@@ -244,9 +252,9 @@ public class SceneInstructions {
 
         // Return Home Button
         // ############################################################
-        Button_ReturnToMenu = new Button("Return Home");
-        Button_ReturnToMenu.setOnAction(this.ReturnHome);
-        Button_ReturnToMenu.setPrefSize(this.returnButtonWidth, this.returnButtonHeight);
+        ButtonReturnToMenu = new Button("Return Home");
+        ButtonReturnToMenu.setOnAction(this.EventReturnHome);
+        ButtonReturnToMenu.setPrefSize(this.RETURNBUTOON_WIDTH, this.RETURNBUTTON_HEIGHT);
         // ############################################################
 
     } // ButtonCreation()
@@ -257,17 +265,21 @@ public class SceneInstructions {
 
         // Returns to the main menu
         // ############################################################
-        this.ReturnHome = event -> {
+        this.EventReturnHome = event -> {
 
-            Transition_FadeNodes.setOnFinished(event2 -> {
+            TransitionFadeNodes.setOnFinished(event2 -> {
                 ManageAppWindow.SceneManager.SwapToMainMenu();
             });
 
-            Transition_FadeNodes.play();
+            TransitionFadeNodes.play();
+
 
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 18 - SCENE_CREATE_Instruct | 12 - USER-ButtonPress | 13 - Scene Switch to Main Menu
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,18,12,13);
+            // ############################################################
+
         };
         // ############################################################
 
@@ -281,50 +293,61 @@ public class SceneInstructions {
      */
     private void InstructionCreation() {
 
-        // TODO: redo this section, this is too unorganized and prone to failure
+        // TODO: Continue to Update graphics
+        // Holder for the various text objects
+        this.TextHolderPane = new Pane();
 
-        // Instruction text creation
-        // ############################################################
-        // retrieves linkedlist of txt file
-        InstructionFileText = new LinkedList<>(fileReader.ReadFile());
+        // Title
+        Text TITLE = GetInstructionText("TITLE.", this.STYLE_TWO);
+        TITLE.setId("TITLE");
+        TITLE.setX(50);
+        TITLE.setY(this.ANCHOR + 10);
+
+
+
+        // SubTitle
+        Text SUB_TITLE = GetInstructionText("DESCRIPTION.", this.STYLE_DEFAULT );
+        SUB_TITLE.setId("SUB_TITLE");
+        SUB_TITLE.setX(60);
+        SUB_TITLE.setY(this.ANCHOR + 30);
+
+
+        // PageInfo
+        Text INFO = GetInstructionText("PAGEINFO.", this.STYLE_DEFAULT);
+        INFO.setId("INFO");
+        INFO.setX(20);
+        INFO.setY(this.ANCHOR + 80);
+
         
-        // removes file name from the instructions - should always be the first index
-        InstructionFileText.remove(0);
-        
-        // inserts text each index in the linked list is ts own line in the text
-        for (String TXTLine : InstructionFileText) {
-            InstructionTextFlow.getChildren().addAll(
-                new Text(TXTLine + "\n")
-            );
-        }
-        // ############################################################
+
+        // Extra text
+        Text EXTRA = GetInstructionText("EXTRATEXT.", this.STYLE_DEFAULT );
+        EXTRA.setId("EXTRA");
+        EXTRA.setX(20);
+        EXTRA.setY(this.ANCHOR + 200);
 
 
+        this.TextHolderPane.getChildren().addAll(
+            TITLE,
+            SUB_TITLE,
+            INFO,
+            EXTRA
+        );
 
-        // Textflow viisual formatting
-        // ############################################################
-        // padding/ line spacing
-        this.InstructionTextFlow.setPadding(new Insets(this.Padding));
-        this.InstructionTextFlow.setLineSpacing(1);
-        // set style for general text
-        this.InstructionTextFlow.getStyleClass().add(this.styleOne);
-        // set style for title should always be the first node
-        this.InstructionTextFlow.getChildren().get(0).getStyleClass().add(this.styleTwo);
-        // ############################################################
 
 
 
         // Scroll pane management - must be called after instructions construction
         // ############################################################
         // Create scrollpane
-        this.instructionScrollPane = new ScrollPane(this.InstructionTextFlow);
+        this.InstructionScrollPane = new ScrollPane(this.TextHolderPane);
         // set style
-        this.instructionScrollPane.getStyleClass().add(this.styleThree);
-        this.instructionScrollPane.setFitToHeight(true);
-        this.instructionScrollPane.setFitToWidth(true);
+        this.InstructionScrollPane.getStyleClass().add(this.STYLE_THREE);
+        this.InstructionScrollPane.setFitToHeight(true);
+        this.InstructionScrollPane.setFitToWidth(true);
         // set width/height
-        this.instructionScrollPane.setPrefWidth(ManageScenes.WindowWidth / 1.5);
-        this.instructionScrollPane.setPrefHeight(ManageScenes.WindowHeight / 1.5);
+        this.InstructionScrollPane.setPrefWidth(ManageScenes.WindowWidth / 1.5);
+        this.InstructionScrollPane.setPrefHeight(ManageScenes.WindowHeight / 1.5);
         // ############################################################
 
 
@@ -332,15 +355,63 @@ public class SceneInstructions {
         // Add listeners to ensure the text adjusts to window size changes
         // ############################################################
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
-            instructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
+            this.InstructionScrollPane.setPrefWidth(newWidth.intValue() / 1.5);
+            this.TextHolderPane.setPrefWidth(newWidth.intValue() / 1.5);
         });
 
         this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
-            instructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
+            this.InstructionScrollPane.setPrefHeight(newHeight.intValue() / 1.5);
+            this.TextHolderPane.setPrefHeight(newHeight.intValue() / 1.5);
         });
         // ############################################################
 
     } // InstructionCreation
+
+
+
+    private static Text GetInstructionText(String INPUT_PROPPATH, String INPUT_STYLE) {
+
+        // Properties object
+        Properties  Prop_Type = new Properties();
+        // File Path
+        String      FilePath = "/USERINSTRUCTIONS.properties";
+        //Property Path
+        String      PropPath = INPUT_PROPPATH;
+        // indiivudal property string
+        String      IncomingPropString;
+        // while loop position
+        int         IncomingPropPosition = 0;
+        // array to be set to global
+        Text        ReturnText;
+
+        // Arraylist containg all properites in the file
+        ArrayList<String> ArraylistPropStrings = new ArrayList<>();
+
+        // TRY/CATCH
+        try ( InputStream FileInput = SceneInstructions.class.getResourceAsStream(FilePath) ) {
+            
+            // Load Props from File
+            Prop_Type.load(FileInput);
+
+            // While strings continue to be valid and not NULL, continue
+            while ( (IncomingPropString = Prop_Type.getProperty(PropPath + IncomingPropPosition)) != null ) {
+
+                ArraylistPropStrings.add(IncomingPropString);
+                IncomingPropPosition++;
+            }
+
+            ReturnText = new Text(String.join("\n", ArraylistPropStrings));
+
+        } catch (IOException e) {
+            // TODO: SYSTEM MESSAGE
+            ReturnText = new Text("ERROR");
+        }
+
+
+        ReturnText.getStyleClass().add(INPUT_STYLE);
+        // Set to static variable
+        return ReturnText;
+    }
 
 
 
@@ -357,7 +428,7 @@ public class SceneInstructions {
 
         BackgroundFill backgroundFill = new BackgroundFill(BackgroundGradient, CornerRadii.EMPTY, Insets.EMPTY);
 
-        Instruction_RootNode.setBackground(new Background(backgroundFill));
+        rootNodeAnchorPane.setBackground(new Background(backgroundFill));
 
     } // BackgroundManagement
 
@@ -370,34 +441,34 @@ public class SceneInstructions {
     private void SceneTransitions() {
 
         // Transition to fade buttons
-        Transition_FadeNodes = new ParallelTransition();
+        TransitionFadeNodes = new ParallelTransition();
 
-        for (Node InstructionNode : Instruction_RootNode.getChildren()) {
+        for (Node InstructionNode : rootNodeAnchorPane.getChildren()) {
             
             FadeTransition NodeFade = new FadeTransition(
-                Duration.seconds(this.FadeTime),
+                Duration.seconds(this.TIME_FADE),
                 InstructionNode
             );
 
-            NodeFade.setToValue(this.FadeOpacity);
-            Transition_FadeNodes.getChildren().addAll(NodeFade);
+            NodeFade.setToValue(this.OPACITY_FADE);
+            TransitionFadeNodes.getChildren().addAll(NodeFade);
         }
         // ############################################################
 
 
 
         // Transition to Unfade buttons
-        Transition_UnFadeNodes = new ParallelTransition();
+        TransitionUnFadeNodes = new ParallelTransition();
 
-        for (Node InstructionNode : Instruction_RootNode.getChildren()) {
+        for (Node InstructionNode : rootNodeAnchorPane.getChildren()) {
 
             FadeTransition NodeUnFade = new FadeTransition(
-                Duration.seconds(this.UnFadeTime),
+                Duration.seconds(this.TIME_UNFADE),
                 InstructionNode
             );
 
-            NodeUnFade.setToValue(this.UnFadeOpacity);            
-            Transition_UnFadeNodes.getChildren().addAll(NodeUnFade);
+            NodeUnFade.setToValue(this.OPACITY_UNFADE);            
+            TransitionUnFadeNodes.getChildren().addAll(NodeUnFade);
         }
         // ############################################################
 

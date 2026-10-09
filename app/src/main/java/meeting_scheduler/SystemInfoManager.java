@@ -87,8 +87,6 @@ public final class SystemInfoManager {
                 System.out.println("|TYPE: ERROR   |CLASS: SystemGlobalInfoManager  |ACTION: GET_SYSTEM_MESSAGE       |INFO: INPUT_VALUE_INFO invalid array access value: " + INPUT_VALUE_INFO);
 
             } else {
-                // String format = String.format("|ID: %-7d", FilePerson.GetIdent());
-                // TODO; may need to change the format sizing depending on if a message get cutoff or not.
                 String TYPE     = String.format("|TYPE: %-"     + TYPE_LENGTH   + "s",  global.Global_Message_Type_Return   (INPUT_VALUE_TYPE));
                 String CLASS    = String.format("|CLASS: %-"    + CLASS_LENGTH  + "s",  global.Global_Message_Class_Return  (INPUT_VALUE_CLASS));
                 String METHOD   = String.format("|ACTION: %-"   + ACTION_LENGTH + "s",  global.Global_Message_Action_Return (INPUT_VALUE_ACTION));

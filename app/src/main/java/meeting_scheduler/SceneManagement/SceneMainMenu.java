@@ -199,7 +199,7 @@ public class SceneMainMenu {
         // Set Nodes to Root Node
         // ############################################################
         // menu UI - add scene transition buttons
-        ButtonHolderVBox.getChildren().addAll(ButtonSchedulePage, ButtonDataCardPage, ButtonInstructionPage);
+        ButtonHolderVBox.getChildren().addAll(ButtonDataCardPage, ButtonSchedulePage, ButtonInstructionPage);
         // Root Node - UI components and background effects
         rootNodeAnchorPane.getChildren().addAll(circleDecoration, ButtonHolderVBox, ButtonEndProgram);
         // ############################################################
@@ -210,8 +210,8 @@ public class SceneMainMenu {
         AnchorPane.setTopAnchor     (ButtonHolderVBox,  this.ANCHOR_SECONDARY);
         AnchorPane.setLeftAnchor    (ButtonHolderVBox,  this.ANCHOR_DEFAULT);
         // Root Node - set end program button position
-        AnchorPane.setBottomAnchor  (ButtonEndProgram,     this.ANCHOR_DEFAULT);
-        AnchorPane.setRightAnchor   (ButtonEndProgram,     this.ANCHOR_DEFAULT);
+        AnchorPane.setBottomAnchor  (ButtonEndProgram,  this.ANCHOR_DEFAULT);
+        AnchorPane.setRightAnchor   (ButtonEndProgram,  this.ANCHOR_DEFAULT);
         // ############################################################
 
         // Scene transition creation- must be called after all nodes have been added to root node or it won't work properly

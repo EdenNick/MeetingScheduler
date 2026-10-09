@@ -58,20 +58,20 @@ public class SceneDataCard {
 
     // Nodes
     // ############################################################
-    private AnchorPane  rootnodeDatacard;   // RootNode of the scene, contains all nodes
-    private VBox        uiInputAll;         // Contains all UI nodes
-    private VBox        uiInputTime;        // COntains all Ui nodes for time input
-    private FlowPane    uiOutputPref;       // Displays Input user time preferences
-    private Button      buttonReturn;       // Returns to the main menu scene
-    private Button      buttonAddPref;      // Adds input user times to preference
-    private Button      buttonSubmitPref;   // Submits user preferences to the json file
-    private Button      buttonResetPref;    // resets added preferences
-    private Label       labelName;          // Label for the name input
-    private Label       labelIdent;         // Label for the Id Input
-    private TextField   textfieldIdent;     // Input field for the ID number
-    private TextField   textfieldName;      // InputField for the employee name
-    private InputTextField textfieldIdentCreator;  // Obj that creates the ident textfield
-    private InputTextField textfieldNameCreator;   // Obj that creates the name textfield
+    private AnchorPane      rootnodeDatacard;       // RootNode of the scene, contains all nodes
+    private VBox            uiInputAll;             // Contains all UI nodes
+    private VBox            uiInputTime;            // COntains all Ui nodes for time input
+    private FlowPane        uiOutputPref;           // Displays Input user time preferences
+    private Button          buttonReturn;           // Returns to the main menu scene
+    private Button          buttonAddPref;          // Adds input user times to preference
+    private Button          buttonSubmitPref;       // Submits user preferences to the json file
+    private Button          buttonResetPref;        // resets added preferences
+    private Label           labelName;              // Label for the name input
+    private Label           labelIdent;             // Label for the Id Input
+    private TextField       textfieldIdent;         // Input field for the ID number
+    private TextField       textfieldName;          // InputField for the employee name
+    private InputTextField  textfieldIdentCreator;  // Obj that creates the ident textfield
+    private InputTextField  textfieldNameCreator;   // Obj that creates the name textfield
     // ############################################################
 
     // Action Events
@@ -92,13 +92,26 @@ public class SceneDataCard {
     // ############################################################
     private ManageJsonFile      ObjJsonFileManager;
     private ManageJsonFormat    ObjJsonFileFormatter;
-    private ManageDayTime  ObjTimeInputManager;
+    private ManageDayTime       ObjTimeInputManager;
     // ############################################################
 
     // UI formatting variables
     // ############################################################
     private final double ANCHOR_PRIMARY;
     private final double ANCHOR_TWO;
+
+    private final double UIInputSpacing;
+    private final double UIInputWidth;
+    private final double UIInputHeight;
+    private final double UIInputPadding;
+                                         
+    private final double UIOutputWidth;
+    private final double UIOutputHeight;
+    private final double UIOutputSpacing;
+    private final double UIOutputPadding;
+
+    private final double ButtonWidth;
+    private final double ButtonHeight;
     private final String STYLE_SET;
     private final String STYLE_ONE;
     private final String STYLE_TWO;
@@ -121,14 +134,39 @@ public class SceneDataCard {
      */
     public SceneDataCard(Stage stage) {
         
+        // Set the stage to the global reference so it can be managed by the scene manager
+        // ############################################################
         this.APPLICATION_STAGE       = stage;
-        this.listUserAddedPref         = new LinkedList<>();
+        // ############################################################
+
+        // Formatted User Data
+        // ############################################################
+        this.listUserAddedPref      = new LinkedList<>();
+        // ############################################################
+
+        // File Management
+        // ############################################################
         this.ObjJsonFileFormatter  = new ManageJsonFormat();
         this.ObjJsonFileManager    = new ManageJsonFile();
+        // ############################################################
 
+        // UI Styling
+        // ############################################################
+        this.ANCHOR_PRIMARY = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);  // 1 - 10
+        this.ANCHOR_TWO     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
 
-        this.ANCHOR_PRIMARY = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);      // 1 - 10
-        this.ANCHOR_TWO     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);      // 3 - 20
+        this.UIInputSpacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 1);    // 0 - 10
+        this.UIInputWidth   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 6);      // 6 - 400
+        this.UIInputHeight  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 9);    // 9 - 600
+        this.UIInputPadding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1);    // 1 - 10
+
+        this.UIOutputWidth   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH    , 7);      // 7 - 400
+        this.UIOutputHeight  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT   , 9);    // 9 - 600
+        this.UIOutputSpacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING  , 1);    // 0 - 10
+        this.UIOutputPadding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING  , 1);    // 1 - 10
+
+        this.ButtonWidth    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH    , 2);   // 2 - 150
+        this.ButtonHeight   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT   , 2);   // 2 - 30
         this.STYLE_SET      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15);    // 15 - /CSS_Styles.css
         this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 20);    // 20 - DataCard_UI_DefaultInputUI
         this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 21);    // 21 - DataCard_UI_TimeOutput
@@ -136,9 +174,13 @@ public class SceneDataCard {
         this.TEXT_ONE       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 1);     // 1 - Enter Name Here:
         this.TEXT_TWO       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 2);     // 2 - Enter Full Name
         this.TEXT_THREE     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 3);     // 3 - Enter ID Here:
+        // ############################################################
 
+        // Default variable creation
+        // ############################################################
         this.WEEKDAYS       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT);
         this.MAX_TIME_INPUT = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 3);      // 3 - 30
+        // ############################################################
 
     } // SCENE_CREATE_DataCard()
 
@@ -186,10 +228,9 @@ public class SceneDataCard {
 
         // Root Node construction
         // ############################################################
-        // - must be called first
+        // rootnode - must be called first
         this.rootnodeDatacard = new AnchorPane();
         // loads css styles
-        //String Style = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15);      // 15 - /CSS_Styles.css
         this.rootnodeDatacard.getStylesheets().add(getClass().getResource(STYLE_SET).toExternalForm());
         // ############################################################
 
@@ -216,7 +257,6 @@ public class SceneDataCard {
         // Anchor position set
         // ############################################################
         // Root Node - set return home button position
-        // double Anchor = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);      // 1 - 10
         AnchorPane.setBottomAnchor  (buttonReturn, ANCHOR_PRIMARY);
         AnchorPane.setRightAnchor   (buttonReturn, ANCHOR_PRIMARY);
         
@@ -271,14 +311,8 @@ public class SceneDataCard {
      */
     private void Create_UIDisplays() {
 
-        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref);
-        this.uiInputTime = this.ObjTimeInputManager.Return_UI_TimeInput();
-
         // Vbox for UI
         // ############################################################
-        // Create and set box parameters
-        // this.uiInputAll = new VBox();
-
         // add nodes to the box
         this.uiInputAll.getChildren().addAll(
             labelName,
@@ -294,13 +328,6 @@ public class SceneDataCard {
             buttonSubmitPref
         );
         // ############################################################
-
-
-        // Creates layout of user submitted info before submission
-        // ############################################################
-        this.uiOutputPref = new FlowPane();
-        // ############################################################
-
 
     } // cardUIManagement
 
@@ -399,31 +426,25 @@ public class SceneDataCard {
             //System.out.println(PROG_DAL_D_SystemMessages.BUTTON_DataCard_EVENT_SUBMITINFO);
 
             // collect all info into the relvant linkedlist
-            if          (this.textfieldName .getText().isBlank())          { // Do nothing
+            if (this.textfieldName.getText().isBlank())         { // Do nothing - Display message
                 
-                // user has not submitted a valid name
-                
-                // System Message
+                // System Message - user has not submitted a valid name
                 // ############################################################
                 // 6 - FAILURE | 17 - SCENE_CREATE_DataCard | 14 - USER-SubmittingInfo | 21 - data has not been submitted, invalid paramater
                 SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,14,21);
                 // ############################################################
 
-            } else if   (this.textfieldIdent   .getText().isBlank())       { // Do nothing
+            } else if (this.textfieldIdent.getText().isBlank()) { // Do nothing - Display message
                 
-                // user has not submitted a valid name
-                
-                // System Message
+                // System Message - user has not submitted a valid name
                 // ############################################################
                 // 6 - FAILURE | 17 - SCENE_CREATE_DataCard | 14 - USER-SubmittingInfo | 21 - data has not been submitted, invalid paramater
                 SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,14,21);
                 // ############################################################
 
-            } else if   (this.listUserAddedPref         .size() < 1)       { // Do nothing
+            } else if (this.listUserAddedPref.size() < 1)       { // Do nothing - Display message
                 
-                // user has not submitted valid user times
-                
-                // System Message
+                // System Message - user has not submitted valid user times
                 // ############################################################
                 // 6 - FAILURE | 17 - SCENE_CREATE_DataCard | 14 - USER-SubmittingInfo | 21 - data has not been submitted, invalid paramater
                 SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,14,21);
@@ -538,39 +559,33 @@ public class SceneDataCard {
      */
     private void Create_Buttons() {
 
-        double Width    = 0.0;
-        double Height   = 0.0;
-
-        Width   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH    , 2);   // 2 - 150
-        Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT   , 2);   // 2 - 30
-
         // Return Home Button
         // ############################################################
         this.buttonReturn = new Button("Return Home");
         this.buttonReturn.addEventHandler(ActionEvent.ACTION, this.EVENT_RETURNHOME);
         this.buttonReturn.addEventHandler(ActionEvent.ACTION, this.EVENT_RESETTIMEPREF);
-        this.buttonReturn.setPrefSize(Width, Height);
+        this.buttonReturn.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
         // Add Info Button
         // ############################################################
         this.buttonAddPref = new Button("Add Info");
         this.buttonAddPref.setOnAction(this.EVENT_ADDINFO);
-        this.buttonAddPref.setPrefSize(Width, Height);
+        this.buttonAddPref.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
         // Submit UserInfo
         // ############################################################
         this.buttonSubmitPref = new Button("Submit Info");
         this.buttonSubmitPref.setOnAction(this.EVENT_SUBMITINFO);
-        this.buttonSubmitPref.setPrefSize(Width, Height);
+        this.buttonSubmitPref.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
         // reset usertimeinput
         // ############################################################
         this.buttonResetPref = new Button("Reset added time preferences");
         this.buttonResetPref.setOnAction(this.EVENT_RESETTIMEPREF);
-        this.buttonResetPref.setPrefSize(Width, Height);
+        this.buttonResetPref.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
     } // ButtonCreation()
@@ -579,6 +594,10 @@ public class SceneDataCard {
 
     private void CreateUIComponents() {
 
+        // Object responsible for creating the Time input UI
+        // Must be called after buttons are initialized otherwise the constructor will fail
+        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref);
+        this.uiInputTime = this.ObjTimeInputManager.Return_UI_TimeInput();
 
         // create labels
         // ############################################################
@@ -589,7 +608,6 @@ public class SceneDataCard {
         this.labelIdent = new Label(TEXT_THREE);
         this.labelIdent.getStyleClass().add(STYLE_THREE);
         // ############################################################
-
 
         // TextFields
         // ############################################################
@@ -605,40 +623,21 @@ public class SceneDataCard {
         this.textfieldName = textfieldNameCreator.Return_Field_constructed();
         // ############################################################
 
-
-
-
-
         // Holder objects
         // ############################################################
-        // set size shape
-        // this.Manager_EndTime_Min
-        double Width    = 0.0;
-        double Height   = 0.0;
-        double Spacing  = 0.0;
-        double Padding  = 0.0;
-
-        // uiInputAll
-        Width   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 6);      // 6 - 400
-        Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 9);    // 9 - 600
-        Spacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 1);    // 0 - 10
-        Padding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1);    // 1 - 10
+        // uiInputAll - contains all UI Nodes
         this.uiInputAll = new VBox();
-        this.uiInputAll.setSpacing(Spacing);
-        this.uiInputAll.setPrefSize(Width, Height);
-        this.uiInputAll.setPadding(new Insets(Padding));
+        this.uiInputAll.setSpacing(this.UIInputSpacing);
+        this.uiInputAll.setPrefSize(this.UIInputWidth, this.UIInputHeight);
+        this.uiInputAll.setPadding(new Insets(this.UIInputPadding));
         this.uiInputAll.getStyleClass().add(STYLE_ONE);
 
-        // uiOutputPref
-        Width   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH    , 7);      // 7 - 400
-        Height  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT   , 9);    // 9 - 600
-        Spacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING  , 1);    // 0 - 10
-        Padding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING  , 1);    // 1 - 10
+        // uiOutputPref - contains all interface output nodes
         this.uiOutputPref = new FlowPane();
-        this.uiOutputPref.setHgap(Spacing);
-        this.uiOutputPref.setVgap(Spacing);
-        this.uiOutputPref.setPrefSize(Width, Height);
-        this.uiOutputPref.setPadding(new Insets(Padding));
+        this.uiOutputPref.setHgap(this.UIOutputSpacing);
+        this.uiOutputPref.setVgap(this.UIOutputSpacing);
+        this.uiOutputPref.setPrefSize(this.UIOutputWidth, this.UIOutputHeight);
+        this.uiOutputPref.setPadding(new Insets(this.UIOutputPadding));
         this.uiOutputPref.getStyleClass().add(STYLE_TWO);
         // ############################################################
 

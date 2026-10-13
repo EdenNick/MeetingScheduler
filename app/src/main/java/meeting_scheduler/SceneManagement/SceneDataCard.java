@@ -596,7 +596,7 @@ public class SceneDataCard {
 
         // Object responsible for creating the Time input UI
         // Must be called after buttons are initialized otherwise the constructor will fail
-        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref);
+        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref, true);
         this.uiInputTime = this.ObjTimeInputManager.Return_UI_TimeInput();
 
         // create labels

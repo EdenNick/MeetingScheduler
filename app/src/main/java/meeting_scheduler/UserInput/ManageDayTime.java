@@ -62,14 +62,15 @@ public class ManageDayTime {
     private Label labelEndHour;
     private Label labelEndMinute;
 
-
+    private double Width;
+    private double Height;
 
     
     
     /**
      * Constructor
      */
-    public ManageDayTime(Button UI_INPUT_AddPreferenceButton) {
+    public ManageDayTime(Button UI_INPUT_AddPreferenceButton, boolean INPUT_ISDataCard) {
 
         // Objects
         // ############################################################
@@ -94,42 +95,29 @@ public class ManageDayTime {
         // CREATE labels
         CONSTRUCT_UI_Labels();
 
-        // Create UI
-        CONSTRUCT_UI_TimeInput(UI_INPUT_AddPreferenceButton);
+        // User selected datacard layout
+        if (INPUT_ISDataCard == true) {
+            // Create UI
+            this.Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2);      // 2 - 150
+            this.Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7);    // 7 - 100
+            CONSTRUCT_UI_DATACARD(UI_INPUT_AddPreferenceButton);
+
+            // sets size and shape
+            SET_SizeShape();
+        } else {
+            // Create UI
+            this.Width = 130.0;
+            this.Height = 80.0;
+            CONSTRUCT_UI_SCHEDULE(UI_INPUT_AddPreferenceButton);
+
+            // sets size and shape
+            SET_SizeShape();
+        }
 
 
-        // sets size and shape
-        SET_SizeShape();
-    }
 
+    } // Constructor
 
-    // TEMP
-    public ManageDayTime() {
-
-        this.OBJ_TEXTLIST_WEEKDAY   = new InputComboBox(global.TextListState.WEEK, null, 0, 0);
-
-        this.OBJ_DAYTIMEINPUT_TIMES = new InputDayTime();
-
-        this.MANAGER_WEEKDAY        = OBJ_TEXTLIST_WEEKDAY.Return_Field_Constructed();
-
-        this.MANAGER_AMPM_START     = OBJ_DAYTIMEINPUT_TIMES.Return_ComboBox_StartTime();
-        this.MANAGER_AMPM_END       = OBJ_DAYTIMEINPUT_TIMES.Return_ComboBox_EndTime();
-
-        this.MANAGER_STARTTIME_HOUR = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Hour_StartTime();
-        this.MANAGER_STARTTIME_MIN  = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_StartTime();
-        this.MANAGER_ENDTIME_HOUR   = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Hour_EndTime();
-        this.MANAGER_ENDTIME_MIN    = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_EndTime();
-
-
-        // CREATE labels
-        CONSTRUCT_UI_Labels();
-
-        // Create UI
-        //CONSTRUCT_UI_TimeInput(UI_INPUT_AddPreferenceButton);
-
-        // sets size and shape
-        SET_SizeShape();
-    }
 
 
     // Returns user preferences meant for input into Json File
@@ -225,7 +213,7 @@ public class ManageDayTime {
 
 
 
-    private void CONSTRUCT_UI_TimeInput(Button UI_INPUT_AddPreferenceButton) {
+    private void CONSTRUCT_UI_DATACARD(Button UI_INPUT_AddPreferenceButton) {
 
         // HBox for beginning Hour/Min
         // ############################################################
@@ -284,6 +272,79 @@ public class ManageDayTime {
 
             labelDay,
             this.MANAGER_WEEKDAY,
+            
+            labelBeginningTime,
+            UIAddStartTime,
+
+            labelEndingTime,
+            UIAddEndtime,
+
+            ButtonSpace,
+
+            UI_INPUT_AddPreferenceButton
+
+        );
+        // ############################################################
+    } // CONSTRUCT_UI_DATACARD
+
+
+
+    private void CONSTRUCT_UI_SCHEDULE(Button UI_INPUT_AddPreferenceButton) {
+
+        // HBox for beginning Hour/Min
+        // ############################################################
+        this.UIAddStartTime = new HBox(10);
+        //AddStartTime.setPrefSize(300.0, 500.0);
+        this.UIAddStartTime.setPadding(new Insets(10));
+        this.UIAddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+
+        this.UIAddStartTime.getChildren().addAll(
+
+            labelBeginHour,
+            this.MANAGER_STARTTIME_HOUR,
+
+            labelBeginMinute,
+            this.MANAGER_STARTTIME_MIN,
+
+            this.MANAGER_AMPM_START
+
+        );
+        // ############################################################
+
+
+
+        // HBox for Ending Hour/Min
+        // ############################################################
+        this.UIAddEndtime = new HBox(10);
+        //AddStartTime.setPrefSize(200.0, 400.0);
+        this.UIAddEndtime.setPadding(new Insets(10));
+        this.UIAddEndtime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UIAddEndtime.getChildren().addAll(
+
+            labelEndHour,
+            this.MANAGER_ENDTIME_HOUR,
+
+            labelEndMinute,
+            this.MANAGER_ENDTIME_MIN,
+
+            MANAGER_AMPM_END
+
+        );
+        // ############################################################
+
+
+
+        // Vbox for adding time intervals
+        // ############################################################
+        this.UITimeInterface = new VBox(10);
+        //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
+        this.UITimeInterface.setPadding(new Insets(10));
+        this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+
+        Region ButtonSpace = new Region();
+        VBox.setVgrow(ButtonSpace, Priority.ALWAYS);
+
+        this.UITimeInterface.getChildren().addAll(
             
             labelBeginningTime,
             UIAddStartTime,
@@ -422,9 +483,7 @@ public class ManageDayTime {
         // VBox creation and preference set
         // ############################################################
         VBox IndividualDataCard = new VBox();
-        double Width = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2);      // 2 - 150
-        double Height = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7);    // 7 - 100
-        IndividualDataCard.setPrefSize(Width, Height);
+        IndividualDataCard.setPrefSize(this.Width, this.Height);
         // IndividualDataCard.setPrefSize(130.0, 100.0);
         IndividualDataCard.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 22));
         IndividualDataCard.setAlignment(Pos.CENTER);
@@ -474,9 +533,6 @@ public class ManageDayTime {
         Button DeleteCard = new Button("Delete Card");
 
         EventHandler<ActionEvent> DeleteInfoCard = (ActionEvent e) -> {
-            
-            // System Message
-            System.out.println("BUTTON CLICK    - CARD MANAGER PAGE - Deleteing Card");
             
             // remove all nodes in the current Vbox
             IndividualDataCard.getChildren().clear();

@@ -57,7 +57,7 @@ import meeting_scheduler.SceneManagement.ManageScheduleOutput;
 
 
 public class SceneScheduling {
-
+	
     // Apllication
     // ############################################################
     // Reference of the application stage used for local operations
@@ -68,7 +68,6 @@ public class SceneScheduling {
     private         ParallelTransition  fadeMenuNodes;
     private         ParallelTransition  UnfadeMenuNodes;
     // ############################################################
-
 
     // Nodes
     // ############################################################
@@ -101,7 +100,6 @@ public class SceneScheduling {
     private Button      ButtonClearSchedule;        // CLEAR
     // ############################################################
 
-
     // Action events
     // ############################################################
     private EventHandler<ActionEvent> EVENT_RETURN_HOME     = null;
@@ -118,24 +116,21 @@ public class SceneScheduling {
     private EventHandler<ActionEvent> EVENT_CLEAR_SCHEDULE  = null;
     // ############################################################
 
-
     // File User Info
     // ############################################################
     private LinkedList<PreferenceFull>  FileUserInfo;
     // ############################################################
-
 
     // Data manager Objects
     // ############################################################
     // Schedule Calculator
     private final ManageScheduleCalculation SCHEDULER_CALCULATOR;
     // User Time Input manager
-    private final ManageDayTime             SCHEDULER_TIME;
+    private       ManageDayTime             SCHEDULER_TIME;
     // Json File manager
     private final ManageJsonFile            SCHEDULER_FILES;
     // ############################################################
     
-
     // EMPLOYEE SELECTION VALUES
     // ############################################################
     // INPUT
@@ -183,13 +178,12 @@ public class SceneScheduling {
     private ManageScheduleOutput                    ScheduleOutputManage;   // Object that manages the visual display of output schedules
     // ############################################################
 
-    // UI positioning
+    // UI Grphical settings
     // ############################################################
     private final double AnchorOne;
     private final double AnchorTwo;
     private final double Spacing;
     private final double Padding;
-    // UI Sizing
     private final double widthOne;
     private final double widthTwo;
     private final double widththree;
@@ -197,7 +191,7 @@ public class SceneScheduling {
     private final double widthFive;
     private final double heightOne;
     private final double heightTwo;
-    // UI graphical styling
+    private final double heightThree;
     private final String StyleFile;
     private final String StyleOne;
     private final String Styletwo;
@@ -211,6 +205,9 @@ public class SceneScheduling {
     private final int maxListAmmount;
     private final int WEEKDAYLength;
     private final String[] WEEKDAY;
+    private final int LENGTH_ID;
+    private final int LENGTH_NAME;
+    private final String SELECTED;
     // ############################################################
 
 
@@ -233,7 +230,7 @@ public class SceneScheduling {
         // Schedule Calculator  - Object used to calculate viable schedules based off of input user preferences
         this.SCHEDULER_CALCULATOR   = new ManageScheduleCalculation();
         // time Input Manager   - Object used to create the UI for user time Inputs
-        this.SCHEDULER_TIME         = new ManageDayTime(this.ButtonInputTime);
+        // this.SCHEDULER_TIME         = new ManageDayTime(this.ButtonInputTime);
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. Used to retrieve current user preferences to create a schedule
         this.SCHEDULER_FILES        = new ManageJsonFile();
         // ############################################################
@@ -252,13 +249,17 @@ public class SceneScheduling {
         this.maxListAmmount = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 8); // 8 - 20
         this.WEEKDAYLength  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 0); // 0 - 7
         this.WEEKDAY        = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT);
+
+        this.LENGTH_ID = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 9); // 9 - 7
+        this.LENGTH_NAME = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 10); // 10 - 30
+        this.SELECTED = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 11 - SELECTED
         // ############################################################
 
         // GRAPHICAL STYLING
         // ############################################################
         this.AnchorOne  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
-        this.AnchorTwo  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);  // 3 - 10
-        this.Spacing    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 0); // 2 - 10
+        this.AnchorTwo  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);  // 1 - 10
+        this.Spacing    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 0); // 0 - 10
         this.Padding    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1); // 1 - 10
         this.widthOne   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 7);   // 7 - 600
         this.widthTwo   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2);   // 2 - 150
@@ -267,6 +268,7 @@ public class SceneScheduling {
         this.widthFive  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);   // 1 - 100
         this.heightOne  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7);  // 7 - 100
         this.heightTwo  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 2);  // 2 - 30
+        this.heightThree= SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 2);  // 8 - 200
         this.StyleFile  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
         this.StyleOne   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 26); // 26 - Schedule_UI_Base
         this.Styletwo   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 27); // 27 - Schedule_UI_MainInputs
@@ -318,6 +320,23 @@ public class SceneScheduling {
         this.ApplicationStage.show();
 
 
+        System.out.println("VBoxUI_People: " + VBoxUI_People.getHeight());
+        System.out.println("VBoxUI_People: " + VBoxUI_People.getWidth());
+
+        System.out.println("VBoxUI_List: " + VBoxUI_List.getHeight());
+        System.out.println("VBoxUI_List: " + VBoxUI_List.getWidth());
+
+        System.out.println("VBoxUI_WeekDay: " + VBoxUI_WeekDay.getHeight());
+        System.out.println("VBoxUI_WeekDay: " + VBoxUI_WeekDay.getWidth());
+
+        System.out.println("VBoxUI_Time: " + VBoxUI_Time.getHeight());
+        System.out.println("VBoxUI_Time: " + VBoxUI_Time.getWidth());
+
+        System.out.println("ButtonResetAll: " + ButtonResetAll.getHeight());
+        System.out.println("ButtonResetAll: " + ButtonResetAll.getWidth());
+
+        System.out.println("VBoxUI_Calculation: " + VBoxUI_Calculation.getHeight());
+        System.out.println("VBoxUI_Calculation: " + VBoxUI_Calculation.getWidth());
 
         // System Message
         // ############################################################
@@ -464,17 +483,15 @@ public class SceneScheduling {
             e.printStackTrace();
         }
 
-        this.ComboBoxPeopleScheduleList = new String[FileUserInfo.size()];
-
-        this.ComboBoxPeopleScheduleListIDs = new int[ComboBoxPeopleScheduleList.length];
+        this.ComboBoxPeopleScheduleList     = new String[FileUserInfo.size()];
+        this.ComboBoxPeopleScheduleListIDs  = new int[ComboBoxPeopleScheduleList.length];
 
         String formatID;
         String formatName;
 
         for (int Pos = 0; Pos < ComboBoxPeopleScheduleList.length; Pos++) {
-            // formats string TODO: make a global value
-            formatID = String.format("|ID: %-7d |", FileUserInfo.get(Pos).GetIdent());
-            formatName = String.format("|Name: %-30s |", FileUserInfo.get(Pos).GetName());
+            formatID = String.format("|ID: %-" + this.LENGTH_ID + "d |", FileUserInfo.get(Pos).GetIdent());
+            formatName = String.format("|Name: %-" + this.LENGTH_NAME + "s |", FileUserInfo.get(Pos).GetName());
             // combines string and sets it to array
             this.ComboBoxPeopleScheduleList[Pos] = formatID + formatName; // Holds formatted string for combobox
             this.ComboBoxPeopleScheduleListIDs[Pos] = FileUserInfo.get(Pos).GetIdent(); // holds id of employees at relative position
@@ -542,7 +559,7 @@ public class SceneScheduling {
 
         this.WeekDayOutputText = new Text();
         this.WeekDayOutputText.setText("");
-        this.OutputDays.getChildren().set(0, this.WeekDayOutputText);
+        this.OutputDays.getChildren().add(this.WeekDayOutputText);
     } // LogicSetUpdayPreference()
 
 
@@ -614,8 +631,8 @@ public class SceneScheduling {
         this.ScrollPaneHolderUIInput.setPrefWidth((ManageScenes.WindowWidth / 2) - 80.0);
         this.ScrollPaneHolderUIInput.setPrefHeight(ManageScenes.WindowHeight - 100.0);
 
-        this.ScrollPaneHolderUIInput.setFitToHeight(true);
-        this.ScrollPaneHolderUIInput.setFitToWidth(true);
+        this.ScrollPaneHolderUIInput.setFitToHeight(false);
+        this.ScrollPaneHolderUIInput.setFitToWidth(false);
 
         // updates interface dimensions
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
@@ -681,56 +698,24 @@ public class SceneScheduling {
         this.Selectable_PersonList.getStyleClass().add(this.StyleFive);
         // ############################################################
 
-
-        // // Retrieve the list from the file reader
-        // try {
-		// 	this.FileUserInfo   = SCHEDULER_FILES.ReadFrom_DefaultEmployeePreference();
-
-        //     // System Message
-        //     // ############################################################
-        //     // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
-        //     SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
-        //     // ############################################################
-
-		// } catch (IOException e) {
-        //     // System Message
-        //     // ############################################################
-        //     // 4 - FAILURE | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
-        //     SystemInfoManager.GET_SYSTEM_MESSAGE(4,19,10,4);
-        //     // ############################################################
-        //     e.printStackTrace();
-        // }
-        
-
-
-        // // adds event listener to the combobox so the selected positions index is captured and updated with user input
-        // // this is used to add/remove selected people from the schedule
-        // this.Selectable_PersonList.getSelectionModel().selectedIndexProperty().addListener((observable, oldPosition, newPosition) -> {
-        //     ComboBoxPeopleSelectedPosition = newPosition.intValue();
-        //     System.out.println(ComboBoxPeopleSelectedPosition);
-        // });
-
-
-
         // Add all to the primary Node
         // ############################################################
         // Primary Node output
-        Output_InputPeople          .getChildren().addAll(Label_addedPeople, ScrollAddedPeople); // AddedPeople
+        Output_InputPeople  .getChildren().addAll(Label_addedPeople, ScrollAddedPeople); // AddedPeople
         // Primary Node Input
-        Input_InputPeople           .getChildren().addAll(Label_inputPeople, Selectable_PersonList, this.ButtonInputPeople, this.ButtonRemoveLastPerson);
+        Input_InputPeople   .getChildren().addAll(Label_inputPeople, Selectable_PersonList, this.ButtonInputPeople, this.ButtonRemoveLastPerson);
         // Primary Node
-        Primary_InputPeople         .getChildren().addAll(Input_InputPeople, Output_InputPeople);
+        Primary_InputPeople .getChildren().addAll(Input_InputPeople, Output_InputPeople);
         // ############################################################
 
         // Add all to the Secondary node
         // ############################################################
-        Secondary_InputPeople       .getChildren().addAll(this.ButtonResetPeople);
+        Secondary_InputPeople.getChildren().addAll(this.ButtonResetPeople);
         // ############################################################
-
 
         // ADD primary and secondary nodes to the UI Holder VBoxUI_People
         // ############################################################
-        this.VBoxUI_People  .getChildren().addAll(Primary_InputPeople, Secondary_InputPeople);
+        this.VBoxUI_People.getChildren().addAll(Primary_InputPeople, Secondary_InputPeople);
         // ###########################################################
 
     } // InputPeople()
@@ -855,7 +840,6 @@ public class SceneScheduling {
         Label Label_OutputDay   = new Label("Days Selected");
         // ############################################################
 
-
         // Styling
         // ############################################################
         // labels
@@ -863,32 +847,24 @@ public class SceneScheduling {
         Label_OutputDay .getStyleClass().add(this.StyleSeven);
         // ############################################################
 
-
-        // // Output Section
-        // // ############################################################
-        // // Add days to the combobox // TODO: CHANGE
-        // this.userInput_SelectDays.getItems().addAll(this.WEEKDAY);
-        // // // ############################################################
-
-
         // Add all to the primary node
         // ############################################################
         // Primary Node Output
-        Output_InputDay         .getChildren().addAll(Label_OutputDay, OutputDays);
+        Output_InputDay     .getChildren().addAll(Label_OutputDay, OutputDays);
         // Primary Node Input
-        Input_InputDay          .getChildren().addAll(Label_inputDay, userInput_SelectDays, this.ButtonInputWeekDay);
+        Input_InputDay      .getChildren().addAll(Label_inputDay, userInput_SelectDays, this.ButtonInputWeekDay);
         // Primary Node
-        Primary_InputDay        .getChildren().addAll(Input_InputDay, Output_InputDay);
+        Primary_InputDay    .getChildren().addAll(Input_InputDay, Output_InputDay);
         // ############################################################
 
         // add all to the secondary node
         // ############################################################
-        Secondary_InputDay      .getChildren().addAll(ButtonResetWeekDay);
+        Secondary_InputDay.getChildren().addAll(ButtonResetWeekDay);
         // ############################################################
         
         // Input all into UI Day Input this.VBoxUI_WeekDay.
         // ############################################################
-        this.VBoxUI_WeekDay .getChildren().addAll(Primary_InputDay, Secondary_InputDay);
+        this.VBoxUI_WeekDay.getChildren().addAll(Primary_InputDay, Secondary_InputDay);
         // ############################################################
 
     } // InputDayPreference()
@@ -903,10 +879,11 @@ public class SceneScheduling {
 
         // // Node construction
         // // ############################################################
+        //HBox PrimaryTimeHolder = new HBox();
         this.FlowPane_VBoxDisplay   = new FlowPane();
 
         // // flowpane to hold time output boxes // TODO: switch to global variables
-        this.FlowPane_VBoxDisplay   .setPrefSize(270.0, 190.0);
+        this.FlowPane_VBoxDisplay   .setPrefSize(270.0, 130.0);
         this.FlowPane_VBoxDisplay   .setPadding(new Insets(10));
         this.FlowPane_VBoxDisplay   .setHgap(5.0);
         this.FlowPane_VBoxDisplay   .setVgap(2.0);
@@ -916,14 +893,16 @@ public class SceneScheduling {
 
 
         // this.SCHEDULER_TIME   = new ManageDayTime(this.ButtonInputTime);
+        this.SCHEDULER_TIME = new ManageDayTime(this.ButtonInputTime, false);
+        VBox TimeInput = SCHEDULER_TIME.Return_UI_TimeInput();
 
+
+        //PrimaryTimeHolder.getChildren().addAll(TimeInput, FlowPane_VBoxDisplay);
         // add all to Time Ui holder VBoxUI_Time
         // ############################################################
-        this.VBoxUI_Time = SCHEDULER_TIME.Return_UI_TimeInput();
+        this.VBoxUI_Time.getChildren().addAll(TimeInput, FlowPane_VBoxDisplay);
         // ############################################################
 
-
-        // TODO: INCOMPLETE
 
     } // InputTimePreference()
 
@@ -957,14 +936,14 @@ public class SceneScheduling {
         // Add all to the nodes
         // ############################################################
         // seconary node input
-        Holder_Calculate                .getChildren().addAll(Label_ScheduleNow);
+        Holder_Calculate    .getChildren().addAll(Label_ScheduleNow);
         // primary node
-        CalculateButtons                .getChildren().addAll(Holder_Calculate, this.ButtonCalculateSchedule, this.ButtonClearSchedule);
+        CalculateButtons    .getChildren().addAll(Holder_Calculate, this.ButtonCalculateSchedule, this.ButtonClearSchedule);
         // ############################################################
 
         // input all into the schedule UI
         // ############################################################
-        this.VBoxUI_Calculation   .getChildren().addAll(CalculateButtons);
+        this.VBoxUI_Calculation.getChildren().addAll(CalculateButtons);
         // ############################################################
 
     } // CalculateSchedule()
@@ -1036,12 +1015,17 @@ public class SceneScheduling {
 
     private int[] IDConversion(LinkedList<String> SCHEDULE_IDS) {
         
-        String[] Converted = SCHEDULE_IDS.toArray(new String[0]);
+        // String[] Converted = SCHEDULE_IDS.toArray(new String[0]);
 
-        int[] idsToReturn = new int[Converted.length];
 
-        for (int position = 0; position < Converted.length; position++) {
-            idsToReturn[position] = Integer.parseInt(Converted[position]);
+        int SetLength = SCHEDULE_IDS.size();
+        int[] idsToReturn = new int[SetLength];
+
+        // for (int position = 0; position < Converted.length; position++) {
+        //     idsToReturn[position] = Integer.parseInt(Converted[position]);
+        // }
+        for (int position = 0; position < SetLength; position++) {
+            idsToReturn[position] = Integer.parseInt(SCHEDULE_IDS.get(position));
         }
 
         return idsToReturn.clone();
@@ -1137,19 +1121,13 @@ public class SceneScheduling {
      * creates the various nodes used throughout the scheduling scene.
      */
     private void NodeCreation() {
-        
-        // Contains All UI Input nodes and elements
-        // ############################################################
-        this.VBoxUI_INPUT = new VBox(this.Spacing);
-        this.VBoxUI_INPUT.getStyleClass().add(this.StyleOne);
-        this.VBoxUI_INPUT.setPadding(new Insets(this.Padding));
-        // ############################################################
 
         // Contains All UI Input for selecting People
         // ############################################################
         this.VBoxUI_People = new VBox(this.Spacing);
         this.VBoxUI_People.getStyleClass().add(this.Styletwo);
-        this.VBoxUI_People.setPrefSize(this.widthOne, this.heightOne);
+        this.VBoxUI_People.setMinSize(this.widthOne, 180.0);
+        this.VBoxUI_People.setMaxSize(this.widthOne, 180.0);
         this.VBoxUI_People.setPadding(new Insets(this.Padding));
         // ############################################################
 
@@ -1157,7 +1135,8 @@ public class SceneScheduling {
         // ############################################################
         this.VBoxUI_List = new VBox(this.Spacing);
         this.VBoxUI_List.getStyleClass().add(this.Styletwo);
-        this.VBoxUI_List.setPrefSize(this.widthOne, this.heightOne);
+        this.VBoxUI_List.setMinSize(this.widthOne, 180.0);
+        this.VBoxUI_List.setMaxSize(this.widthOne, 180.0);
         this.VBoxUI_List.setPadding(new Insets(this.Padding));
         // ############################################################
 
@@ -1165,7 +1144,8 @@ public class SceneScheduling {
         // ############################################################
         this.VBoxUI_WeekDay = new VBox(this.Spacing);
         this.VBoxUI_WeekDay.getStyleClass().add(this.Styletwo);
-        this.VBoxUI_WeekDay.setPrefSize(this.widthOne, this.heightOne);
+        this.VBoxUI_WeekDay.setMinSize(this.widthOne, 180.0);
+        this.VBoxUI_WeekDay.setMaxSize(this.widthOne, 180.0);
         this.VBoxUI_WeekDay.setPadding(new Insets(this.Padding));
         // ############################################################
 
@@ -1173,7 +1153,8 @@ public class SceneScheduling {
         // ############################################################
         this.VBoxUI_Time = new VBox(this.Spacing);
         this.VBoxUI_Time.getStyleClass().add(this.Styletwo);
-        this.VBoxUI_Time.setPrefSize(this.widthOne, this.heightOne);
+        this.VBoxUI_Time.setMinSize(this.widthOne, 380.0);
+        this.VBoxUI_Time.setMaxSize(this.widthOne, 380.0);
         this.VBoxUI_Time.setPadding(new Insets(this.Padding));
         // ############################################################
 
@@ -1181,8 +1162,20 @@ public class SceneScheduling {
         // ############################################################
         this.VBoxUI_Calculation = new VBox(this.Spacing);
         this.VBoxUI_Calculation.getStyleClass().add(this.Styletwo);
-        this.VBoxUI_Calculation.setPrefSize(this.widthOne, this.heightOne);
+        this.VBoxUI_Calculation.setMinSize(this.widthOne, 60);
+        this.VBoxUI_Calculation.setMaxSize(this.widthOne, 60);
         this.VBoxUI_Calculation.setPadding(new Insets(this.Padding));
+        // ############################################################
+
+
+
+
+        // Contains All UI Input nodes and elements
+        // ############################################################
+        this.VBoxUI_INPUT = new VBox(this.Spacing);
+        this.VBoxUI_INPUT.getStyleClass().add(this.StyleOne);
+        //this.VBoxUI_INPUT.setMinSize(this.widthOne, 1200.0);
+        this.VBoxUI_INPUT.setPadding(new Insets(this.Padding));
         // ############################################################
 
         // Contains all schedule nodes
@@ -1270,9 +1263,9 @@ public class SceneScheduling {
             String formatName;
 
             for (int Pos = 0; Pos < ComboBoxPeopleScheduleList.length; Pos++) {
-                // formats string TODO: make a global value
-                formatID = String.format("|ID: %-7d |", FileUserInfo.get(Pos).GetIdent());
-                formatName = String.format("|Name: %-30s |", FileUserInfo.get(Pos).GetName());
+                
+                formatID = String.format("|ID: %-" + this.LENGTH_ID + "d |", FileUserInfo.get(Pos).GetIdent());
+                formatName = String.format("|Name: %-" + this.LENGTH_NAME + "s |", FileUserInfo.get(Pos).GetName());
                 // combines string and sets it to array
                 this.ComboBoxPeopleScheduleList[Pos] = formatID + formatName; // Holds formatted string for combobox
                 this.ComboBoxPeopleScheduleListIDs[Pos] = FileUserInfo.get(Pos).GetIdent(); // holds id of employees at relative position
@@ -1285,7 +1278,7 @@ public class SceneScheduling {
             SCHEDULER_CALCULATOR.ResetPreference_People();
 
             // reset the linked list of user ids
-            this.SCHEDULE_IDS = new LinkedList<>();
+            this.SCHEDULE_IDS.clear();
 
 
 
@@ -1316,8 +1309,7 @@ public class SceneScheduling {
                 // removes that person from the combobox
                 this.Selectable_PersonList.getItems().remove(SelectedPerson);
                 // replaces the name with Selected, thi is necessary in order for position selection to remain functional
-                // TODO: make selected a global value
-                this.Selectable_PersonList.getItems().add(SelectedpositionInt, "SELECTED");
+                this.Selectable_PersonList.getItems().add(SelectedpositionInt, this.SELECTED);
 
                 // creates new text object with the string value of the combobox, with the relative position as its id so it can be retrieved later
                 Text AddedPerson = new Text(SelectedPerson);
@@ -1326,8 +1318,6 @@ public class SceneScheduling {
                 this.AddedPeople.getChildren().add(AddedPerson);
 
 
-
-                // TODO: update SCHEDULE_IDS so this conversion is less combersome
                 // adds the id to the list of people to schedule
                 SCHEDULE_IDS.add(SelectedPersonID); // add id as string
                 int[] IDS_TOSchedule = IDConversion(SCHEDULE_IDS); // convert to linked list String to int[]
@@ -1357,7 +1347,6 @@ public class SceneScheduling {
 
 
 
-        // TODO: look into possibility of removing a person at any position not just last
         // Removes the last person added to the schedule
         // ############################################################
         this.EVENT_REMOVE_PERSON = event -> {
@@ -1392,7 +1381,7 @@ public class SceneScheduling {
                 } else {
 
                     SCHEDULER_CALCULATOR.ResetPreference_People();
-                    this.SCHEDULE_IDS = new LinkedList<>();
+                    this.SCHEDULE_IDS.clear();
                 }
 
 
@@ -1512,7 +1501,7 @@ public class SceneScheduling {
 
                 // removes the selected day from the combobox
                 this.userInput_SelectDays.getItems().remove(UserSelectedPosition);
-                this.userInput_SelectDays.getItems().add(UserSelectedPosition, "SELECTED");
+                this.userInput_SelectDays.getItems().add(UserSelectedPosition, this.SELECTED);
                 this.SCHEDULE_DAYS[UserSelectedPosition] = this.WEEKDAY[UserSelectedPosition];
                 
             
@@ -1642,7 +1631,6 @@ public class SceneScheduling {
         // ############################################################
         this.EVENT_CALCULATE = event -> {
 
-            // TODO: look into optimization
             // retrieved copy of calculated linked list
             this.CalculatedScheduleList = new LinkedList<>(SCHEDULER_CALCULATOR.RetrieveSchedule());
 
@@ -1738,7 +1726,7 @@ public class SceneScheduling {
 
         // Add people to schedule Button
         // ############################################################
-        this.ButtonInputPeople = new Button("Input Selected Ammount");
+        this.ButtonInputPeople = new Button("Input Selected Person");
         this.ButtonInputPeople.setOnAction(EVENT_ADD_PEOPLE);
         this.ButtonInputPeople.setPrefSize(this.widthTwo, this.heightTwo);
         // ############################################################

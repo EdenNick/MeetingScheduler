@@ -108,6 +108,8 @@ public class ManageDayTime {
             // Create UI
             this.Width = 130.0;
             this.Height = 80.0;
+
+
             CONSTRUCT_UI_SCHEDULE(UI_INPUT_AddPreferenceButton);
 
             // sets size and shape
@@ -337,7 +339,7 @@ public class ManageDayTime {
         // Vbox for adding time intervals
         // ############################################################
         this.UITimeInterface = new VBox(10);
-        //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
+        this.UITimeInterface.setMaxSize(570.0, 260.0);
         this.UITimeInterface.setPadding(new Insets(10));
         this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
 
@@ -534,6 +536,10 @@ public class ManageDayTime {
 
         EventHandler<ActionEvent> DeleteInfoCard = (ActionEvent e) -> {
             
+            // gets current scroll position
+            double scrollPosition = this.ScrollPaneHolderUIInput.getVvalue();
+            // sets the scrollpane to its original value, prevents it from auto scrolling
+            this.ScrollPaneHolderUIInput.setVvalue(scrollPosition);
             // remove all nodes in the current Vbox
             IndividualDataCard.getChildren().clear();
 

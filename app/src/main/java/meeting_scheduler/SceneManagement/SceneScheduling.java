@@ -252,7 +252,7 @@ public class SceneScheduling {
         this.LENGTH_NAME    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 10); // 10 - 30
         this.maxListAmmount = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 8); // 8 - 20
         this.WEEKDAY        = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT);
-        this.SELECTED       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 11 - SELECTED
+        this.SELECTED       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 11); // 11 - SELECTED
         // ############################################################
 
         // GRAPHICAL STYLING
@@ -334,22 +334,6 @@ public class SceneScheduling {
         // Shows the change
         this.ApplicationStage.show();
 
-
-        System.out.println("VBoxUI_People: " + VBoxUI_People.getHeight());
-        System.out.println("VBoxUI_People: " + VBoxUI_People.getWidth());
-
-        System.out.println("VBoxUI_List: " + VBoxUI_List.getHeight());
-        System.out.println("VBoxUI_List: " + VBoxUI_List.getWidth());
-
-        System.out.println("VBoxUI_WeekDay: " + VBoxUI_WeekDay.getHeight());
-        System.out.println("VBoxUI_WeekDay: " + VBoxUI_WeekDay.getWidth());
-
-        System.out.println("VBoxUI_Time: " + VBoxUI_Time.getHeight());
-        System.out.println("VBoxUI_Time: " + VBoxUI_Time.getWidth());
-
-        System.out.println("FlowPane_VBoxDisplay: " + FlowPane_VBoxDisplay.getHeight());
-        System.out.println("FlowPane_VBoxDisplay: " + FlowPane_VBoxDisplay.getWidth());
-
         // System Message
         // ############################################################
         // 5 - SUCCESS | 20 - SCENE_CREATE_Schedule | 8 - SYSTEM-SetScenes | 14 - Scene Switch to Scheduling page
@@ -399,7 +383,7 @@ public class SceneScheduling {
         SchedulingDisplay();
         // ############################################################
 
-        // Sets up internal system variables and scheduling logic
+        // Logic Setup              - Sets up internal system variables and scheduling logic. SHOULD ONLY BE CALLED ONCE
         // ############################################################
         LogicSetupAll();
         // ############################################################
@@ -567,7 +551,6 @@ public class SceneScheduling {
      */
     private void LogicSetUpDayPreference() {
         this.userInput_SelectDays.getItems().addAll(this.WEEKDAY);
-
         this.WeekDayOutputText = new Text();
         this.WeekDayOutputText.setText("");
         this.OutputDays.getChildren().add(this.WeekDayOutputText);
@@ -638,6 +621,7 @@ public class SceneScheduling {
         // sets the UI Input within the scrllPane and adjusts preferences
         // ############################################################
         this.ScrollPaneHolderUIInput = new ScrollPane(this.VBoxUI_INPUT);
+        
         // sets default interface dimensions
         this.ScrollPaneHolderUIInput.setPrefWidth((ManageScenes.WindowWidth / 2) - 80.0);
         this.ScrollPaneHolderUIInput.setPrefHeight(ManageScenes.WindowHeight - 100.0);
@@ -682,7 +666,6 @@ public class SceneScheduling {
         // scrollpane to hold the flowpane AddedPeople
         this.ScrollAddedPeople      = new ScrollPane(this.AddedPeople);
         // ############################################################
-
 
         // Node set sizing
         // ############################################################
@@ -733,6 +716,8 @@ public class SceneScheduling {
 
 
 
+
+
     /**
      * InputListNumber()
      * Description: receives the input to specificy how many lists should be shown
@@ -753,7 +738,6 @@ public class SceneScheduling {
         this.userInput_listAmmount  = new TextField();
         // ############################################################
         
-
         // Node set sizing
         // ############################################################
         // Primary Node Input
@@ -770,42 +754,40 @@ public class SceneScheduling {
         Label Label_AmmountOutput   = new Label("Ammount of schedules to be displayed");
         // ############################################################
 
-
         // styling
         // ############################################################
         Label_inputNumber.getStyleClass().add(this.STYLE_E);
         // ############################################################
 
-        
         // Output
         // ############################################################
         // Stores the Ammount input variable
         this.Label_OutputNumber = new Label("");
         // ############################################################
 
-
         // Add all to the primary node
         // ############################################################
         // Secondary Node - output
-        Output_InputList        .getChildren().addAll(Label_AmmountOutput, Label_OutputNumber);
+        Output_InputList    .getChildren().addAll(Label_AmmountOutput, Label_OutputNumber);
         // secondary Node - Input
-        Input_InputList         .getChildren().addAll(Label_inputNumber, userInput_listAmmount, this.ButtonInputList);
+        Input_InputList     .getChildren().addAll(Label_inputNumber, userInput_listAmmount, this.ButtonInputList);
         // Primary Node
-        Primary_InputList       .getChildren().addAll(Input_InputList, Output_InputList);
+        Primary_InputList   .getChildren().addAll(Input_InputList, Output_InputList);
         // ############################################################
 
         // Add all to the secondary node
         // ############################################################
-        Secondary_InputList     .getChildren().addAll(this.ButtonResetList);
+        Secondary_InputList.getChildren().addAll(this.ButtonResetList);
         // ############################################################
-
 
         // add all to the list UI VBoxUI_List
         // ############################################################
-        VBoxUI_List     .getChildren().addAll(Primary_InputList, Secondary_InputList);
+        VBoxUI_List.getChildren().addAll(Primary_InputList, Secondary_InputList);
         // ############################################################
         
     } // InputListNumber()
+
+
 
 
 
@@ -830,8 +812,6 @@ public class SceneScheduling {
         // flowPane to hold and display selected day inputs
         this.OutputDays             = new FlowPane();
         // ############################################################
-
-
 
         // Node sizing
         // ############################################################
@@ -861,11 +841,11 @@ public class SceneScheduling {
         // Add all to the primary node
         // ############################################################
         // Primary Node Output
-        Output_InputDay     .getChildren().addAll(Label_OutputDay, OutputDays);
+        Output_InputDay .getChildren().addAll(Label_OutputDay, OutputDays);
         // Primary Node Input
-        Input_InputDay      .getChildren().addAll(Label_inputDay, userInput_SelectDays, this.ButtonInputWeekDay);
+        Input_InputDay  .getChildren().addAll(Label_inputDay, userInput_SelectDays, this.ButtonInputWeekDay);
         // Primary Node
-        Primary_InputDay    .getChildren().addAll(Input_InputDay, Output_InputDay);
+        Primary_InputDay.getChildren().addAll(Input_InputDay, Output_InputDay);
         // ############################################################
 
         // add all to the secondary node
@@ -882,49 +862,37 @@ public class SceneScheduling {
 
 
 
+
+
     /**
      * InputTimePreference()
      * Description: user input for the specific times they want scheduled
      */
     private void InputTimePreference() {
 
-        // // Node construction
-        // // ############################################################
-        this.FlowPane_VBoxDisplay   = new FlowPane();
-
-        this.FlowPane_VBoxDisplay   .setMinSize( (this.WIDTH_G - 30.0), (this.HEIGHT_C + 5.0) );
-        this.FlowPane_VBoxDisplay   .setMaxSize( (this.WIDTH_G - 30.0), (this.HEIGHT_C + 5.0));
-        this.FlowPane_VBoxDisplay   .setPadding(new Insets(this.PADDING));
-        this.FlowPane_VBoxDisplay   .setHgap(5.0);
-        this.FlowPane_VBoxDisplay   .setVgap(2.0);
-
-        this.FlowPane_VBoxDisplay   .getStyleClass().add(this.STYLE_C);
-
-        this.FlowPane_VBoxDisplay.getChildren().addListener((ListChangeListener<Node>) change -> {
-            
-            // gets current scroll position
-            double scrollPosition = this.ScrollPaneHolderUIInput.getVvalue();
-            // sets the scrollpane to its original value, prevents it from auto scrolling
-            this.ScrollPaneHolderUIInput.setVvalue(scrollPosition);
-        }
-
-        );
-        // // ############################################################
-
-
-        // this.SCHEDULER_TIME   = new ManageDayTime(this.ButtonInputTime);
+        // Node construction
+        // ############################################################
+        // INPUT
         this.SCHEDULER_TIME = new ManageDayTime(this.ButtonInputTime, false);
         VBox TimeInput = SCHEDULER_TIME.Return_UI_TimeInput();
+        // OUTPUT
+        this.FlowPane_VBoxDisplay = new FlowPane();
+        this.FlowPane_VBoxDisplay.setMinSize( (this.WIDTH_G - 30.0), (this.HEIGHT_C + 5.0) );
+        this.FlowPane_VBoxDisplay.setMaxSize( (this.WIDTH_G - 30.0), (this.HEIGHT_C + 5.0));
+        this.FlowPane_VBoxDisplay.setPadding(new Insets(this.PADDING));
+        this.FlowPane_VBoxDisplay.setHgap(5.0);
+        this.FlowPane_VBoxDisplay.setVgap(2.0);
+        this.FlowPane_VBoxDisplay.getStyleClass().add(this.STYLE_C);
+        // // ############################################################
 
-
-        //PrimaryTimeHolder.getChildren().addAll(TimeInput, FlowPane_VBoxDisplay);
         // add all to Time Ui holder VBoxUI_Time
         // ############################################################
         this.VBoxUI_Time.getChildren().addAll(TimeInput, FlowPane_VBoxDisplay);
         // ############################################################
 
-
     } // InputTimePreference()
+
+
 
 
 
@@ -983,7 +951,6 @@ public class SceneScheduling {
         this.ScrollPaneHolderUIOutput.setContent(VBOXUI_OUTPUT);
         this.ScrollPaneHolderUIOutput.setFitToWidth(true);
         this.ScrollPaneHolderUIOutput.setFitToHeight(true);
-        //this.VBOXUI_OUTPUT.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         // sets default interface dimensions
         this.ScrollPaneHolderUIOutput.setPrefWidth((ManageScenes.WindowWidth / 2) - 80.0);
@@ -1004,8 +971,6 @@ public class SceneScheduling {
        //this.VBOXUI_OUTPUT.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
        ScheduleOutputManage = new ManageScheduleOutput(VBOXUI_OUTPUT, SPACING, Schedules);
-
-
 
 
         Schedules.addListener((ListChangeListener<DataCompleteSchedule>) change -> {
@@ -1033,23 +998,25 @@ public class SceneScheduling {
 
 
 
+
+
+    /**
+     * IDConversion()
+     * Description: Converts LinkedList of String into int[]
+     */
     private int[] IDConversion(LinkedList<String> SCHEDULE_IDS) {
         
-        // String[] Converted = SCHEDULE_IDS.toArray(new String[0]);
-
-
         int SetLength = SCHEDULE_IDS.size();
         int[] idsToReturn = new int[SetLength];
 
-        // for (int position = 0; position < Converted.length; position++) {
-        //     idsToReturn[position] = Integer.parseInt(Converted[position]);
-        // }
         for (int position = 0; position < SetLength; position++) {
             idsToReturn[position] = Integer.parseInt(SCHEDULE_IDS.get(position));
         }
 
         return idsToReturn.clone();
     }
+
+
 
 
 
@@ -1070,6 +1037,8 @@ public class SceneScheduling {
         Schedule_RootNode.setBackground(new Background(backgroundFill));
 
     } // SetBackground()
+
+
 
 
 
@@ -1113,23 +1082,6 @@ public class SceneScheduling {
         // ############################################################
 
     } // fadeTransitions()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1187,14 +1139,11 @@ public class SceneScheduling {
         this.VBoxUI_Calculation.setPadding(new Insets(this.PADDING));
         // ############################################################
 
-
-
-
         // Contains All UI Input nodes and elements
         // ############################################################
         this.VBoxUI_INPUT = new VBox(this.SPACING);
         this.VBoxUI_INPUT.getStyleClass().add(this.STYLE_A);
-        //this.VBoxUI_INPUT.setMinSize(this.WIDTH_G, 1200.0);
+        //this.VBoxUI_INPUT.setMinSize(this.WIDTH_G, 1200.0); // TODO
         this.VBoxUI_INPUT.setPadding(new Insets(this.PADDING));
         // ############################################################
 
@@ -1207,20 +1156,6 @@ public class SceneScheduling {
         // ############################################################
 
     } //NodeCreation()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1706,16 +1641,7 @@ public class SceneScheduling {
 
 
 
-    }
-
-
-
-
-
-
-
-
-
+    } // EventHandlerCreation()
 
 
 
@@ -1823,4 +1749,8 @@ public class SceneScheduling {
 
     } // ButtonCreation()
     
+
+
+
+
 } // SceneScheduling {}

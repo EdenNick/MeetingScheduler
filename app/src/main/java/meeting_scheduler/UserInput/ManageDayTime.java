@@ -7,6 +7,7 @@ package meeting_scheduler.UserInput;
 // ############################################################
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -65,7 +66,7 @@ public class ManageDayTime {
     private double Width;
     private double Height;
 
-    
+
     
     /**
      * Constructor
@@ -130,7 +131,6 @@ public class ManageDayTime {
     public VBox Return_UI_TimeInput() {
         return this.UITimeInterface;
     }
-
 
 
     private void SET_SizeShape() {
@@ -535,47 +535,26 @@ public class ManageDayTime {
         Button DeleteCard = new Button("Delete Card");
 
         EventHandler<ActionEvent> DeleteInfoCard = (ActionEvent e) -> {
-            
-            // gets current scroll position
-            double scrollPosition = this.ScrollPaneHolderUIInput.getVvalue();
-            // sets the scrollpane to its original value, prevents it from auto scrolling
-            this.ScrollPaneHolderUIInput.setVvalue(scrollPosition);
-            // remove all nodes in the current Vbox
-            IndividualDataCard.getChildren().clear();
 
-            // Create new iterator to iterate over nodes in the linkedlist UserPreferences
-            IteratorFlowPaneDisplay = FlowPane_VBoxDisplay.getChildren().iterator();
+            // ensures focus remains on the flowpane so auto-scrolling doesn't happen when a deletion occurs
+            FlowPane_VBoxDisplay.requestFocus();
 
-            // loop through list to remove empty Vbox node
-            int LinkedListIndex = 0;
-            while (IteratorFlowPaneDisplay.hasNext()) {
-
-                // next Vbox in iterator
-                Node Node_FlowPane = IteratorFlowPaneDisplay.next();
-
-                // if the Vbox is empty remove it from the list and remove the relevant time preference from List_UserTimes
-                if (Node_FlowPane instanceof VBox Vbox_flowPane) {
-                    if (Vbox_flowPane.getChildren().isEmpty()) {
-
-                        // removes empty Vbox from the linked list FlowPane_VBoxDisplay
-                        FlowPane_VBoxDisplay.getChildren().remove(Vbox_flowPane);
-                        // removes InputTime from List_UserTimes LinkedList
-                        List_UserTimes.remove(LinkedListIndex);
-                        break;
-
-                    } // if()
+            // Removes the input time from the linkedList preference holder
+            for (int Pos = 0; Pos < FlowPane_VBoxDisplay.getChildren().size(); Pos++) {
+                if (FlowPane_VBoxDisplay.getChildren().get(Pos) == IndividualDataCard) {
+                    List_UserTimes.remove(Pos);
                 }
 
-                LinkedListIndex++;
+            }
 
-            } // while (IteratorFlowPaneDisplay.hasNext())
-            
-
-            // removes the VBox node from the flowPane
+            // remove the datacard from the flowpane
             FlowPane_VBoxDisplay.getChildren().remove(IndividualDataCard);
 
+            // clear all nodes/objects in the datacard for garbage collection
+            IndividualDataCard.getChildren().clear();
 
-            // Update the Index number for each node everytime the flowPane changes
+
+            // Updates the Index number for each node everytime the flowPane changes
             int flowPaneIndex = 1;
             for (Node node: FlowPane_VBoxDisplay.getChildren()) {
 
@@ -588,8 +567,6 @@ public class ManageDayTime {
                 }
 
             } // for (Node node: FlowPane_VBoxDisplay.getChildren())
-
-
 
         }; // Event Handler
 

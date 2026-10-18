@@ -42,14 +42,14 @@ public class InputDayTime {
         Construct_comboBox_Default(AMPM_END);
 
         this.AMPM_START.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-            if (newvalue.equals(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 1))) {
-                this.AMPM_END.getSelectionModel().select(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 1));
+            if (newvalue.equals(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 1))) {
+                this.AMPM_END.getSelectionModel().select(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 1));
             }
         });
 
         this.AMPM_END.valueProperty().addListener((observed, oldvalue, newvalue) -> {
-            if (newvalue.equals(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0))) {
-                this.AMPM_START.getSelectionModel().select(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0));
+            if (newvalue.equals(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0))) {
+                this.AMPM_START.getSelectionModel().select(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0));
             }
         });
 

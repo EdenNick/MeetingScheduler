@@ -14,11 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
-import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.DataHolder.PreferenceFull;
-import meeting_scheduler.global;
+import meeting_scheduler.FileManagement.ManageJsonFile;
+import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
 import meeting_scheduler.SystemInfoManager;
+import meeting_scheduler.global;
 // Imports
 // ############################################################
 
@@ -45,17 +45,11 @@ public class ManageScheduleOutput {
     // LinkedList used to hold info gianed from the json file manager
     private LinkedList<PreferenceFull>  FilePeople;
 
+    private double Padding;
+    private String StyleSix;
 
-
-
-
-
-    private double Padding        = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1); // 1 - 10
-    private String StyleSix   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 31); // 31 - Schedule_UI_ScheduleListBox
-
-
-    private final String AM = "AM"; //TODO: make global variable
-    private final String PM = "PM"; //TODO: make global variable
+    private final String AM;
+    private final String PM;
 
 
 
@@ -71,8 +65,11 @@ public class ManageScheduleOutput {
         this.SCHEDULES = INPUT_SCHEDULES;
         this.Scheduler_fileReader = new ManageJsonFile();
 
+        this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
+        this.PM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM
 
-
+        this.Padding    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 1); // 1 - 10
+        this.StyleSix   = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 31); // 31 - Schedule_UI_ScheduleListBox
 
     } // ManageScheduleOutput()
 
@@ -127,7 +124,7 @@ public class ManageScheduleOutput {
                 if (ScheduleID.equals(Integer.toString(FilePeople.get(FileIndex).GetIdent()))) {
 
                     // add name to the flowpane list
-                    String SchedulePersontext = String.format("| ID: %-9s | Name: %-20s", ScheduleID, FilePeople.get(FileIndex).GetName());
+                    String SchedulePersontext = String.format("| ID: %-9s  Name: %-20s |", ScheduleID, FilePeople.get(FileIndex).GetName());
 
                     Label SchedulePerson = new Label(SchedulePersontext);
 

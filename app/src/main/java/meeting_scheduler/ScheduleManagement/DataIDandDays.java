@@ -12,11 +12,9 @@ import java.util.Arrays;
 
 public class DataIDandDays {
 
-    private int[] Ident;
-
-    private String[][] WeekDays;
-
-    private int ArraySetLength;
+    private int[]       Ident;
+    private String[][]  WeekDays;
+    private int         ArraySetLength;
 
     /**
      * MANAGESCHEDULE_IDandDays

@@ -16,9 +16,8 @@ import meeting_scheduler.global;
 
 public class ManageGlobalValue {
     
-
+    // TODO: move to its own public class file
     private final static String FILEPATH_ValuesArrays = "/GlobalValuesArrays.properties";
-    //app\src\main\java\meeting_scheduler\GlobalValues\GlobalValuesArrays.properties
     private final static String FILEPATH_ValuesUnique = "/GlobalValuesUnique.properties";
 
     private final static String PropPath_Array      = "ARRAY.";
@@ -177,7 +176,7 @@ public class ManageGlobalValue {
             FinalList = ArraylistPropStrings.toArray(new String[0]);
 
         } catch (IOException e) {
-            // TODO: SYSTEM MESSAGE
+            // TODO: consider changing in the future
             FinalList = new String[0];
         }
 

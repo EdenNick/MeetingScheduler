@@ -6,12 +6,9 @@ package meeting_scheduler.SystemManagement;
 // Imports
 // ############################################################
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -36,28 +33,14 @@ public class ManageAppWindow extends Application {
         // Startup - initializes construction for all scenes and sets the applicaiton window dimensions
         ManageAppWindow.SceneManager.StartUp();
 
-        // Set True for testing, keep false otherwise
-        boolean test = false;
+        // System Message
+        // 5 - SUCCESS | 9 - MANAGEAPP_AppWindow | 1 - SYSTEM-START | 27 - windowrun start
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,9,1,27);
 
-        if (test == false) {
-            // System Message
-            // 5 - SUCCESS | 9 - MANAGEAPP_AppWindow | 1 - SYSTEM-START | 27 - windowrun start
-            SystemInfoManager.GET_SYSTEM_MESSAGE(5,9,1,27);
-
-            WindowRun(stage);
-        } else {
-            // System Message
-            // 5 - SUCCESS | 9 - MANAGEAPP_AppWindow | 1 - SYSTEM-START | 28 - windowtest start
-            SystemInfoManager.GET_SYSTEM_MESSAGE(5,9,1,28);
-
-            WindowTest(stage);
-        }
-
-    }
+        WindowRun(stage);
 
 
-
-
+    } // start()
 
 
 
@@ -69,74 +52,13 @@ public class ManageAppWindow extends Application {
     private void WindowRun(Stage stage) {
 
         // Sets the name of the application window
-        stage.setTitle(SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 0));
+        stage.setTitle(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 0));
 
         // MainMenu - the application shows the main menu scene on startup
         ManageAppWindow.SceneManager.SwapToMainMenu();
 
-    }
+    } // WindowRun()
 
-
-
-
-
-
-
-    /**
-     * WindowTest()
-     * Description: method to run a test for the window, showing window size
-     * @param stage
-     */
-    private void WindowTest(Stage stage) {
-
-        stage.setTitle("Application - StartTest");
-
-        Label HeightWidthLabel = new Label();
-
-        stage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
-            RetrieveWindowSize(HeightWidthLabel, stage);
-        });
-
-        stage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
-              RetrieveWindowSize(HeightWidthLabel, stage);
-        });
-
-
-
-        Pane RootNode = new Pane(HeightWidthLabel);
-
-
-
-        Scene PrimaryScene = new Scene(RootNode, 300, 300);
-
-
-        stage.setTitle("Application - Test");
-
-        stage.setScene(PrimaryScene);
-        
-        stage.show();
-        
-        RetrieveWindowSize(HeightWidthLabel, stage);
-
-
-    }
-
-
-
-
-
-
-    
-    /**
-     * RetrieveWindowSize()
-     * Description: calculates window size for testing
-     * @param LABEL
-     * @param STAGE
-     */
-    private void RetrieveWindowSize(Label LABEL, Stage STAGE) {
-        LABEL.setText("Width: " + (int) STAGE.getWidth() + "\n" + "Height: " + (int) STAGE.getHeight());
-    }
-    
 
 
 }// PROG_UI_A_Application

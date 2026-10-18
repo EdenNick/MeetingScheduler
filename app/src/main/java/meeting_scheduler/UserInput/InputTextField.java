@@ -7,8 +7,8 @@ package meeting_scheduler.UserInput;
 // ############################################################
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -21,8 +21,8 @@ public class InputTextField {
     private final double    PARAM_WIDTH;
     private final double    PARAM_HEIGHT;
 
-    private final int IDENT_MIN = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 0);
-    private final int IDENT_MAX = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 1);
+    private final int IDENT_MIN = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 0);
+    private final int IDENT_MAX = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 1);
     /**
      * Constructor()
      * @param INPUT_ENUM_STATE

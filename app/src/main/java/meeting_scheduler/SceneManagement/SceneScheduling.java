@@ -248,44 +248,44 @@ public class SceneScheduling {
 
         // Global variables
         // ############################################################
-        this.LENGTH_ID      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 9); // 9 - 7
-        this.LENGTH_NAME    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 10); // 10 - 30
-        this.maxListAmmount = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 8); // 8 - 20
-        this.WEEKDAY        = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT);
-        this.SELECTED       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 11); // 11 - SELECTED
+        this.LENGTH_ID      = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 9); // 9 - 7
+        this.LENGTH_NAME    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 10); // 10 - 30
+        this.maxListAmmount = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 8); // 8 - 20
+        this.WEEKDAY        = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
+        this.SELECTED       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 11); // 11 - SELECTED
         // ############################################################
 
         // GRAPHICAL STYLING
         // ############################################################
-        this.ANCHOR_TWO = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
-        this.ANCHOR_ONE = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);  // 1 - 10
+        this.ANCHOR_TWO = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.ANCHOR_ONE = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 1);  // 1 - 10
 
-        this.SPACING = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 0); // 0 - 10
-        this.PADDING = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1); // 1 - 10
+        this.SPACING = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING, 0); // 0 - 10
+        this.PADDING = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 1); // 1 - 10
 
         // 100.0 150.0 250.0 270.0 300.0 570.0 600.0
-        this.WIDTH_A = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);   // 1 - 100
-        this.WIDTH_B = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2);   // 2 - 150
-        this.WIDTH_C = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 4);   // 4 - 250
-        this.WIDTH_D = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 5);   // 5 - 300
-        this.WIDTH_E = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 5);   // 5 - 300
-        this.WIDTH_F = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 7);   // 7 - 600
-        this.WIDTH_G = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 7);   // 7 - 600
+        this.WIDTH_A = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);   // 1 - 100
+        this.WIDTH_B = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);   // 2 - 150
+        this.WIDTH_C = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 4);   // 4 - 250
+        this.WIDTH_D = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 5);   // 5 - 300
+        this.WIDTH_E = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 5);   // 5 - 300
+        this.WIDTH_F = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 7);   // 7 - 600
+        this.WIDTH_G = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 7);   // 7 - 600
 
         // 30.0 60.0 100.0 180.0 200.0 380.0
-        this.HEIGHT_A = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 2);  // 2 - 30
-        this.HEIGHT_B = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 6);  // 6 - 50
-        this.HEIGHT_C = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7);  // 7 - 100
-        this.HEIGHT_D = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 7);  // 7 - 100
-        this.HEIGHT_E = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 8);  // 8 - 200
-        this.HEIGHT_F = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 9);  // 9 - 400
+        this.HEIGHT_A = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 2);  // 2 - 30
+        this.HEIGHT_B = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
+        this.HEIGHT_C = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);  // 7 - 100
+        this.HEIGHT_D = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);  // 7 - 100
+        this.HEIGHT_E = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 8);  // 8 - 200
+        this.HEIGHT_F = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 9);  // 9 - 400
 
-        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
-        this.STYLE_A = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 26); // 26 - Schedule_UI_Base
-        this.STYLE_B = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 27); // 27 - Schedule_UI_MainInputs
-        this.STYLE_C = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 28); // 28 - Schedule_UI_IndividualInput
-        this.STYLE_D = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 30); // 30 - Schedule_UI_ComboBox
-        this.STYLE_E = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16); // 16 - default-label
+        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
+        this.STYLE_A = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 26); // 26 - Schedule_UI_Base
+        this.STYLE_B = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 27); // 27 - Schedule_UI_MainInputs
+        this.STYLE_C = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 28); // 28 - Schedule_UI_IndividualInput
+        this.STYLE_D = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 30); // 30 - Schedule_UI_ComboBox
+        this.STYLE_E = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16); // 16 - default-label
         // ############################################################
     
 

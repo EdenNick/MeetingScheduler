@@ -101,13 +101,13 @@ public final class SystemInfoManager {
 
 
     /**
-     * GET_SYSTEM_UI_SPACING()
+     * GET_SYSTEM_VALUE_DOUBLE()
      * Description: Description: Returns a single double Value from one the global double arrays containing default values. Uses global.UISPACING
      * @param INPUT_ENUM
      * @param INPUT_POSITION
      * @return
      */
-    public static double GET_SYSTEM_UI_SPACING(global.UISPACING INPUT_ENUM, int INPUT_POSITION) {
+    public static double GET_SYSTEM_VALUE_DOUBLE(global.UISPACING INPUT_ENUM, int INPUT_POSITION) {
 
         double ReturnValue = 0.0;
 
@@ -144,18 +144,18 @@ public final class SystemInfoManager {
 
         return ReturnValue;
 
-    } // GET_SYSTEM_UI_SPACING()
+    } // GET_SYSTEM_VALUE_DOUBLE()
 
 
 
     /**
-     * GET_SYSTEM_GLOBAL_VALUE_INT()
+     * GET_SYSTEM_VALUE_INT()
      * Description: Returns a single int Value from one the global int arrays containing default values. Uses global.BASICVALUESINT
      * @param INPUT_ENUM
      * @param INPUT_POSITION
      * @return
      */
-    public static int GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT INPUT_ENUM, int INPUT_POSITION) {
+    public static int GET_SYSTEM_VALUE_INT(global.BASICVALUESINT INPUT_ENUM, int INPUT_POSITION) {
 
         int ReturnValue = -1;
 
@@ -184,18 +184,18 @@ public final class SystemInfoManager {
 
         return ReturnValue;
         
-    } // GET_SYSTEM_GLOBAL_VALUE_INT()
+    } // GET_SYSTEM_VALUE_INT()
 
 
 
     /**
-     * GET_SYSTEM_GLOBAL_VALUE_STRING()
+     * GET_SYSTEM_VALUE_STRING()
      * Description: Returns a single String Value from one the global string arrays containing default values. Uses global.BASICVALUESSTRING
      * @param INPUT_ENUM
      * @param INPUT_POSITION
      * @return
      */
-    public static String GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING INPUT_ENUM, int INPUT_POSITION) {
+    public static String GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING INPUT_ENUM, int INPUT_POSITION) {
 
         String ReturnValue = "ERROR";
 
@@ -220,17 +220,17 @@ public final class SystemInfoManager {
 
         return ReturnValue;
 
-    } // GET_SYSTEM_GLOBAL_VALUE_STRING()
+    } // GET_SYSTEM_VALUE_STRING()
 
 
 
     /**
-     * GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY()
+     * GET_SYSTEM_VALUE_WEEK()
      * Description: Returns a string array containing every day of the week in various formats depending on input. Uses global.WEEKTYPE.
      * @param INPUT_ENUM
      * @return
      */
-    public static String[] GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE INPUT_ENUM) {
+    public static String[] GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE INPUT_ENUM) {
 
         String[] ReturnValue = new String[] {"INVALIDSTRING"};
 
@@ -259,7 +259,7 @@ public final class SystemInfoManager {
 
         return ReturnValue;
 
-    } // GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY()
+    } // GET_SYSTEM_VALUE_WEEK()
 
 
 

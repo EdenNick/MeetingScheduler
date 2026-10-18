@@ -99,7 +99,7 @@ public class ManageGlobalMessage {
 
     private static void Set_Global_Message_Type() {
         
-        // TODO: CHANGE
+        // TODO: Create a global file for FileNames, do not put in .property files
         String FilePath = "/GlobalMessageTypes.properties";
         String PropertyPath;
 
@@ -260,7 +260,6 @@ public class ManageGlobalMessage {
         // indiivudal property string
         String      IncomingPropString;
         // while loop position
-        // TODO make the starting position a global value
         int         IncomingPropPosition = 0;
         // array to be set to global
         String[]    FinalList;
@@ -287,8 +286,8 @@ public class ManageGlobalMessage {
             FinalList = ArraylistPropStrings.toArray(new String[0]);
 
         } catch (IOException e) {
-            //TODO: error message
-            FinalList = new String[] {"ERROR"};
+            //TODO: consider changing in the future
+            FinalList = new String[] {"ERROR - Get_Global_Message_Property"};
         }
 
         // Set to static variable

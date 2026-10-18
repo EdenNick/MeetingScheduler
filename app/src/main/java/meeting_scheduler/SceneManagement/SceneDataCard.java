@@ -5,8 +5,9 @@ package meeting_scheduler.SceneManagement;
 
 // Imports
 // ############################################################
-import java.util.LinkedList;
 import java.io.IOException;
+import java.util.LinkedList;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -29,16 +30,16 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
-import meeting_scheduler.UserInput.ManageJsonFormat;
-import meeting_scheduler.UserInput.ManageDayTime;
 import meeting_scheduler.FileManagement.ManageJsonFile;
+import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
-import meeting_scheduler.global;
 import meeting_scheduler.UserInput.InputTextField;
+import meeting_scheduler.UserInput.ManageDayTime;
+import meeting_scheduler.UserInput.ManageJsonFormat;
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -152,34 +153,34 @@ public class SceneDataCard {
 
         // UI Styling
         // ############################################################
-        this.ANCHOR_PRIMARY = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 1);  // 1 - 10
-        this.ANCHOR_TWO     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.ANCHOR_PRIMARY = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 1);  // 1 - 10
+        this.ANCHOR_TWO     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
 
-        this.UIInputSpacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 1);    // 0 - 10
-        this.UIInputWidth   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 6);      // 6 - 400
-        this.UIInputHeight  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 9);    // 9 - 600
-        this.UIInputPadding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 1);    // 1 - 10
+        this.UIInputSpacing = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING, 1);    // 0 - 10
+        this.UIInputWidth   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 6);      // 6 - 400
+        this.UIInputHeight  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 9);    // 9 - 600
+        this.UIInputPadding = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 1);    // 1 - 10
 
-        this.UIOutputWidth   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH    , 7);      // 7 - 400
-        this.UIOutputHeight  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT   , 9);    // 9 - 600
-        this.UIOutputSpacing = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING  , 1);    // 0 - 10
-        this.UIOutputPadding = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING  , 1);    // 1 - 10
+        this.UIOutputWidth   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH    , 7);      // 7 - 400
+        this.UIOutputHeight  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT   , 9);    // 9 - 600
+        this.UIOutputSpacing = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING  , 1);    // 0 - 10
+        this.UIOutputPadding = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING  , 1);    // 1 - 10
 
-        this.ButtonWidth    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH    , 2);   // 2 - 150
-        this.ButtonHeight   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT   , 2);   // 2 - 30
-        this.STYLE_SET      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15);    // 15 - /CSS_Styles.css
-        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 20);    // 20 - DataCard_UI_DefaultInputUI
-        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 21);    // 21 - DataCard_UI_TimeOutput
-        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16);    // 16 - default-label
-        this.TEXT_ONE       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 1);     // 1 - Enter Name Here:
-        this.TEXT_TWO       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 2);     // 2 - Enter Full Name
-        this.TEXT_THREE     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 3);     // 3 - Enter ID Here:
+        this.ButtonWidth    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH    , 2);   // 2 - 150
+        this.ButtonHeight   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT   , 2);   // 2 - 30
+        this.STYLE_SET      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15);    // 15 - /CSS_Styles.css
+        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 20);    // 20 - DataCard_UI_DefaultInputUI
+        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 21);    // 21 - DataCard_UI_TimeOutput
+        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16);    // 16 - default-label
+        this.TEXT_ONE       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 1);     // 1 - Enter Name Here:
+        this.TEXT_TWO       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 2);     // 2 - Enter Full Name
+        this.TEXT_THREE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 3);     // 3 - Enter ID Here:
         // ############################################################
 
         // Default variable creation
         // ############################################################
-        this.WEEKDAYS       = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_WEEKARRAY(global.WEEKTYPE.SHORT);
-        this.MAX_TIME_INPUT = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 3);      // 3 - 30
+        this.WEEKDAYS       = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
+        this.MAX_TIME_INPUT = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 3);      // 3 - 30
         // ############################################################
 
     } // SCENE_CREATE_DataCard()
@@ -612,13 +613,13 @@ public class SceneDataCard {
         // TextFields
         // ############################################################
         // textfieldIdent
-        double InputIdentWidth      = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);   // 0 - 50
-        double InputIdentHeight     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);  // 1 - 25
+        double InputIdentWidth      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);   // 0 - 50
+        double InputIdentHeight     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);  // 1 - 25
         this.textfieldIdentCreator  = new InputTextField(global.TextFieldState.TEXT, TEXT_TWO, InputIdentWidth, InputIdentHeight);
         this.textfieldIdent = textfieldIdentCreator.Return_Field_constructed();
         // textfieldName
-        double InputNameWidth       = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 0);   // 0 - 50
-        double InputNameHeight      = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 1);  // 1 - 25
+        double InputNameWidth       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);   // 0 - 50
+        double InputNameHeight      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);  // 1 - 25
         this.textfieldNameCreator   = new InputTextField(global.TextFieldState.TEXT, TEXT_TWO, InputNameWidth, InputNameHeight);
         this.textfieldName = textfieldNameCreator.Return_Field_constructed();
         // ############################################################

@@ -69,17 +69,14 @@ public class PreferenceTime {
         
         // IF - returns false if objects have a different weekday
         if (!this.TIMEPREF_Weekday.equals(TIMEPREF_INPUT.GetWeekDay()))             {
-            // TODO: SYSTEM MESSAGE
             return false;
         
         // IF - returns false if objects have different starting times 
         } else if (!this.TIMEPREF_TimeStart.equals(TIMEPREF_INPUT.GetStartTime()))  {
-            // TODO: SYSTEM MESSAGE
             return false;
         
         // IF - returns false if objects have different ending times
         } else if (!this.TIMEPREF_TimeEnd.equals(TIMEPREF_INPUT.GetEndTime()))      {
-            // TODO: SYSTEM MESSAGE
             return false;
         
         // ELSE - returns true if objects are the same
@@ -133,70 +130,5 @@ public class PreferenceTime {
     }
 
 
-
-
-
-    /**
-     * TimeConversion()
-     * Description: Converts time between standardizations
-     * As a default time is stored as military standard time which ranges from 0-24, witout using AM/PM 
-     * to signify which hour of the day it is.
-     * This method is used to convert the time to standard time which uses AM/PM designations
-     */
-    public int TEST_TimeConversion() { //DATA_USER_InfoInput RetrieveUserInfo
-
-        System.out.println("Standard Time Input:");
-
-
-        // Start Interval   (hour:min)
-        int BEGINHour   = this.TIMEPREF_TimeStart.getHour();
-        int BEGINMin    = this.TIMEPREF_TimeStart.getMinute();
-
-        // End Interval     (hour:min)
-        int ENDHour     = this.TIMEPREF_TimeEnd.getHour();
-        int ENDMin      = this.TIMEPREF_TimeEnd.getMinute();
-
-
-
-        String StartInterval    = "AM";
-        String EndInterval      = "AM";
-
-        // Converts the beginning hour interval to PM if needed, otherwise it defaults to AM
-        if ((12 < BEGINHour) && (BEGINHour < 24)) {
-
-            BEGINHour       = BEGINHour - 12;
-            StartInterval   = "PM";
-
-        }
-            
-        // Converts the end hour interval to PM if needed, otherwise it defaults to AM
-        if ((12 < ENDHour) && (ENDHour < 24)) {
-
-            ENDHour         = ENDHour - 12;
-            EndInterval     = "PM";
-
-        }
-
-        if (BEGINHour == 12) {
-            StartInterval = "PM";
-        }
-
-        if (ENDHour == 12) {
-            EndInterval = "PM";
-        }
-
-        /**
-         * Print Format for each index position:
-         * Standard Time Input:
-         * Day: (day)
-         * Interval (Index) : (Hour:Min) (AM/PM) - (Hour:Min) (AM/PM)
-         */
-        System.out.println("Day: " + this.TIMEPREF_Weekday);
-        System.out.print("Interval : (" + BEGINHour + ":" + BEGINMin + ") " + StartInterval);
-        System.out.println(" - (" + ENDHour + ":" + ENDMin + ") " + EndInterval);
-            
-        
-        return 0;
-    }
     
 } // TimeSet

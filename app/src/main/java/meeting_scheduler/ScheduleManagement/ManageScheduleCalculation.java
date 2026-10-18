@@ -52,14 +52,14 @@ public class ManageScheduleCalculation {
      * User Input Preferences
      */
     // ############################################################
-    private int[]                               UserInput_PeopleList;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
-    private boolean                             UserPref_IDsProvided    = false;    // If false, a list of people to schedule was not provided, false as default.
+    private int[]               UserInput_PeopleList;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
+    private boolean             UserPref_IDsProvided    = false;    // If false, a list of people to schedule was not provided, false as default.
 
-    private String[]                            UserInput_WeekDays;                 // Days the user wants a schedule for, defaults to the whole week.
-    private boolean                             userPref_SpecificDays   = false;
+    private String[]            UserInput_WeekDays;                 // Days the user wants a schedule for, defaults to the whole week.
+    private boolean             userPref_SpecificDays   = false;
 
-    private PreferenceTime[]            UserInput_UserTimes;                // LinkedList containing the specified times of the user
-    private boolean                             UserPref_SpecificTimes  = false;    // boolean if the user wants specified time intervals.
+    private PreferenceTime[]    UserInput_UserTimes;                // LinkedList containing the specified times of the user
+    private boolean             UserPref_SpecificTimes  = false;    // boolean if the user wants specified time intervals.
     // ############################################################
 
 
@@ -69,10 +69,10 @@ public class ManageScheduleCalculation {
     // ############################################################
     private LinkedList<String>                  Calc_AvailableIDs;          // LinkedList that holds the list of available people for each viable interval.
 
-    private LinkedList<DataInterval> CALC_AvailablePeople;
-    private LinkedList<DataCompleteSchedule> Calc_FullScheduleList;      // LinkedList of viableschedules and the people who can be in them.
+    private LinkedList<DataInterval>            CALC_AvailablePeople;
+    private LinkedList<DataCompleteSchedule>    Calc_FullScheduleList;      // LinkedList of viableschedules and the people who can be in them.
 
-    private PreferenceTime              Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
+    private PreferenceTime                      Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
     private boolean                             Calc_IdealSchedule = false; // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
     // ############################################################
 
@@ -90,17 +90,16 @@ public class ManageScheduleCalculation {
      * Default Values
      */
     // ############################################################
-    private String[] DefaultWeekday = global.Global_Array_WeekDay_Short_Get();
-    private DataIDandDays IDWeekdayPair_IDENTSort;
+    private DataIDandDays       IDWeekdayPair_IDENTSort;
+    private DataIDandDays       IDWeekdayPair_DAYSort;
 
-    private DataIDandDays IDWeekdayPair_DAYSort;
+    private int[]               IDList_AppliedIDAndDayPref;
 
-    private int[] IDList_AppliedIDAndDayPref;
+    private PreferenceFull[]    Employee_FullList_Array;
+    private PreferenceFull[]    Employee_FullList_RefinedArray;
 
-    private PreferenceFull[] Employee_FullList_Array;
-    private PreferenceFull[] Employee_FullList_RefinedArray;
-
-    private int WeekdayLength;
+    private final String[]      WEEK_DEFAULT;
+    private final int           WEEK_LENGTH;
     // ############################################################
     
 
@@ -111,17 +110,19 @@ public class ManageScheduleCalculation {
      */
     public ManageScheduleCalculation() {
 
-        WeekdayLength   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 0);
-
-        UserInput_WeekDays = DefaultWeekday.clone();
+        this.WEEK_LENGTH  = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 0);
+        this.WEEK_DEFAULT = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
+        
+        this.UserInput_WeekDays  = WEEK_DEFAULT.clone();
+        
+        this.Calc_FullScheduleList = new LinkedList<>();
+        
         try {
             Paramater_Init_FullList();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        this.Calc_FullScheduleList = new LinkedList<>();
 
     }
 
@@ -195,7 +196,7 @@ public class ManageScheduleCalculation {
      * Description: Used to reset the preference for the specific weekdays to be scheduled. Everyday of the week will be used in the calculation.
      */
     public void ResetPreference_Weekdays() {
-        this.UserInput_WeekDays     = DefaultWeekday.clone();
+        this.UserInput_WeekDays     = WEEK_DEFAULT.clone();
         this.userPref_SpecificDays  = false;
     } // ResetPreference_Weekdays()
 
@@ -335,7 +336,7 @@ public class ManageScheduleCalculation {
             for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
 
                 // iterates over each day in the current key value ID weekdays pair
-                for (int Position_Day = 0; Position_Day < WeekdayLength; Position_Day++) {
+                for (int Position_Day = 0; Position_Day < this.WEEK_LENGTH; Position_Day++) {
 
                     // if the day match at least once
                     DayReturned = PREF_Weekdays[Position_IDWeekday][Position_Day];
@@ -363,7 +364,7 @@ public class ManageScheduleCalculation {
             for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
 
                 // iterates over each day in the current key value ID weekdays pair
-                for (int Position_Day = 0; Position_Day < WeekdayLength; Position_Day++) {
+                for (int Position_Day = 0; Position_Day < this.WEEK_LENGTH; Position_Day++) {
 
                     // if the day match at least once
                     DayReturned = PREF_Weekdays[Position_IDWeekday][Position_Day];
@@ -383,13 +384,11 @@ public class ManageScheduleCalculation {
 
             // int[] of ids to have their times checked
             IDList_AppliedIDAndDayPref = IDWeekdayPair_DAYSort.Return_Idents();
-            System.out.println("ID size:" + IDList_AppliedIDAndDayPref.length);
 
         } else {
 
             // int[] of ids to have their times checked
             IDList_AppliedIDAndDayPref = IDWeekdayPair_IDENTSort.Return_Idents();
-            System.out.println("ID size:" + IDList_AppliedIDAndDayPref.length);
 
         }
 

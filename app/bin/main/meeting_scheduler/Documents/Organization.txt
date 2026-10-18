@@ -1,0 +1,113 @@
+FILE:   DATAHOLDER
+CLASS:  PreferenceFull
+- Effectively DONE
+CLASS:  PreferenceTime
+- Effectively DONE
+
+
+
+
+
+FILE:   FILEMANAGEMENT
+- CREATE .Txt file manager class
+
+CLASS:  ManageJsonfile
+- MINOR - reformatting
+CLASS:  JSON INPUT
+- MAJOR - Implement file lock SYSTEM
+CLASS:  JSON Output
+- MAJOR - Implement file lock SYSTEM
+CLASS:  TXTInput
+- MINOR - Reformatting + system messages
+CLASS:  TXTOutput
+- MINOR - Reformatting + system messages
+
+
+
+
+
+FILE:   SCENEMANAGER
+CLASS:  ManageScheduleOutput
+- Effectively DONE
+
+CLASS:  SceneDataCard
+- MAJOR - FIX PROBLEMS ORGANIZE
+
+CLASS:  SceneIntructions
+- SYSTEM MESSAGES
+
+CLASS:  SceneMainMenu
+- MINOR - reformatting
+
+CLASS:  SceneSchedule
+- Effectively DONE
+
+
+
+
+
+FILE:   ScheduleMANAGEMENT
+CLASS:  DataCompleteSchedule
+- Major - reformat to private
+
+CLASS:  DataIDandDays
+- effectively DONE
+
+CLASS:  DataIterval
+- Effectively DONE
+
+CLASS:  ManageScheduleCalc
+- MAJOR - organization reformatting
+
+
+
+
+
+FILE:   SYSTEMMANAGEMENT
+CLASS:  ManageAppWindow
+- effectively DONE
+
+CLASS:  ManageGlobaleMessage
+- effectively DONE
+
+CLASS:  ManageGlobalValue
+- effectively DONE
+
+CLASS:  ManageScene
+- effectively DONE
+
+
+
+
+FILE:   USERINPUT
+CLASS:  IputComboBox
+- effectively DONE
+
+CLASS:  InputDayTime
+- effectively DONE
+
+CLASS:  InputTextField
+- effectively DONE
+
+CLASS:  ManageDayTime
+- effectively DONE
+
+CLASS:  ManageJsonFormat
+- MAJOR - add method and system to remove preferences
+
+
+
+
+
+FILE:   GLOBAL
+CLASS:  global
+- Effectively DONE
+
+CLASS:  MeetScheduler
+- Effectively DONE
+
+CLASS:  SystemInfoManager
+- Effectively DONE
+
+CLASS: Resources
+- MINOR - REDO names when done

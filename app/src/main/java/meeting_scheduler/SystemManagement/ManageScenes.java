@@ -10,8 +10,8 @@ import meeting_scheduler.SceneManagement.SceneDataCard;
 import meeting_scheduler.SceneManagement.SceneInstructions;
 import meeting_scheduler.SceneManagement.SceneMainMenu;
 import meeting_scheduler.SceneManagement.SceneScheduling;
-import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -49,8 +49,8 @@ public class ManageScenes {
         Instruct    = new SceneInstructions(ApplicationStage);
 
         // Default Window width and height values, all scenes access these variables
-        ManageScenes.WindowWidth     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 1);
-        ManageScenes.WindowHeight    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 2);
+        ManageScenes.WindowWidth     = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 1);
+        ManageScenes.WindowHeight    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 2);
 
     }
 
@@ -90,8 +90,10 @@ public class ManageScenes {
 
 
         // System Message
+        // ############################################################
         // 5 - SUCCESS | 12 - MANAGEAPP_SceneManager| 5 - SYSTEM-CreateScenes | 29 - SceneManager startup complete
         SystemInfoManager.GET_SYSTEM_MESSAGE(5,12,5,28);
+        // ############################################################
 
     } // StartUp()
 
@@ -135,4 +137,4 @@ public class ManageScenes {
         this.Instruct.changetoInstructionsScene();
     }
     
-}
+} // ManageScenes{}

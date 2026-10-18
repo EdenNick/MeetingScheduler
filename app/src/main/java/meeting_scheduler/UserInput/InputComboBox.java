@@ -34,7 +34,6 @@ public class InputComboBox {
                 Construct_Field_WeekList();
                 break;
             default:
-                // TODO: SYSTEM MESSAGE
                 break;
         }
     }

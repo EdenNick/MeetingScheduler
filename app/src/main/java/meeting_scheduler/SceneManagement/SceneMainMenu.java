@@ -104,24 +104,24 @@ public class SceneMainMenu {
 
         // Set local styling variable
         // ############################################################
-        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_STYLE_FILEs.css
-        this.STYLE_ONE  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 17); // 17 - MainMenu_UI_MenuOptions
-        this.STYLE_TWO  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 18); // 18 - MainMenu_ButtonEndProgram
+        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_STYLE_FILEs.css
+        this.STYLE_ONE  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 17); // 17 - MainMenu_UI_MenuOptions
+        this.STYLE_TWO  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 18); // 18 - MainMenu_ButtonEndProgram
 
-        this.SPACING            = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.SPACING, 2); // 2 - 20
-        this.ANCHOR_DEFAULT     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
-        this.ANCHOR_SECONDARY   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 5);  // 5 - 30
+        this.SPACING            = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING, 2); // 2 - 20
+        this.ANCHOR_DEFAULT     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.ANCHOR_SECONDARY   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 5);  // 5 - 30
 
-        this.MENUBUTTON_WIDTH   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 4);   // 4 - 250
-        this.MENUBUTTON_HEIGHT  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 6);  // 6 - 50
+        this.MENUBUTTON_WIDTH   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 4);   // 4 - 250
+        this.MENUBUTTON_HEIGHT  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
 
-        this.ENDBUTTON_WIDTH    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 1);   // 1 - 100
-        this.ENDBUTTON_HEIGHT   = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 6);  // 6 - 50
+        this.ENDBUTTON_WIDTH    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);   // 1 - 100
+        this.ENDBUTTON_HEIGHT   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
         
-        this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
-        this.TIME_UNFADE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
-        this.OPACIY_FADE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 6); // 6 - 0
-        this.OPACITY_UNFADE = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
+        this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
+        this.TIME_UNFADE    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
+        this.OPACIY_FADE    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 6); // 6 - 0
+        this.OPACITY_UNFADE = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
         // ############################################################
 
     } // SceneMainMenu()

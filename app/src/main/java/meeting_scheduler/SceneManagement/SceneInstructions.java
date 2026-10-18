@@ -6,9 +6,6 @@ package meeting_scheduler.SceneManagement;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-// Imports
-// ############################################################
-import java.util.LinkedList;
 import java.util.Properties;
 
 import javafx.animation.FadeTransition;
@@ -30,11 +27,9 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.SystemInfoManager;
-import meeting_scheduler.FileManagement.ManageTXTOutput;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
 import meeting_scheduler.global;
@@ -111,21 +106,21 @@ public class SceneInstructions {
 
         // Set UI Styling
         // ############################################################
-        this.STYLE_FILE     = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
-        this.STYLE_DEFAULT  = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16); // 16 - default-label
-        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 23); // 23 - Instructions_UI_TextHolder
-        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 24); // 24 - Instructions_UI_TextTitle
-        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_STRING(global.BASICVALUESSTRING.STRING, 25); // 25 - Instructions_UI_ScrollPane
+        this.STYLE_FILE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
+        this.STYLE_DEFAULT  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16); // 16 - default-label
+        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 23); // 23 - Instructions_UI_TextHolder
+        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 24); // 24 - Instructions_UI_TextTitle
+        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 25); // 25 - Instructions_UI_ScrollPane
 
-        this.ANCHOR     = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.ANCHOR, 3);  // 3 - 20
-        this.PADDING    = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.PADDING, 0); // 0 - 5
-        this.RETURNBUTOON_WIDTH  = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.WIDTH, 2);  // 2 - 150
-        this.RETURNBUTTON_HEIGHT = SystemInfoManager.GET_SYSTEM_UI_SPACING(global.UISPACING.HEIGHT, 3); // 2 - 30
+        this.ANCHOR     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.PADDING    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 0); // 0 - 5
+        this.RETURNBUTOON_WIDTH  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);  // 2 - 150
+        this.RETURNBUTTON_HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 3); // 2 - 30
         
-        this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
-        this.OPACITY_FADE   = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 6); // 6 - 0
-        this.TIME_UNFADE    = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
-        this.OPACITY_UNFADE = SystemInfoManager.GET_SYSTEM_GLOBAL_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
+        this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
+        this.OPACITY_FADE   = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 6); // 6 - 0
+        this.TIME_UNFADE    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
+        this.OPACITY_UNFADE = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 7); // 7 - 1
         // ############################################################
 
     } // PROG_UI_B_InstructionsScene(Stage stage)

@@ -8,10 +8,12 @@ package meeting_scheduler.FileManagement;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-import meeting_scheduler.SystemInfoManager;
+
 import meeting_scheduler.DataHolder.PreferenceFull;
+import meeting_scheduler.SystemInfoManager;
 // ############################################################
 
 
@@ -21,21 +23,17 @@ public class ManageJsonFile {
 
     // Class parameters
     // ############################################################
-    // File managemet
-    private final File                  JsonFileManager_FilePath;
-    private final ManageJsonInput  JsonFileManager_FileInput;
-    private final ManageJsonOutput JsonFileManager_FileOutput;
-
-    // File Path TODO: add to global variable
-    private final String FilePath_Default = "src\\main\\resources\\PROG_DATA_A_UserDataCard.json";      // DEFAULT
+    private final File              JsonFileManager_FilePath;
+    private final ManageJsonInput   JsonFileManager_FileInput;
+    private final ManageJsonOutput  JsonFileManager_FileOutput;
     // ############################################################
 
 
 
     // Default constructor - more can be added if more json files are used
-    public ManageJsonFile() {
+    public ManageJsonFile(File INPUT_FILE) {
         // FILE PATH
-        this.JsonFileManager_FilePath   = new File(FilePath_Default); // TODO: make file path a global variable
+        this.JsonFileManager_FilePath   = INPUT_FILE;
 
         // JSON file input (Write)
         this.JsonFileManager_FileInput  = new ManageJsonInput(JsonFileManager_FilePath);
@@ -48,7 +46,7 @@ public class ManageJsonFile {
 
 
     // WRITE - Default preference file
-    public void WriteTo_DefaultEmployeePreference(LinkedList<PreferenceFull> INPUT_EmployeePreference) {
+    public void WriteJson_FullPref(LinkedList<PreferenceFull> INPUT_EmployeePreference) {
 
 
         LinkedList<PreferenceFull> Input_Copy = new LinkedList<>(INPUT_EmployeePreference);
@@ -72,7 +70,7 @@ public class ManageJsonFile {
     }
 
     // READ - Default preference file
-    public LinkedList<PreferenceFull> ReadFrom_DefaultEmployeePreference() throws StreamReadException, DatabindException, IOException {
+    public LinkedList<PreferenceFull> ReadJson_FullPref() throws StreamReadException, DatabindException, IOException {
 
         return this.JsonFileManager_FileOutput.Retrieve_DefaultFile();
 

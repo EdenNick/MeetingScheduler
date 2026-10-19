@@ -59,6 +59,7 @@ tasks.named('run', JavaExec) {
     workingDir = project.projectDir.parentFile
 }
 
+
 test {
     testLogging {
         events "passed", "failed", "skipped"

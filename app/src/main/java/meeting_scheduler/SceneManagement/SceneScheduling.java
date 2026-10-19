@@ -42,6 +42,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
+import meeting_scheduler.FileManagement.ManageFileLock;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
 import meeting_scheduler.ScheduleManagement.ManageScheduleCalculation;
@@ -234,7 +235,7 @@ public class SceneScheduling {
         // Schedule Calculator  - Object used to calculate viable schedules based off of input user preferences
         this.SCHEDULER_CALCULATOR = new ManageScheduleCalculation();
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. Used to retrieve current user preferences to create a schedule
-        this.SCHEDULER_FILES = new ManageJsonFile();
+        this.SCHEDULER_FILES = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
         // ############################################################
 
         // calculating schedules
@@ -460,23 +461,13 @@ public class SceneScheduling {
      */
     private void LogicSetUpInputPeople() {
 
-        // Retrieve the list from the file reader
-        try {
-			this.FileUserInfo = SCHEDULER_FILES.ReadFrom_DefaultEmployeePreference();
+        this.FileUserInfo = SCHEDULER_FILES.readJson_FullPref();
 
-            // System Message
-            // ############################################################
-            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
-            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
-            // ############################################################
-
-		} catch (IOException e) {
-            // System Message
-            // ############################################################
-            // 4 - FAILURE | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
-            SystemInfoManager.GET_SYSTEM_MESSAGE(4,19,10,4);
-            // ############################################################
-        }
+        // System Message
+        // ############################################################
+        // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
+        // ############################################################
 
         this.ComboBoxPeopleScheduleList     = new String[FileUserInfo.size()];
         this.ComboBoxPeopleScheduleListIDs  = new int[ComboBoxPeopleScheduleList.length];
@@ -1194,22 +1185,13 @@ public class SceneScheduling {
         // ############################################################
         this.EVENT_RESET_PEOPLE = event -> {
 
-            try {
-				this.FileUserInfo = SCHEDULER_FILES.ReadFrom_DefaultEmployeePreference();
+            this.FileUserInfo = SCHEDULER_FILES.readJson_FullPref();
 
-                // System Message
-                // ############################################################
-                // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
-                SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
-                // ############################################################
-
-            } catch (IOException e) {
-                // System Message
-                // ############################################################
-                // 4 - FAILURE | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
-                SystemInfoManager.GET_SYSTEM_MESSAGE(4,19,10,4);
-                // ############################################################
-            }
+            // System Message
+            // ############################################################
+            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
+            // ############################################################
     
             // remove all text from the flowpane
             this.AddedPeople.getChildren().clear();

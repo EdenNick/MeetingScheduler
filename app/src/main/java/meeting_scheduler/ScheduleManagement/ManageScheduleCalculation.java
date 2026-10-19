@@ -15,6 +15,7 @@ import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
+import meeting_scheduler.FileManagement.ManageFileLock;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 // ############################################################
 
@@ -81,7 +82,7 @@ public class ManageScheduleCalculation {
      * File data info and management
      */
     // ############################################################
-    private ManageJsonFile              JsonFileManager = new ManageJsonFile();
+    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
     private LinkedList<PreferenceFull>  FileData_Employee_FullList;
     // ############################################################
 
@@ -238,7 +239,7 @@ public class ManageScheduleCalculation {
 
         //FileData_Employees_FullList = new LinkedList<>();
 
-        this.FileData_Employee_FullList = JsonFileManager.ReadFrom_DefaultEmployeePreference();
+        this.FileData_Employee_FullList = JsonFileManager.readJson_FullPref();
 
         this.Employee_FullList_Array = FileData_Employee_FullList.toArray(new PreferenceFull[0]);
 

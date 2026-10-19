@@ -15,6 +15,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import meeting_scheduler.DataHolder.PreferenceFull;
+import meeting_scheduler.FileManagement.ManageFileLock;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
 import meeting_scheduler.SystemInfoManager;
@@ -63,7 +64,7 @@ public class ManageScheduleOutput {
         this.VboxSchedulerOutput = INPUT_SCHEDULEROUTPUT;
         this.SPACING = INPUT_SPACING;
         this.SCHEDULES = INPUT_SCHEDULES;
-        this.Scheduler_fileReader = new ManageJsonFile();
+        this.Scheduler_fileReader = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
 
         this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
         this.PM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM
@@ -99,20 +100,11 @@ public class ManageScheduleOutput {
 
         //int PersonAmmount = Schedules.getLast().USERIDs.size();
 
-        try {
-            this.FilePeople = Scheduler_fileReader.ReadFrom_DefaultEmployeePreference();
+        this.FilePeople = Scheduler_fileReader.readJson_FullPref();
 
-            // System Message
-            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
-            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
-            
-        } catch (IOException e) {
-
-            // System Message
-            // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
-            SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
-            e.printStackTrace();
-        }
+        // System Message
+        // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 10 - SYSTEM-FileAccess | 4 - try/catch File access Successful
+        SystemInfoManager.GET_SYSTEM_MESSAGE(5,19,10,4);
 
         // used in placement position of the schedule in the list
         int FlowPanePeopleAmmount = 0;

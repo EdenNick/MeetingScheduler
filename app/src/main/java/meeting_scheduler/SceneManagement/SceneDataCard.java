@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
+import meeting_scheduler.FileManagement.ManageFileLock;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
@@ -148,7 +149,7 @@ public class SceneDataCard {
         // File Management
         // ############################################################
         this.ObjJsonFileFormatter  = new ManageJsonFormat();
-        this.ObjJsonFileManager    = new ManageJsonFile();
+        this.ObjJsonFileManager    = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
         // ############################################################
 
         // UI Styling
@@ -492,14 +493,7 @@ public class SceneDataCard {
 
 
 
-                // writes to file
-                // ############################################################
-				try {
-					listEmployeeFullPref = new LinkedList<>(ObjJsonFileManager.ReadFrom_DefaultEmployeePreference());
-				} catch (IOException e) {
-                    listEmployeeFullPref = new LinkedList<>();
-					e.printStackTrace();
-				}
+                listEmployeeFullPref = new LinkedList<>(ObjJsonFileManager.readJson_FullPref());
                 
                 PreferenceFull EMPLOYEE_Input = new PreferenceFull(false, name, id, preferredDays, this.listUserAddedPref);
                 
@@ -507,7 +501,7 @@ public class SceneDataCard {
 
                 LinkedList<PreferenceFull> EMPLOYEES_ToWrite = ObjJsonFileFormatter.JsonFileDefault_Formatting(listEmployeeFullPref);
 
-                ObjJsonFileManager.WriteTo_DefaultEmployeePreference(EMPLOYEES_ToWrite);
+                ObjJsonFileManager.writeJson_FullPref(EMPLOYEES_ToWrite);
 
 
                 // System Message

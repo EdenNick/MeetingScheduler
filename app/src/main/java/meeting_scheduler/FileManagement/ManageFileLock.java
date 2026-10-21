@@ -6,18 +6,35 @@ import java.nio.file.Paths;
 
 public class ManageFileLock {
     
-    private static final Path FilePath = Paths.get( "app","src","main", "java", "meeting_scheduler", "Storage", "PROG_DATA_A_UserDataCard.json");
-    private static final File JSON_USER_DATACARD = FilePath.toFile();
+    // JSON FILE PATHS
+    public static final Path JSN_DATACARD       = Paths.get( "app","Data", "PROG_DATA_A_UserDataCard.json");
+    public static final String JSN_TEST         = "src/main/resources/PROG_DATA_A_JsonTestFile.json";
+    
+    // PROPERTIES FILE PATHS
+    public static final String PRP_MSGTYPE      = "/GlobalMessageTypes.properties";
+    public static final String PRP_MSGCLASS     = "/GlobalMessageClass.properties";
+    public static final String PRP_MSGACTION    = "/GlobalPropertiesAction.properties";
+    public static final String PRP_MSGINFO      = "/GlobalMessageInfo.properties";
+
+    public static final String PRP_VALARRAY     = "/GlobalValuesArrays.properties";
+    public static final String PRP_VALUNIQUE    = "/GlobalValuesUnique.properties";
+
+    public static final String PRP_INSTRUCT     = "/USERINSTRUCTIONS.properties";
+    // TXT FILE PATHS
+    public static final String TXT_INSTRUCT     = "src/main/resources/PROG_UI_D_Instructions.txt";
+    public static final String TXT_TEMP         = "src/PROG_DATA_TempFile.txt";
+
+
+
+
+    private static final File JSON_USER_DATACARD = ManageFileLock.JSN_DATACARD.toFile();
 
     private ManageFileLock() {
         // prevents instatiation
     }
 
     // ManageFileLock.GetFile_DATACARD()
-    public static File GetFile_DATACARD() {
-        System.out.println("RESOLVE: " + FilePath.toAbsolutePath());
-        System.out.println("EXISTS: " + JSON_USER_DATACARD.exists());
-        
+    public static File GetJSNFile_DATACARD() {
         return ManageFileLock.JSON_USER_DATACARD;
     }
 

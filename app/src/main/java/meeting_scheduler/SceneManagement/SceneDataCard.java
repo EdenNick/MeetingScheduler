@@ -5,7 +5,6 @@ package meeting_scheduler.SceneManagement;
 
 // Imports
 // ############################################################
-import java.io.IOException;
 import java.util.LinkedList;
 
 import javafx.animation.FadeTransition;
@@ -38,6 +37,7 @@ import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
 import meeting_scheduler.UserInput.InputTextField;
+import meeting_scheduler.UserInput.InputWeek;
 import meeting_scheduler.UserInput.ManageDayTime;
 import meeting_scheduler.UserInput.ManageJsonFormat;
 import meeting_scheduler.global;
@@ -149,7 +149,7 @@ public class SceneDataCard {
         // File Management
         // ############################################################
         this.ObjJsonFileFormatter  = new ManageJsonFormat();
-        this.ObjJsonFileManager    = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
+        this.ObjJsonFileManager    = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
         // ############################################################
 
         // UI Styling
@@ -382,13 +382,13 @@ public class SceneDataCard {
                  * 
                  * Inputs user preference to be displayed to the user as well as stored for eventual submission to file
                  * 
-                 * PROG_DAL_A_TimeInput TempUserPreferrence         - individual time preference containing day. start and end times
+                 * PROG_DAL_A_TimeInput TempUserPreferrence             - individual time preference containing day. start and end times
                  * 
-                 * LinkedList<PROG_DAL_A_TimeInput> listUserAddedPref  - A list of all time preferences a person has. To be submitted to the json file not displayed
+                 * LinkedList<PROG_DAL_A_TimeInput> listUserAddedPref   - A list of all time preferences a person has. To be submitted to the json file not displayed
                  * 
-                 * LinkedList<VBox> List_VBoxTimeInputs             - a copied list of all VBoxes stored in the flowpane display. Used to iterate, not to be displayed
+                 * LinkedList<VBox> List_VBoxTimeInputs                 - a copied list of all VBoxes stored in the flowpane display. Used to iterate, not to be displayed
                  * 
-                 * FlowPane uiOutputPref                       - A flowpane which displays the various Vboxs that hold user preferences. display only
+                 * FlowPane uiOutputPref                                - A flowpane which displays the various Vboxs that hold user preferences. display only
                  */
                 ObjTimeInputManager.UserInputGraphic(TempUserPreferrence, listUserAddedPref, uiOutputPref, true);
                 // ############################################################
@@ -464,38 +464,29 @@ public class SceneDataCard {
                 int id = Integer.parseInt(textfieldIdent.getText());
                 // ############################################################
 
-                // preferred week days linked list
-                // Format Input Days to a string
+
+
+                // Week Days Array
                 // ############################################################
-                LinkedList<String> preferredDaysList = new LinkedList<>();
+                InputWeek PreferredDays = new InputWeek();
 
-                // iterate through WEEKDAYS first to ensure a weekday can only be matched once
+                for (int WeekPos = 0; WeekPos < this.WEEKDAYS.length; WeekPos++) {
+                    for (int PrefPos = 0; PrefPos < this.listUserAddedPref.size(); PrefPos++) {
+                        if (this.listUserAddedPref.get(PrefPos).GetWeekDay().equals(this.WEEKDAYS[WeekPos])) {
 
-                for (String Day : this.WEEKDAYS) {
-
-                    for (PreferenceTime preference : this.listUserAddedPref) {
-                        if (preference.GetWeekDay().equals(Day)) {
-
-                            preferredDaysList.add(Day); // each day should only be added once
+                            PreferredDays.SetDay(WeekPos);
                             break; // should break to the first for loop
                         }
-                    }
 
-                }
+                    } // for (int PrefPos = 0; PrefPos < this.listUserAddedPref.size(); PrefPos++)
 
-                // create String array with no null values
-                String[] preferredDays = new String[preferredDaysList.size()];
-
-                for (int index = 0; index < preferredDaysList.size(); index++) {
-                    preferredDays[index] = preferredDaysList.get(index);
-                }
+                } // for (int Pos = 0; Pos < this.WEEKDAYS.length; Pos++)
                 // ############################################################
-
 
 
                 listEmployeeFullPref = new LinkedList<>(ObjJsonFileManager.readJson_FullPref());
                 
-                PreferenceFull EMPLOYEE_Input = new PreferenceFull(false, name, id, preferredDays, this.listUserAddedPref);
+                PreferenceFull EMPLOYEE_Input = new PreferenceFull(false, name, id, PreferredDays.GetWeekArray(), this.listUserAddedPref);
                 
                 listEmployeeFullPref.add(EMPLOYEE_Input);
 
@@ -609,8 +600,8 @@ public class SceneDataCard {
         // textfieldIdent
         double InputIdentWidth      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);   // 0 - 50
         double InputIdentHeight     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);  // 1 - 25
-        this.textfieldIdentCreator  = new InputTextField(global.TextFieldState.TEXT, TEXT_TWO, InputIdentWidth, InputIdentHeight);
-        this.textfieldIdent = textfieldIdentCreator.Return_Field_constructed();
+        this.textfieldIdentCreator  = new InputTextField(global.TextFieldState.NUMERIC, TEXT_TWO, InputIdentWidth, InputIdentHeight);
+        this.textfieldIdent         = textfieldIdentCreator.Return_Field_constructed();
         // textfieldName
         double InputNameWidth       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);   // 0 - 50
         double InputNameHeight      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);  // 1 - 25

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.global;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
+import meeting_scheduler.UserInput.InputWeek;
 // ############################################################
 
 
@@ -34,7 +35,7 @@ public class ManageJsonFormat {
 
     }
     
-    //
+
     public LinkedList<PreferenceFull> JsonFileDefault_Formatting(LinkedList<PreferenceFull> INPUT_FullEmployeePreference) {
 
 
@@ -61,7 +62,7 @@ public class ManageJsonFormat {
                 boolean     NewPreference_Delete    = EMPLOYEE_Duplicate.GetStatus();
                 int         NewPreference_Ident     = EMPLOYEE_Duplicate.GetIdent();
                 String      NewPreference_Name      = EMPLOYEE_Duplicate.GetName();
-                String[]    NewPreference_Days      = new String[7];
+                InputWeek   NewPreference_week      = new InputWeek();
 
                 LinkedList<PreferenceTime> NewPreference_times = new LinkedList<>();
 
@@ -95,47 +96,31 @@ public class ManageJsonFormat {
                 } // while (IteratorDefaultJson.hasNext()) {
 
 
-
                 // Iterate over all preference days to ensure they are added to the list
-                //int NumberofValidDays = 0;
-                for (int weekday = 0; weekday < 7; weekday++) {
+                // int NumberofValidDays = 0;
+                for (int weekday = 0; weekday < ManageJsonFormat.WEEKDAYS.length; weekday++) {
 
                     for (int IndexPosition = 0; IndexPosition < NewPreference_times.size(); IndexPosition++) {
 
-                        if ( WEEKDAYS[weekday].equals(NewPreference_times.get(IndexPosition).GetWeekDay()) ) {
-                            NewPreference_Days[weekday] = WEEKDAYS[weekday];
-                            //NumberofValidDays++;
-                            break;
-                        } // if ( WEEKDAYS[weekday].equals(Employee_NewPreferenceSet.get(IndexPosition).GetWeekDay()) ) {
+                        if (NewPreference_times.get(IndexPosition).GetWeekDay() != null) {
+                            if ( NewPreference_times.get(IndexPosition).GetWeekDay().equals(WEEKDAYS[weekday]) ) {
+                                NewPreference_week.SetDay(weekday);
+                                break;
+                            }
+                        }
 
                     } // for (int IndexPosition = 0; IndexPosition < Employee_NewPreferenceSet.size(); IndexPosition++) {
 
-                } // for (int weekday = 0; weekday < 7; weekday++) {
-
-
-
-                
-                String[] NewPreference_week = new String[7];
-                //int InputDay = 0;
-                for (int position_day = 0; position_day < 7; position_day++) {
-
-                    if (NewPreference_Days[position_day] != null) {
-                        NewPreference_week[position_day] = NewPreference_Days[position_day];
-                    } else {
-                        NewPreference_week[position_day] = null;
-                    }
-                }
+                } // for (int weekday = 0; weekday < 7; weekday++)
 
 
                 // Create new preference for a person and add them to the hash set
-                PreferenceFull NEWEmployeePreference = new PreferenceFull(NewPreference_Delete, NewPreference_Name, NewPreference_Ident, NewPreference_week, NewPreference_times);
-
+                PreferenceFull NEWEmployeePreference = new PreferenceFull(NewPreference_Delete, NewPreference_Name, 
+                    NewPreference_Ident, NewPreference_week.GetWeekArray(), NewPreference_times);
 
                 HashSetEmployeePreference.put(EmployeePreference_Key, NEWEmployeePreference);
 
                 System.out.println(EmployeePreference_Key);
-
-
 
             } else {
                 // Add new preference to the list

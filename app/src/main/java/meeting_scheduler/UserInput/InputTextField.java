@@ -48,7 +48,6 @@ public class InputTextField {
                 Construct_Field_Numeric();
                 break;
             default:
-                // TODO: SYSTEM MESSAGE ERROR
                 break;
         }
     

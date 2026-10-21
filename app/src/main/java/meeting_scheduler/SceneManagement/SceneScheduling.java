@@ -5,7 +5,6 @@ package meeting_scheduler.SceneManagement;
 
 // Imports
 // ############################################################
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -49,6 +48,7 @@ import meeting_scheduler.ScheduleManagement.ManageScheduleCalculation;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
+import meeting_scheduler.UserInput.InputWeek;
 import meeting_scheduler.UserInput.ManageDayTime;
 import meeting_scheduler.global;
 // ############################################################
@@ -155,7 +155,7 @@ public class SceneScheduling {
     private ComboBox<String>    userInput_SelectDays;           // combobox for the user to select which days they want to scheudle on
     private FlowPane            OutputDays;                     // flowpane ontains the input days the user wants selected
     // OUTPUT
-    private String[]            SCHEDULE_DAYS;                  // holds the selected days to be used in the schedule calculations
+    private InputWeek           SCHEDULE_DAYS;                  // holds the selected days to be used in the schedule calculations
     private Text                WeekDayOutputText = new Text(); // Output display text of user selection
     // ############################################################
 
@@ -235,7 +235,7 @@ public class SceneScheduling {
         // Schedule Calculator  - Object used to calculate viable schedules based off of input user preferences
         this.SCHEDULER_CALCULATOR = new ManageScheduleCalculation();
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. Used to retrieve current user preferences to create a schedule
-        this.SCHEDULER_FILES = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
+        this.SCHEDULER_FILES = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
         // ############################################################
 
         // calculating schedules
@@ -300,7 +300,7 @@ public class SceneScheduling {
         // ammount fo schedules the user wants displayed
         this.SCHEDULE_LIST      = this.maxListAmmount;
         // String[] containg all user selected days
-        this.SCHEDULE_DAYS      = new String[7];
+        this.SCHEDULE_DAYS      = new InputWeek();
         // holds a list of prefered times input by the user - max 4
         this.SCHEDULE_TIMES     = new LinkedList<>();
         // ############################################################
@@ -1417,7 +1417,7 @@ public class SceneScheduling {
             this.userInput_SelectDays.getItems().addAll(this.WEEKDAY);
 
             // resets the list of user selected days
-            this.SCHEDULE_DAYS  = new String[7];
+            this.SCHEDULE_DAYS.UnSetAll();
 
             // resets the schedule calcualtor to look through everyday of the week
             SCHEDULER_CALCULATOR.ResetPreference_Weekdays(); // input String[]
@@ -1446,11 +1446,11 @@ public class SceneScheduling {
                 // removes the selected day from the combobox
                 this.userInput_SelectDays.getItems().remove(UserSelectedPosition);
                 this.userInput_SelectDays.getItems().add(UserSelectedPosition, this.SELECTED);
-                this.SCHEDULE_DAYS[UserSelectedPosition] = this.WEEKDAY[UserSelectedPosition];
-                
+                //this.SCHEDULE_DAYS[UserSelectedPosition] = this.WEEKDAY[UserSelectedPosition];
+                this.SCHEDULE_DAYS.SetDay(UserSelectedPosition);
             
                 // removes the null values from the string[] 
-                String[] SelectedDays_SchedulerInput = Arrays.stream(this.SCHEDULE_DAYS).filter(Objects::nonNull).toArray(String[]::new);
+                String[] SelectedDays_SchedulerInput = Arrays.stream(this.SCHEDULE_DAYS.GetWeekArray()).filter(Objects::nonNull).toArray(String[]::new);
 
                 // string to be displayed as text in the flowpane
                 String DisplayText_days = String.join(" - ", SelectedDays_SchedulerInput);
@@ -1459,7 +1459,7 @@ public class SceneScheduling {
                 this.WeekDayOutputText.setText(DisplayText_days);
 
                 // scheduler is updated with the new list of selected days
-                SCHEDULER_CALCULATOR.SetPreference_Weekdays(SelectedDays_SchedulerInput);
+                SCHEDULER_CALCULATOR.SetPreference_Weekdays(this.SCHEDULE_DAYS.GetWeekArray());
 
 
 

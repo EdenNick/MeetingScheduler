@@ -6,6 +6,7 @@ package meeting_scheduler.UserInput;
 // IMPORTS
 // ############################################################
 import javafx.scene.control.ComboBox;
+import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.global;
 // ############################################################
 
@@ -15,9 +16,9 @@ public class InputComboBox {
 
     private final global.TextListState  ENUM_STATE;
     private final ComboBox<String>      COMBOBOX;
-    private final String    PARAM_PROMPT;
-    private final int       PARAM_WIDTH;
-    private final int       PARAM_HEIGHT;
+    private final String                PARAM_PROMPT;
+    private final int                   PARAM_WIDTH;
+    private final int                   PARAM_HEIGHT;
     
     public InputComboBox(global.TextListState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, int INPUT_WIDTH, int INPUT_HEIGHT) {
         
@@ -45,7 +46,7 @@ public class InputComboBox {
     }
 
     private void Construct_Field_WeekList() {
-        this.COMBOBOX.getItems().addAll(global.Global_Array_WeekDay_Short_Get());
+        this.COMBOBOX.getItems().addAll(SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT));
     }
 
     public ComboBox<String> Return_Field_Constructed() {

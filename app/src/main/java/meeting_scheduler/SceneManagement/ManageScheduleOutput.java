@@ -3,7 +3,6 @@
 package meeting_scheduler.SceneManagement;
 // ############################################################
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import javafx.collections.ObservableList;
@@ -64,7 +63,7 @@ public class ManageScheduleOutput {
         this.VboxSchedulerOutput = INPUT_SCHEDULEROUTPUT;
         this.SPACING = INPUT_SPACING;
         this.SCHEDULES = INPUT_SCHEDULES;
-        this.Scheduler_fileReader = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
+        this.Scheduler_fileReader = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
 
         this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
         this.PM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM

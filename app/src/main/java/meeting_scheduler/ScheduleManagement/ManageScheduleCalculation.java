@@ -18,6 +18,7 @@ import meeting_scheduler.DataHolder.PreferenceTime;
 import meeting_scheduler.FileManagement.ManageFileLock;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 // ############################################################
+import meeting_scheduler.UserInput.InputWeek;
 
 
 
@@ -56,7 +57,8 @@ public class ManageScheduleCalculation {
     private int[]               UserInput_PeopleList;               // IncomingLinkedList of people the user wants scheduled, no operations should be performed on it.
     private boolean             UserPref_IDsProvided    = false;    // If false, a list of people to schedule was not provided, false as default.
 
-    private String[]            UserInput_WeekDays;                 // Days the user wants a schedule for, defaults to the whole week.
+    private InputWeek           UserInput_WeekDays;
+    //private String[]            UserInput_WeekDays;                 // Days the user wants a schedule for, defaults to the whole week.
     private boolean             userPref_SpecificDays   = false;
 
     private PreferenceTime[]    UserInput_UserTimes;                // LinkedList containing the specified times of the user
@@ -82,7 +84,7 @@ public class ManageScheduleCalculation {
      * File data info and management
      */
     // ############################################################
-    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFileLock.GetFile_DATACARD());
+    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
     private LinkedList<PreferenceFull>  FileData_Employee_FullList;
     // ############################################################
 
@@ -114,8 +116,9 @@ public class ManageScheduleCalculation {
         this.WEEK_LENGTH  = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 0);
         this.WEEK_DEFAULT = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
         
-        this.UserInput_WeekDays  = WEEK_DEFAULT.clone();
-        
+        this.UserInput_WeekDays = new InputWeek();
+        this.UserInput_WeekDays.SetAll();
+
         this.Calc_FullScheduleList = new LinkedList<>();
         
         try {
@@ -124,8 +127,7 @@ public class ManageScheduleCalculation {
             e.printStackTrace();
         }
 
-
-    }
+    } // ManageScheduleCalculation()
 
 
 
@@ -134,11 +136,9 @@ public class ManageScheduleCalculation {
      * Description: Resets all User preferences to default
      */
     public void ResetALLPreferences() {
-
         ResetPreference_People();
         ResetPreference_Weekdays();
         ResetPreference_Times();
-
     } // ResetALLPreferences
 
 
@@ -160,11 +160,24 @@ public class ManageScheduleCalculation {
      * Description: Updates the user selected days they want to schedule a meeting on
      * @param INPUT_WEEKDAYS
      */
-    // TODO: UPDATE
     public void SetPreference_Weekdays(String[] INPUT_WEEKDAYS) {
-        this.UserInput_WeekDays     = INPUT_WEEKDAYS.clone();
-        this.userPref_SpecificDays  = true;
-    }
+
+        if (INPUT_WEEKDAYS.length == this.WEEK_DEFAULT.length) {
+
+            for (int Pos = 0; Pos < this.WEEK_DEFAULT.length; Pos++) {
+                if (INPUT_WEEKDAYS[Pos] != null) {
+                    if (INPUT_WEEKDAYS[Pos].equals(this.WEEK_DEFAULT[Pos])) {
+                        this.UserInput_WeekDays.SetDay(Pos);
+                    }
+                }
+            }
+            this.userPref_SpecificDays  = true;
+
+        } else {
+            // invalid INPUT_WEEKDAYS, DO NOTHING.
+        }
+
+    } // SetPreference_Weekdays()
 
 
 
@@ -197,7 +210,7 @@ public class ManageScheduleCalculation {
      * Description: Used to reset the preference for the specific weekdays to be scheduled. Everyday of the week will be used in the calculation.
      */
     public void ResetPreference_Weekdays() {
-        this.UserInput_WeekDays     = WEEK_DEFAULT.clone();
+        this.UserInput_WeekDays.UnSetAll();
         this.userPref_SpecificDays  = false;
     } // ResetPreference_Weekdays()
 
@@ -214,20 +227,6 @@ public class ManageScheduleCalculation {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Paramater_Init_FullList
      * Description: Initializes the full possible list of people from the relvant Json file.
@@ -236,16 +235,55 @@ public class ManageScheduleCalculation {
      * @throws IOException
      */
     private void Paramater_Init_FullList() throws StreamReadException, DatabindException, IOException {
-
-        //FileData_Employees_FullList = new LinkedList<>();
-
         this.FileData_Employee_FullList = JsonFileManager.readJson_FullPref();
-
         this.Employee_FullList_Array = FileData_Employee_FullList.toArray(new PreferenceFull[0]);
+    } // Paramater_Init_FullList()
 
-    }
 
 
+
+
+    /**
+     * RetrieveSchedule()
+     * Description: public method called in order to pass ScheduleList outside the class
+     */
+    public LinkedList<DataCompleteSchedule> RetrieveSchedule() {
+
+        // Preference Specification set
+        // ############################################################
+        Paramater_ApplyPref_IDENT();
+        Paramater_ApplyPref_WeekDays();
+        // ############################################################
+
+
+        // Preference Employee Set
+        // ############################################################
+        // Employee_FullList_RefinedArray is the array used in creating the schedules it is populated with the ids of people 
+        // who met the previous specifications (besides the atual times)
+        this.Employee_FullList_RefinedArray = new PreferenceFull[IDList_AppliedIDAndDayPref.length];
+
+        for (int Position_RefinedList = 0; Position_RefinedList < IDList_AppliedIDAndDayPref.length; Position_RefinedList++) {
+
+            for (int Position_fullList = 0; Position_fullList < Employee_FullList_Array.length; Position_fullList++) {
+
+                if (IDList_AppliedIDAndDayPref[Position_RefinedList] == Employee_FullList_Array[Position_fullList].GetIdent()) {
+                    this.Employee_FullList_RefinedArray[Position_RefinedList] = new PreferenceFull(Employee_FullList_Array[Position_fullList]);
+                }
+
+            } // for (int Position_fullList = 0; Position_fullList < Employee_FullList_Array.length; Position_fullList++)
+
+        } // for (int Position_RefinedList = 0; Position_RefinedList < IDList_AppliedIDAndDayPref.length; Position_RefinedList++)
+        // ############################################################
+
+
+        // Schedule Calculation
+        // ############################################################
+        Calculate_ScheduleList();
+        // ############################################################
+        
+        return Calc_FullScheduleList;
+
+    } // RetrieveSchedule()
 
 
 
@@ -265,7 +303,6 @@ public class ManageScheduleCalculation {
             this.IDWeekdayPair_IDENTSort = new DataIDandDays(UserInput_PeopleList.length);
 
             int CurrentValue_IdentPref = 0;
-
             int Currentvalue_IdentList = 0;
 
             for (int Position_IdentList = 0; Position_IdentList < UserInput_PeopleList.length; Position_IdentList++) {
@@ -273,13 +310,10 @@ public class ManageScheduleCalculation {
                 for (int Position_FullList = 0; Position_FullList < Employee_FullList_Array.length; Position_FullList++) {
 
                     CurrentValue_IdentPref = UserInput_PeopleList[Position_IdentList];
-
                     Currentvalue_IdentList = Employee_FullList_Array[Position_FullList].GetIdent();
 
                     if (CurrentValue_IdentPref == Currentvalue_IdentList) {
-
                         this.IDWeekdayPair_IDENTSort.Set_Values(Position_IdentList, CurrentValue_IdentPref, Employee_FullList_Array[Position_FullList].GetDays());
-
                     }
 
                 } // for (int Position_FullList = 0; Position_FullList < FileData_Employee_FullList.size(); Position_FullList++)
@@ -298,7 +332,6 @@ public class ManageScheduleCalculation {
             for (int Position_FullListAll = 0; Position_FullListAll < Employee_FullList_Array.length; Position_FullListAll++) {
 
                 CurrentValue_ID = Employee_FullList_Array[Position_FullListAll].GetIdent();
-
                 this.IDWeekdayPair_IDENTSort.Set_Values(Position_FullListAll, CurrentValue_ID, Employee_FullList_Array[Position_FullListAll].GetDays());
 
             } // for (int Position_FullListAll = 0; Position_FullListAll < FileData_Employee_FullList.size(); Position_FullListAll++)
@@ -324,14 +357,15 @@ public class ManageScheduleCalculation {
 
         if (userPref_SpecificDays == false) {
 
-            int[] IDList = this.IDWeekdayPair_IDENTSort.Return_Idents();
-            String[][] PREF_Weekdays = this.IDWeekdayPair_IDENTSort.Return_Weekdays();
+            String[]    UserWeekDays    = this.UserInput_WeekDays.GetWeekArray();
+            int[]       IDList          = this.IDWeekdayPair_IDENTSort.Return_Idents();
+            String[][]  PREF_Weekdays   = this.IDWeekdayPair_IDENTSort.Return_Weekdays();
+            int         Size_IDWeekday  = this.IDWeekdayPair_IDENTSort.Return_Size();
+            int         DaySort_constructionSize = 0;
+            String      DayReturned;
 
-            int Size_IDWeekday = this.IDWeekdayPair_IDENTSort.Return_Size();
 
-            int DaySort_constructionSize = 0;
 
-            String DayReturned;
             // Nested for loop to get the correct size for IDWeekdayPair_DAYSort
             // Iterates over the full key value pair
             for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
@@ -343,7 +377,7 @@ public class ManageScheduleCalculation {
                     DayReturned = PREF_Weekdays[Position_IDWeekday][Position_Day];
 
                     if (DayReturned != null) {
-                        if (DayReturned.equals(this.UserInput_WeekDays[Position_Day])) {
+                        if (DayReturned.equals(UserWeekDays[Position_Day])) {
                             DaySort_constructionSize++;
                             break;
                         }
@@ -371,10 +405,10 @@ public class ManageScheduleCalculation {
                     DayReturned = PREF_Weekdays[Position_IDWeekday][Position_Day];
 
                     if (DayReturned != null) {
-                        if (DayReturned.equals(this.UserInput_WeekDays[Position_Day])) {
+                        if (DayReturned.equals(UserWeekDays[Position_Day])) {
 
-                        this.IDWeekdayPair_DAYSort.Set_Values(Position_IDWeekday, IDList[Position_IDWeekday], PREF_Weekdays[Position_IDWeekday]);
-                        break;
+                            this.IDWeekdayPair_DAYSort.Set_Values(Position_IDWeekday, IDList[Position_IDWeekday], PREF_Weekdays[Position_IDWeekday]);
+                            break;
                         }
                     }
 
@@ -405,9 +439,9 @@ public class ManageScheduleCalculation {
         String[] WeekDay_Iteration;
 
         if (userPref_SpecificDays == false) {
-            WeekDay_Iteration = UserInput_WeekDays.clone();
+            WeekDay_Iteration = UserInput_WeekDays.GetWeekArray();
         } else {
-            WeekDay_Iteration = global.Global_Array_WeekDay_Short_Get();
+            WeekDay_Iteration = this.WEEK_DEFAULT.clone();
         }
 
         int MaxSize = 0;
@@ -473,65 +507,6 @@ public class ManageScheduleCalculation {
         } // for (String Day : WeekDays)
 
     } // Calculate_ScheduleList()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * RetrieveSchedule()
-     * Description: public method called in order to pass ScheduleList outside the class
-     */
-    public LinkedList<DataCompleteSchedule> RetrieveSchedule() {
-
-        //TODO: maybe change later
-
-        Paramater_ApplyPref_IDENT();
-
-        Paramater_ApplyPref_WeekDays();
-
-        // Employee_FullList_RefinedArray is the array used in creating the schedules it is populated with the ids of people 
-        // who met the previous specifications (besides the atual times)
-        this.Employee_FullList_RefinedArray = new PreferenceFull[IDList_AppliedIDAndDayPref.length];
-
-        for (int Position_RefinedList = 0; Position_RefinedList < IDList_AppliedIDAndDayPref.length; Position_RefinedList++) {
-            for (int Position_fullList = 0; Position_fullList < Employee_FullList_Array.length; Position_fullList++) {
-
-                if (IDList_AppliedIDAndDayPref[Position_RefinedList] == Employee_FullList_Array[Position_fullList].GetIdent()) {
-                    this.Employee_FullList_RefinedArray[Position_RefinedList] = new PreferenceFull(Employee_FullList_Array[Position_fullList]);
-                }
-            }
-        }
-        
-        System.out.println( "RetrieveSchedule names:");
-
-
-        for (int i = 0; i < Employee_FullList_RefinedArray.length; i++) {
-            System.out.println(Employee_FullList_RefinedArray[i].GetName());
-        }
-
-
-
-
-        // calculates the schedules
-        Calculate_ScheduleList();
-        
-        return Calc_FullScheduleList;
-    }
-
-
 
 
 

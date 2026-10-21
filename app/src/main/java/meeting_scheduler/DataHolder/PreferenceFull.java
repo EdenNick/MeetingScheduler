@@ -78,9 +78,13 @@ public class PreferenceFull {
         int      weekLength = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 0);
 
         for (int Position_day = 0; Position_day < weekLength; Position_day++) {
-            if (Weekdays[Position_day].equals(Weekday[Position_day])) {
-                Output[Position_day] = Weekday[Position_day];
+            
+            if (Weekdays[Position_day] != null) {
+                if (Weekdays[Position_day].equals(Weekday[Position_day])) {
+                    Output[Position_day] = Weekday[Position_day];
+                }
             }
+
         }
 
         return Output.clone();

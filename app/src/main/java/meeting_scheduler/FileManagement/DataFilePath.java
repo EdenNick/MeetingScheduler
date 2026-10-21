@@ -1,10 +1,13 @@
 package meeting_scheduler.FileManagement;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class DataFilePath {
     
-
+     //TODO: GET RID OF
     // JSON FILE PATHS
-    public static final String JSN_DATACARD     = "app\\src\\main\\java\\meeting_scheduler\\Storage\\PROG_DATA_A_UserDataCard.json";
+    public static final Path JSN_DATACARD       = Paths.get( "app","src","main", "java", "meeting_scheduler", "Storage", "PROG_DATA_A_UserDataCard.json");
     public static final String JSN_TEST         = "src/main/resources/PROG_DATA_A_JsonTestFile.json";
     
     // PROPERTIES FILE PATHS

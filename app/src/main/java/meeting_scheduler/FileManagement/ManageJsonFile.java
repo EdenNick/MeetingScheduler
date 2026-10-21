@@ -88,11 +88,6 @@ public class ManageJsonFile {
      */
     public LinkedList<PreferenceFull> readJson_FullPref() {
 
-        // TODO: REMOVE
-        System.out.println("PATH: " + JsonFileManager_FilePath.getAbsolutePath());
-        System.out.println("Exists: " + JsonFileManager_FilePath.exists());
-        System.out.println("Exists: " + JsonFileManager_FilePath.isFile());
-
         try {
             synchronized(this.JsonFileManager_FilePath) {
                 return this.JsonFileManager_FileOutput.Retrieve_DefaultFile();

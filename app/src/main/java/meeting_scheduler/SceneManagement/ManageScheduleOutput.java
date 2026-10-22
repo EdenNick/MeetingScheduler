@@ -63,13 +63,13 @@ public class ManageScheduleOutput {
         this.VboxSchedulerOutput = INPUT_SCHEDULEROUTPUT;
         this.SPACING = INPUT_SPACING;
         this.SCHEDULES = INPUT_SCHEDULES;
-        this.Scheduler_fileReader = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
+        this.Scheduler_fileReader = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
 
         this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
         this.PM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM
 
         this.Padding    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 1); // 1 - 10
-        this.StyleSix   = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 31); // 31 - Schedule_UI_ScheduleListBox
+        this.StyleSix   = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 16); // 16 - Schedule_UI_ScheduleListBox
 
     } // ManageScheduleOutput()
 

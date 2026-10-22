@@ -84,7 +84,7 @@ public class ManageScheduleCalculation {
      * File data info and management
      */
     // ############################################################
-    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
+    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
     private LinkedList<PreferenceFull>  FileData_Employee_FullList;
     // ############################################################
 

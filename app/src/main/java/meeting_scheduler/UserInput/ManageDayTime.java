@@ -182,38 +182,38 @@ public class ManageDayTime {
 
     private void CONSTRUCT_UI_Labels() {
         // Label - Weekday Prompt
-        this.labelDay           = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 5));
-        this.labelDay.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelDay           = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 5));
+        this.labelDay.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1));
 
 
         // Label - Beginning time Prompt
-        this.labelBeginningTime = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 6));
-        this.labelBeginningTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelBeginningTime = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 6));
+        this.labelBeginningTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1));
 
 
         // Label - Beginning Hour Label
-        this.labelBeginHour     = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
-        this.labelBeginHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelBeginHour     = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 8));
+        this.labelBeginHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1));
 
 
         // Label - Beginning Minute Label
-        this.labelBeginMinute   = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
-        this.labelBeginMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelBeginMinute   = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 9));
+        this.labelBeginMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1));
 
 
         // Label - Ending time Prompt
-        this.labelEndingTime    = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 7));
-        this.labelEndingTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelEndingTime    = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 7));
+        this.labelEndingTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1));
 
 
         // Label - Ending hour Label
-        this.labelEndHour       = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 8));
-        this.labelEndHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelEndHour       = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 8));
+        this.labelEndHour.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1));
 
 
         // Label - Ending Minute Label
-        this.labelEndMinute     = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 9));
-        this.labelEndMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16));
+        this.labelEndMinute     = new Label(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 9));
+        this.labelEndMinute.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1));
     } // CONSTRUCT_UI_Labels()
 
 
@@ -226,7 +226,7 @@ public class ManageDayTime {
         this.UIAddStartTime = new HBox(10);
         //AddStartTime.setPrefSize(300.0, 500.0);
         this.UIAddStartTime.setPadding(new Insets(10));
-        this.UIAddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UIAddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4));
 
         this.UIAddStartTime.getChildren().addAll(
 
@@ -248,7 +248,7 @@ public class ManageDayTime {
         this.UIAddEndtime = new HBox(10);
         //AddStartTime.setPrefSize(200.0, 400.0);
         this.UIAddEndtime.setPadding(new Insets(10));
-        this.UIAddEndtime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UIAddEndtime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4));
         this.UIAddEndtime.getChildren().addAll(
 
             labelEndHour,
@@ -269,7 +269,7 @@ public class ManageDayTime {
         this.UITimeInterface = new VBox(10);
         //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
         this.UITimeInterface.setPadding(new Insets(10));
-        this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4));
 
         Region ButtonSpace = new Region();
         VBox.setVgrow(ButtonSpace, Priority.ALWAYS);
@@ -302,7 +302,7 @@ public class ManageDayTime {
         this.UIAddStartTime = new HBox(10);
         //AddStartTime.setPrefSize(300.0, 500.0);
         this.UIAddStartTime.setPadding(new Insets(10));
-        this.UIAddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UIAddStartTime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4));
 
         this.UIAddStartTime.getChildren().addAll(
 
@@ -324,7 +324,7 @@ public class ManageDayTime {
         this.UIAddEndtime = new HBox(10);
         //AddStartTime.setPrefSize(200.0, 400.0);
         this.UIAddEndtime.setPadding(new Insets(10));
-        this.UIAddEndtime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UIAddEndtime.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4));
         this.UIAddEndtime.getChildren().addAll(
 
             labelEndHour,
@@ -345,7 +345,7 @@ public class ManageDayTime {
         this.UITimeInterface = new VBox(10);
         this.UITimeInterface.setMaxSize(570.0, 260.0);
         this.UITimeInterface.setPadding(new Insets(10));
-        this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 19));
+        this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4));
 
         Region ButtonSpace = new Region();
         VBox.setVgrow(ButtonSpace, Priority.ALWAYS);
@@ -491,7 +491,7 @@ public class ManageDayTime {
         VBox IndividualDataCard = new VBox();
         IndividualDataCard.setPrefSize(this.Width, this.Height);
         // IndividualDataCard.setPrefSize(130.0, 100.0);
-        IndividualDataCard.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 22));
+        IndividualDataCard.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 7));
         IndividualDataCard.setAlignment(Pos.CENTER);
         // ############################################################
 

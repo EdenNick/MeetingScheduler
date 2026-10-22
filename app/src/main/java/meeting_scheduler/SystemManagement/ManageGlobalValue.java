@@ -11,56 +11,79 @@ import java.util.ArrayList;
 import java.util.Properties;
 import meeting_scheduler.global;
 // ############################################################
+import meeting_scheduler.FileManagement.ManageFileLock;
 
 
 
 public class ManageGlobalValue {
     
-    // TODO: move to its own public class file
-    private final static String FILEPATH_ValuesArrays = "/GlobalValuesArrays.properties";
-    private final static String FILEPATH_ValuesUnique = "/GlobalValuesUnique.properties";
-
-    private final static String PropPath_Array      = "ARRAY.";
-    private final static String PropPath_Unique     = "UNIQUE.";
-
-    private final static String PropPath_Int        = "INT.";
-    private final static String PropPath_String     = "STRING.";
-    private final static String PropPath_Double     = "DOUBLE.";
-    private final static String PropPath_Spacing    = "SPACING.";
-    private final static String PropPath_Padding    = "PADDING.";
-    private final static String PropPath_Width      = "WIDTH.";
-    private final static String PropPath_Height     = "HEIGHT.";
-    private final static String PropPath_ANCHOR     = "ANCHOR.";
-
-    private final static String PropPath_WeekDay    = "WEEKDAY.";
-    private final static String PropPath_AMPM       = "AMPM.";
-    private final static String PropPath_Time       = "TIME.";
-    private final static String PropPath_Short      = "SHORT.";
-    private final static String PropPath_ShortCap   = "SHORTCAP.";
-    private final static String PropPath_Long       = "LONG.";
-    private final static String PropPath_LongCap    = "LONGCAP.";
-    private final static String PropPath_ID         = "ID.";
+    // INPUT STREAMS
+    // ############################################################
+    private final static InputStream VALUES_ARRAY   = ManageFileLock.GetInputStream_VALARRY();
+    private final static InputStream VALUES_UNIQUE  = ManageFileLock.GetInputStream_VALUNQE();
+    // ############################################################
 
 
+    // PROP PATH UNIQUE
+    // ############################################################
+    private final static String PATH_UNIQUE_INT             = "UNIQUE.INT.";
+    private final static String PATH_UNIQUE_STRING_TEXT     = "UNIQUE.STRING.TEXT.";
+    private final static String PATH_UNIQUE_STRING_STYLE    = "UNIQUE.STRING.STYLE.";
+    private final static String PATH_UNIQUE_DOUBLE_SPACING  = "UNIQUE.DOUBLE.SPACING.";
+    private final static String PATH_UNIQUE_DOUBLE_PADDING  = "UNIQUE.DOUBLE.PADDING.";
+    private final static String PATH_UNIQUE_DOUBLE_WIDTH    = "UNIQUE.DOUBLE.WIDTH.";
+    private final static String PATH_UNIQUE_DOUBLE_HEIGHT   = "UNIQUE.DOUBLE.HEIGHT.";
+    private final static String PATH_UNIQUE_DOUBLE_ANCHOR   = "UNIQUE.DOUBLE.ANCHOR.";
+    // ############################################################
+
+    // PROP PATH ARRAY
+    // ############################################################
+    // WEEKS
+    private final static String PATH_ARRAY_WEEKSHORT        = "ARRAY.WEEKDAY.SHORT.";
+    private final static String PATH_ARRAY_WEEKSHORTCAP     = "ARRAY.WEEKDAY.SHORTCAP.";
+    private final static String PATH_ARRAY_WEEKLONG         = "ARRAY.WEEKDAY.LONG.";
+    private final static String PATH_ARRAY_WEEKLONGCAP      = "ARRAY.WEEKDAY.LONGCAP.";
+    // AM PM
+    private final static String PATH_ARRAY_AMPM             = "ARRAY.AMPM.";
+    // Time intervals
+    private final static String PATH_ARRAY_TIME             = "ARRAY.TIME.";
+    // valid ID range
+    private final static String PATH_ARRAY_IDENT            = "ARRAY.ID.";
+    // ############################################################
 
 
+
+    // INT
+    // ############################################################
     private static int[] GLOBAL_VALUE_int;
     private static int[] GLOBAL_VALUE_TimeIntervals;
     private static int[] GLOBAL_VALUE_IDENTIntervals;
+    // ############################################################
 
-    private static String[] GLOBAL_VALUE_Strings;
-    private static String[] GLOBAL_VALUE_Weekday_Short;
-    private static String[] GLOBAL_VALUE_Weekday_ShortCap;
-    private static String[] GLOBAL_VALUE_Weekday_Long;
-    private static String[] GLOBAL_VALUE_Weekday_LongCap;
-    private static String[] GLOBAL_VALUE_AMPM;
+    // STRING
+    // ############################################################
+    // WEEKDAYS
+    private static String[] STRING_WEEKDAY_SHORT;
+    private static String[] STRING_WEEKDAY_SHORTCAP;
+    private static String[] STRING_WEEKDAY_LONG;
+    private static String[] STRING_WEEKDAY_LONGCAP;
+    // TEXT
+    private static String[] STRING_TEXT;
+    // STYLES
+    private static String[] STRING_STYLE;
+    // AM PM
+    private static String[] STRING_AMPM;
+    // ############################################################
 
-
-    private static double[] GLOBAL_VALUE_Spacing;
-    private static double[] GLOBAL_VALUE_Padding;
-    private static double[] GLOBAL_VALUE_Width;
-    private static double[] GLOBAL_VALUE_Height;
-    private static double[] GLOBAL_VALUE_Anchor;
+    // DOUBLE
+    // ############################################################
+    // UI SPACING
+    private static double[] DOUBLE_UI_SPACING;
+    private static double[] DOUBLE_UI_PADDING;
+    private static double[] DOUBLE_UI_WIDTH;
+    private static double[] DOUBLE_UI_HEIGHT;
+    private static double[] DOUBLE_UI_ANCHOR;
+    // ############################################################
 
     
     private ManageGlobalValue() {
@@ -68,43 +91,46 @@ public class ManageGlobalValue {
     }
 
     public static void VALUES_SETUP() {
-        Set_Global_Values_intArrays();
-        Set_Global_Values_StringArrays();
-        Set_Global_Values_doubleArrays();
-
-
-        // void Global_Array_WeekDay_Set (String[] INPUT_SHORT, String[] INPUT_SHORTCAP, String[] INPUT_LONG, String[] INPUT_LONGCAP)
-        global.Global_Array_WeekDay_Set     (GLOBAL_VALUE_Weekday_Short, GLOBAL_VALUE_Weekday_ShortCap, GLOBAL_VALUE_Weekday_Long, GLOBAL_VALUE_Weekday_LongCap);
-
-        // void Global_Array_BasicValue_Set (int[] INPUT_WEEKLENGTH, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL, String[] INPUT_AMPM, String[] INPUT_STRINGS)
-        global.Global_Array_BasicValue_Set  (GLOBAL_VALUE_int, GLOBAL_VALUE_TimeIntervals, GLOBAL_VALUE_IDENTIntervals, GLOBAL_VALUE_AMPM, GLOBAL_VALUE_Strings);
+        
+        SetValues_int();
+        SetValues_String();
+        SetValuesDouble();
 
         // void Global_Array_UISpacing_Set (double[] INPUT_SPACE, double[] INPUT_PAD, double[] INPUT_WIDTH, double[] INPUT_HEIGTH, double[] INPUT_ANCHOR)
-        global.Global_Array_UISpacing_Set   (GLOBAL_VALUE_Spacing, GLOBAL_VALUE_Padding, GLOBAL_VALUE_Width, GLOBAL_VALUE_Height, GLOBAL_VALUE_Anchor);
-    }
-
-    private static void Set_Global_Values_intArrays() {
-        ManageGlobalValue.GLOBAL_VALUE_int                = GetValues_ConvertToInt(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Int);
-        ManageGlobalValue.GLOBAL_VALUE_TimeIntervals      = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_Time);
-        ManageGlobalValue.GLOBAL_VALUE_IDENTIntervals     = GetValues_ConvertToInt(FILEPATH_ValuesArrays, PropPath_Array  + PropPath_ID);
-    }
-
-    private static void Set_Global_Values_StringArrays() {
+        global.Global_Array_UISpacing_Set   (DOUBLE_UI_SPACING, DOUBLE_UI_PADDING, DOUBLE_UI_WIDTH, DOUBLE_UI_HEIGHT, DOUBLE_UI_ANCHOR);
         
-        ManageGlobalValue.GLOBAL_VALUE_Strings            = Get_Global_Values_Property(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_String);
-        ManageGlobalValue.GLOBAL_VALUE_Weekday_Short      = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Short);
-        ManageGlobalValue.GLOBAL_VALUE_Weekday_ShortCap   = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_ShortCap);
-        ManageGlobalValue.GLOBAL_VALUE_Weekday_Long       = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_Long);
-        ManageGlobalValue.GLOBAL_VALUE_Weekday_LongCap    = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_WeekDay + PropPath_LongCap);
-        ManageGlobalValue.GLOBAL_VALUE_AMPM               = Get_Global_Values_Property(FILEPATH_ValuesArrays, PropPath_Array + PropPath_AMPM);
+        // void Global_Array_WeekDay_Set (String[] INPUT_SHORT, String[] INPUT_SHORTCAP, String[] INPUT_LONG, String[] INPUT_LONGCAP)
+        global.Global_Array_WeekDay_Set     (STRING_WEEKDAY_SHORT, STRING_WEEKDAY_SHORTCAP, STRING_WEEKDAY_LONG, STRING_WEEKDAY_LONGCAP);
+
+        // void GlobalValueSetINT (int[] INPUT_UNIQUE, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL)
+        global.GlobalValueSetINT(GLOBAL_VALUE_int, GLOBAL_VALUE_TimeIntervals, GLOBAL_VALUE_IDENTIntervals);
+        
+        // void GlobalValueSetString (String[] INPUT_TEXT, String[] INPUT_STYLE, String[] INPUT_AMPM)
+        global.GlobalValueSetString(STRING_TEXT, STRING_STYLE, STRING_AMPM);
     }
 
-    private static void Set_Global_Values_doubleArrays() {
-        ManageGlobalValue.GLOBAL_VALUE_Spacing            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Spacing);
-        ManageGlobalValue.GLOBAL_VALUE_Padding            = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Padding);
-        ManageGlobalValue.GLOBAL_VALUE_Width              = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Width);
-        ManageGlobalValue.GLOBAL_VALUE_Height             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_Height);
-        ManageGlobalValue.GLOBAL_VALUE_Anchor             = GetValues_ConvertToDouble(FILEPATH_ValuesUnique, PropPath_Unique + PropPath_Double + PropPath_ANCHOR);
+    private static void SetValues_int() {
+        ManageGlobalValue.GLOBAL_VALUE_int                = GetValues_ConvertToInt(VALUES_UNIQUE, PATH_UNIQUE_INT);
+        ManageGlobalValue.GLOBAL_VALUE_TimeIntervals      = GetValues_ConvertToInt(VALUES_ARRAY, PATH_ARRAY_TIME);
+        ManageGlobalValue.GLOBAL_VALUE_IDENTIntervals     = GetValues_ConvertToInt(VALUES_ARRAY, PATH_ARRAY_IDENT);
+    }
+
+    private static void SetValues_String() {
+        ManageGlobalValue.STRING_TEXT               = Get_Global_Values_Property(VALUES_UNIQUE, PATH_UNIQUE_STRING_TEXT);
+        ManageGlobalValue.STRING_STYLE              = Get_Global_Values_Property(VALUES_UNIQUE, PATH_UNIQUE_STRING_STYLE);
+        ManageGlobalValue.STRING_WEEKDAY_SHORT      = Get_Global_Values_Property(VALUES_ARRAY, PATH_ARRAY_WEEKSHORT);
+        ManageGlobalValue.STRING_WEEKDAY_SHORTCAP   = Get_Global_Values_Property(VALUES_ARRAY, PATH_ARRAY_WEEKSHORTCAP);
+        ManageGlobalValue.STRING_WEEKDAY_LONG       = Get_Global_Values_Property(VALUES_ARRAY, PATH_ARRAY_WEEKLONG);
+        ManageGlobalValue.STRING_WEEKDAY_LONGCAP    = Get_Global_Values_Property(VALUES_ARRAY, PATH_ARRAY_WEEKLONGCAP);
+        ManageGlobalValue.STRING_AMPM               = Get_Global_Values_Property(VALUES_ARRAY, PATH_ARRAY_AMPM);
+    }
+
+    private static void SetValuesDouble() {
+        ManageGlobalValue.DOUBLE_UI_SPACING            = GetValues_ConvertToDouble(VALUES_UNIQUE, PATH_UNIQUE_DOUBLE_SPACING);
+        ManageGlobalValue.DOUBLE_UI_PADDING            = GetValues_ConvertToDouble(VALUES_UNIQUE, PATH_UNIQUE_DOUBLE_PADDING);
+        ManageGlobalValue.DOUBLE_UI_WIDTH              = GetValues_ConvertToDouble(VALUES_UNIQUE, PATH_UNIQUE_DOUBLE_WIDTH);
+        ManageGlobalValue.DOUBLE_UI_HEIGHT             = GetValues_ConvertToDouble(VALUES_UNIQUE, PATH_UNIQUE_DOUBLE_HEIGHT);
+        ManageGlobalValue.DOUBLE_UI_ANCHOR             = GetValues_ConvertToDouble(VALUES_UNIQUE, PATH_UNIQUE_DOUBLE_ANCHOR);
     }
 
 
@@ -112,7 +138,7 @@ public class ManageGlobalValue {
 
 
 
-    private static int[] GetValues_ConvertToInt(String INPUT_FILEPATH, String INPUT_PROPPATH) {
+    private static int[] GetValues_ConvertToInt(InputStream INPUT_FILEPATH, String INPUT_PROPPATH) {
 
         String[] Temp = Get_Global_Values_Property(INPUT_FILEPATH, INPUT_PROPPATH);
         int[] Return_Array = new int[Temp.length];
@@ -126,7 +152,7 @@ public class ManageGlobalValue {
 
 
 
-    private static double[] GetValues_ConvertToDouble(String INPUT_FILEPATH, String INPUT_PROPPATH) {
+    private static double[] GetValues_ConvertToDouble(InputStream INPUT_FILEPATH, String INPUT_PROPPATH) {
         
         String[] Temp = Get_Global_Values_Property(INPUT_FILEPATH, INPUT_PROPPATH);
         double[] Return_Array = new double[Temp.length];
@@ -139,12 +165,12 @@ public class ManageGlobalValue {
 
 
 
-    private static String[] Get_Global_Values_Property(String INPUT_FILEPATH, String INPUT_PROPPATH) {
+    private static String[] Get_Global_Values_Property(InputStream INPUT_INPUSTREAM, String INPUT_PROPPATH) {
 
         // Properties object
         Properties  Prop_Type = new Properties();
         // File Path
-        String      FilePath = INPUT_FILEPATH;
+        InputStream FileInput = INPUT_INPUSTREAM;
         //Property Path
         String      PropPAth = INPUT_PROPPATH;
         // indiivudal property string
@@ -158,8 +184,8 @@ public class ManageGlobalValue {
         ArrayList<String> ArraylistPropStrings = new ArrayList<>();
 
         // TRY/CATCH
-        try ( InputStream FileInput = ManageGlobalValue.class.getResourceAsStream(FilePath) ) {
-            
+        // ( InputStream FileInput = ManageGlobalValue.class.getResourceAsStream(FilePath) )
+        try {
             
             // Load Props from File
             Prop_Type.load(FileInput);
@@ -176,8 +202,9 @@ public class ManageGlobalValue {
             FinalList = ArraylistPropStrings.toArray(new String[0]);
 
         } catch (IOException e) {
-            // TODO: consider changing in the future
+            // TODO: ERROR MESSAGE
             FinalList = new String[0];
+            System.exit(1);
         }
 
         // Set to static variable

@@ -52,7 +52,7 @@ public class ManageAppWindow extends Application {
     private void WindowRun(Stage stage) {
 
         // Sets the name of the application window
-        stage.setTitle(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 0));
+        stage.setTitle(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 0)); // 0 - Employee Meeting Scheduler);
 
         // MainMenu - the application shows the main menu scene on startup
         ManageAppWindow.SceneManager.SwapToMainMenu();

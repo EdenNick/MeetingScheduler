@@ -165,15 +165,15 @@ public final class SystemInfoManager {
             switch(INPUT_ENUM) {
 
                 case INT:
-                    ReturnValue = global.Global_Array_intValues_Get        (INPUT_POSITION);
+                    ReturnValue = global.GlobalGetUniqueInt         (INPUT_POSITION);
                     break;
 
                 case TIMEINTERVALS:
-                    ReturnValue = global.Global_Array_TimeIntervals_Get     (INPUT_POSITION);
+                    ReturnValue = global.GlobalGetTimeConstraint    (INPUT_POSITION);
                     break;
 
                 case IDENTCONSTRAINT:
-                    ReturnValue = global.Global_Array_IdentConstraint_Get   (INPUT_POSITION);
+                    ReturnValue = global.GlobalGetIdentConstraint   (INPUT_POSITION);
                     break;
 
                 default:
@@ -204,12 +204,16 @@ public final class SystemInfoManager {
         } else {
             switch(INPUT_ENUM) {
 
-                case AMPM:
-                    ReturnValue = global.Global_Array_AMPM_Get      (INPUT_POSITION);
+                case TEXT:
+                    ReturnValue = global.GlobalGetText    (INPUT_POSITION);
+                    break;
+                
+                case STYLE:
+                    ReturnValue = global.GlobalGetStyle    (INPUT_POSITION);
                     break;
 
-                case STRING:
-                    ReturnValue = global.Global_Array_String_Get    (INPUT_POSITION);
+                case AMPM:
+                    ReturnValue = global.GlobalGetAMPM      (INPUT_POSITION);
                     break;
                 
                 default:

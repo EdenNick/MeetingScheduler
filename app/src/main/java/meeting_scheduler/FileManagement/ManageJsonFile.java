@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.DataHolder.PreferenceFull;
-import meeting_scheduler.FileManagement.DataFilePath;
 import meeting_scheduler.SystemInfoManager;
 // ############################################################
 

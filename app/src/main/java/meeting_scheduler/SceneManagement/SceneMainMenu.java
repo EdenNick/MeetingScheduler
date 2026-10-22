@@ -104,9 +104,9 @@ public class SceneMainMenu {
 
         // Set local styling variable
         // ############################################################
-        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_STYLE_FILEs.css
-        this.STYLE_ONE  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 17); // 17 - MainMenu_UI_MenuOptions
-        this.STYLE_TWO  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 18); // 18 - MainMenu_ButtonEndProgram
+        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 0); // 0 - /CSS_Styles.css
+        this.STYLE_ONE  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 2); // 2 - MainMenu_UI_MenuOptions
+        this.STYLE_TWO  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 3); // 3 - MainMenu_Button_Endprogram
 
         this.SPACING            = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING, 2); // 2 - 20
         this.ANCHOR_DEFAULT     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20

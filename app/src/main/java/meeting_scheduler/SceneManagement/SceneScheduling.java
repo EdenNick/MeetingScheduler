@@ -235,7 +235,7 @@ public class SceneScheduling {
         // Schedule Calculator  - Object used to calculate viable schedules based off of input user preferences
         this.SCHEDULER_CALCULATOR = new ManageScheduleCalculation();
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. Used to retrieve current user preferences to create a schedule
-        this.SCHEDULER_FILES = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
+        this.SCHEDULER_FILES = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
         // ############################################################
 
         // calculating schedules
@@ -253,7 +253,7 @@ public class SceneScheduling {
         this.LENGTH_NAME    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 10); // 10 - 30
         this.maxListAmmount = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 8); // 8 - 20
         this.WEEKDAY        = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
-        this.SELECTED       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 11); // 11 - SELECTED
+        this.SELECTED       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 11); // 11 - SELECTED
         // ############################################################
 
         // GRAPHICAL STYLING
@@ -281,12 +281,12 @@ public class SceneScheduling {
         this.HEIGHT_E = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 8);  // 8 - 200
         this.HEIGHT_F = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 9);  // 9 - 400
 
-        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15); // 15 - /CSS_Styles.css
-        this.STYLE_A = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 26); // 26 - Schedule_UI_Base
-        this.STYLE_B = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 27); // 27 - Schedule_UI_MainInputs
-        this.STYLE_C = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 28); // 28 - Schedule_UI_IndividualInput
-        this.STYLE_D = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 30); // 30 - Schedule_UI_ComboBox
-        this.STYLE_E = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16); // 16 - default-label
+        this.STYLE_FILE = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 0); // 0 - /CSS_Styles.css
+        this.STYLE_A = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 11); // 11 - Schedule_UI_Base
+        this.STYLE_B = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 12); // 12 - Schedule_UI_MainInputs
+        this.STYLE_C = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 13); // 13 - Schedule_UI_IndividualInput
+        this.STYLE_D = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 15); // 15 - Schedule_UI_ComboBox
+        this.STYLE_E = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1); // 1 - default-label
         // ############################################################
     
 

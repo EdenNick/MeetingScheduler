@@ -149,7 +149,7 @@ public class SceneDataCard {
         // File Management
         // ############################################################
         this.ObjJsonFileFormatter  = new ManageJsonFormat();
-        this.ObjJsonFileManager    = new ManageJsonFile(ManageFileLock.GetJSNFile_DATACARD());
+        this.ObjJsonFileManager    = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
         // ############################################################
 
         // UI Styling
@@ -169,13 +169,13 @@ public class SceneDataCard {
 
         this.ButtonWidth    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH    , 2);   // 2 - 150
         this.ButtonHeight   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT   , 2);   // 2 - 30
-        this.STYLE_SET      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 15);    // 15 - /CSS_Styles.css
-        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 20);    // 20 - DataCard_UI_DefaultInputUI
-        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 21);    // 21 - DataCard_UI_TimeOutput
-        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 16);    // 16 - default-label
-        this.TEXT_ONE       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 1);     // 1 - Enter Name Here:
-        this.TEXT_TWO       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 2);     // 2 - Enter Full Name
-        this.TEXT_THREE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STRING, 3);     // 3 - Enter ID Here:
+        this.STYLE_SET      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 0); // 0 - /CSS_Styles.css
+        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 5); // 5 - DataCard_UI_DefaultInputUI
+        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 6); // 6 - DataCard_UI_TimeOutput
+        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1); // 1 - default-label
+        this.TEXT_ONE       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 1); // 1 - Enter Name Here:
+        this.TEXT_TWO       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 1); // 2 - Enter Full Name
+        this.TEXT_THREE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,3); // 3 - Enter ID Here:
         // ############################################################
 
         // Default variable creation

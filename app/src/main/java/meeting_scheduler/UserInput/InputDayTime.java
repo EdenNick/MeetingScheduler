@@ -94,8 +94,7 @@ public class InputDayTime {
      * @param INPUT_COMBOBOX
      */
     private void Construct_comboBox_Default(ComboBox<String> INPUT_COMBOBOX) {
-
-        INPUT_COMBOBOX.getItems().addAll(global.Global_Array_AMPM_GetFull());
+        INPUT_COMBOBOX.getItems().addAll(global.GlobalGetAMPMFULL());
         INPUT_COMBOBOX.getSelectionModel().select("AM");
 
     } // Construct_comboBox_Defualt()

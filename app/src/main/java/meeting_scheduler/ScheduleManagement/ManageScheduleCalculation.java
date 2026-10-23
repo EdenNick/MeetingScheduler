@@ -15,7 +15,7 @@ import meeting_scheduler.global;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
-import meeting_scheduler.FileManagement.ManageFileLock;
+import meeting_scheduler.FileManagement.ManageFilePaths;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 // ############################################################
 import meeting_scheduler.UserInput.InputWeek;
@@ -84,7 +84,7 @@ public class ManageScheduleCalculation {
      * File data info and management
      */
     // ############################################################
-    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
+    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
     private LinkedList<PreferenceFull>  FileData_Employee_FullList;
     // ############################################################
 

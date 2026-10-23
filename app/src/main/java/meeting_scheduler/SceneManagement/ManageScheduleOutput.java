@@ -14,7 +14,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import meeting_scheduler.DataHolder.PreferenceFull;
-import meeting_scheduler.FileManagement.ManageFileLock;
+import meeting_scheduler.FileManagement.ManageFilePaths;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
 import meeting_scheduler.SystemInfoManager;
@@ -63,7 +63,7 @@ public class ManageScheduleOutput {
         this.VboxSchedulerOutput = INPUT_SCHEDULEROUTPUT;
         this.SPACING = INPUT_SPACING;
         this.SCHEDULES = INPUT_SCHEDULES;
-        this.Scheduler_fileReader = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
+        this.Scheduler_fileReader = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
 
         this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
         this.PM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM

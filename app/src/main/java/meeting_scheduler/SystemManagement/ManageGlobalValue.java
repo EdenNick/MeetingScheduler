@@ -10,8 +10,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 import meeting_scheduler.global;
+import meeting_scheduler.FileManagement.ManageFilePaths;
 // ############################################################
-import meeting_scheduler.FileManagement.ManageFileLock;
 
 
 
@@ -19,8 +19,8 @@ public class ManageGlobalValue {
     
     // INPUT STREAMS
     // ############################################################
-    private final static InputStream VALUES_ARRAY   = ManageFileLock.GetInputStream_VALARRY();
-    private final static InputStream VALUES_UNIQUE  = ManageFileLock.GetInputStream_VALUNQE();
+    private final static String VALUES_ARRAY   = ManageFilePaths.GetInputStream_VALARRY();
+    private final static String VALUES_UNIQUE  = ManageFilePaths.GetInputStream_VALUNQE();
     // ############################################################
 
 
@@ -103,10 +103,10 @@ public class ManageGlobalValue {
         global.Global_Array_WeekDay_Set     (STRING_WEEKDAY_SHORT, STRING_WEEKDAY_SHORTCAP, STRING_WEEKDAY_LONG, STRING_WEEKDAY_LONGCAP);
 
         // void GlobalValueSetINT (int[] INPUT_UNIQUE, int[] INPUT_TIMEINTERVALS, int[] INPUT_IDENTINTERVAL)
-        global.GlobalValueSetINT(GLOBAL_VALUE_int, GLOBAL_VALUE_TimeIntervals, GLOBAL_VALUE_IDENTIntervals);
-        
+        global.GlobalValueSetINT            (GLOBAL_VALUE_int, GLOBAL_VALUE_TimeIntervals, GLOBAL_VALUE_IDENTIntervals);
+
         // void GlobalValueSetString (String[] INPUT_TEXT, String[] INPUT_STYLE, String[] INPUT_AMPM)
-        global.GlobalValueSetString(STRING_TEXT, STRING_STYLE, STRING_AMPM);
+        global.GlobalValueSetString         (STRING_TEXT, STRING_STYLE, STRING_AMPM);
     }
 
     private static void SetValues_int() {
@@ -138,7 +138,7 @@ public class ManageGlobalValue {
 
 
 
-    private static int[] GetValues_ConvertToInt(InputStream INPUT_FILEPATH, String INPUT_PROPPATH) {
+    private static int[] GetValues_ConvertToInt(String INPUT_FILEPATH, String INPUT_PROPPATH) {
 
         String[] Temp = Get_Global_Values_Property(INPUT_FILEPATH, INPUT_PROPPATH);
         int[] Return_Array = new int[Temp.length];
@@ -152,7 +152,7 @@ public class ManageGlobalValue {
 
 
 
-    private static double[] GetValues_ConvertToDouble(InputStream INPUT_FILEPATH, String INPUT_PROPPATH) {
+    private static double[] GetValues_ConvertToDouble(String INPUT_FILEPATH, String INPUT_PROPPATH) {
         
         String[] Temp = Get_Global_Values_Property(INPUT_FILEPATH, INPUT_PROPPATH);
         double[] Return_Array = new double[Temp.length];
@@ -165,14 +165,14 @@ public class ManageGlobalValue {
 
 
 
-    private static String[] Get_Global_Values_Property(InputStream INPUT_INPUSTREAM, String INPUT_PROPPATH) {
+    private static String[] Get_Global_Values_Property(String INPUT_INPUSTREAM, String INPUT_PROPPATH) {
 
         // Properties object
         Properties  Prop_Type = new Properties();
         // File Path
-        InputStream FileInput = INPUT_INPUSTREAM;
+        String      FilePath = INPUT_INPUSTREAM;
         //Property Path
-        String      PropPAth = INPUT_PROPPATH;
+        String      PropPath = INPUT_PROPPATH;
         // indiivudal property string
         String      IncomingPropString;
         // while loop position
@@ -185,13 +185,13 @@ public class ManageGlobalValue {
 
         // TRY/CATCH
         // ( InputStream FileInput = ManageGlobalValue.class.getResourceAsStream(FilePath) )
-        try {
+        try ( InputStream FileInput = ManageGlobalValue.class.getResourceAsStream(FilePath) ){
             
             // Load Props from File
             Prop_Type.load(FileInput);
 
             // While strings continue to be valid and not NULL, continue
-            while ( (IncomingPropString = Prop_Type.getProperty(PropPAth + IncomingPropPosition)) != null ) {
+            while ( (IncomingPropString = Prop_Type.getProperty(PropPath + IncomingPropPosition)) != null ) {
                 
                 //System.out.println("Type: " + IncomingPropString);
 

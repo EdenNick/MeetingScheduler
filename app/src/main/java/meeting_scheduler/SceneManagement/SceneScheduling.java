@@ -41,7 +41,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
-import meeting_scheduler.FileManagement.ManageFileLock;
+import meeting_scheduler.FileManagement.ManageFilePaths;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
 import meeting_scheduler.ScheduleManagement.ManageScheduleCalculation;
@@ -235,7 +235,7 @@ public class SceneScheduling {
         // Schedule Calculator  - Object used to calculate viable schedules based off of input user preferences
         this.SCHEDULER_CALCULATOR = new ManageScheduleCalculation();
         // Json file Reader     - Object which can access the relevant Json file to retireve user info. Used to retrieve current user preferences to create a schedule
-        this.SCHEDULER_FILES = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
+        this.SCHEDULER_FILES = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
         // ############################################################
 
         // calculating schedules

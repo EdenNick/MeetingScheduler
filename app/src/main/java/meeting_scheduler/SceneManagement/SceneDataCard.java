@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
-import meeting_scheduler.FileManagement.ManageFileLock;
+import meeting_scheduler.FileManagement.ManageFilePaths;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
@@ -149,7 +149,7 @@ public class SceneDataCard {
         // File Management
         // ############################################################
         this.ObjJsonFileFormatter  = new ManageJsonFormat();
-        this.ObjJsonFileManager    = new ManageJsonFile(ManageFileLock.GetLock_JSN_DataCard());
+        this.ObjJsonFileManager    = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
         // ############################################################
 
         // UI Styling

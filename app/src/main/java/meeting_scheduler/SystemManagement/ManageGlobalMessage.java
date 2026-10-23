@@ -12,12 +12,19 @@ import java.util.LinkedList;
 import java.util.Properties;
 import meeting_scheduler.global;
 // ############################################################
-import meeting_scheduler.FileManagement.ManageFileLock;
+import meeting_scheduler.FileManagement.ManageFilePaths;
 
 
 
 public class ManageGlobalMessage {
 
+    // INPUT STREAM Paths
+    // ############################################################
+    private static final String StreamMessageType      = ManageFilePaths.GetInputStream_MSGTYPE();
+    private static final String StreamMessageClass     = ManageFilePaths.GetInputStream_MSGCLSS();
+    private static final String StreamMessageAction    = ManageFilePaths.GetInputStream_MSGACTN();
+    private static final String StreamMessageInfo      = ManageFilePaths.GetInputStream_MSGINFO();
+    // ############################################################
 
     // ARRAY VALUE HOLDERS
     // ############################################################
@@ -38,10 +45,10 @@ public class ManageGlobalMessage {
     // Proprty Path Variables
     // ############################################################
     // Message Paths
-    private static final String PROPPATH_TYPE       = "TYPE.";
-    private static final String PROPPATH_CLASS      = "CLASS.";
-    private static final String PROPPATH_ACTION     = "ACTION.";
-    private static final String PROPPATH_INFO       = "INFO.";
+    private static final String PROPPATH_TYPE           = "TYPE.";
+    private static final String PROPPATH_CLASS          = "CLASS.";
+    private static final String PROPPATH_ACTION         = "ACTION.";
+    private static final String PROPPATH_INFO           = "INFO.";
     // Message locations
     private static final String PROPPATH_GLOBAL         = "GLOBAL.";
     private static final String PROPPATH_USERINPUT      = "USERINPUT.";
@@ -53,8 +60,8 @@ public class ManageGlobalMessage {
     private static final String PROPPATH_FILE           = "FILE.";
     private static final String PROPPATH_EMPLOYEEPREF   = "EMPLOYEEPREF.";
     // System message types
-    private static final String PROPPATH_SYST = "SYST.";
-    private static final String PROPPATH_USER = "USER.";
+    private static final String PROPPATH_SYST           = "SYST.";
+    private static final String PROPPATH_USER           = "USER.";
     // ############################################################
 
 
@@ -96,15 +103,15 @@ public class ManageGlobalMessage {
 
     private static void Set_Global_Message_Type() {
         
-        InputStream FileInput = ManageFileLock.GetInputStream_MSGTYPE();
         // String FilePath = "/GlobalMessageTypes.properties";
+        String FilePath     = ManageGlobalMessage.StreamMessageType;
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
 
         // Get System Actions
         PropertyPath = PROPPATH_TYPE;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         // add all together
         ManageGlobalMessage.Global_Message_Type = AddAll.toArray(new String[0]);
@@ -122,57 +129,56 @@ public class ManageGlobalMessage {
 
     
     private static void Set_Global_Message_Class() {
-
-        InputStream FileInput = ManageFileLock.GetInputStream_MSGCLSS();
+        
         // String FilePath = "/GlobalMessageClass.properties";
+        String FilePath     = ManageGlobalMessage.StreamMessageClass;
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
 
-        // Get GLOBAL
+        // Get Global
         PropertyPath = PROPPATH_CLASS + PROPPATH_GLOBAL;
-
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // Get USERINPUT
         PropertyPath = PROPPATH_CLASS + PROPPATH_USERINPUT;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // Get UIMANAGE
         PropertyPath = PROPPATH_CLASS + PROPPATH_UIMANAGE;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // Get SCHEDULE
         PropertyPath = PROPPATH_CLASS + PROPPATH_SCHEDULE;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // Get SCENE
         PropertyPath = PROPPATH_CLASS + PROPPATH_SCENE;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         
         // Get GLOBALVALUES
         PropertyPath = PROPPATH_CLASS + PROPPATH_GLOBALVALUES;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // Get GLOBALMESSAGE
         PropertyPath = PROPPATH_CLASS + PROPPATH_GLOBALMESSAGE;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // Get FILE
         PropertyPath = PROPPATH_CLASS + PROPPATH_FILE;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // Get EMPLOYEEPREF
         PropertyPath = PROPPATH_CLASS + PROPPATH_EMPLOYEEPREF;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
 
         // add all together
@@ -193,19 +199,19 @@ public class ManageGlobalMessage {
 
     private static void Set_Global_Message_Action() {
 
-        InputStream FileInput = ManageFileLock.GetInputStream_MSGACTN();
         // String FilePath = "/GlobalPropertiesAction.properties";
+        String FilePath = ManageGlobalMessage.StreamMessageAction;
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
 
         // Get System Actions
         PropertyPath = PROPPATH_ACTION + PROPPATH_SYST;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         // Get USer Actions
         PropertyPath = PROPPATH_ACTION + PROPPATH_USER;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         // add all together
         ManageGlobalMessage.Global_Message_Action = AddAll.toArray(new String[0]);
@@ -225,15 +231,15 @@ public class ManageGlobalMessage {
 
     private static void Set_Global_Message_Info() {
 
-        InputStream FileInput = ManageFileLock.GetInputStream_MSGINFO();
         // String FilePath = "/GlobalMessageInfo.properties";
+        String FilePath = ManageGlobalMessage.StreamMessageInfo;
         String PropertyPath;
 
         LinkedList<String> AddAll = new LinkedList<>();
 
         // Get System Actions
         PropertyPath = PROPPATH_INFO;
-        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FileInput, PropertyPath)));
+        AddAll.addAll(Arrays.asList(Get_Global_Message_Property(FilePath, PropertyPath)));
 
         // add all togehter
         ManageGlobalMessage.Global_Message_Info = AddAll.toArray(new String[0]);
@@ -251,13 +257,12 @@ public class ManageGlobalMessage {
 
 
 
-    private static String[] Get_Global_Message_Property(InputStream INPUT_INPUTSTREAM, String INPUT_PROPPATH) {
+    private static String[] Get_Global_Message_Property(String INPUT_FILEPATH, String INPUT_PROPPATH) {
 
         // Properties object
         Properties  Prop_Type = new Properties();
         // File Path
-        InputStream FileInput = INPUT_INPUTSTREAM;
-        //String      FilePath = INPUT_FILEPATH;
+        String      FilePath = INPUT_FILEPATH;
         //Property Path
         String      PropPath = INPUT_PROPPATH;
         // indiivudal property string
@@ -272,7 +277,7 @@ public class ManageGlobalMessage {
 
         // TRY/CATCH
         // (InputStream FileInput = ManageGlobalMessage.class.getResourceAsStream(FilePath))
-        try {
+        try (InputStream FileInput = ManageGlobalMessage.class.getResourceAsStream(FilePath)) {
             
             // Load Props from File
             Prop_Type.load(FileInput);

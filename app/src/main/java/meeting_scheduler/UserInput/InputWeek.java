@@ -62,6 +62,21 @@ public class InputWeek {
 
 
     /**
+     * CopyAll()
+     * Description: Copies all values from one array to another
+     */
+    public void CopyAll(String[] INPUT_WEEKARRAY) {
+        for (int Pos = 0; Pos < this.CheckWeek.length; Pos++) {
+            if (INPUT_WEEKARRAY[Pos] != null) {
+                if (INPUT_WEEKARRAY[Pos].equals(this.CheckWeek[Pos])) {
+                    SetDay(Pos);
+                }
+            }
+        }
+    }
+
+
+    /**
      * GetWeekArray()
      * Description: Returns the Week array the user set.
      * @return

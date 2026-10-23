@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.global;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
-import meeting_scheduler.UserInput.InputWeek;
 // ############################################################
 
 

@@ -29,10 +29,6 @@ public class ManageJsonInput {
     // read/write to json file
     private ObjectMapper Write_JsonObjectMapper;
 
-    // Lock
-    //TODO: implement a lock system
-    //TODO: possibly implement enum for multiple files?
-
     // Retreived File
     private LinkedList<PreferenceFull> JSONFileInputList;
 

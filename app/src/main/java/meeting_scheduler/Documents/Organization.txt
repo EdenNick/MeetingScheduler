@@ -9,14 +9,14 @@ CLASS:  PreferenceTime
 
 
 FILE:   FILEMANAGEMENT
-- CREATE .Txt file manager class
+- CREATE .Txt file manager class if needed
 
 CLASS:  ManageJsonfile
-- MINOR - reformatting
+- Effectively DONE
 CLASS:  JSON INPUT
-- MAJOR - Implement file lock SYSTEM
+- Effectively DONE
 CLASS:  JSON Output
-- MAJOR - Implement file lock SYSTEM
+- Effectively DONE
 CLASS:  TXTInput
 - MINOR - Reformatting + system messages
 CLASS:  TXTOutput
@@ -34,7 +34,7 @@ CLASS:  SceneDataCard
 - MAJOR - FIX PROBLEMS ORGANIZE
 
 CLASS:  SceneIntructions
-- SYSTEM MESSAGES
+- Effectively DONE
 
 CLASS:  SceneMainMenu
 - MINOR - reformatting
@@ -48,7 +48,7 @@ CLASS:  SceneSchedule
 
 FILE:   ScheduleMANAGEMENT
 CLASS:  DataCompleteSchedule
-- Major - reformat to private
+- Effectively DONE
 
 CLASS:  DataIDandDays
 - effectively DONE

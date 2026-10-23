@@ -8,8 +8,6 @@ package meeting_scheduler.FileManagement;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.SystemInfoManager;
 // ############################################################
@@ -53,6 +51,7 @@ public class ManageJsonFile {
 
         // Try/Catch - Write to file 
         try {
+            // Obtains lock of File Object
             synchronized(this.JsonFileManager_FilePath) {
                 
                 // Write to Selected File
@@ -74,6 +73,8 @@ public class ManageJsonFile {
             // ############################################################
 
             e.printStackTrace();
+
+            System.exit(1);
         }
 
     } // writeJson_FullPref()
@@ -88,6 +89,7 @@ public class ManageJsonFile {
     public LinkedList<PreferenceFull> readJson_FullPref() {
 
         try {
+            // Obtains lock of File Object
             synchronized(this.JsonFileManager_FilePath) {
                 return this.JsonFileManager_FileOutput.Retrieve_DefaultFile();
             }
@@ -97,6 +99,7 @@ public class ManageJsonFile {
             // 6 - FAILURE | 24 - MANAGEFILE_JsonManager | 10 - SYSTEM-FileAccess | 4 - try/catch File access failure
             SystemInfoManager.GET_SYSTEM_MESSAGE(1,1,10,5);
             e.printStackTrace();
+            System.exit(1);
             return null;
         }
 

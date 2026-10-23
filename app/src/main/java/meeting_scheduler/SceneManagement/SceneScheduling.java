@@ -1134,7 +1134,7 @@ public class SceneScheduling {
         // ############################################################
         this.VBoxUI_INPUT = new VBox(this.SPACING);
         this.VBoxUI_INPUT.getStyleClass().add(this.STYLE_A);
-        //this.VBoxUI_INPUT.setMinSize(this.WIDTH_G, 1200.0); // TODO
+        //this.VBoxUI_INPUT.setMinSize(this.WIDTH_G, 1200.0); // TODO: CHECK TO SEE IF THIS NEEDS TO BE removed or not
         this.VBoxUI_INPUT.setPadding(new Insets(this.PADDING));
         // ############################################################
 

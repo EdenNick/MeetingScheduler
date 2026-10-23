@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.global;
 import meeting_scheduler.FileManagement.ManageFilePaths;
 // ############################################################
@@ -202,7 +204,9 @@ public class ManageGlobalValue {
             FinalList = ArraylistPropStrings.toArray(new String[0]);
 
         } catch (IOException e) {
-            // TODO: ERROR MESSAGE
+            // System Message
+            // 6 - FAILURE | 21 - GlobalValuesManager | 10 - SYSTEM-FileAccess | 6 - try/catch Json file Write Failure
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,25,10,7);
             FinalList = new String[0];
             System.exit(1);
         }

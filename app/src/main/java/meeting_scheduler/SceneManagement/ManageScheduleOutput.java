@@ -108,7 +108,7 @@ public class ManageScheduleOutput {
         // used in placement position of the schedule in the list
         int FlowPanePeopleAmmount = 0;
 
-        for (String ScheduleID : this.SCHEDULES.getLast().USERIDs) {
+        for (String ScheduleID : this.SCHEDULES.getLast().GetUserIds()) {
 
             for (int FileIndex = 0; FileIndex < FilePeople.size(); FileIndex++) {
 
@@ -269,11 +269,11 @@ public class ManageScheduleOutput {
         String EndingAMPM   = this.AM;
 
         // Time frame of the schedule
-        int StartHour       = this.SCHEDULES.getLast().Interval.GetStartTimeHour();
-        String startMinute  = Integer.toString(this.SCHEDULES.getLast().Interval.GetStartTimeMin());
+        int StartHour       = this.SCHEDULES.getLast().GetInterval().GetStartTimeHour();
+        String startMinute  = Integer.toString(this.SCHEDULES.getLast().GetInterval().GetStartTimeMin());
 
-        int Endhour         = this.SCHEDULES.getLast().Interval.GetEndTimeHour();
-        String EndMinute    = Integer.toString(this.SCHEDULES.getLast().Interval.GetEndTimeMin());
+        int Endhour         = this.SCHEDULES.getLast().GetInterval().GetEndTimeHour();
+        String EndMinute    = Integer.toString(this.SCHEDULES.getLast().GetInterval().GetEndTimeMin());
 
         // Convert to PM if necessary
         if (StartHour >= 12) {
@@ -306,10 +306,10 @@ public class ManageScheduleOutput {
 
 
 
-        boolean IsFullList = this.SCHEDULES.getLast().Schedule;
+        boolean IsFullList = this.SCHEDULES.getLast().GetFullScheduleState();
         String FullListText = String.format("| Full List: %-5s |", IsFullList);
 
-        String DayToSchedule = this.SCHEDULES.getLast().WeekDay;
+        String DayToSchedule = this.SCHEDULES.getLast().GetWeekday();
         String ScheduleDayText = String.format("| Day: %-3s |", DayToSchedule);
 
         String TimeStart        = String.format(StartHour + ":" + startMinute + " " + StartingAMPM);

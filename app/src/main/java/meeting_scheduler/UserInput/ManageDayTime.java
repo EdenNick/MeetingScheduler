@@ -5,9 +5,7 @@ package meeting_scheduler.UserInput;
 
 // Imports
 // ############################################################
-import java.util.Iterator;
 import java.util.LinkedList;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -62,7 +60,7 @@ public class ManageDayTime {
     private double Width;
     private double Height;
 
-    private final String AM;
+    // private final String AM;
     private final String PM;
 
 
@@ -93,7 +91,7 @@ public class ManageDayTime {
 
         // Values
         // ############################################################
-        this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
+        // this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
         this.PM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM
         // ############################################################
 

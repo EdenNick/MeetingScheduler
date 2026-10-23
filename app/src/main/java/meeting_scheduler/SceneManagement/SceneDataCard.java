@@ -154,28 +154,28 @@ public class SceneDataCard {
 
         // UI Styling
         // ############################################################
-        this.ANCHOR_PRIMARY = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 1);  // 1 - 10
-        this.ANCHOR_TWO     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.ANCHOR_PRIMARY     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,1);     // 1 - 10
+        this.ANCHOR_TWO         = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,3);     // 3 - 20
 
-        this.UIInputSpacing = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING, 1);    // 0 - 10
-        this.UIInputWidth   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 6);      // 6 - 400
-        this.UIInputHeight  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 9);    // 9 - 600
-        this.UIInputPadding = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 1);    // 1 - 10
+        this.UIInputSpacing     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);    // 0 - 10
+        this.UIInputWidth       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,6);      // 6 - 400
+        this.UIInputHeight      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,9);     // 9 - 600
+        this.UIInputPadding     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);    // 1 - 10
 
-        this.UIOutputWidth   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH    , 7);      // 7 - 400
-        this.UIOutputHeight  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT   , 9);    // 9 - 600
-        this.UIOutputSpacing = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING  , 1);    // 0 - 10
-        this.UIOutputPadding = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING  , 1);    // 1 - 10
+        this.UIOutputWidth      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,7);     // 7 - 400
+        this.UIOutputHeight     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,9);    // 9 - 600
+        this.UIOutputSpacing    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);   // 0 - 10
+        this.UIOutputPadding    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);   // 1 - 10
 
-        this.ButtonWidth    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH    , 2);   // 2 - 150
-        this.ButtonHeight   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT   , 2);   // 2 - 30
-        this.STYLE_SET      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 0); // 0 - /CSS_Styles.css
-        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 5); // 5 - DataCard_UI_DefaultInputUI
-        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 6); // 6 - DataCard_UI_TimeOutput
-        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1); // 1 - default-label
-        this.TEXT_ONE       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 1); // 1 - Enter Name Here:
-        this.TEXT_TWO       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 1); // 2 - Enter Full Name
-        this.TEXT_THREE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,3); // 3 - Enter ID Here:
+        this.ButtonWidth        = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,2);      // 2 - 150
+        this.ButtonHeight       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,2);     // 2 - 30
+        this.STYLE_SET          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,0);  // 0 - /CSS_Styles.css
+        this.STYLE_ONE          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,5);  // 5 - DataCard_UI_DefaultInputUI
+        this.STYLE_TWO          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,6);  // 6 - DataCard_UI_TimeOutput
+        this.STYLE_THREE        = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,1);  // 1 - default-label
+        this.TEXT_ONE           = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,1);   // 1 - Enter Name Here:
+        this.TEXT_TWO           = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,1);   // 2 - Enter Full Name
+        this.TEXT_THREE         = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,3);   // 3 - Enter ID Here:
         // ############################################################
 
         // Default variable creation

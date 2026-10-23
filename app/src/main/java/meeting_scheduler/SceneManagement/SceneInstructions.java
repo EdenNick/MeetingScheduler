@@ -398,7 +398,11 @@ public class SceneInstructions {
             ReturnText = new Text(String.join("\n", ArraylistPropStrings));
 
         } catch (IOException e) {
-            // TODO: SYSTEM MESSAGE
+            // System Message
+            // ############################################################
+            // 5 - SUCCESS | 18 - SCENE_CREATE_Instruct | 10 - SYSTEM-FileAccess | 5 - try/catch File access failure
+            SystemInfoManager.GET_SYSTEM_MESSAGE(5,18,10,5);
+            // ############################################################
             ReturnText = new Text("ERROR");
         }
 

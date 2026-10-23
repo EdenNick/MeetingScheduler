@@ -1,9 +1,10 @@
 package meeting_scheduler.FileManagement;
 
 import java.io.File;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import meeting_scheduler.SystemInfoManager;
 
 public class ManageFilePaths {
     
@@ -22,9 +23,6 @@ public class ManageFilePaths {
     private static final String PRP_VALARRY = "/GlobalValuesArrays.properties";
     private static final String PRP_VALUNQE = "/GlobalValuesUnique.properties";
     private static final String PRP_INSTRCT = "/USERINSTRUCTIONS.properties";
-    // .txt Files
-    private static final String TXT_INSTRCT = "src/main/resources/PROG_UI_D_Instructions.txt";
-    private static final String TXT_TEMP    = "src/PROG_DATA_TempFile.txt";
     // ############################################################
 
     // File Objects
@@ -44,7 +42,9 @@ public class ManageFilePaths {
         if (JSON_USER_DATACARD.exists() == true) {
             return ManageFilePaths.JSON_USER_DATACARD;
         } else {
-            // TODO: Error Message
+            // System Message
+            // 6 - FAILURE | 25 - MANAGEFILE_JsonOutput | 10 - SYSTEM-FileAccess | 6 - try/catch Json file Write Failure
+            SystemInfoManager.GET_SYSTEM_MESSAGE(6,25,10,7);
             System.exit(1);
         }
 

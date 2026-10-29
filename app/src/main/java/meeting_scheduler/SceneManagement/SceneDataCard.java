@@ -36,6 +36,7 @@ import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
+import meeting_scheduler.UserInput.InputDataCardSelection;
 import meeting_scheduler.UserInput.InputTextField;
 import meeting_scheduler.UserInput.InputWeek;
 import meeting_scheduler.UserInput.ManageDayTime;
@@ -63,6 +64,7 @@ public class SceneDataCard {
     private AnchorPane      rootnodeDatacard;       // RootNode of the scene, contains all nodes
     private VBox            uiInputAll;             // Contains all UI nodes
     private VBox            uiInputTime;            // COntains all Ui nodes for time input
+    private VBox            UIDataCardManage;       // Contains the Ui for managing the previously added datacards
     private FlowPane        uiOutputPref;           // Displays Input user time preferences
     private Button          buttonReturn;           // Returns to the main menu scene
     private Button          buttonAddPref;          // Adds input user times to preference
@@ -92,9 +94,10 @@ public class SceneDataCard {
 
     // Data Manager Objects
     // ############################################################
-    private ManageJsonFile      ObjJsonFileManager;
-    private ManageJsonFormat    ObjJsonFileFormatter;
-    private ManageDayTime       ObjTimeInputManager;
+    private ManageJsonFile          ObjJsonFileManager;
+    private ManageJsonFormat        ObjJsonFileFormatter;
+    private ManageDayTime           ObjTimeInputManager;
+    private InputDataCardSelection  ObjDataCardmanager;
     // ############################################################
 
     // UI formatting variables
@@ -162,8 +165,9 @@ public class SceneDataCard {
         this.UIInputHeight      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,9);     // 9 - 600
         this.UIInputPadding     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);    // 1 - 10
 
-        this.UIOutputWidth      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,7);     // 7 - 400
-        this.UIOutputHeight     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,9);    // 9 - 600
+        this.UIOutputWidth      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 8); // 8 - 800
+        this.UIOutputHeight     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 10); // 10 - 600
+
         this.UIOutputSpacing    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);   // 0 - 10
         this.UIOutputPadding    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);   // 1 - 10
 
@@ -181,7 +185,7 @@ public class SceneDataCard {
         // Default variable creation
         // ############################################################
         this.WEEKDAYS       = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
-        this.MAX_TIME_INPUT = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 3);      // 3 - 30
+        this.MAX_TIME_INPUT = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 11); // 11 - 24
         // ############################################################
 
     } // SCENE_CREATE_DataCard()
@@ -251,6 +255,11 @@ public class SceneDataCard {
         CreateUIComponents();
         // ############################################################
 
+        // initialize Datacard manager
+        // ############################################################
+        CreatedataCardManager();
+        // ############################################################
+
         // Creates layour for the user input UI
         // ############################################################
         Create_UIDisplays();
@@ -302,7 +311,12 @@ public class SceneDataCard {
     
 
 
-
+    private void CreatedataCardManager() {
+        // InputDataCardSelection(ManageJsonFile INPUT_FILEMANAGER, FlowPane INPUT_FLOWPANE, ManageDayTime TIME_INPUT_MANAGER, LinkedList<PreferenceTime> INPUT_CURRENT_LIST)
+        this.ObjDataCardmanager = new InputDataCardSelection(this.ObjJsonFileManager, this.uiOutputPref, this.ObjTimeInputManager, this.listUserAddedPref, 
+            this.textfieldName, this.textfieldIdent);
+        this.UIDataCardManage = ObjDataCardmanager.GetUI();
+    }
 
 
 
@@ -313,21 +327,25 @@ public class SceneDataCard {
      */
     private void Create_UIDisplays() {
 
+
+
         // Vbox for UI
         // ############################################################
         // add nodes to the box
         this.uiInputAll.getChildren().addAll(
-            labelName,
-            textfieldName, 
+            this.UIDataCardManage,
 
-            labelIdent,
-            textfieldIdent,
+            this.labelName,
+            this.textfieldName, 
 
-            uiInputTime,
+            this.labelIdent,
+            this.textfieldIdent,
 
-            buttonResetPref,
+            this.uiInputTime,
 
-            buttonSubmitPref
+            this.buttonResetPref,
+            
+            this.buttonSubmitPref
         );
         // ############################################################
 
@@ -348,6 +366,10 @@ public class SceneDataCard {
         // ############################################################
         this.EVENT_RETURNHOME = event -> {
             
+            this.textfieldName.clear();
+            this.textfieldIdent.clear();
+            this.ObjTimeInputManager.ClearInputs();
+
             effectFade.setOnFinished(event2 -> {
                 ManageAppWindow.SceneManager.SwapToMainMenu();
             });
@@ -370,7 +392,6 @@ public class SceneDataCard {
         this.EVENT_ADDINFO = event -> {
 
             // checks to ensure all variables are input
-
             if ( (ObjTimeInputManager.CHECK_FullTimeInput() == 0) && (listUserAddedPref.size() < this.MAX_TIME_INPUT) ) {
 
                 // Temp user preference created for clean seperation of object use
@@ -454,15 +475,11 @@ public class SceneDataCard {
 
             } else {
 
-                // Employee Name
-                // ############################################################
+                // get the employee name
                 String name = textfieldName.getText();
-                // ############################################################
 
-                // Employee ID is not blank
-                // ############################################################
+                // Get the employee ID
                 int id = Integer.parseInt(textfieldIdent.getText());
-                // ############################################################
 
 
 
@@ -483,17 +500,24 @@ public class SceneDataCard {
                 } // for (int Pos = 0; Pos < this.WEEKDAYS.length; Pos++)
                 // ############################################################
 
-
-                listEmployeeFullPref = new LinkedList<>(ObjJsonFileManager.readJson_FullPref());
+                // read the current json file data obtaining all datacards
+                listEmployeeFullPref = ObjJsonFileManager.readJson_FullPref();
                 
+                // create a new datacard with the user submitted info
                 PreferenceFull EMPLOYEE_Input = new PreferenceFull(false, name, id, PreferredDays.GetWeekArray(), this.listUserAddedPref);
                 
+                // add this datacard to the main list
                 listEmployeeFullPref.add(EMPLOYEE_Input);
 
+                // use the file formatter to combine any datacars with the same ID
+                //TODO: format times that are the same
                 LinkedList<PreferenceFull> EMPLOYEES_ToWrite = ObjJsonFileFormatter.JsonFileDefault_Formatting(listEmployeeFullPref);
 
+                // write this updated list back to the file
                 ObjJsonFileManager.writeJson_FullPref(EMPLOYEES_ToWrite);
 
+                // update the datacard manager with the new info
+                ObjDataCardmanager.UpdateListAndComboBox();
 
                 // System Message
                 // ############################################################
@@ -600,13 +624,13 @@ public class SceneDataCard {
         // textfieldIdent
         double InputIdentWidth      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);   // 0 - 50
         double InputIdentHeight     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);  // 1 - 25
-        this.textfieldIdentCreator  = new InputTextField(global.TextFieldState.NUMERIC, TEXT_TWO, InputIdentWidth, InputIdentHeight);
+        this.textfieldIdentCreator  = new InputTextField(global.TextFieldState.NUMERIC, TEXT_THREE, InputIdentWidth, InputIdentHeight);
         this.textfieldIdent         = textfieldIdentCreator.Return_Field_constructed();
         // textfieldName
         double InputNameWidth       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);   // 0 - 50
         double InputNameHeight      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);  // 1 - 25
         this.textfieldNameCreator   = new InputTextField(global.TextFieldState.TEXT, TEXT_TWO, InputNameWidth, InputNameHeight);
-        this.textfieldName = textfieldNameCreator.Return_Field_constructed();
+        this.textfieldName          = textfieldNameCreator.Return_Field_constructed();
         // ############################################################
 
         // Holder objects
@@ -622,6 +646,7 @@ public class SceneDataCard {
         this.uiOutputPref = new FlowPane();
         this.uiOutputPref.setHgap(this.UIOutputSpacing);
         this.uiOutputPref.setVgap(this.UIOutputSpacing);
+        // TODO: FIX SIZE
         this.uiOutputPref.setPrefSize(this.UIOutputWidth, this.UIOutputHeight);
         this.uiOutputPref.setPadding(new Insets(this.UIOutputPadding));
         this.uiOutputPref.getStyleClass().add(STYLE_TWO);

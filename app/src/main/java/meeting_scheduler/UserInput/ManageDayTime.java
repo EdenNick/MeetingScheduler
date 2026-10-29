@@ -72,7 +72,8 @@ public class ManageDayTime {
 
         // Objects
         // ############################################################
-        this.OBJ_TEXTLIST_WEEKDAY   = new InputComboBox(global.TextListState.WEEK, null, 0, 0);
+        //TODO: change size
+        this.OBJ_TEXTLIST_WEEKDAY   = new InputComboBox(global.TextListState.WEEK, null, 0, 0, null);
         this.OBJ_DAYTIMEINPUT_TIMES = new InputDayTime();
         // ############################################################
 
@@ -132,6 +133,13 @@ public class ManageDayTime {
 
     public VBox Return_UI_TimeInput() {
         return this.UITimeInterface;
+    }
+
+    public void ClearInputs() {
+        this.MANAGER_STARTTIME_HOUR.clear();
+        this.MANAGER_STARTTIME_MIN.clear();
+        this.MANAGER_ENDTIME_HOUR.clear();
+        this.MANAGER_ENDTIME_MIN.clear();
     }
 
 
@@ -267,6 +275,7 @@ public class ManageDayTime {
         this.UITimeInterface = new VBox(10);
         //this.addTimeInfo_input.setPrefSize(200.0, 400.0);
         this.UITimeInterface.setPadding(new Insets(10));
+        //TODO: change to class value
         this.UITimeInterface.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4));
 
         Region ButtonSpace = new Region();

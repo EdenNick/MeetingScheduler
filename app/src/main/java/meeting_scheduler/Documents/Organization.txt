@@ -32,6 +32,9 @@ CLASS:  ManageScheduleOutput
 
 CLASS:  SceneDataCard
 - MAJOR - FIX PROBLEMS ORGANIZE
+- add function to bring up and organize prevously added schedules
+
+
 
 CLASS:  SceneIntructions
 - Effectively DONE
@@ -57,7 +60,7 @@ CLASS:  DataIterval
 - Effectively DONE
 
 CLASS:  ManageScheduleCalc
-- MAJOR - organization reformatting
+- Effectively DONE
 
 
 

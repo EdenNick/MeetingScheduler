@@ -114,12 +114,18 @@ public class ManageJsonFormat {
 
 
                 // Create new preference for a person and add them to the hash set
-                PreferenceFull NEWEmployeePreference = new PreferenceFull(NewPreference_Delete, NewPreference_Name, 
+                // if NewPreference_Delete is true, do not do this
+                // it is necessary for this to be done at the end as the above code aggregates potential sperate preferences of the same person first
+                // allowing this if statement to safely add or not add complete preference sets.
+                if (NewPreference_Delete == false) {
+
+                    PreferenceFull NEWEmployeePreference = new PreferenceFull(NewPreference_Delete, NewPreference_Name, 
                     NewPreference_Ident, NewPreference_week.GetWeekArray(), NewPreference_times);
 
-                HashSetEmployeePreference.put(EmployeePreference_Key, NEWEmployeePreference);
+                    HashSetEmployeePreference.put(EmployeePreference_Key, NEWEmployeePreference);
 
-                System.out.println(EmployeePreference_Key);
+                    System.out.println(EmployeePreference_Key);
+                }
 
             } else {
                 // Add new preference to the list
@@ -145,10 +151,24 @@ public class ManageJsonFormat {
 
 
 
-    public void JsonFileDefault_Formatremovals() throws StreamReadException, DatabindException, IOException {
+    public void JsonFileDefault_FormatRemovals(LinkedList<PreferenceFull> INPUT_FullEmployeePreference) {
 
-        //TODO: 
-    }
+        ListIterator<PreferenceFull> Iterator =  INPUT_FullEmployeePreference.listIterator();
+
+        // while there is a value accessible in the linkedlist
+        while (Iterator.hasNext()) {
+            
+            // check its deletion status
+            if (Iterator.next().GetStatus() == true) {
+                // if true -> remove
+                Iterator.remove();
+            } else {
+                // false -> should not be deleted
+            }
+
+        } //while (Iterator.hasNext())
+
+    } // JsonFileDefault_FormatRemovals()
 
     
 }

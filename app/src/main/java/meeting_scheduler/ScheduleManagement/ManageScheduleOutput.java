@@ -1,6 +1,6 @@
 // Package  - DO Not Change
 // ############################################################
-package meeting_scheduler.SceneManagement;
+package meeting_scheduler.ScheduleManagement;
 // ############################################################
 
 import java.util.LinkedList;
@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.FileManagement.ManageFilePaths;
 import meeting_scheduler.FileManagement.ManageJsonFile;
-import meeting_scheduler.ScheduleManagement.DataCompleteSchedule;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.global;
 // Imports

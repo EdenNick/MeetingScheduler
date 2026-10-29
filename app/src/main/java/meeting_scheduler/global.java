@@ -73,7 +73,7 @@ public final class global {
     // GLOBAL ENUM CHECK TEXTList - used to determine what type of text list needs to be created
     // ############################################################
     public static enum TextListState {
-        WEEK
+        WEEK, PEOPLE
     }
     // ############################################################
 

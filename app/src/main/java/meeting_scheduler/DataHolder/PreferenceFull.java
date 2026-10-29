@@ -6,8 +6,9 @@ package meeting_scheduler.DataHolder;
 // Imports
 // ############################################################
 import java.util.LinkedList;
-import meeting_scheduler.global;
+
 import meeting_scheduler.SystemInfoManager;
+import meeting_scheduler.global;
 // ############################################################
 
 
@@ -15,11 +16,11 @@ import meeting_scheduler.SystemInfoManager;
 public class PreferenceFull {
 
     // fields must remain public in order for JSON file retrieval and write to work
-    public boolean                  EMPLOYEE_Delete;
-    public String                   EMPLOYEE_Name;
-    public int                      EMPLOYEE_Ident;
-    public String[]                 EMPLOYEE_Days = new String[7];
-    public PreferenceTime[] EMPLOYEE_Intervals;
+    public boolean             EMPLOYEE_Delete;
+    public String              EMPLOYEE_Name;
+    public int                 EMPLOYEE_Ident;
+    public String[]            EMPLOYEE_Days = new String[7];
+    public PreferenceTime[]    EMPLOYEE_Intervals;
 
 
 
@@ -41,12 +42,12 @@ public class PreferenceFull {
      * @param EMPLOYEE_Days
      * @param EMPLOYEE_Intervals
      */
-    public PreferenceFull(boolean INPUT_DELETE, String INPUT_NAME, int INPUT_IDENT, String[] INPUT_DAYS, LinkedList<PreferenceTime> INPUT_INTERVALS) {
+    public PreferenceFull(boolean INPUT_DELETE, String INPUT_NAME, int INPUT_IDENT, String[] INPUT_DAYS, LinkedList<PreferenceTime> newPreference_times) {
         this.EMPLOYEE_Delete    = INPUT_DELETE;
         this.EMPLOYEE_Name      = INPUT_NAME;
         this.EMPLOYEE_Ident     = INPUT_IDENT;
         this.EMPLOYEE_Days      = CheckOrder(INPUT_DAYS);
-        this.EMPLOYEE_Intervals = INPUT_INTERVALS.toArray(new PreferenceTime[0]);
+        this.EMPLOYEE_Intervals = newPreference_times.toArray(new PreferenceTime[0]);
     }
 
 
@@ -89,8 +90,6 @@ public class PreferenceFull {
 
         return Output.clone();
     }
-
-
     
     // Return - preference delete status
     public boolean  GetStatus() {

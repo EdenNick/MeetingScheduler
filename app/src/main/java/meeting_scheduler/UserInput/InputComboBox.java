@@ -20,7 +20,7 @@ public class InputComboBox {
     private final int                   PARAM_WIDTH;
     private final int                   PARAM_HEIGHT;
     
-    public InputComboBox(global.TextListState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, int INPUT_WIDTH, int INPUT_HEIGHT) {
+    public InputComboBox(global.TextListState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, int INPUT_WIDTH, int INPUT_HEIGHT, String[] INPUT_OPTIONS) {
         
         this.COMBOBOX       = new ComboBox<>();
         this.ENUM_STATE     = INPUT_ENUM_STATE;
@@ -34,6 +34,11 @@ public class InputComboBox {
             case WEEK:
                 Construct_Field_WeekList();
                 break;
+
+            case PEOPLE:
+                Construct_Field_PeopleList(INPUT_OPTIONS);
+                break;
+
             default:
                 break;
         }
@@ -47,6 +52,11 @@ public class InputComboBox {
 
     private void Construct_Field_WeekList() {
         this.COMBOBOX.getItems().addAll(SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT));
+    }
+
+    public void Construct_Field_PeopleList(String[] INPUT_PEOPLE) {
+        this.COMBOBOX.getItems().clear();
+        this.COMBOBOX.getItems().addAll(INPUT_PEOPLE);
     }
 
     public ComboBox<String> Return_Field_Constructed() {

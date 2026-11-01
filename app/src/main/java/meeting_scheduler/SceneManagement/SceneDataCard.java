@@ -36,7 +36,7 @@ import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.SystemManagement.ManageAppWindow;
 import meeting_scheduler.SystemManagement.ManageScenes;
-import meeting_scheduler.UserInput.InputDataCardSelection;
+import meeting_scheduler.UserInput.ManageDataCardSelection;
 import meeting_scheduler.UserInput.InputTextField;
 import meeting_scheduler.UserInput.InputWeek;
 import meeting_scheduler.UserInput.ManageDayTime;
@@ -97,7 +97,7 @@ public class SceneDataCard {
     private ManageJsonFile          ObjJsonFileManager;
     private ManageJsonFormat        ObjJsonFileFormatter;
     private ManageDayTime           ObjTimeInputManager;
-    private InputDataCardSelection  ObjDataCardmanager;
+    private ManageDataCardSelection  ObjDataCardmanager;
     // ############################################################
 
     // UI formatting variables
@@ -130,6 +130,7 @@ public class SceneDataCard {
     // ############################################################
     private final String[] WEEKDAYS;
     private final int MAX_TIME_INPUT;
+    private boolean ReplaceWithNew = false;
     // ############################################################
 
 
@@ -313,7 +314,7 @@ public class SceneDataCard {
 
     private void CreatedataCardManager() {
         // InputDataCardSelection(ManageJsonFile INPUT_FILEMANAGER, FlowPane INPUT_FLOWPANE, ManageDayTime TIME_INPUT_MANAGER, LinkedList<PreferenceTime> INPUT_CURRENT_LIST)
-        this.ObjDataCardmanager = new InputDataCardSelection(this.ObjJsonFileManager, this.uiOutputPref, this.ObjTimeInputManager, this.listUserAddedPref, 
+        this.ObjDataCardmanager = new ManageDataCardSelection(this.ObjJsonFileManager, this.uiOutputPref, this.ObjTimeInputManager, this.listUserAddedPref, 
             this.textfieldName, this.textfieldIdent);
         this.UIDataCardManage = ObjDataCardmanager.GetUI();
     }
@@ -392,7 +393,7 @@ public class SceneDataCard {
         this.EVENT_ADDINFO = event -> {
 
             // checks to ensure all variables are input
-            if ( (ObjTimeInputManager.CHECK_FullTimeInput() == 0) && (listUserAddedPref.size() < this.MAX_TIME_INPUT) ) {
+            if ( (ObjTimeInputManager.CHECK_FullTimeInput() == 0) && (this.listUserAddedPref.size() < this.MAX_TIME_INPUT) ) {
 
                 // Temp user preference created for clean seperation of object use
                 PreferenceTime TempUserPreferrence = ObjTimeInputManager.Return_UserPreference();
@@ -411,7 +412,7 @@ public class SceneDataCard {
                  * 
                  * FlowPane uiOutputPref                                - A flowpane which displays the various Vboxs that hold user preferences. display only
                  */
-                ObjTimeInputManager.UserInputGraphic(TempUserPreferrence, listUserAddedPref, uiOutputPref, true);
+                ObjTimeInputManager.UserInputGraphic(TempUserPreferrence, this.listUserAddedPref, uiOutputPref, true);
                 // ############################################################
 
 
@@ -506,12 +507,23 @@ public class SceneDataCard {
                 // create a new datacard with the user submitted info
                 PreferenceFull EMPLOYEE_Input = new PreferenceFull(false, name, id, PreferredDays.GetWeekArray(), this.listUserAddedPref);
                 
+                System.out.println("size: " + this.listUserAddedPref.size());
                 // add this datacard to the main list
                 listEmployeeFullPref.add(EMPLOYEE_Input);
 
-                // use the file formatter to combine any datacars with the same ID
-                //TODO: format times that are the same
-                LinkedList<PreferenceFull> EMPLOYEES_ToWrite = ObjJsonFileFormatter.JsonFileDefault_Formatting(listEmployeeFullPref);
+                LinkedList<PreferenceFull> EMPLOYEES_ToWrite;
+
+                this.ReplaceWithNew = ObjDataCardmanager.GetSelectionState();
+
+                if (ReplaceWithNew == false) {
+                    // use the file formatter to combine any datacards with the same ID
+                    EMPLOYEES_ToWrite = ObjJsonFileFormatter.JsonFileDefault_Formatting(listEmployeeFullPref);
+                } else {
+                    // use the file formatter to replace any datacards that match the one stored at a specific position, in this case, the last one
+                    EMPLOYEES_ToWrite = ObjJsonFileFormatter.JsonFileDefault_ReplaceWithInput(listEmployeeFullPref, (listEmployeeFullPref.size() - 1));
+                }
+
+                this.ReplaceWithNew = false;
 
                 // write this updated list back to the file
                 ObjJsonFileManager.writeJson_FullPref(EMPLOYEES_ToWrite);
@@ -606,7 +618,7 @@ public class SceneDataCard {
 
         // Object responsible for creating the Time input UI
         // Must be called after buttons are initialized otherwise the constructor will fail
-        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref, true);
+        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref, true, ButtonWidth, ButtonHeight);
         this.uiInputTime = this.ObjTimeInputManager.Return_UI_TimeInput();
 
         // create labels
@@ -646,7 +658,6 @@ public class SceneDataCard {
         this.uiOutputPref = new FlowPane();
         this.uiOutputPref.setHgap(this.UIOutputSpacing);
         this.uiOutputPref.setVgap(this.UIOutputSpacing);
-        // TODO: FIX SIZE
         this.uiOutputPref.setPrefSize(this.UIOutputWidth, this.UIOutputHeight);
         this.uiOutputPref.setPadding(new Insets(this.UIOutputPadding));
         this.uiOutputPref.getStyleClass().add(STYLE_TWO);

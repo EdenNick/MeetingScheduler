@@ -2,7 +2,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "default",
   "EMPLOYEE_Ident" : 1,
-  "EMPLOYEE_Days" : [ null, "Mon", null, null, null, "Fri", null ],
+  "EMPLOYEE_Days" : [ null, "Mon", null, null, null, "Fri", "Sat" ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Mon",
     "TIMEPREF_TimeStart" : [ 20, 0 ],

@@ -105,12 +105,9 @@ public class ManageTXTOutput {
 
             FileReader.close();
 
-            // TODO: SYSTEM MESSAGE
-
             
         } catch (IOException e) {
 
-            // TODO: SYSTEM MESSAGE
             FileText.add(InvalidText);
             return FileText;
 
@@ -158,12 +155,9 @@ public class ManageTXTOutput {
 
             FileReader.close();
 
-            // TODO: SYSTEM MESSAGE
-
             
         } catch (Exception e) {
 
-            // TODO: SYSTEM MESSAGE
             FileText.add(InvalidText);
             return FileText;
 

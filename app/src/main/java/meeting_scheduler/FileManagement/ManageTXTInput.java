@@ -41,7 +41,6 @@ public class ManageTXTInput {
             Locked      = true;
 
         } else if (Locked == true) {
-            // TODO: SYSTEM MESSAGE
             return 1;
         }
 
@@ -127,7 +126,6 @@ public class ManageTXTInput {
     public static int DeleteData(String ID) {
 
         if (CheckState() == 1) {
-            // TODO: SYSTEM MESSAGE
             return 1;
         }
 
@@ -163,8 +161,6 @@ public class ManageTXTInput {
             FileReader.close();
 
             Files.move(TemporaryFilePath, FilePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // TODO: SYSTEM MESSAGE
 
         } catch (IOException e) {
             //System.out.println(PROG_DAL_D_SystemMessages.ERROR_DeleteDataFileReadWrite);
@@ -217,8 +213,6 @@ public class ManageTXTInput {
             FileReader.close();
 
             Files.move(TemporaryFilePath, FilePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // TODO: SYSTEM MESSAGE
 
         } catch (IOException e) {
 

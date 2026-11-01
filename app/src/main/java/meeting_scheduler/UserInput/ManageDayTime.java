@@ -62,18 +62,18 @@ public class ManageDayTime {
 
     // private final String AM;
     private final String PM;
+    // private final String STYLE_ONE;
 
 
     
     /**
      * Constructor
      */
-    public ManageDayTime(Button UI_INPUT_AddPreferenceButton, boolean INPUT_ISDataCard) {
+    public ManageDayTime(Button UI_INPUT_AddPreferenceButton, boolean INPUT_ISDataCard, double INPUT_WIDTH, double INPUT_HEIGHT) {
 
         // Objects
         // ############################################################
-        //TODO: change size
-        this.OBJ_TEXTLIST_WEEKDAY   = new InputComboBox(global.TextListState.WEEK, null, 0, 0, null);
+        this.OBJ_TEXTLIST_WEEKDAY   = new InputComboBox(global.TextListState.WEEK, null, INPUT_WIDTH, INPUT_HEIGHT, null);
         this.OBJ_DAYTIMEINPUT_TIMES = new InputDayTime();
         // ############################################################
 
@@ -88,6 +88,7 @@ public class ManageDayTime {
         this.MANAGER_STARTTIME_MIN  = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_StartTime();
         this.MANAGER_ENDTIME_HOUR   = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Hour_EndTime();
         this.MANAGER_ENDTIME_MIN    = OBJ_DAYTIMEINPUT_TIMES.Return_TextField_Min_EndTime();
+        // this.STYLE_ONE              = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4);
         // ############################################################
 
         // Values
@@ -102,18 +103,16 @@ public class ManageDayTime {
         // User selected datacard layout
         if (INPUT_ISDataCard == true) {
             // Create UI
-            this.Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);      // 2 - 150
-            this.Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);    // 7 - 100
+            this.Width  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);         // 2 - 150
+            this.Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);        // 7 - 100
             CONSTRUCT_UI_DATACARD(UI_INPUT_AddPreferenceButton);
 
             // sets size and shape
             SET_SizeShape();
         } else {
             // Create UI
-            this.Width = 130.0; //TODO: later
-            this.Height = 80.0;
-
-
+            this.Width  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2) - 20.0;  // 2 - 150
+            this.Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7) - 20.0; // 7 - 100
             CONSTRUCT_UI_SCHEDULE(UI_INPUT_AddPreferenceButton);
 
             // sets size and shape

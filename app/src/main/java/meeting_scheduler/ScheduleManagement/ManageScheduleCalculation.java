@@ -137,18 +137,13 @@ public class ManageScheduleCalculation {
         ResetPreference_Times();
     } // ResetALLPreferences
 
-    public void SetPreference_Times(LinkedList<PreferenceTime> INPUT_TIME) {
-        this.UserInput_UserTimes    = INPUT_TIME.toArray(new PreferenceTime[0]);
-        this.UserPref_SpecificTimes = true;
-    } // SetPreference_Times()
-
     public void ResetPreference_People() {
         this.UserInput_PeopleList   = new int[0];
         this.UserPref_IDsProvided   = false;
     } // ResetPreference_People()
 
     public void ResetPreference_Weekdays() {
-        this.UserInput_WeekDays.UnSetAll();
+        this.UserInput_WeekDays.SetAll();
         this.userPref_SpecificDays  = false;
     } // ResetPreference_Weekdays()
 
@@ -162,26 +157,33 @@ public class ManageScheduleCalculation {
 
 
 
-
-
-
-
-
     // PREFERENCE SET
     // ############################################################
     public void SetPreference_People(int[] INPUT_IDENT) {
         this.UserInput_PeopleList   = INPUT_IDENT.clone();
         this.UserPref_IDsProvided   = true;
+        System.out.println("People size: " + UserInput_PeopleList.length);
     }
 
     public void SetPreference_Weekdays(String[] INPUT_WEEKDAYS) {
         this.UserInput_WeekDays.CopyAll(INPUT_WEEKDAYS);
         this.userPref_SpecificDays  = true;
     } 
+
+    public void SetPreference_Times(LinkedList<PreferenceTime> INPUT_TIME) {
+        this.UserInput_UserTimes    = INPUT_TIME.toArray(new PreferenceTime[0]);
+        this.UserPref_SpecificTimes = true;
+    } // SetPreference_Times()
     // ############################################################
 
 
 
+    // clear calculated schedule
+    // ############################################################
+    public void ClearCalculations() {
+        this.Calc_FullScheduleList.clear();
+    }
+    // ############################################################
 
 
 
@@ -209,6 +211,7 @@ public class ManageScheduleCalculation {
             for (int Position_fullList = 0; Position_fullList < Employee_FullList_Array.length; Position_fullList++) {
 
                 if (IDList_AppliedIDAndDayPref[Position_RefinedList] == Employee_FullList_Array[Position_fullList].GetIdent()) {
+                    System.out.println("ID added:" + Employee_FullList_Array[Position_fullList].GetIdent());
                     this.Employee_FullList_RefinedArray[Position_RefinedList] = new PreferenceFull(Employee_FullList_Array[Position_fullList]);
                 }
 
@@ -252,13 +255,19 @@ public class ManageScheduleCalculation {
             int CurrentValue_IdentPref = 0;
             int Currentvalue_IdentList = 0;
 
+            // iterate throught he full list of ids the user has selected
             for (int Position_IdentList = 0; Position_IdentList < UserInput_PeopleList.length; Position_IdentList++) {
 
+                // for each id the user selected iterate over the full list of preferences in Employee_FullList_Array[]
                 for (int Position_FullList = 0; Position_FullList < Employee_FullList_Array.length; Position_FullList++) {
 
+                    // current ID in the user submitted array
                     CurrentValue_IdentPref = UserInput_PeopleList[Position_IdentList];
+                    // current ID in the complete preference array
                     Currentvalue_IdentList = Employee_FullList_Array[Position_FullList].GetIdent();
 
+                    // if these values are the same add the Id and the days associated with that persons preference to the IDWeekdayPair_IDENTSort object
+                    // which acts as a key value pair storage
                     if (CurrentValue_IdentPref == Currentvalue_IdentList) {
                         this.IDWeekdayPair_IDENTSort.Set_Values(Position_IdentList, CurrentValue_IdentPref, Employee_FullList_Array[Position_FullList].GetDays());
                     }
@@ -276,8 +285,10 @@ public class ManageScheduleCalculation {
 
             int CurrentValue_ID = 0;
 
+            // iterate through all preferences in the full preference list
             for (int Position_FullListAll = 0; Position_FullListAll < Employee_FullList_Array.length; Position_FullListAll++) {
 
+                // add the ids and their preferred days to the IDWeekdayPair_IDENTSort object
                 CurrentValue_ID = Employee_FullList_Array[Position_FullListAll].GetIdent();
                 this.IDWeekdayPair_IDENTSort.Set_Values(Position_FullListAll, CurrentValue_ID, Employee_FullList_Array[Position_FullListAll].GetDays());
 
@@ -306,30 +317,44 @@ public class ManageScheduleCalculation {
         }
 
 
-
+        // the user has specific days they want scheduled
         if (userPref_SpecificDays == false) {
 
+            // the days the user wants scheduled
             String[]    UserWeekDays    = this.UserInput_WeekDays.GetWeekArray();
+            // the list of ids that can be scheduled on these days
             int[]       IDList          = this.IDWeekdayPair_IDENTSort.Return_Idents();
+            // ID weekday pair
             String[][]  PREF_Weekdays   = this.IDWeekdayPair_IDENTSort.Return_Weekdays();
+            // size of the key value list
             int         Size_IDWeekday  = this.IDWeekdayPair_IDENTSort.Return_Size();
+            // size of the sorted day list
             int         DaySort_constructionSize = 0;
+            // holds the current day
             String      DayReturned;
 
 
-
-            // Nested for loop to get the correct size for IDWeekdayPair_DAYSort
+            // ############################################################
+            // IDWeekdayPair_DAYSort stores the days that can be scheduled on based on the preferences of each person and the submitted days of the user
+            // in essence it finds the days that can be scheduled on and reduces them based on what days the user allows the system to be scheduled on
+            // i.e if mon, wed and fri, are all days the selected ID list can be scheduled on and the user only selects wednesday the list gets reduced to just wed
+            // ############################################################
+            
+            // Nested for loop to get the correct size for IDWeekdayPair_DAYSort the object that stores the final list of ids and days that can be scheduled
             // ############################################################
             // Iterates over the full key value pair
+            // iterates through the positions of IDs stored in the pair
             for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
 
                 // iterates over each day in the current key value ID weekdays pair
                 for (int Position_Day = 0; Position_Day < this.WEEK_LENGTH; Position_Day++) {
 
-                    // if the day match at least once
+                    // get the day stored in PREF_Weekdays correlating to the currently iterated ID
                     DayReturned = PREF_Weekdays[Position_IDWeekday][Position_Day];
 
+                    // ensures the value exists
                     if (DayReturned != null) {
+                        // if the day a user can be scheduled on is one that the user wants to schedule a meeting on, increment the construction size and break
                         if (DayReturned.equals(UserWeekDays[Position_Day])) {
                             DaySort_constructionSize++;
                             break;
@@ -343,14 +368,14 @@ public class ManageScheduleCalculation {
 
 
 
-            // CREATE IDWeekdayPair_DAYSort of size DaySort_constructionSize
+            // CREATE IDWeekdayPair_DAYSort of size DaySort_constructionSize based on the previous for loops
             // ############################################################
             this.IDWeekdayPair_DAYSort = new DataIDandDays(DaySort_constructionSize);
             // ############################################################
 
 
 
-            // Populate IDWeekdayPair_DAYSort with values
+            // Populate IDWeekdayPair_DAYSort with ids and days that the user wants scheduled. this will be the list used in schedule calculations
             // ############################################################
             for (int Position_IDWeekday = 0; Position_IDWeekday < Size_IDWeekday; Position_IDWeekday++) {
                 
@@ -382,8 +407,8 @@ public class ManageScheduleCalculation {
             // ############################################################
 
         } else {
-
-            // Set IDList_AppliedIDAndDayPref to the unsorted default list
+            // the user has not specified any days
+            // Set IDList_AppliedIDAndDayPref to the unsorted default list of available ids based on user specifications
             // ############################################################
             this.IDList_AppliedIDAndDayPref = IDWeekdayPair_IDENTSort.Return_Idents();
             // ############################################################
@@ -400,8 +425,11 @@ public class ManageScheduleCalculation {
 
 
 
-
-    public void Calculate_ScheduleList() {
+    /**
+     * Calculate_ScheduleList()
+     * Description: Calculates schedule using parameters calculated in Paramater_ApplyPref_IDENT() and Paramater_ApplyPref_WeekDays();
+     */
+    private void Calculate_ScheduleList() {
 
         String[]    WeekDay_Iteration;
         String      DAY_Current;
@@ -414,6 +442,8 @@ public class ManageScheduleCalculation {
             WeekDay_Iteration = this.WEEK_DEFAULT.clone();
         }
 
+
+
         for (int position = 0; position < Employee_FullList_Array.length; position++) {
 
             intervalLength = Employee_FullList_Array[position].GetIntervals().length;
@@ -422,6 +452,8 @@ public class ManageScheduleCalculation {
                 MaxSize = intervalLength;
             }
         }
+
+
 
         /**
          * Iterate over each day the user selected, at least one at most every day of the week
@@ -492,7 +524,7 @@ public class ManageScheduleCalculation {
 
     /**
      * CalculatePerPerson()
-     * Description: runs calculations for the full list of people provided
+     * Description: runs calculations for the full list of people provided one at a time
      * segmeneted like this to remove duplicate code
      */
     private void CalculatePerPerson(int STARTHOUR, int STARTMIN, int ENDHOUR, int ENDMIN, int MAXSIZE, String PREFDAY) {
@@ -868,7 +900,7 @@ public class ManageScheduleCalculation {
                 // ############################################################
                 if (Calc_AvailableIDs_AsInt.length > 0) {
                     
-                    // TODO: REMOVE
+                    // TODO: REMOVE later after testing
                     System.out.println("HourRange"      + Arrays.toString(RefinedHourRange));
                     System.out.println("startMinRange"  + Arrays.toString(RefinedMinStartRange));
                     System.out.println("EndMinRange"    + Arrays.toString(RefinedMinEndRange));

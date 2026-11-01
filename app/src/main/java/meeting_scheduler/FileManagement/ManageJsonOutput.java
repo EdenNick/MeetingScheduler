@@ -30,9 +30,6 @@ public class ManageJsonOutput {
     // read/write to json file
     private ObjectMapper JsonObjectMapper;
 
-    // Lock
-    //TODO: implement a lock system
-
     // Retreived File
     private LinkedList<PreferenceFull> JsonFileRetrievedList;
 

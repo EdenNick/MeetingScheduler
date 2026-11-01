@@ -10,7 +10,7 @@ public class ManageFilePaths {
     
     // Data File paths (Read/Write)
     // ############################################################
-    private static final Path PATH_JSN_DATACARD       = Paths.get( "app","Data", "PROG_DATA_A_UserDataCard.json");
+    private static final Path PATH_JSN_DATACARD       = Paths.get( "app","Data", "UserdataCardDefaultJSON.json");
     // ############################################################
 
     // Resource FILE PATHS (Read Only)

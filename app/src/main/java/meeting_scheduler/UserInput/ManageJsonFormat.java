@@ -5,12 +5,9 @@ package meeting_scheduler.UserInput;
 
 // Imports
 // ############################################################
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.HashMap;
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import meeting_scheduler.global;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
@@ -170,5 +167,35 @@ public class ManageJsonFormat {
 
     } // JsonFileDefault_FormatRemovals()
 
+
+
+    public LinkedList<PreferenceFull> JsonFileDefault_ReplaceWithInput(LinkedList<PreferenceFull> INPUT_FullEmployeePreference, int INPUT_POSITION) {
+
+        // get the recently added preference from the linked list
+        PreferenceFull  ReplcementPreference    = INPUT_FullEmployeePreference.get(INPUT_POSITION);
+        int             ReplacementPreferenceID = ReplcementPreference.GetIdent();
+
+        // remove the recently added preference
+        INPUT_FullEmployeePreference.remove(INPUT_POSITION);
+
+        // convert the linkedlist to an array for more efficient iteration
+        PreferenceFull[] IterationArrayPreferences = INPUT_FullEmployeePreference.toArray(new PreferenceFull[0]);
+        // linkedlist to be returned
+        LinkedList<PreferenceFull> NewPreferenceList = new LinkedList<>();
+
+        for (int Pos = 0; Pos < IterationArrayPreferences.length; Pos++) {
+
+            if (IterationArrayPreferences[Pos].GetIdent() != ReplacementPreferenceID) {
+                NewPreferenceList.add(IterationArrayPreferences[Pos]);
+            } else {
+                NewPreferenceList.add(ReplcementPreference);
+            }
+            
+        } // for (int Pos = 0; Pos < IterationArrayPreferences.length; Pos++)
+
+
+        return NewPreferenceList;
+    } // JsonFileDefault_ReplaceWithInput()
+
     
-}
+} // ManageJsonFormat{}

@@ -172,7 +172,7 @@ public class SceneScheduling {
     // ############################################################
     private LinkedList<DataCompleteSchedule>        CalculatedScheduleList; // Holds the list of calculated schedules for iteration
     private ObservableList<DataCompleteSchedule>    Schedules;              // Used to display the calculated schedules held in CalculatedScheduleList
-    private ManageScheduleOutput                    ScheduleOutputManage;   // Object that manages the visual display of output schedules
+    private ManageScheduleOutput                    ScheduleOutputManager;   // Object that manages the visual display of output schedules
     // ############################################################
 
     // UI Grphical settings
@@ -185,9 +185,9 @@ public class SceneScheduling {
     private final double WIDTH_A;       // 100.0
     private final double WIDTH_B;       // 150.0
     private final double WIDTH_C;       // 250.0
-    private final double WIDTH_D;       // 270.0
+    // private final double WIDTH_D;       // 270.0
     private final double WIDTH_E;       // 300.0
-    private final double WIDTH_F;       // 570.0
+    // private final double WIDTH_F;       // 570.0
     private final double WIDTH_G;       // 600.0
 
 
@@ -195,7 +195,7 @@ public class SceneScheduling {
     private final double HEIGHT_A;      // 30.0
     private final double HEIGHT_B;      // 60.0
     private final double HEIGHT_C;      // 100.0
-    private final double HEIGHT_D;      // 180.0
+    // private final double HEIGHT_D;      // 180.0
     private final double HEIGHT_E;      // 200.0
     private final double HEIGHT_F;      // 400.0
 
@@ -269,16 +269,16 @@ public class SceneScheduling {
         this.WIDTH_A = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);   // 1 - 100
         this.WIDTH_B = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);   // 2 - 150
         this.WIDTH_C = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 4);   // 4 - 250
-        this.WIDTH_D = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 5);   // 5 - 300
+        // this.WIDTH_D = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 5);   // 5 - 300
         this.WIDTH_E = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 5);   // 5 - 300
-        this.WIDTH_F = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 7);   // 7 - 600
+        // this.WIDTH_F = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 7);   // 7 - 600
         this.WIDTH_G = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 7);   // 7 - 600
 
         // 30.0 60.0 100.0 180.0 200.0 380.0
         this.HEIGHT_A = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 2);  // 2 - 30
         this.HEIGHT_B = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
         this.HEIGHT_C = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);  // 7 - 100
-        this.HEIGHT_D = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);  // 7 - 100
+        // this.HEIGHT_D = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);  // 7 - 100
         this.HEIGHT_E = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 8);  // 8 - 200
         this.HEIGHT_F = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 9);  // 9 - 400
 
@@ -578,11 +578,11 @@ public class SceneScheduling {
 
         // UI Sub node creation
         // ############################################################
-        InputPeople();          // UI Input for People
-        InputListNumber();      // UI Input for List ammount
-        InputDayPreference();   // UI Input for day preference
-        InputTimePreference();  // UI Input for Time Preference
-        CalculateSchedule();    // UI Input for calculaitng the schedule
+        InputPeople();                      // UI Input for People
+        InputListNumber();                  // UI Input for List ammount
+        InputDayPreference();               // UI Input for day preference
+        InputTimePreference();              // UI Input for Time Preference
+        CalculateScheduleUICreation();      // UI Input for calculaitng the schedule
         // ############################################################
 
         // Add all Nodes
@@ -865,7 +865,7 @@ public class SceneScheduling {
         // Node construction
         // ############################################################
         // INPUT
-        this.SCHEDULER_TIME = new ManageDayTime(this.ButtonInputTime, false);
+        this.SCHEDULER_TIME = new ManageDayTime(this.ButtonInputTime, false, this.WIDTH_B, this.HEIGHT_A);
         VBox TimeInput = SCHEDULER_TIME.Return_UI_TimeInput();
         // OUTPUT
         this.FlowPane_VBoxDisplay = new FlowPane();
@@ -892,7 +892,7 @@ public class SceneScheduling {
      * CalculateSchedule()
      * Description: hold the calculate schedule button
      */
-    private void CalculateSchedule() {
+    private void CalculateScheduleUICreation() {
 
         // Node Creation
         // ############################################################
@@ -938,7 +938,8 @@ public class SceneScheduling {
      */
     private void SchedulingDisplay() {
         
-        // scroll pane for scrolling between the vbox nodes
+        // ScrollPane - holds the Vbox containing all added schedules 
+        // ############################################################
         this.ScrollPaneHolderUIOutput = new ScrollPane();
         this.ScrollPaneHolderUIOutput.setContent(VBOXUI_OUTPUT);
         this.ScrollPaneHolderUIOutput.setFitToWidth(true);
@@ -948,7 +949,7 @@ public class SceneScheduling {
         this.ScrollPaneHolderUIOutput.setPrefWidth((ManageScenes.WindowWidth / 2) - 80.0);
         this.ScrollPaneHolderUIOutput.setPrefHeight(ManageScenes.WindowHeight - 100.0);
 
-        // updates interface dimensions
+        // updates interface dimensions as the application window moves
         this.ApplicationStage.widthProperty().addListener((observed, oldWidth, newWidth) -> {
             ScrollPaneHolderUIOutput.setPrefWidth((newWidth.intValue() / 2) - 80.0);
         });
@@ -956,30 +957,36 @@ public class SceneScheduling {
         this.ApplicationStage.heightProperty().addListener((observed, oldHeight, newHeight) -> {
             ScrollPaneHolderUIOutput.setPrefHeight(newHeight.intValue() - 100.0);
         });
+        // ############################################################
 
-        // observablelist to hold each schedule
+
+
+
+        // Visual output managers
+        // ############################################################
+        // Schedules - an observablelist used to detect when a new schedule is created, whenever
+        // a schedule is added to this, the schedule outputmanager handles any visual additions to the ui
         this.Schedules = FXCollections.observableArrayList();
 
-       //this.VBOXUI_OUTPUT.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        // ScheduleOutputManagerr - the output manager object that manages any visual output of schedule creation
+        // ManageScheduleOutput(VBox Output_Node, double SPACING, ObservableList<DataCompleteSchedule> Schedule);
+        this.ScheduleOutputManager = new ManageScheduleOutput(VBOXUI_OUTPUT, SPACING, Schedules);
 
-       ScheduleOutputManage = new ManageScheduleOutput(VBOXUI_OUTPUT, SPACING, Schedules);
-
-
+        // Listener that detects any schedule addition to the Schedules observable list
         Schedules.addListener((ListChangeListener<DataCompleteSchedule>) change -> {
 
+            // schedule number - the position the schedule holds in the list of schedules, used to set the ID of specific nodes for deletion
             int ScheduleNumber = 0;
 
+            // the observable list has changed
             while ((change.next()) && (ScheduleNumber < this.SCHEDULE_LIST) ) {
 
+                // if a schedule is added
                 if (change.wasAdded()) {
 
-
-                    ScheduleNumber = ScheduleOutputManage.UpdateOutput(ScheduleNumber);
+                    ScheduleNumber = ScheduleOutputManager.UpdateOutput(ScheduleNumber);
                     
-
-                } // if (change.wasAdded())
-
-
+                }
             } // while (change.next)
 
 
@@ -1135,7 +1142,7 @@ public class SceneScheduling {
         // ############################################################
         this.VBoxUI_INPUT = new VBox(this.SPACING);
         this.VBoxUI_INPUT.getStyleClass().add(this.STYLE_A);
-        //this.VBoxUI_INPUT.setMinSize(this.WIDTH_G, 1200.0); // TODO: CHECK TO SEE IF THIS NEEDS TO BE removed or not
+        //this.VBoxUI_INPUT.setMinSize(this.WIDTH_G, 1200.0);
         this.VBoxUI_INPUT.setPadding(new Insets(this.PADDING));
         // ############################################################
 
@@ -1418,7 +1425,7 @@ public class SceneScheduling {
             this.userInput_SelectDays.getItems().addAll(this.WEEKDAY);
 
             // resets the list of user selected days
-            this.SCHEDULE_DAYS.UnSetAll();
+            this.SCHEDULE_DAYS.SetAll();
 
             // resets the schedule calcualtor to look through everyday of the week
             SCHEDULER_CALCULATOR.ResetPreference_Weekdays(); // input String[]
@@ -1581,6 +1588,11 @@ public class SceneScheduling {
 
             } // for (int CalcScheduleIndex = 0; CalcScheduleIndex < this.SCHEDULE_LIST; CalcScheduleIndex++)
 
+            // clear the calculator object
+            SCHEDULER_CALCULATOR.ClearCalculations();
+
+            // clear the list
+            this.CalculatedScheduleList.clear();
 
 
             // System Message
@@ -1597,8 +1609,7 @@ public class SceneScheduling {
         // ############################################################
         this.EVENT_CLEAR_SCHEDULE = event -> {
 
-            this.CalculatedScheduleList = new LinkedList<>();
-
+            // observable list of create schedules
             this.Schedules.clear();
 
 
@@ -1610,7 +1621,11 @@ public class SceneScheduling {
 
             VBOXUI_OUTPUT.getChildren().clear();
 
-
+            if (VBOXUI_OUTPUT != null) {
+                System.out.println("Output: yes");
+            } else {
+                System.out.println("Output: no");
+            }
 
             // System Message
             // ############################################################

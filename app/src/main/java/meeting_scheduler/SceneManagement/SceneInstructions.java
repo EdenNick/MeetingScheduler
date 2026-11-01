@@ -77,14 +77,14 @@ public class SceneInstructions {
     // ############################################################
     private final String STYLE_FILE;
     private final String STYLE_DEFAULT;
-    private final String STYLE_ONE;
+    // private final String STYLE_ONE;
     private final String STYLE_TWO;
     private final String STYLE_THREE;
 
     private final double ANCHOR;
     private final double RETURNBUTOON_WIDTH;
     private final double RETURNBUTTON_HEIGHT;
-    private final double PADDING;
+    // private final double PADDING;
 
     private final int TIME_FADE;
     private final int TIME_UNFADE;
@@ -108,12 +108,12 @@ public class SceneInstructions {
         // ############################################################
         this.STYLE_FILE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 0); // 0 - /CSS_Styles.css
         this.STYLE_DEFAULT  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1); // 1 - default-label
-        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 8); // 8 - Instructions_UI_TextHolder
+        // this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 8); // 8 - Instructions_UI_TextHolder
         this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 9); // 9 - Instructions_UI_TextTitle
         this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 10); // 10 - Instructions_UI_ScrollPane
 
         this.ANCHOR     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
-        this.PADDING    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 0); // 0 - 5
+        // this.PADDING    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 0); // 0 - 5
         this.RETURNBUTOON_WIDTH  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);  // 2 - 150
         this.RETURNBUTTON_HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 3); // 2 - 30
         

@@ -52,8 +52,6 @@ public class ManageScheduleOutput {
 
 
 
-
-
     /**
      * Constructor
      */
@@ -78,7 +76,6 @@ public class ManageScheduleOutput {
         ConstructOutput();
         return this.ScheduleNumber;
     }
-
 
     private void ConstructOutput() {
 
@@ -151,7 +148,7 @@ public class ManageScheduleOutput {
         ScheduleBox_Primary     .setPadding(new Insets(this.Padding));
         ScheduleBox_Primary     .setPrefSize(800,     120);
         ScheduleBox_Primary     .getStyleClass().add(this.StyleSix);
-
+        ScheduleBox_Primary     .setId(Integer.toString(ScheduleNumber));
         // HBox
         ScheduleBox_Secondary   .setPrefSize(800,   60);
         ScheduleBox_Secondary   .setPadding(new Insets(this.Padding));
@@ -181,7 +178,16 @@ public class ManageScheduleOutput {
             // remove node from the list
             this.VboxSchedulerOutput.getChildren().remove(ScheduleBox_Primary);
 
+            SCHEDULES.remove(Integer.parseInt(ScheduleBox_Primary.getId()));
+
         });
+
+
+
+
+
+
+
 
         // Containes general info like date and time
         ScheduleBox_Secondary.getChildren().addAll(

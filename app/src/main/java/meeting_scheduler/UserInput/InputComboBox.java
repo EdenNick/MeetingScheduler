@@ -17,10 +17,10 @@ public class InputComboBox {
     private final global.TextListState  ENUM_STATE;
     private final ComboBox<String>      COMBOBOX;
     private final String                PARAM_PROMPT;
-    private final int                   PARAM_WIDTH;
-    private final int                   PARAM_HEIGHT;
+    private final double                PARAM_WIDTH;
+    private final double                PARAM_HEIGHT;
     
-    public InputComboBox(global.TextListState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, int INPUT_WIDTH, int INPUT_HEIGHT, String[] INPUT_OPTIONS) {
+    public InputComboBox(global.TextListState INPUT_ENUM_STATE, String INPUT_PROMPT_TEXT, double INPUT_WIDTH, double INPUT_HEIGHT, String[] INPUT_OPTIONS) {
         
         this.COMBOBOX       = new ComboBox<>();
         this.ENUM_STATE     = INPUT_ENUM_STATE;

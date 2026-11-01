@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -22,7 +23,7 @@ import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.global;
 // ############################################################
 
-public class InputDataCardSelection {
+public class ManageDataCardSelection {
 
     // DataContainers
     // ############################################################
@@ -79,13 +80,18 @@ public class InputDataCardSelection {
     private int CurrentIndexPosition = -1;
     private final String SELECTED = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 11); // 11 - SELECTED
     private String STYLE_ONE;
+    private String STYLE_TWO;
+    private boolean ManageSelectionActive = false;
+
+    private double ButtonWidth;
+    private double ButtonHeight;
     // ############################################################
 
 
 
 
     // Constructor
-    public InputDataCardSelection(ManageJsonFile INPUT_FILEMANAGER, FlowPane INPUT_FLOWPANE, ManageDayTime TIME_INPUT_MANAGER, 
+    public ManageDataCardSelection(ManageJsonFile INPUT_FILEMANAGER, FlowPane INPUT_FLOWPANE, ManageDayTime TIME_INPUT_MANAGER, 
         LinkedList<PreferenceTime> INPUT_CURRENT_LIST, TextField INPUT_TEXTFIELD_NAME, TextField INPUT_TEXTFIELD_IDENT) {
         
         this.JSONFileManager        = INPUT_FILEMANAGER;
@@ -99,8 +105,10 @@ public class InputDataCardSelection {
         this.DataCardMap        = new LinkedHashMap<>();
         this.JSONFileFormatter  = new ManageJsonFormat();
 
+        this.ButtonWidth        = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50.0
+        this.ButtonHeight       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);     // 1 - 25.0
         this.STYLE_ONE          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 4);
-        
+        this.STYLE_TWO          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,1);  // 1 - default-label
         SetupPreferenceList();
         SetupComboBox();
         EventCreation();
@@ -120,6 +128,15 @@ public class InputDataCardSelection {
         return this.PrimaryHolder;
     }
 
+
+    public boolean GetSelectionState() {
+        return this.ManageSelectionActive;
+    }
+
+
+    public void SetSelectionState(boolean INPUT_BOOLEAN) {
+        this.ManageSelectionActive = INPUT_BOOLEAN;
+    }
 
 
     /**
@@ -143,13 +160,15 @@ public class InputDataCardSelection {
             BUTTON_DESELECTEDITOR
         );
 
-        // TODO: add labels
+        Label EditInstructions = new Label("Select Datacard to Edit");
+        EditInstructions.getStyleClass().add(this.STYLE_TWO);
         this.PrimaryHolder = new VBox();
         this.PrimaryHolder.setSpacing(10.0);
         this.PrimaryHolder.setPrefSize(500.0 , 300.0);
         this.PrimaryHolder.setPadding(new Insets(5.0));
         this.PrimaryHolder.getStyleClass().add(STYLE_ONE);
         this.PrimaryHolder.getChildren().addAll(
+            EditInstructions,
             ComboBoxHolder,
             ButtonHolder,
             BUTTON_SETDATATOAFILE
@@ -301,9 +320,8 @@ public class InputDataCardSelection {
             ComboBoxText[Pos]   = FormatText;
         } // for (int Pos = 0; Pos < this.DataCardMap.size(); Pos++)
 
-        //TODO: change size
         // create a new combobox manager with specified size and text options
-        this.ComboBoxManager    = new InputComboBox(global.TextListState.PEOPLE, null, 350, 25, ComboBoxText);
+        this.ComboBoxManager    = new InputComboBox(global.TextListState.PEOPLE, null, 350.0, 25.0, ComboBoxText);
         
         // set the constructed comboBox to the local variable for use in this class
         this.DatacardComboBox   = ComboBoxManager.Return_Field_Constructed();
@@ -322,35 +340,35 @@ public class InputDataCardSelection {
         // ############################################################
         this.BUTTON_SELECTCOMBOBOX = new Button("Select");
         this.BUTTON_SELECTCOMBOBOX.setOnAction(this.EVENT_SELECTCOMBOBOX);
-        this.BUTTON_SELECTCOMBOBOX.setPrefSize(50.0, 25.0); //TODO: Set Size
+        this.BUTTON_SELECTCOMBOBOX.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
         // Set Data to file
         // ############################################################
         this.BUTTON_SETDATATOAFILE = new Button("Update");
         this.BUTTON_SETDATATOAFILE.setOnAction(this.EVENT_SETDATATOAFILE);
-        this.BUTTON_SELECTCOMBOBOX.setPrefSize(50.0, 25.0); //TODO: Set Size
+        this.BUTTON_SELECTCOMBOBOX.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
         // DE-Select Dtacard without making any changes
         // ############################################################
         this.BUTTON_DESELECTEDITOR = new Button("De-Select");
         this.BUTTON_DESELECTEDITOR.setOnAction(this.EVENT_DESELECTEDITOR);
-        this.BUTTON_SELECTCOMBOBOX.setPrefSize(50.0, 25.0); //TODO: Set Size
+        this.BUTTON_SELECTCOMBOBOX.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
         // Delete DataCard
         // ############################################################
         this.BUTTON_DELETEDATACARD = new Button("Delete");
         this.BUTTON_DELETEDATACARD.setOnAction(this.EVENT_DELETEDATACARD);
-        this.BUTTON_SELECTCOMBOBOX.setPrefSize(50.0, 25.0); //TODO: Set Size
+        this.BUTTON_SELECTCOMBOBOX.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
         // Delete DataCard
         // ############################################################
         this.BUTTON_KEEPTHEDATACRD = new Button("UN-Delete");
         this.BUTTON_DELETEDATACARD.setOnAction(this.EVENT_KEEPTHEDATACRD);
-        this.BUTTON_SELECTCOMBOBOX.setPrefSize(50.0, 25.0); //TODO: Set Size
+        this.BUTTON_SELECTCOMBOBOX.setPrefSize(this.ButtonWidth, this.ButtonHeight);
         // ############################################################
 
     } // ButtonCreation()
@@ -427,6 +445,11 @@ public class InputDataCardSelection {
 
                 } // for (int Pos = 0; Pos < Intervalelength; Pos++)
 
+
+                // datacard selection is currently active
+                this.ManageSelectionActive = true;
+
+
             } else {
                 // Nothing selected -> do nothing
             }
@@ -480,6 +503,9 @@ public class InputDataCardSelection {
             ClearFlowPane();
             // restore the selected datacard to the comboBox
             RestoreComboBox();
+
+            // Selection is no longer active
+            this.ManageSelectionActive = false;
         };
         // ############################################################
 

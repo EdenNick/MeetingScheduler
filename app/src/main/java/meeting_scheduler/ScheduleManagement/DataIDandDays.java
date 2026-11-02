@@ -12,10 +12,15 @@ import java.util.Arrays;
 
 public class DataIDandDays {
 
+    // Constructor Fields
+    // ############################################################
     private int[]       Ident;
     private String[][]  WeekDays;
     private int         ArraySetLength;
+    // ############################################################
 
+    // Constructors
+    // ############################################################
     /**
      * MANAGESCHEDULE_IDandDays
      * Primary Constructor
@@ -39,13 +44,17 @@ public class DataIDandDays {
      * @param INPUT_ARRAYLENGTH
      */
     public DataIDandDays(DataIDandDays INPUT_COPY) {
-        this.Ident          = INPUT_COPY.Return_Idents();
-        this.WeekDays       = INPUT_COPY.Return_Weekdays();
-        this.ArraySetLength = INPUT_COPY.Return_Size();
+        this.Ident          = INPUT_COPY.GetArraySetIDs();
+        this.WeekDays       = INPUT_COPY.GetArraySetWeekDays();
+        this.ArraySetLength = INPUT_COPY.GetArraySetLength();
     }
 
+    // ############################################################
 
 
+
+    // Setter Method    - ensures values are set relative to eachother positions
+    // ############################################################
     public void Set_Values(int INPUT_POSITION, int INPUT_IDENT, String[] INPUT_WEEKDAYS) {
         if (this.ArraySetLength > INPUT_POSITION) {
             
@@ -56,17 +65,25 @@ public class DataIDandDays {
             }
         }
     }
+    // ############################################################
+
 
     
-    public int[] Return_Idents() {
+    // GetterMethods
+    // ############################################################
+    public int[] GetArraySetIDs() {
         return this.Ident.clone();
     }
 
-    public String[][] Return_Weekdays() {
+    public String[][] GetArraySetWeekDays() {
         return this.WeekDays.clone();
     }
     
-    public int Return_Size() {
+    public int GetArraySetLength() {
         return this.ArraySetLength;
     }
-}
+    // ############################################################
+
+
+
+} // DataIDandDays{}

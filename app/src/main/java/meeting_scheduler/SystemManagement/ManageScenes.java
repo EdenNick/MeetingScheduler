@@ -18,19 +18,19 @@ import meeting_scheduler.global;
 
 public class ManageScenes {
 
+    // Class Variables
+    // ############################################################
     // Stage
     private final Stage ApplicationStage;
-
-    // Objects
-    private final SceneMainMenu MainMenu;
-    private final SceneDataCard DataCard;
-    private final SceneScheduling Schedule;
+    // Scenes
+    private final SceneMainMenu     MainMenu;
+    private final SceneDataCard     DataCard;
+    private final SceneScheduling   Schedule;
     private final SceneInstructions Instruct;
-
     // window size
     public static int WindowWidth;
     public static int WindowHeight;
-
+    // ############################################################
 
 
     /**
@@ -52,7 +52,7 @@ public class ManageScenes {
         ManageScenes.WindowWidth     = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 1);
         ManageScenes.WindowHeight    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 2);
 
-    }
+    } // ManageScenes()
 
 
 

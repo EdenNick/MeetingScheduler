@@ -3,7 +3,7 @@
 package meeting_scheduler.FileManagement;
 // ############################################################
 
-// Imports
+// IMPORTS
 // ############################################################
 import java.io.File;
 import java.io.IOException;
@@ -26,23 +26,18 @@ public class ManageJsonOutput {
     // ############################################################
     // File path
     private File DATAFILE_Preferences;
-
     // read/write to json file
     private ObjectMapper JsonObjectMapper;
-
     // Retreived File
     private LinkedList<PreferenceFull> JsonFileRetrievedList;
+    // ############################################################
 
-
-    // Contructor
+    // CONSTRUCTOR
     public ManageJsonOutput(File INPUT_FILE) {
-        
         this.DATAFILE_Preferences = INPUT_FILE;
-
         this.JsonObjectMapper = new ObjectMapper();
         this.JsonObjectMapper.registerModule(new JavaTimeModule());
         this.JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
     }  
 
 
@@ -60,21 +55,27 @@ public class ManageJsonOutput {
             JsonFileRetrievedList = JsonObjectMapper.readValue(DATAFILE_Preferences, new TypeReference<LinkedList<PreferenceFull>>() {});
 
             // System Message
+            // ############################################################
             // 5 - SUCCESS | 25 - MANAGEFILE_JsonOutput | 10 - SYSTEM-FileAccess | 8 - try/catch Json file read Successful
             SystemInfoManager.GET_SYSTEM_MESSAGE(5,25,10,8);
+            // ############################################################
+
+            return new LinkedList<>(JsonFileRetrievedList);
 
         } catch (IOException e){
 
             // System Message
+            // ############################################################
             // 6 - FAILURE | 25 - MANAGEFILE_JsonOutput | 10 - SYSTEM-FileAccess | 8 - try/catch Json file read Successful
             SystemInfoManager.GET_SYSTEM_MESSAGE(6,25,10,9);
+            // ############################################################
 
-            e.printStackTrace();
+            System.exit(1);
         }
 
-        return new LinkedList<>(JsonFileRetrievedList);
+        return null;
 
     } // RetrieveFromFile
 
     
-}
+} // ManageJsonOutput{}

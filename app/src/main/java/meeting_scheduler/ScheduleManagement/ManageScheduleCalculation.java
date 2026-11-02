@@ -17,8 +17,8 @@ import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
 import meeting_scheduler.FileManagement.ManageFilePaths;
 import meeting_scheduler.FileManagement.ManageJsonFile;
-// ############################################################
 import meeting_scheduler.UserInput.InputWeek;
+// ############################################################
 
 
 
@@ -323,11 +323,11 @@ public class ManageScheduleCalculation {
             // the days the user wants scheduled
             String[]    UserWeekDays    = this.UserInput_WeekDays.GetWeekArray();
             // the list of ids that can be scheduled on these days
-            int[]       IDList          = this.IDWeekdayPair_IDENTSort.Return_Idents();
+            int[]       IDList          = this.IDWeekdayPair_IDENTSort.GetArraySetIDs();
             // ID weekday pair
-            String[][]  PREF_Weekdays   = this.IDWeekdayPair_IDENTSort.Return_Weekdays();
+            String[][]  PREF_Weekdays   = this.IDWeekdayPair_IDENTSort.GetArraySetWeekDays();
             // size of the key value list
-            int         Size_IDWeekday  = this.IDWeekdayPair_IDENTSort.Return_Size();
+            int         Size_IDWeekday  = this.IDWeekdayPair_IDENTSort.GetArraySetLength();
             // size of the sorted day list
             int         DaySort_constructionSize = 0;
             // holds the current day
@@ -403,14 +403,14 @@ public class ManageScheduleCalculation {
 
             // Set IDList_AppliedIDAndDayPref to a sorted List
             // ############################################################
-            this.IDList_AppliedIDAndDayPref = IDWeekdayPair_DAYSort.Return_Idents();
+            this.IDList_AppliedIDAndDayPref = IDWeekdayPair_DAYSort.GetArraySetIDs();
             // ############################################################
 
         } else {
             // the user has not specified any days
             // Set IDList_AppliedIDAndDayPref to the unsorted default list of available ids based on user specifications
             // ############################################################
-            this.IDList_AppliedIDAndDayPref = IDWeekdayPair_IDENTSort.Return_Idents();
+            this.IDList_AppliedIDAndDayPref = IDWeekdayPair_IDENTSort.GetArraySetIDs();
             // ############################################################
 
         }
@@ -431,19 +431,27 @@ public class ManageScheduleCalculation {
      */
     private void Calculate_ScheduleList() {
 
-        String[]    WeekDay_Iteration;
-        String      DAY_Current;
-        int         MaxSize = 0;
-        int         intervalLength;
+        // calculation variables
+        // ############################################################
+        String[]    WeekDay_Iteration;  // WeekDays that should be iterated over
+        String      DAY_Current;        // Current Day being iterated over from WeekDay_Iteration
+        int         MaxSize = 0;        // maximum ammount of time intervals that need to be traveresed over
+        int         intervalLength;     // number of intervals within an individual datacard
+        // ############################################################
 
+
+        // ensures a valid weekday list exists in any scenario
+        // ############################################################
         if (userPref_SpecificDays == false) {
             WeekDay_Iteration = UserInput_WeekDays.GetWeekArray();
         } else {
             WeekDay_Iteration = this.WEEK_DEFAULT.clone();
         }
+        // ############################################################
 
 
-
+        // Loop through the full list of people being checked for the schedule
+        // find the datacard with the largest number of intervals and save that value to MaxSize
         for (int position = 0; position < Employee_FullList_Array.length; position++) {
 
             intervalLength = Employee_FullList_Array[position].GetIntervals().length;
@@ -901,16 +909,16 @@ public class ManageScheduleCalculation {
                 if (Calc_AvailableIDs_AsInt.length > 0) {
                     
                     // TODO: REMOVE later after testing
-                    System.out.println("HourRange"      + Arrays.toString(RefinedHourRange));
-                    System.out.println("startMinRange"  + Arrays.toString(RefinedMinStartRange));
-                    System.out.println("EndMinRange"    + Arrays.toString(RefinedMinEndRange));
-                    // Testing
-                    System.out.println("Day:        " + PREFDAY);
-                    System.out.println("startHour:  " + CalculateInterval_HourStart);
-                    System.out.println("startMin:   " + CalculateInterval_MinStart);
-                    System.out.println("endhour:    " + CalculateInterval_HourEnd);
-                    System.out.println("endMinute:  " + CalculateInterval_MinEnd);
-                    System.out.println("");
+                    // System.out.println("HourRange"      + Arrays.toString(RefinedHourRange));
+                    // System.out.println("startMinRange"  + Arrays.toString(RefinedMinStartRange));
+                    // System.out.println("EndMinRange"    + Arrays.toString(RefinedMinEndRange));
+                    // // Testing
+                    // System.out.println("Day:        " + PREFDAY);
+                    // System.out.println("startHour:  " + CalculateInterval_HourStart);
+                    // System.out.println("startMin:   " + CalculateInterval_MinStart);
+                    // System.out.println("endhour:    " + CalculateInterval_HourEnd);
+                    // System.out.println("endMinute:  " + CalculateInterval_MinEnd);
+                    // System.out.println("");
 
                     /**
                      * Step 11. create new TimeInput LinkedList containing this schedule

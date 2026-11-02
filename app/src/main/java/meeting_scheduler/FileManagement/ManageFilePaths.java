@@ -1,10 +1,17 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.FileManagement;
+// ############################################################
 
+// IMPORTS
+// ############################################################
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import meeting_scheduler.SystemInfoManager;
+// ############################################################
+
+
 
 public class ManageFilePaths {
     
@@ -31,26 +38,34 @@ public class ManageFilePaths {
     // ############################################################
 
 
-
+    // Constructor
+    // ############################################################
     private ManageFilePaths() {
-        // prevents instatiation
+        // prevents instantiation
     }
+    // ############################################################
+
 
     // FILE LOCKS
     // ############################################################
     public static File GetLock_JSN_DataCard() {
         if (JSON_USER_DATACARD.exists() == true) {
+
             return ManageFilePaths.JSON_USER_DATACARD;
+
         } else {
+
             // System Message
+            // ############################################################
             // 6 - FAILURE | 25 - MANAGEFILE_JsonOutput | 10 - SYSTEM-FileAccess | 6 - try/catch Json file Write Failure
             SystemInfoManager.GET_SYSTEM_MESSAGE(6,25,10,7);
             System.exit(1);
+            // ############################################################
+
         }
 
         return null;
     }
-
     // ############################################################
 
 

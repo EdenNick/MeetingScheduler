@@ -3,10 +3,10 @@
 package meeting_scheduler.SceneManagement;
 // ############################################################
 
-// Imports
+// IMPORTS
 // ############################################################
 import java.util.LinkedList;
-
+import javafx.util.Duration;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -28,7 +28,6 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
 import meeting_scheduler.FileManagement.ManageFilePaths;
@@ -88,49 +87,50 @@ public class SceneDataCard {
 
     // User Data
     // ############################################################
-    private LinkedList<PreferenceTime> listUserAddedPref;
-    private LinkedList<PreferenceFull> listEmployeeFullPref;
+    private LinkedList<PreferenceTime> listUserAddedPref;       // All preferences for a specific individual
+    private LinkedList<PreferenceFull> listEmployeeFullPref;    // All preferences for every person
     // ############################################################
 
     // Data Manager Objects
     // ############################################################
-    private ManageJsonFile          ObjJsonFileManager;
-    private ManageJsonFormat        ObjJsonFileFormatter;
-    private ManageDayTime           ObjTimeInputManager;
-    private ManageDataCardSelection  ObjDataCardmanager;
+    private ManageJsonFile          ObjJsonFileManager;     // Manages I/O file operations
+    private ManageJsonFormat        ObjJsonFileFormatter;   // Manages format operations before write file operations
+    private ManageDayTime           ObjTimeInputManager;    // Manages Specific day/time UI operations
+    private ManageDataCardSelection ObjDataCardmanager;     // Manages submitted Datacard formatting/edits
     // ############################################################
 
     // UI formatting variables
     // ############################################################
-    private final double ANCHOR_PRIMARY;
-    private final double ANCHOR_TWO;
-
-    private final double UIInputSpacing;
-    private final double UIInputWidth;
-    private final double UIInputHeight;
-    private final double UIInputPadding;
-                                         
-    private final double UIOutputWidth;
-    private final double UIOutputHeight;
-    private final double UIOutputSpacing;
-    private final double UIOutputPadding;
-
-    private final double ButtonWidth;
-    private final double ButtonHeight;
-    private final String STYLE_SET;
-    private final String STYLE_ONE;
-    private final String STYLE_TWO;
-    private final String STYLE_THREE;
-    private final String TEXT_ONE;
-    private final String TEXT_TWO;
-    private final String TEXT_THREE;
+    private final double ANCHOR_ONE;        // 10.0     // ANCHOR
+    private final double ANCHOR_TWO;        // 20.0     //
+    private final double SPACING_ONE;       // 10.0     // SPACING
+    private final double SPACING_TWO;       // 10.0     //
+    private final double WIDTH_ONE;         // 400.0    // WIDTH
+    private final double WIDTH_TWO;         // 800.0    //
+    private final double WIDTH_THREE;  // 150.0    //
+    private final double HEIGHT_ONE;        // 600.0    // HEIGHT
+    private final double HEIGHT_TWO;        // 800.0    //
+    private final double HEIGHT_THREE; // 30.0     //
+    private final double PADDING_ONE;       // 10.0     // PADDING
+    private final double PADDING_TWO;       // 10.0     //
     // ############################################################
+
+    // Styles and text
+    // ############################################################
+    private final String STYLE_SET;     // /CSS_Styles.css
+    private final String STYLE_ONE;     // DataCard_UI_DefaultInputUI
+    private final String STYLE_TWO;     // DataCard_UI_TimeOutput
+    private final String STYLE_THREE;   // default-label
+    private final String TEXT_ONE;      // Enter Name Here:
+    private final String TEXT_TWO;      // Enter Full Name
+    private final String TEXT_THREE;    // Enter ID Here:
+    // ############################################################          
 
     // Calculation variables
     // ############################################################
-    private final String[] WEEKDAYS;
-    private final int MAX_TIME_INPUT;
-    private boolean ReplaceWithNew = false;
+    private final String[] WEEKDAYS;        // WeekDays short
+    private final int MAX_TIME_INPUT;       // 24
+    private boolean ReplaceWithNew;         // replace an existing datacard true/false
     // ############################################################
 
 
@@ -158,35 +158,37 @@ public class SceneDataCard {
 
         // UI Styling
         // ############################################################
-        this.ANCHOR_PRIMARY     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,1);     // 1 - 10
-        this.ANCHOR_TWO         = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,3);     // 3 - 20
+        this.ANCHOR_ONE = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,1); // 1 - 10.0
+        this.ANCHOR_TWO = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,3); // 3 - 20.0
 
-        this.UIInputSpacing     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);    // 0 - 10
-        this.UIInputWidth       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,6);      // 6 - 400
-        this.UIInputHeight      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,9);     // 9 - 600
-        this.UIInputPadding     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);    // 1 - 10
+        this.SPACING_ONE    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);    // 1 - 10.0
+        this.SPACING_TWO    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);    // 1 - 10.0
+        
+        this.WIDTH_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,6);      // 6 - 400.0
+        this.WIDTH_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,8);      // 8 - 800.0
+        this.WIDTH_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,2);      // 2 - 150.0
 
-        this.UIOutputWidth      = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 8); // 8 - 800
-        this.UIOutputHeight     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 10); // 10 - 600
+        this.HEIGHT_ONE     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,9);     // 9  - 600
+        this.HEIGHT_TWO     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,10);    // 10 - 800.0
+        this.HEIGHT_THREE   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,2);     // 2  - 30.0
 
-        this.UIOutputSpacing    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);   // 0 - 10
-        this.UIOutputPadding    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);   // 1 - 10
+        this.PADDING_ONE    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);    // 1 - 10
+        this.PADDING_TWO    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING,1);    // 1 - 10
 
-        this.ButtonWidth        = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH,2);      // 2 - 150
-        this.ButtonHeight       = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT,2);     // 2 - 30
-        this.STYLE_SET          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,0);  // 0 - /CSS_Styles.css
-        this.STYLE_ONE          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,5);  // 5 - DataCard_UI_DefaultInputUI
-        this.STYLE_TWO          = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,6);  // 6 - DataCard_UI_TimeOutput
-        this.STYLE_THREE        = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,1);  // 1 - default-label
-        this.TEXT_ONE           = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,1);   // 1 - Enter Name Here:
-        this.TEXT_TWO           = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,1);   // 2 - Enter Full Name
-        this.TEXT_THREE         = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,3);   // 3 - Enter ID Here:
+        this.STYLE_SET      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,0);  // 0 - /CSS_Styles.css
+        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,5);  // 5 - DataCard_UI_DefaultInputUI
+        this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,6);  // 6 - DataCard_UI_TimeOutput
+        this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE,1);  // 1 - default-label
+        this.TEXT_ONE       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,1);   // 1 - Enter Name Here:
+        this.TEXT_TWO       = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,1);   // 2 - Enter Full Name
+        this.TEXT_THREE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT,3);   // 3 - Enter ID Here:
         // ############################################################
 
         // Default variable creation
         // ############################################################
         this.WEEKDAYS       = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
         this.MAX_TIME_INPUT = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 11); // 11 - 24
+        this.ReplaceWithNew = false;
         // ############################################################
 
     } // SCENE_CREATE_DataCard()
@@ -269,8 +271,8 @@ public class SceneDataCard {
         // Anchor position set
         // ############################################################
         // Root Node - set return home button position
-        AnchorPane.setBottomAnchor  (buttonReturn, ANCHOR_PRIMARY);
-        AnchorPane.setRightAnchor   (buttonReturn, ANCHOR_PRIMARY);
+        AnchorPane.setBottomAnchor  (buttonReturn, ANCHOR_ONE);
+        AnchorPane.setRightAnchor   (buttonReturn, ANCHOR_ONE);
         
         // Root Node - set UI interface input
         AnchorPane.setTopAnchor     (uiInputAll, ANCHOR_TWO);
@@ -327,8 +329,6 @@ public class SceneDataCard {
      * Description: manages the node layout for the user card input
      */
     private void Create_UIDisplays() {
-
-
 
         // Vbox for UI
         // ############################################################
@@ -482,8 +482,6 @@ public class SceneDataCard {
                 // Get the employee ID
                 int id = Integer.parseInt(textfieldIdent.getText());
 
-
-
                 // Week Days Array
                 // ############################################################
                 InputWeek PreferredDays = new InputWeek();
@@ -586,28 +584,28 @@ public class SceneDataCard {
         this.buttonReturn = new Button("Return Home");
         this.buttonReturn.addEventHandler(ActionEvent.ACTION, this.EVENT_RETURNHOME);
         this.buttonReturn.addEventHandler(ActionEvent.ACTION, this.EVENT_RESETTIMEPREF);
-        this.buttonReturn.setPrefSize(this.ButtonWidth, this.ButtonHeight);
+        this.buttonReturn.setPrefSize(this.WIDTH_THREE, this.HEIGHT_THREE);
         // ############################################################
 
         // Add Info Button
         // ############################################################
         this.buttonAddPref = new Button("Add Info");
         this.buttonAddPref.setOnAction(this.EVENT_ADDINFO);
-        this.buttonAddPref.setPrefSize(this.ButtonWidth, this.ButtonHeight);
+        this.buttonAddPref.setPrefSize(this.WIDTH_THREE, this.HEIGHT_THREE);
         // ############################################################
 
         // Submit UserInfo
         // ############################################################
         this.buttonSubmitPref = new Button("Submit Info");
         this.buttonSubmitPref.setOnAction(this.EVENT_SUBMITINFO);
-        this.buttonSubmitPref.setPrefSize(this.ButtonWidth, this.ButtonHeight);
+        this.buttonSubmitPref.setPrefSize(this.WIDTH_THREE, this.HEIGHT_THREE);
         // ############################################################
 
         // reset usertimeinput
         // ############################################################
         this.buttonResetPref = new Button("Reset added time preferences");
         this.buttonResetPref.setOnAction(this.EVENT_RESETTIMEPREF);
-        this.buttonResetPref.setPrefSize(this.ButtonWidth, this.ButtonHeight);
+        this.buttonResetPref.setPrefSize(this.WIDTH_THREE, this.HEIGHT_THREE);
         // ############################################################
 
     } // ButtonCreation()
@@ -618,7 +616,7 @@ public class SceneDataCard {
 
         // Object responsible for creating the Time input UI
         // Must be called after buttons are initialized otherwise the constructor will fail
-        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref, true, ButtonWidth, ButtonHeight);
+        this.ObjTimeInputManager = new ManageDayTime(this.buttonAddPref, true, WIDTH_THREE, HEIGHT_THREE);
         this.uiInputTime = this.ObjTimeInputManager.Return_UI_TimeInput();
 
         // create labels
@@ -649,17 +647,17 @@ public class SceneDataCard {
         // ############################################################
         // uiInputAll - contains all UI Nodes
         this.uiInputAll = new VBox();
-        this.uiInputAll.setSpacing(this.UIInputSpacing);
-        this.uiInputAll.setPrefSize(this.UIInputWidth, this.UIInputHeight);
-        this.uiInputAll.setPadding(new Insets(this.UIInputPadding));
+        this.uiInputAll.setSpacing(this.SPACING_ONE);
+        this.uiInputAll.setPrefSize(this.WIDTH_ONE, this.HEIGHT_ONE);
+        this.uiInputAll.setPadding(new Insets(this.PADDING_ONE));
         this.uiInputAll.getStyleClass().add(STYLE_ONE);
 
         // uiOutputPref - contains all interface output nodes
         this.uiOutputPref = new FlowPane();
-        this.uiOutputPref.setHgap(this.UIOutputSpacing);
-        this.uiOutputPref.setVgap(this.UIOutputSpacing);
-        this.uiOutputPref.setPrefSize(this.UIOutputWidth, this.UIOutputHeight);
-        this.uiOutputPref.setPadding(new Insets(this.UIOutputPadding));
+        this.uiOutputPref.setHgap(this.SPACING_TWO);
+        this.uiOutputPref.setVgap(this.SPACING_TWO);
+        this.uiOutputPref.setPrefSize(this.WIDTH_TWO, this.HEIGHT_TWO);
+        this.uiOutputPref.setPadding(new Insets(this.PADDING_TWO));
         this.uiOutputPref.getStyleClass().add(STYLE_TWO);
         // ############################################################
 

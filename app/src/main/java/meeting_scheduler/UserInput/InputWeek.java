@@ -1,17 +1,29 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.UserInput;
+// ############################################################
 
+//Imports
+// ############################################################
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.global;
+// ############################################################
+
+
+
 public class InputWeek {
 
-
-
+    // Class Variables
+    // ############################################################
     private String[] CheckWeek  = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
     private String[] InputWeek  = new String[this.CheckWeek.length];
     private String[] NullWeek   = new String[this.CheckWeek.length];
+    // ############################################################
 
     // CONSTRUCTOR
-    public InputWeek() {}
+    public InputWeek() {
+        
+    }
 
 
 

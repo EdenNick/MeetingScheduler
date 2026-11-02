@@ -128,12 +128,20 @@ public class ManageDataCardSelection {
         return this.PrimaryHolder;
     }
 
-
+    /**
+     * GetSelectionState()
+     * Description: gets the current state for selection false = merge, true = replace
+     * @return
+     */
     public boolean GetSelectionState() {
         return this.ManageSelectionActive;
     }
 
-
+    /**
+     * SetSelectionState()
+     * Description: Sets the current state for selection false = merge, true = replace
+     * @param INPUT_BOOLEAN
+     */
     public void SetSelectionState(boolean INPUT_BOOLEAN) {
         this.ManageSelectionActive = INPUT_BOOLEAN;
     }

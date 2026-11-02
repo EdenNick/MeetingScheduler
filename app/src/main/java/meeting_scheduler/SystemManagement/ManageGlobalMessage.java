@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Properties;
 import meeting_scheduler.global;
-// ############################################################
 import meeting_scheduler.FileManagement.ManageFilePaths;
+// ############################################################
 
 
 
@@ -69,7 +69,7 @@ public class ManageGlobalMessage {
 
 
     private ManageGlobalMessage() {
-        // 
+        // prevents insantiation
     }
 
     public static void MESSAGE_SETUP() {

@@ -8,7 +8,7 @@ CLASS:  PreferenceTime
 
 
 
-FILE:   FILEMANAGEMENT
+FILE:   FILEMANAGEMENT      - Effectively DONE
 - CREATE .Txt file manager class if needed
 
 CLASS:  ManageJsonfile

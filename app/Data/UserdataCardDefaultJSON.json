@@ -30,7 +30,7 @@
   "EMPLOYEE_Delete" : false,
   "EMPLOYEE_Name" : "tester name",
   "EMPLOYEE_Ident" : 54098,
-  "EMPLOYEE_Days" : [ "Sun", null, null, "Wed", null, null, "Sat" ],
+  "EMPLOYEE_Days" : [ null, null, null, "Wed", null, null, "Sat" ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Wed",
     "TIMEPREF_TimeStart" : [ 13, 2 ],
@@ -39,6 +39,10 @@
     "TIMEPREF_Weekday" : "Sat",
     "TIMEPREF_TimeStart" : [ 13, 2 ],
     "TIMEPREF_TimeEnd" : [ 15, 4 ]
+  }, {
+    "TIMEPREF_Weekday" : "Wed",
+    "TIMEPREF_TimeStart" : [ 13, 2 ],
+    "TIMEPREF_TimeEnd" : [ 3, 4 ]
   } ]
 }, {
   "EMPLOYEE_Delete" : false,

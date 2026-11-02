@@ -54,12 +54,12 @@ public class SceneMainMenu {
 
     // Nodes
     // ############################################################
-    private AnchorPane  rootNodeAnchorPane;
-    private VBox    ButtonHolderVBox;
-    private Button  ButtonDataCardPage;
-    private Button  ButtonSchedulePage;
-    private Button  ButtonInstructionPage;
-    private Button  ButtonEndProgram;
+    private AnchorPane  rootNodeAnchorPane;     // Root Node
+    private VBox        ButtonHolderVBox;       // Holds the scene change buttons
+    private Button      ButtonDataCardPage;     // Button to the datacard page
+    private Button      ButtonSchedulePage;     // Butotn to the schedule page
+    private Button      ButtonInstructionPage;  // Button to the instruction page
+    private Button      ButtonEndProgram;       // End program Button
     // ############################################################
 
     // Graphic
@@ -78,16 +78,16 @@ public class SceneMainMenu {
 
     // Styling Variables
     // ############################################################
-    private final String STYLE_FILE;
-    private final String STYLE_ONE;
-    private final String STYLE_TWO;
-    private final double SPACING;
-    private final double ANCHOR_DEFAULT;
-    private final double ANCHOR_SECONDARY;
-    private final double ENDBUTTON_WIDTH;
-    private final double ENDBUTTON_HEIGHT;
-    private final double MENUBUTTON_WIDTH;
-    private final double MENUBUTTON_HEIGHT;
+    private final String STYLE_FILE;    // /CSS_Styles.css
+    private final String STYLE_ONE;     // MainMenu_UI_MenuOptions
+    private final String STYLE_TWO;     // MainMenu_Button_Endprogram
+    private final double SPACING;       // 20.0     Spacing
+    private final double ANCHOR_ONE;    // 20.0     Anchor
+    private final double ANCHOR_TWO;    // 30.0
+    private final double WIDTH_ONE;     // 100.0    Width
+    private final double WIDTH_TWO;     // 250.0
+    private final double HEIGHT_ONE;    // 50.0     Height
+    private final double HEIGHT_TWO;    // 50.0
     // ############################################################
 
 
@@ -108,15 +108,15 @@ public class SceneMainMenu {
         this.STYLE_ONE  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 2); // 2 - MainMenu_UI_MenuOptions
         this.STYLE_TWO  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 3); // 3 - MainMenu_Button_Endprogram
 
-        this.SPACING            = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING, 2); // 2 - 20
-        this.ANCHOR_DEFAULT     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
-        this.ANCHOR_SECONDARY   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 5);  // 5 - 30
+        this.SPACING    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING, 2); // 2 - 20
+        this.ANCHOR_ONE = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
+        this.ANCHOR_TWO = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 5);  // 5 - 30
 
-        this.MENUBUTTON_WIDTH   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 4);   // 4 - 250
-        this.MENUBUTTON_HEIGHT  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
+        this.WIDTH_TWO  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 4);   // 4 - 250
+        this.WIDTH_ONE  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);   // 1 - 100
 
-        this.ENDBUTTON_WIDTH    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);   // 1 - 100
-        this.ENDBUTTON_HEIGHT   = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
+        this.HEIGHT_TWO = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
+        this.HEIGHT_ONE = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 6);  // 6 - 50
         
         this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
         this.TIME_UNFADE    = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 5); // 5 - 2
@@ -150,8 +150,6 @@ public class SceneMainMenu {
 
         // Unfades the stage
         TransitionUnFadeMenu.play();
-
-
 
         // System Message
         // ############################################################
@@ -207,11 +205,11 @@ public class SceneMainMenu {
         // Node Position setting
         // ############################################################
         // Root Node - set Menu buttons position
-        AnchorPane.setTopAnchor     (ButtonHolderVBox,  this.ANCHOR_SECONDARY);
-        AnchorPane.setLeftAnchor    (ButtonHolderVBox,  this.ANCHOR_DEFAULT);
+        AnchorPane.setTopAnchor     (ButtonHolderVBox,  this.ANCHOR_TWO);
+        AnchorPane.setLeftAnchor    (ButtonHolderVBox,  this.ANCHOR_ONE);
         // Root Node - set end program button position
-        AnchorPane.setBottomAnchor  (ButtonEndProgram,  this.ANCHOR_DEFAULT);
-        AnchorPane.setRightAnchor   (ButtonEndProgram,  this.ANCHOR_DEFAULT);
+        AnchorPane.setBottomAnchor  (ButtonEndProgram,  this.ANCHOR_ONE);
+        AnchorPane.setRightAnchor   (ButtonEndProgram,  this.ANCHOR_ONE);
         // ############################################################
 
         // Scene transition creation- must be called after all nodes have been added to root node or it won't work properly
@@ -228,8 +226,6 @@ public class SceneMainMenu {
         // ############################################################
         TransitionFadeMenu.play();
         // ############################################################
-
-
 
         // System Message
         // ############################################################
@@ -267,32 +263,32 @@ public class SceneMainMenu {
         this.ButtonEndProgram = new Button("End program");
         this.ButtonEndProgram.setOnAction(this.eventCloseProgram);
         this.ButtonEndProgram.getStyleClass().add(this.STYLE_TWO);
-        this.ButtonEndProgram.setPrefWidth(this.ENDBUTTON_WIDTH);
-        this.ButtonEndProgram.setPrefHeight(this.ENDBUTTON_HEIGHT);
+        this.ButtonEndProgram.setPrefWidth(this.WIDTH_ONE);
+        this.ButtonEndProgram.setPrefHeight(this.HEIGHT_ONE);
         // ############################################################
 
         // Data card page button
         // ############################################################
         this.ButtonDataCardPage = new Button("Manage Data Cards");
         this.ButtonDataCardPage.setOnAction(this.eventScenechangeDataCard);
-        this.ButtonDataCardPage.setPrefWidth(this.MENUBUTTON_WIDTH);
-        this.ButtonDataCardPage.setPrefHeight(this.MENUBUTTON_HEIGHT);
+        this.ButtonDataCardPage.setPrefWidth(this.WIDTH_TWO);
+        this.ButtonDataCardPage.setPrefHeight(this.HEIGHT_TWO);
         // ############################################################
         
         // Schedule page button
         // ############################################################
         this.ButtonSchedulePage = new Button("Schedule"); 
         this.ButtonSchedulePage.setOnAction(this.eventSceneChangeSchedule);
-        this.ButtonSchedulePage.setPrefWidth(this.MENUBUTTON_WIDTH);
-        this.ButtonSchedulePage.setPrefHeight(this.MENUBUTTON_HEIGHT);
+        this.ButtonSchedulePage.setPrefWidth(this.WIDTH_TWO);
+        this.ButtonSchedulePage.setPrefHeight(this.HEIGHT_TWO);
         // ############################################################
 
         // Schedule page button
         // ############################################################
-        ButtonInstructionPage = new Button("Instructions");
-        ButtonInstructionPage.setOnAction(this.eventSceneChangeInstruction);
-        ButtonInstructionPage.setPrefWidth(this.MENUBUTTON_WIDTH);
-        ButtonInstructionPage.setPrefHeight(this.MENUBUTTON_HEIGHT);
+        this.ButtonInstructionPage = new Button("Instructions");
+        this.ButtonInstructionPage.setOnAction(this.eventSceneChangeInstruction);
+        this.ButtonInstructionPage.setPrefWidth(this.WIDTH_TWO);
+        this.ButtonInstructionPage.setPrefHeight(this.HEIGHT_TWO);
         // ############################################################
 
     } // MainMenuButtons()
@@ -315,8 +311,6 @@ public class SceneMainMenu {
 
             TransitionFadeMenu.play();
 
-
-
             // System Message
             // ############################################################
             // 5 - SUCCESS | 19 - SCENE_CREATE_MainMenu | 12 - USER-ButtonPress | 23 - closing program
@@ -335,8 +329,6 @@ public class SceneMainMenu {
             });
 
             TransitionFadeMenu.play();
-
-
 
             // System Message
             // ############################################################
@@ -357,8 +349,6 @@ public class SceneMainMenu {
             });
 
             TransitionFadeMenu.play();
-
-
 
             // System Message
             // ############################################################

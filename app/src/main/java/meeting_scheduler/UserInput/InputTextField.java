@@ -15,7 +15,8 @@ import meeting_scheduler.global;
 
 public class InputTextField {
 
-
+    // Class variables
+    // ############################################################
     private final TextField TEXTFIELD;
     private final String    PARAM_PROMPT;
     private final double    PARAM_WIDTH;
@@ -23,6 +24,10 @@ public class InputTextField {
 
     private final int IDENT_MIN = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 0);
     private final int IDENT_MAX = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.IDENTCONSTRAINT, 1);
+    // ############################################################
+
+
+
     /**
      * Constructor()
      * @param INPUT_ENUM_STATE
@@ -54,6 +59,19 @@ public class InputTextField {
     }
 
 
+    // Getter method
+    // ############################################################
+    public TextField Return_Field_constructed() {
+        return this.TEXTFIELD;
+    }
+    // ############################################################
+
+
+
+    /**
+     * Construct_Field_BasicParameters
+     * Description:sets the textfields prompt text and size
+     */
     private void Construct_Field_BasicParameters() {
         this.TEXTFIELD.setPromptText(this.PARAM_PROMPT);
         this.TEXTFIELD.setPrefSize(this.PARAM_WIDTH, this.PARAM_HEIGHT);
@@ -61,6 +79,10 @@ public class InputTextField {
 
 
 
+    /**
+     * Construct_Field_Text()
+     * Description: constructs a texfield for alphabetic values
+     */
     private void Construct_Field_Text() {
 
         this.TEXTFIELD.setTextFormatter(new TextFormatter<>(change -> {
@@ -89,7 +111,10 @@ public class InputTextField {
     } // Construct_Field_Text()
 
 
-
+    /**
+     * Construct_Field_Numeric()
+     * Description: Constructs a textfield for numeric values
+     */
     private void Construct_Field_Numeric() {
 
         this.TEXTFIELD.setTextFormatter(new TextFormatter<>(change -> {
@@ -121,7 +146,5 @@ public class InputTextField {
     } // Construct_Field_Numeric()
 
 
-    public TextField Return_Field_constructed() {
-        return this.TEXTFIELD;
-    }
-}
+
+} // InputTextField{}

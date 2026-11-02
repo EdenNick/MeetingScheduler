@@ -17,12 +17,17 @@ import meeting_scheduler.DataHolder.PreferenceTime;
 
 public class ManageJsonFormat {
 
+    // Class Parameters
+    // ############################################################
     private static final String[] WEEKDAYS = global.Global_Array_WeekDay_Short_Get();
 
     private HashMap<Integer, PreferenceFull>    HashSetEmployeePreference;
     private ListIterator<PreferenceFull>        IteratorDefaultJson;
     // private boolean Input = false;
-    
+    // ############################################################
+
+
+
     /**
      * Constructor()
      */
@@ -32,6 +37,13 @@ public class ManageJsonFormat {
     }
     
 
+
+    /**
+     * JsonFileDefault_Formatting()
+     * Description: Formats the Input LinkedList
+     * @param INPUT_FullEmployeePreference
+     * @return
+     */
     public LinkedList<PreferenceFull> JsonFileDefault_Formatting(LinkedList<PreferenceFull> INPUT_FullEmployeePreference) {
 
 
@@ -147,7 +159,11 @@ public class ManageJsonFormat {
 
 
 
-
+    /**
+     * JsonFileDefault_FormatRemovals()
+     * Description: Removes any Preferences From the list marked for deletion based on the status boolean in each object
+     * @param INPUT_FullEmployeePreference
+     */
     public void JsonFileDefault_FormatRemovals(LinkedList<PreferenceFull> INPUT_FullEmployeePreference) {
 
         ListIterator<PreferenceFull> Iterator =  INPUT_FullEmployeePreference.listIterator();
@@ -169,6 +185,13 @@ public class ManageJsonFormat {
 
 
 
+    /**
+     * JsonFileDefault_ReplaceWithInput()
+     * Description: Formats replacment of a single data card at a time
+     * @param INPUT_FullEmployeePreference
+     * @param INPUT_POSITION
+     * @return
+     */
     public LinkedList<PreferenceFull> JsonFileDefault_ReplaceWithInput(LinkedList<PreferenceFull> INPUT_FullEmployeePreference, int INPUT_POSITION) {
 
         // get the recently added preference from the linked list
@@ -198,4 +221,5 @@ public class ManageJsonFormat {
     } // JsonFileDefault_ReplaceWithInput()
 
     
+
 } // ManageJsonFormat{}

@@ -3,8 +3,9 @@
 package meeting_scheduler.ScheduleManagement;
 // ############################################################
 
+// Imports
+// ############################################################
 import java.util.LinkedList;
-
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,65 +19,86 @@ import meeting_scheduler.FileManagement.ManageFilePaths;
 import meeting_scheduler.FileManagement.ManageJsonFile;
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.global;
-// Imports
-// ############################################################
-
 // ############################################################
 
 
 
 public class ManageScheduleOutput {
     
+    // UI Nodes
+    // ############################################################
     // Vbox containing scheduling outputs
     private VBox VboxSchedulerOutput;
+    // ############################################################
 
-    // UI Styling variables
-    private final double SPACING;
-
-    // ObservableList of all calculated schedules
-    private ObservableList<DataCompleteSchedule> SCHEDULES;
-
-    // tracks the current number of schedules displayed in VboxSchedulerOutput
-    private int ScheduleNumber;
-
+    // File Management
+    // ############################################################
     // Json file manager for accessing employee data
     private ManageJsonFile Scheduler_fileReader;
     // LinkedList used to hold info gianed from the json file manager
     private LinkedList<PreferenceFull>  FilePeople;
+    // ############################################################
+    
+    // Calculation variables
+    // ############################################################
+    // ObservableList of all calculated schedules
+    private ObservableList<DataCompleteSchedule> SCHEDULES;
+    // tracks the current number of schedules displayed in VboxSchedulerOutput
+    private int ScheduleNumber;
+    // ############################################################
 
-    private double Padding;
-    private String StyleSix;
+    // Class variables
+    // ############################################################
+    private final String AM;    // "AM"
+    private final String PM;    // "PM"
+    // ############################################################
 
-    private final String AM;
-    private final String PM;
-
-
+    // Styling
+    // ############################################################
+    private final double SPACING;
+    private final double Padding;
+    private final String StyleSix;
+    // ############################################################
 
     /**
      * Constructor
      */
     public ManageScheduleOutput(VBox INPUT_SCHEDULEROUTPUT, double INPUT_SPACING, ObservableList<DataCompleteSchedule> INPUT_SCHEDULES) {
         // pass by reference so changes in instances of this object carry over to the corresponding scheduler scene instance
-        this.VboxSchedulerOutput = INPUT_SCHEDULEROUTPUT;
-        this.SPACING = INPUT_SPACING;
-        this.SCHEDULES = INPUT_SCHEDULES;
-        this.Scheduler_fileReader = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
+        this.VboxSchedulerOutput    = INPUT_SCHEDULEROUTPUT;
+        this.SPACING                = INPUT_SPACING;
+        this.SCHEDULES              = INPUT_SCHEDULES;
+        this.Scheduler_fileReader   = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
 
-        this.AM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
-        this.PM = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM
+        this.AM         = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
+        this.PM         = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM
 
         this.Padding    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 1); // 1 - 10
         this.StyleSix   = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 16); // 16 - Schedule_UI_ScheduleListBox
 
     } // ManageScheduleOutput()
 
-    public int UpdateOutput(int INPUT_SCHEDULENUMBER) {
 
+
+    
+    /**
+     * UpdateOutput()
+     * Description: public method to be called when a value is added to the observable list SCHEDULES
+     * @param INPUT_SCHEDULENUMBER
+     * @return
+     */
+    public int UpdateOutput(int INPUT_SCHEDULENUMBER) {
         this.ScheduleNumber = INPUT_SCHEDULENUMBER;
         ConstructOutput();
         return this.ScheduleNumber;
     }
 
+
+
+    /**
+     * ConstructOutput()
+     * Description: constructs the UI for the output schedule
+     */
     private void ConstructOutput() {
 
         // Node Creation
@@ -170,8 +192,7 @@ public class ManageScheduleOutput {
 
 
         // schedule logic implementation
-
-
+        // ############################################################
         DeleteList.setOnAction(event -> {
             // clear all info in the node
             ScheduleBox_Primary.getChildren().clear();
@@ -181,22 +202,16 @@ public class ManageScheduleOutput {
             SCHEDULES.remove(Integer.parseInt(ScheduleBox_Primary.getId()));
 
         });
+        // ############################################################
 
-
-
-
-
-
-
-
+        // Node assembly
+        // ############################################################
         // Containes general info like date and time
         ScheduleBox_Secondary.getChildren().addAll(
-            
             DeleteList,
             FullList,
             ScheduleDay,
             ScheduletimeFrame
-
         );
 
         // VBox containing all relevant info fro a single calculated schedule
@@ -204,25 +219,23 @@ public class ManageScheduleOutput {
             ScheduleBox_Secondary,
             SchedulePeopleList
         );
+        // ############################################################
 
 
 
 
-        // put in order based off of ammount of people in each schedule list
-
+        // Order the Schedules
+        // ############################################################
         if (this.VboxSchedulerOutput.getChildren().size() == 0) {
 
             this.VboxSchedulerOutput.getChildren().addAll(
-
                 ScheduleBox_Primary
-
             );
 
         } else {
 
-            int VBoxIndex = 0;
-
-            boolean placed = false;
+            int     VBoxIndex   = 0;
+            boolean placed      = false;
 
             while (VBoxIndex < this.VboxSchedulerOutput.getChildren().size()) {
 
@@ -251,7 +264,7 @@ public class ManageScheduleOutput {
 
 
         } // if else()
-
+        // ############################################################
 
 
 
@@ -259,6 +272,7 @@ public class ManageScheduleOutput {
 
         // increment schedule number ammount
         this.ScheduleNumber++;
+
     } // ConstructOutput()
 
 
@@ -326,7 +340,8 @@ public class ManageScheduleOutput {
         INPUT_ScheduleDay.setText(ScheduleDayText);
         INPUT_ScheduletimeFrame.setText(ScheduleTimeText);
 
-    }
+    } // LabelCreation()
     
+
 
 } // ManageScheduleOutput{}

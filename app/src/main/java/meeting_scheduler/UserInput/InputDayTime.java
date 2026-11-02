@@ -16,6 +16,8 @@ import meeting_scheduler.global;
 
 public class InputDayTime {
 
+    // Class variables
+    // ############################################################
     private final ComboBox<String> AMPM_START;
     private final ComboBox<String> AMPM_END;
 
@@ -23,6 +25,7 @@ public class InputDayTime {
     private final TextField INPUTTIME_MIN_Start;
     private final TextField INPUTTIME_HOUR_End;
     private final TextField INPUTTIME_MIN_End;
+    // ############################################################
 
 
     /**
@@ -62,6 +65,9 @@ public class InputDayTime {
     } // USERINPUT_DayTimeInput()
 
 
+
+    // Getter Methods
+    // ############################################################
     public ComboBox<String> Return_ComboBox_StartTime   () {
         return this.AMPM_START;
     }
@@ -85,6 +91,7 @@ public class InputDayTime {
     public TextField Return_TextField_Min_EndTime       () {
         return this.INPUTTIME_MIN_End;
     }
+    // ############################################################
 
 
 
@@ -259,4 +266,6 @@ public class InputDayTime {
 
     } // Construct_TextField_Default_Min_END()
 
+
+    
 } // USERINPUT_DayTimeInput()

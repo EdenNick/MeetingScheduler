@@ -3,11 +3,12 @@
 package meeting_scheduler.SceneManagement;
 // ############################################################
 
+// IMPORTS
+// ############################################################
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.event.ActionEvent;
@@ -63,33 +64,21 @@ public class SceneInstructions {
     private EventHandler<ActionEvent> EventReturnHome = null;
     // ############################################################
 
-    // File manager
-    // ############################################################
-    // ManageTXTOutput fileReader;
-    // ############################################################
-
-    // data management
-    // ############################################################
-    // LinkedList<String> InstructionFileText;
-    // ############################################################
-
     // Styling
     // ############################################################
-    private final String STYLE_FILE;
-    private final String STYLE_DEFAULT;
-    // private final String STYLE_ONE;
-    private final String STYLE_TWO;
-    private final String STYLE_THREE;
+    private final String STYLE_FILE;    // /CSS_Styles.css
+    private final String STYLE_ONE;     // default-label
+    private final String STYLE_TWO;     // Instructions_UI_TextTitle
+    private final String STYLE_THREE;   // Instructions_UI_ScrollPane
 
-    private final double ANCHOR;
-    private final double RETURNBUTOON_WIDTH;
-    private final double RETURNBUTTON_HEIGHT;
-    // private final double PADDING;
+    private final double ANCHOR;        // 20.0
+    private final double WIDTH_ONE;     // 150.0
+    private final double HEIGHT_ONE;    // 30.0
 
-    private final int TIME_FADE;
-    private final int TIME_UNFADE;
-    private final int OPACITY_FADE;
-    private final int OPACITY_UNFADE;
+    private final int TIME_FADE;        // 2
+    private final int TIME_UNFADE;      // 2
+    private final int OPACITY_FADE;     // 0
+    private final int OPACITY_UNFADE;   // 1
     // ############################################################
 
 
@@ -107,15 +96,13 @@ public class SceneInstructions {
         // Set UI Styling
         // ############################################################
         this.STYLE_FILE     = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 0); // 0 - /CSS_Styles.css
-        this.STYLE_DEFAULT  = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1); // 1 - default-label
-        // this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 8); // 8 - Instructions_UI_TextHolder
+        this.STYLE_ONE      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 1); // 1 - default-label
         this.STYLE_TWO      = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 9); // 9 - Instructions_UI_TextTitle
         this.STYLE_THREE    = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 10); // 10 - Instructions_UI_ScrollPane
 
         this.ANCHOR     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR, 3);  // 3 - 20
-        // this.PADDING    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 0); // 0 - 5
-        this.RETURNBUTOON_WIDTH  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);  // 2 - 150
-        this.RETURNBUTTON_HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 3); // 2 - 30
+        this.WIDTH_ONE  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);  // 2 - 150
+        this.HEIGHT_ONE = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 3); // 2 - 30
         
         this.TIME_FADE      = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 4); // 4 - 2
         this.OPACITY_FADE   = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 6); // 6 - 0
@@ -249,7 +236,7 @@ public class SceneInstructions {
         // ############################################################
         ButtonReturnToMenu = new Button("Return Home");
         ButtonReturnToMenu.setOnAction(this.EventReturnHome);
-        ButtonReturnToMenu.setPrefSize(this.RETURNBUTOON_WIDTH, this.RETURNBUTTON_HEIGHT);
+        ButtonReturnToMenu.setPrefSize(this.WIDTH_ONE, this.HEIGHT_ONE);
         // ############################################################
 
     } // ButtonCreation()
@@ -301,14 +288,14 @@ public class SceneInstructions {
 
 
         // SubTitle
-        Text SUB_TITLE = GetInstructionText("DESCRIPTION.", this.STYLE_DEFAULT );
+        Text SUB_TITLE = GetInstructionText("DESCRIPTION.", this.STYLE_ONE );
         SUB_TITLE.setId("SUB_TITLE");
         SUB_TITLE.setX(60);
         SUB_TITLE.setY(this.ANCHOR + 30);
 
 
         // PageInfo
-        Text INFO = GetInstructionText("PAGEINFO.", this.STYLE_DEFAULT);
+        Text INFO = GetInstructionText("PAGEINFO.", this.STYLE_ONE);
         INFO.setId("INFO");
         INFO.setX(20);
         INFO.setY(this.ANCHOR + 80);
@@ -316,7 +303,7 @@ public class SceneInstructions {
         
 
         // Extra text
-        Text EXTRA = GetInstructionText("EXTRATEXT.", this.STYLE_DEFAULT );
+        Text EXTRA = GetInstructionText("EXTRATEXT.", this.STYLE_ONE );
         EXTRA.setId("EXTRA");
         EXTRA.setX(20);
         EXTRA.setY(this.ANCHOR + 200);

@@ -199,21 +199,21 @@ public class SceneScheduling {
     private final double HEIGHT_E;      // 200.0
     private final double HEIGHT_F;      // 400.0
 
-    private final String STYLE_FILE;    // 
-    private final String STYLE_A;       // 
-    private final String STYLE_B;       // 
-    private final String STYLE_C;       // 
-    private final String STYLE_D;       // 
-    private final String STYLE_E;       // 
+    private final String STYLE_FILE;    // /CSS_Styles.css
+    private final String STYLE_A;       // Schedule_UI_Base
+    private final String STYLE_B;       // Schedule_UI_MainInputs
+    private final String STYLE_C;       // Schedule_UI_IndividualInput
+    private final String STYLE_D;       // Schedule_UI_ComboBox
+    private final String STYLE_E;       // default-label
     // ############################################################
 
     // Global variables
     // ############################################################
-    private final int maxListAmmount;
-    private final String[] WEEKDAY;
-    private final int LENGTH_ID;
-    private final int LENGTH_NAME;
-    private final String SELECTED;
+    private final int maxListAmmount;   // 20.0
+    private final String[] WEEKDAY;     // WeekDay list
+    private final int LENGTH_ID;        // 7
+    private final int LENGTH_NAME;      // 30
+    private final String SELECTED;      // 'SELECTED'
     // ############################################################
 
 

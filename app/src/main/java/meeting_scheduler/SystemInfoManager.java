@@ -13,6 +13,8 @@ import meeting_scheduler.SystemManagement.ManageGlobalValue;
 
 public final class SystemInfoManager {
 
+    // Class parameters
+    // ############################################################
     private static boolean ACCESS_VALUES = false;
 
     private static int ARRAYLENGTH_MESSAGE_TYPE      = 0;
@@ -24,7 +26,7 @@ public final class SystemInfoManager {
     private static int CLASS_LENGTH  = 15;
     private static int ACTION_LENGTH = 20;
     private static int INFO_LENGTH   = 20;
-
+    // ############################################################
 
 
 

@@ -30,9 +30,10 @@ import meeting_scheduler.global;
 public class ManageDayTime {
     
 
+    // Class Variables
+    // ############################################################
     private final InputComboBox OBJ_TEXTLIST_WEEKDAY;
     private final InputDayTime  OBJ_DAYTIMEINPUT_TIMES;
-
 
     private final ComboBox<String> MANAGER_WEEKDAY;
     private final ComboBox<String> MANAGER_AMPM_START;
@@ -57,12 +58,13 @@ public class ManageDayTime {
     private Label labelEndHour;
     private Label labelEndMinute;
 
-    private double Width;
-    private double Height;
+    private final double WIDTH;
+    private final double HEIGHT;
 
     // private final String AM;
     private final String PM;
     // private final String STYLE_ONE;
+    // ############################################################
 
 
     
@@ -103,16 +105,16 @@ public class ManageDayTime {
         // User selected datacard layout
         if (INPUT_ISDataCard == true) {
             // Create UI
-            this.Width  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);         // 2 - 150
-            this.Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);        // 7 - 100
+            this.WIDTH  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2);         // 2 - 150
+            this.HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7);        // 7 - 100
             CONSTRUCT_UI_DATACARD(UI_INPUT_AddPreferenceButton);
 
             // sets size and shape
             SET_SizeShape();
         } else {
             // Create UI
-            this.Width  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2) - 20.0;  // 2 - 150
-            this.Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7) - 20.0; // 7 - 100
+            this.WIDTH  = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 2) - 20.0;  // 2 - 150
+            this.HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 7) - 20.0; // 7 - 100
             CONSTRUCT_UI_SCHEDULE(UI_INPUT_AddPreferenceButton);
 
             // sets size and shape
@@ -144,44 +146,44 @@ public class ManageDayTime {
 
     private void SET_SizeShape() {
 
-        double Width = 0.0;
-        double Height = 0.0;
+        double WIDTH = 0.0;
+        double HEIGHT = 0.0;
 
 
         // this.MANAGER_WEEKDAY
-        Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);      // 1 - 100
-        Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.MANAGER_WEEKDAY.setPrefSize(Width,Height);
+        WIDTH = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);      // 1 - 100
+        HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.MANAGER_WEEKDAY.setPrefSize(WIDTH,HEIGHT);
 
         // this.MANAGER_AMPM_START
-        Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);      // 1 - 100
-        Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.MANAGER_AMPM_START.setPrefSize(Width,Height);
+        WIDTH = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);      // 1 - 100
+        HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.MANAGER_AMPM_START.setPrefSize(WIDTH,HEIGHT);
 
         // this.MANAGER_AMPM_END
-        Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);      // 1 - 100
-        Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.MANAGER_AMPM_END.setPrefSize(Width,Height);
+        WIDTH = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 1);      // 1 - 100
+        HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.MANAGER_AMPM_END.setPrefSize(WIDTH,HEIGHT);
 
         // this.MANAGER_STARTTIME_HOUR
-        Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
-        Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.MANAGER_STARTTIME_HOUR.setPrefSize(Width,Height);
+        WIDTH = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
+        HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.MANAGER_STARTTIME_HOUR.setPrefSize(WIDTH,HEIGHT);
 
         // this.MANAGER_STARTTIME_MIN
-        Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
-        Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.MANAGER_STARTTIME_MIN.setPrefSize(Width,Height);
+        WIDTH = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
+        HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.MANAGER_STARTTIME_MIN.setPrefSize(WIDTH,HEIGHT);
 
         // this.MANAGER_ENDTIME_HOUR
-        Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
-        Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.MANAGER_ENDTIME_HOUR.setPrefSize(Width,Height);
+        WIDTH = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
+        HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.MANAGER_ENDTIME_HOUR.setPrefSize(WIDTH,HEIGHT);
 
         // this.MANAGER_ENDTIME_MIN
-        Width = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
-        Height = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
-        this.MANAGER_ENDTIME_MIN.setPrefSize(Width,Height);
+        WIDTH = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.WIDTH, 0);      // 0 - 50
+        HEIGHT = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.HEIGHT, 1);    // 1 - 25
+        this.MANAGER_ENDTIME_MIN.setPrefSize(WIDTH,HEIGHT);
     }
 
 
@@ -300,7 +302,11 @@ public class ManageDayTime {
     } // CONSTRUCT_UI_DATACARD
 
 
-
+    /**
+     * CONSTRUCT_UI_SCHEDULE()
+     * Description: Node Construction
+     * @param UI_INPUT_AddPreferenceButton
+     */
     private void CONSTRUCT_UI_SCHEDULE(Button UI_INPUT_AddPreferenceButton) {
 
         // HBox for beginning Hour/Min
@@ -495,7 +501,7 @@ public class ManageDayTime {
         // VBox creation and preference set
         // ############################################################
         VBox IndividualDataCard = new VBox();
-        IndividualDataCard.setPrefSize(this.Width, this.Height);
+        IndividualDataCard.setPrefSize(this.WIDTH, this.HEIGHT);
         // IndividualDataCard.setPrefSize(130.0, 100.0);
         IndividualDataCard.getStyleClass().add(SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 7));
         IndividualDataCard.setAlignment(Pos.CENTER);
@@ -696,6 +702,4 @@ public class ManageDayTime {
 
 
 
-
-    
 } // USERINPUT_TimeInputManager()

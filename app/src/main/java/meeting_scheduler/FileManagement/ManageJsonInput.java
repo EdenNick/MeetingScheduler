@@ -25,23 +25,18 @@ public class ManageJsonInput {
     // ############################################################
     // File path
     private File DATAFILE_Preferences;
-
     // read/write to json file
     private ObjectMapper Write_JsonObjectMapper;
-
     // Retreived File
     private LinkedList<PreferenceFull> JSONFileInputList;
+    // ############################################################
 
-
-    // Default Contructor
+    // CONSTRUCTOR
     public ManageJsonInput(File INPUT_FILE) {
-
         this.DATAFILE_Preferences = INPUT_FILE;
-
         this.Write_JsonObjectMapper = new ObjectMapper();
         this.Write_JsonObjectMapper.registerModule(new JavaTimeModule());
         this.Write_JsonObjectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
     }
 
 
@@ -56,16 +51,20 @@ public class ManageJsonInput {
                 Write_JsonObjectMapper.writerWithDefaultPrettyPrinter().writeValue(DATAFILE_Preferences, JSONFileInputList);
 
                 // System Message
+                // ############################################################
                 // 5 - SUCCESS | 23 - MANAGEFILE_JsonInput | 10 - SYSTEM-FileAccess | 6 - try/catch Json file Write Successful
                 SystemInfoManager.GET_SYSTEM_MESSAGE(5,23,10,6);
+                // ############################################################
 
             } catch (IOException e) {
 
                 // System Message
+                // ############################################################
                 // 6 - FAILURE | 23 - MANAGEFILE_JsonInput | 10 - SYSTEM-FileAccess | 6 - try/catch Json file Write Failure
                 SystemInfoManager.GET_SYSTEM_MESSAGE(6,23,10,7);
+                // ############################################################
 
-                e.printStackTrace();
+                System.exit(1);
             }
             
         } else {
@@ -78,4 +77,4 @@ public class ManageJsonInput {
     } // WriteToFile()
 
     
-}
+} // ManageJsonInput{}

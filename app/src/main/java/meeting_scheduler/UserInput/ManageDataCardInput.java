@@ -1,23 +1,38 @@
+// Package  - DO Not Change
+// ############################################################
 package meeting_scheduler.UserInput;
 
+// Imports
+// ############################################################
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
-
 import meeting_scheduler.SystemInfoManager;
 import meeting_scheduler.global;
 import meeting_scheduler.DataHolder.PreferenceFull;
 import meeting_scheduler.DataHolder.PreferenceTime;
+// ############################################################
+
+
 
 public class ManageDataCardInput {
-    
-    private static final String[]   WEEKDAY = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
 
+    // Constructor Fiels
+    // ############################################################
     private boolean             NEW_EMPLOYEE_Delete;
     private String              NEW_EMPLOYEE_Name;
     private int                 NEW_EMPLOYEE_Ident;
     private String[]            NEW_EMPLOYEE_Days;
     private PreferenceTime[]    NEW_EMPLOYEE_Intervals;
+    // ############################################################
+
+    // Class Variables
+    // ############################################################
+    private static final String[]   WEEKDAY = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
+    // ############################################################
+
+
+
 
     // Constructor
     public ManageDataCardInput(PreferenceFull INPUT_PERSON_PREF) {
@@ -202,10 +217,13 @@ public class ManageDataCardInput {
     } // RemovePreferenceSpecific()
 
 
-
+    /**
+     * UpdateTimeIntervals()
+     * Description: updates the current time intervals with a new set
+     * @param INPUT_TIMEPREFERENCE
+     */
     public void UpdateTimeIntervals(LinkedList<PreferenceTime> INPUT_TIMEPREFERENCE) {
 
-        
         this.NEW_EMPLOYEE_Intervals = new PreferenceTime[INPUT_TIMEPREFERENCE.size()];
 
         for (int Day = 0; Day < WEEKDAY.length; Day++) {
@@ -247,4 +265,5 @@ public class ManageDataCardInput {
     } // GetUpdatedDatacard()
 
 
+    
 } // ManageDataCardInput()

@@ -128,9 +128,10 @@ public class SceneDataCard {
 
     // Calculation variables
     // ############################################################
-    private final String[] WEEKDAYS;        // WeekDays short
-    private final int MAX_TIME_INPUT;       // 24
-    private boolean ReplaceWithNew;         // replace an existing datacard true/false
+    private final String[]  WEEKDAYS;       // WeekDays short
+    private final int       MAX_TIME_INPUT; // 24
+    private       boolean   ReplaceWithNew; // replace an existing datacard true/false
+    private final int       IDENT_LENGTH;   // 7
     // ############################################################
 
 
@@ -158,8 +159,8 @@ public class SceneDataCard {
 
         // UI Styling
         // ############################################################
-        this.ANCHOR_ONE = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,1); // 1 - 10.0
-        this.ANCHOR_TWO = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,3); // 3 - 20.0
+        this.ANCHOR_ONE     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,1);     // 1 - 10.0
+        this.ANCHOR_TWO     = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.ANCHOR,3);     // 3 - 20.0
 
         this.SPACING_ONE    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);    // 1 - 10.0
         this.SPACING_TWO    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.SPACING,1);    // 1 - 10.0
@@ -189,6 +190,7 @@ public class SceneDataCard {
         this.WEEKDAYS       = SystemInfoManager.GET_SYSTEM_VALUE_WEEK(global.WEEKTYPE.SHORT);
         this.MAX_TIME_INPUT = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 11); // 11 - 24
         this.ReplaceWithNew = false;
+        this.IDENT_LENGTH   = SystemInfoManager.GET_SYSTEM_VALUE_INT(global.BASICVALUESINT.INT, 9); // 9 - 7
         // ############################################################
 
     } // SCENE_CREATE_DataCard()
@@ -330,9 +332,6 @@ public class SceneDataCard {
      */
     private void Create_UIDisplays() {
 
-        // Vbox for UI
-        // ############################################################
-        // add nodes to the box
         this.uiInputAll.getChildren().addAll(
             this.UIDataCardManage,
 
@@ -348,7 +347,6 @@ public class SceneDataCard {
             
             this.buttonSubmitPref
         );
-        // ############################################################
 
     } // cardUIManagement
 
@@ -395,16 +393,13 @@ public class SceneDataCard {
             // checks to ensure all variables are input
             if ( (ObjTimeInputManager.CHECK_FullTimeInput() == 0) && (this.listUserAddedPref.size() < this.MAX_TIME_INPUT) ) {
 
-                // Temp user preference created for clean seperation of object use
-                PreferenceTime TempUserPreferrence = ObjTimeInputManager.Return_UserPreference();
-
                 /**
                  * ############################################################
                  * PROG_UI_C_UserTimeInput DataCard_UserTimeInputs .FileReadyUserInputGraphic()
                  * 
                  * Inputs user preference to be displayed to the user as well as stored for eventual submission to file
                  * 
-                 * PROG_DAL_A_TimeInput TempUserPreferrence             - individual time preference containing day. start and end times
+                 * ObjTimeInputManager.()Return_UserPreference          - individual time preference containing day. start and end times
                  * 
                  * LinkedList<PROG_DAL_A_TimeInput> listUserAddedPref   - A list of all time preferences a person has. To be submitted to the json file not displayed
                  * 
@@ -412,12 +407,9 @@ public class SceneDataCard {
                  * 
                  * FlowPane uiOutputPref                                - A flowpane which displays the various Vboxs that hold user preferences. display only
                  */
-                ObjTimeInputManager.UserInputGraphic(TempUserPreferrence, this.listUserAddedPref, uiOutputPref, true);
+                ObjTimeInputManager.UserInputGraphic(ObjTimeInputManager.Return_UserPreference(), this.listUserAddedPref, uiOutputPref, true);
                 // ############################################################
 
-
-                // garbage Collection
-                TempUserPreferrence = null;
 
 
                 // System Message
@@ -458,7 +450,7 @@ public class SceneDataCard {
                 SystemInfoManager.GET_SYSTEM_MESSAGE(6,17,14,21);
                 // ############################################################
 
-            } else if (this.textfieldIdent.getText().isBlank()) { // Do nothing - Display message
+            } else if ( (this.textfieldIdent.getText().isBlank()) || (this.textfieldIdent.getText().length() != IDENT_LENGTH) ){ // Do nothing - Display message
                 
                 // System Message - user has not submitted a valid name
                 // ############################################################
@@ -505,7 +497,7 @@ public class SceneDataCard {
                 // create a new datacard with the user submitted info
                 PreferenceFull EMPLOYEE_Input = new PreferenceFull(false, name, id, PreferredDays.GetWeekArray(), this.listUserAddedPref);
                 
-                System.out.println("size: " + this.listUserAddedPref.size());
+
                 // add this datacard to the main list
                 listEmployeeFullPref.add(EMPLOYEE_Input);
 

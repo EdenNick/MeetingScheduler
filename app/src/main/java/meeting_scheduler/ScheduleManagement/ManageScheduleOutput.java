@@ -71,7 +71,7 @@ public class ManageScheduleOutput {
         this.Scheduler_fileReader   = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
 
         this.AM         = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 0 - AM
-        this.PM         = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 0); // 1 - PM
+        this.PM         = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.AMPM, 1); // 1 - PM
 
         this.Padding    = SystemInfoManager.GET_SYSTEM_VALUE_DOUBLE(global.UISPACING.PADDING, 1); // 1 - 10
         this.StyleSix   = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.STYLE, 16); // 16 - Schedule_UI_ScheduleListBox
@@ -239,10 +239,9 @@ public class ManageScheduleOutput {
 
             while (VBoxIndex < this.VboxSchedulerOutput.getChildren().size()) {
 
-                VBox vbox = (VBox) this.VboxSchedulerOutput.getChildren().get(0);
-                FlowPane PeopleList = (FlowPane) vbox.getChildren().get(1);
-
-                int NumberOfPeople = PeopleList.getChildren().size();
+                VBox        vbox            = (VBox) this.VboxSchedulerOutput.getChildren().get(0);
+                FlowPane    PeopleList      = (FlowPane) vbox.getChildren().get(1);
+                int         NumberOfPeople  = PeopleList.getChildren().size();
 
                 if (FlowPanePeopleAmmount >= NumberOfPeople) {
 
@@ -287,6 +286,9 @@ public class ManageScheduleOutput {
         String StartingAMPM = this.AM;
         String EndingAMPM   = this.AM;
 
+        System.out.println("Label section");
+
+
         // Time frame of the schedule
         int StartHour       = this.SCHEDULES.getLast().GetInterval().GetStartTimeHour();
         String startMinute  = Integer.toString(this.SCHEDULES.getLast().GetInterval().GetStartTimeMin());
@@ -294,6 +296,9 @@ public class ManageScheduleOutput {
         int Endhour         = this.SCHEDULES.getLast().GetInterval().GetEndTimeHour();
         String EndMinute    = Integer.toString(this.SCHEDULES.getLast().GetInterval().GetEndTimeMin());
 
+
+        System.out.println("Start: " + StartHour);
+        System.out.println("End: " + Endhour);
         // Convert to PM if necessary
         if (StartHour >= 12) {
             StartingAMPM = this.PM;
@@ -333,9 +338,9 @@ public class ManageScheduleOutput {
 
         String TimeStart        = String.format(StartHour + ":" + startMinute + " " + StartingAMPM);
         String TimeEnd          = String.format(Endhour + ":" + EndMinute + " " + EndingAMPM);
-        String ScheduleTimeText = String.format("| Time Frame: %-5s - %-5s |", TimeStart, TimeEnd);
+        String ScheduleTimeText = String.format("| Time Frame: %-8s - %-8s |", TimeStart, TimeEnd);
 
-
+        
         INPUT_FullList.setText(FullListText);
         INPUT_ScheduleDay.setText(ScheduleDayText);
         INPUT_ScheduletimeFrame.setText(ScheduleTimeText);

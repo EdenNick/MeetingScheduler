@@ -83,6 +83,8 @@ public class InputWeek {
                 if (INPUT_WEEKARRAY[Pos].equals(this.CheckWeek[Pos])) {
                     SetDay(Pos);
                 }
+            } else {
+                UnSetDay(Pos);
             }
         }
     }

@@ -77,11 +77,14 @@ public class ManageDataCardSelection {
 
     // class variables
     // ############################################################
-    private int CurrentIndexPosition = -1;
-    private final String SELECTED = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 11); // 11 - SELECTED
-    private String STYLE_ONE;
-    private String STYLE_TWO;
-    private boolean ManageSelectionActive = false;
+    private final   String  SELECTED = SystemInfoManager.GET_SYSTEM_VALUE_STRING(global.BASICVALUESSTRING.TEXT, 11); // 11 - SELECTED
+    private         int     CurrentIndexPosition    = -1;   // currently selected datacard index on the combobox
+    private         int     OldIndexPosition        = -1;   // previously selected datacard from the combobox
+    private         String  DataCardSelection;              // Selected value in the combobox
+    private         String  STYLE_ONE;                      
+    private         String  STYLE_TWO;
+    private         boolean ManageSelectionActive   = false;    // used to determine selection state outside of the class
+    private         boolean DataCardSelected        = false;    // used to determine selection state inside the class
 
     private double ButtonWidth;
     private double ButtonHeight;
@@ -256,23 +259,20 @@ public class ManageDataCardSelection {
     private void RestoreComboBox() {
 
         // ensure the current index is set to an actual datacard
-        if (this.CurrentIndexPosition >= 0) {
+        if (this.OldIndexPosition >= 0) {
 
             // retrieve the selected datacard values from the map
-            int     ID      = DataCardMap.get(this.CurrentIndexPosition).GetIdent();
-            String  Name    = DataCardMap.get(this.CurrentIndexPosition).GetName();
+            int     ID      = DataCardMap.get(this.OldIndexPosition).GetIdent();
+            String  Name    = DataCardMap.get(this.OldIndexPosition).GetName();
 
             // format the values
             String FormatText = String.format("ID: %07d | Name: %-20.20s", ID, Name);
 
             // remove the 'SELECTED' text that exisits at the combobox position
-            this.DatacardComboBox.getItems().remove(this.CurrentIndexPosition);
+            this.DatacardComboBox.getItems().remove(this.OldIndexPosition);
 
             // add in the formatted text back to where it should be relative to its position in the hashmap
-            this.DatacardComboBox.getItems().add(this.CurrentIndexPosition, FormatText);
-
-            // set CurrentIndexPosition to -1, as it should no longer be set to any valid position (any number equal to or greater than 0)
-            this.CurrentIndexPosition = -1;
+            this.DatacardComboBox.getItems().add(this.OldIndexPosition, FormatText);
 
             // Set the combobox to select a null value, resetting the selection to a blank one
             // this does not alter the values in the combobox and is purely asthetic
@@ -392,9 +392,13 @@ public class ManageDataCardSelection {
         // SELECT THE DATACARD  - Selects currently set postion in the comboBox displaying the relevant data of the selected DatCard
         // ############################################################
         this.EVENT_SELECTCOMBOBOX = event -> {
+            this.OldIndexPosition       = CurrentIndexPosition;
+            this.CurrentIndexPosition   = DatacardComboBox.getSelectionModel().getSelectedIndex();
+            this.DataCardSelection      = DatacardComboBox.getSelectionModel().getSelectedItem();
 
             // If a combobox is selected
-            if ( (DatacardComboBox.getValue() != null) && (DatacardComboBox.getValue() != this.SELECTED) ) {
+            if ( (this.DataCardSelection != null) && (this.DataCardSelection != this.SELECTED) 
+                && ((this.CurrentIndexPosition > 0) && (this.CurrentIndexPosition < this.DatacardComboBox.getItems().size()))) {
                 
                 // Clear the FlowPane of Any previous Nodes
                 ClearFlowPane();
@@ -402,20 +406,17 @@ public class ManageDataCardSelection {
                 // If a DataCard was already Selected restore the previous one to the list
                 RestoreComboBox();
 
-                // Get the current index position of the selected Datacard
-                this.CurrentIndexPosition = DatacardComboBox.getSelectionModel().getSelectedIndex();
-
                 // remove the text at the current position
                 this.DatacardComboBox.getItems().remove(this.CurrentIndexPosition);
 
                 // replace the text with 'SELECTED'
                 this.DatacardComboBox.getItems().add(this.CurrentIndexPosition, this.SELECTED);
                 
-
-
+                // a datacard has been selected
+                this.DataCardSelected = true;
 
                 // Set the current Person to the datacard object stored in DataCardMap, the combobox and DataCardMap both store values in the same positions
-                PreferenceCurrentPerson = DataCardMap.get(CurrentIndexPosition);
+                PreferenceCurrentPerson = DataCardMap.get(this.CurrentIndexPosition);
 
                 // Set the name TextField to contain the name of the person selected
                 this.TextFieldName.setText(PreferenceCurrentPerson.GetName());
@@ -471,7 +472,7 @@ public class ManageDataCardSelection {
         // ############################################################
         this.EVENT_SETDATATOAFILE = event -> {
 
-            if (this.CurrentIndexPosition >= 0) {
+            if ((this.CurrentIndexPosition >= 0) && (DataCardSelected == true)) {
                 
                 // Set updated preference times to the selected datacard using DataCardmanager
                 this.DataCardmanager.UpdateTimeIntervals(this.PreferenceListCurrent);
@@ -507,11 +508,17 @@ public class ManageDataCardSelection {
         // DE-SELECT        - A user selected DataCard without making any changes to it or the file
         // ############################################################
         this.EVENT_DESELECTEDITOR = event -> {
+            // set old index position equal to the current index position so RestoreComboBox() can restore the currently seleced datacard
+            this.OldIndexPosition = this.CurrentIndexPosition;
+
             // clear the flowpane of anyValues
             ClearFlowPane();
             // restore the selected datacard to the comboBox
             RestoreComboBox();
 
+            // reset both index position values
+            this.OldIndexPosition       = -1;
+            this.CurrentIndexPosition   = -1;
             // Selection is no longer active
             this.ManageSelectionActive = false;
         };

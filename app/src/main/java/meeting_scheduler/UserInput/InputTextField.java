@@ -116,6 +116,7 @@ public class InputTextField {
      * Description: Constructs a textfield for numeric values
      */
     private void Construct_Field_Numeric() {
+        //this.TEXTFIELD.setText("0000000");
 
         this.TEXTFIELD.setTextFormatter(new TextFormatter<>(change -> {
             
@@ -131,8 +132,8 @@ public class InputTextField {
             try {
 
                 int intValue = Integer.parseInt(TextInput);
-                
-                if (intValue >= IDENT_MIN && intValue < IDENT_MAX) {
+
+                if (intValue >= IDENT_MIN && intValue <= IDENT_MAX) {
                     return change;
                 }
             } catch (NumberFormatException e) {

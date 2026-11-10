@@ -5,7 +5,7 @@
   "EMPLOYEE_Days" : [ null, "Mon", null, null, null, "Fri", "Sat" ],
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Mon",
-    "TIMEPREF_TimeStart" : [ 20, 0 ],
+    "TIMEPREF_TimeStart" : [ 2, 0 ],
     "TIMEPREF_TimeEnd" : [ 12, 0 ]
   }, {
     "TIMEPREF_Weekday" : "Mon",
@@ -41,8 +41,8 @@
     "TIMEPREF_TimeEnd" : [ 15, 4 ]
   }, {
     "TIMEPREF_Weekday" : "Wed",
-    "TIMEPREF_TimeStart" : [ 13, 2 ],
-    "TIMEPREF_TimeEnd" : [ 3, 4 ]
+    "TIMEPREF_TimeStart" : [ 3, 2 ],
+    "TIMEPREF_TimeEnd" : [ 13, 4 ]
   } ]
 }, {
   "EMPLOYEE_Delete" : false,
@@ -65,8 +65,8 @@
     "TIMEPREF_TimeEnd" : [ 15, 4 ]
   }, {
     "TIMEPREF_Weekday" : "Fri",
-    "TIMEPREF_TimeStart" : [ 17, 3 ],
-    "TIMEPREF_TimeEnd" : [ 4, 30 ]
+    "TIMEPREF_TimeStart" : [ 16, 3 ],
+    "TIMEPREF_TimeEnd" : [ 17, 30 ]
   } ]
 }, {
   "EMPLOYEE_Delete" : false,
@@ -76,16 +76,6 @@
   "EMPLOYEE_Intervals" : [ {
     "TIMEPREF_Weekday" : "Thu",
     "TIMEPREF_TimeStart" : [ 8, 0 ],
-    "TIMEPREF_TimeEnd" : [ 17, 0 ]
-  } ]
-}, {
-  "EMPLOYEE_Delete" : false,
-  "EMPLOYEE_Name" : "david",
-  "EMPLOYEE_Ident" : 13,
-  "EMPLOYEE_Days" : [ null, null, null, null, "Thu", null, null ],
-  "EMPLOYEE_Intervals" : [ {
-    "TIMEPREF_Weekday" : "Thu",
-    "TIMEPREF_TimeStart" : [ 11, 0 ],
     "TIMEPREF_TimeEnd" : [ 17, 0 ]
   } ]
 } ]

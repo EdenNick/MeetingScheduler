@@ -7,7 +7,7 @@ package meeting_scheduler.ScheduleManagement;
 // ############################################################
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -60,19 +60,22 @@ public class ManageScheduleCalculation {
 
     // Program calculation variables
     // ############################################################
-    private LinkedList<String>                  Calc_AvailableIDs;          // LinkedList that holds the list of available people for each viable interval.
+    private LinkedList<int[]>                   Calc_SpecificRangeIDs;      // LinkedList of Ids that fall within a specific range
+    private LinkedList<PreferenceTime>          Calc_SpecificRangeSet;      // LinkedList of Specific ranges Ids can be scheduled in
 
-    private LinkedList<DataInterval>            CALC_AvailablePeople;       // People who can be scheduled within an interval - NOT the fianl list of people
+
     private LinkedList<DataCompleteSchedule>    Calc_FullScheduleList;      // LinkedList of viableschedules and the people who can be in them.
-
+    // TODO: may remove later
     private PreferenceTime                      Calc_ViableSchedule;        // Used to set viable time intervals in the ScheduleList LinkedList.
+
     private boolean                             Calc_IdealSchedule = false; // denotes if a time interval in ScheduleList contians everyone the user wants scheduled;
     // ############################################################
 
     // File data info and management
     // ############################################################
-    private ManageJsonFile              JsonFileManager = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
-    private LinkedList<PreferenceFull>  FileData_Employee_FullList;
+    private ManageJsonFile                      JsonFileManager = new ManageJsonFile(ManageFilePaths.GetLock_JSN_DataCard());
+    private LinkedList<PreferenceFull>          FileData_Employee_FullList;
+    private HashMap<Integer, PreferenceFull>    FullListKeyValuePair;
     // ############################################################
 
     // Default Values
@@ -120,8 +123,17 @@ public class ManageScheduleCalculation {
      * @throws IOException
      */
     private void Paramater_Init_FullList() throws StreamReadException, DatabindException, IOException {
+        
         this.FileData_Employee_FullList = JsonFileManager.readJson_FullPref();
         this.Employee_FullList_Array = FileData_Employee_FullList.toArray(new PreferenceFull[0]);
+
+        FullListKeyValuePair = new HashMap<>();
+
+        for (PreferenceFull Preference : Employee_FullList_Array) {
+            FullListKeyValuePair.put(Preference.GetIdent(), Preference);
+        }
+
+        System.out.println("hashMap size: " + FullListKeyValuePair.size());
     } // Paramater_Init_FullList()
     // ############################################################
 
@@ -220,10 +232,19 @@ public class ManageScheduleCalculation {
         } // for (int Position_RefinedList = 0; Position_RefinedList < IDList_AppliedIDAndDayPref.length; Position_RefinedList++)
         // ############################################################
 
+        // used in Calculate_ScheduleList() and CalculateSpecificRange()
+        Calc_SpecificRangeIDs = new LinkedList<>(); // holds int[] arrays of ids for a given time range
+        Calc_SpecificRangeSet = new LinkedList<>(); // holds a given time range for the same position relative to the int[] in Calc_SpecificRangeIDs
 
-        // Schedule Calculation
+        // General Schedule Calculation
         // ############################################################
         Calculate_ScheduleList();
+        // ############################################################
+
+
+        // Specific Range schedule calculation
+        // ############################################################
+        CalculateSpecificRange();
         // ############################################################
         
         return Calc_FullScheduleList;
@@ -436,51 +457,33 @@ public class ManageScheduleCalculation {
         // ############################################################
         String[]    WeekDay_Iteration;  // WeekDays that should be iterated over
         String      DAY_Current;        // Current Day being iterated over from WeekDay_Iteration
-        int         MaxSize = 0;        // maximum ammount of time intervals that need to be traveresed over
-        int         intervalLength;     // number of intervals within an individual datacard
         // ############################################################
 
 
         // ensures a valid weekday list exists in any scenario
         // ############################################################
         if (userPref_SpecificDays == true) {
+            // use the user input week day list
             WeekDay_Iteration = UserInput_WeekDays.GetWeekArray();
-            System.out.println("true");
         } else {
+            // use every day of the week
             WeekDay_Iteration = this.WEEK_DEFAULT.clone();
-            System.out.println("false");
         }
         // ############################################################
 
 
-        // Loop through the full list of people being checked for the schedule
-        // find the datacard with the largest number of intervals and save that value to MaxSize
-        for (int position = 0; position < Employee_FullList_Array.length; position++) {
-
-            intervalLength = Employee_FullList_Array[position].GetIntervals().length;
-
-            if (intervalLength > MaxSize) {
-                MaxSize = intervalLength;
-            }
-        }
-
-
-
-        /**
-         * Iterate over each day the user selected, at least one at most every day of the week
-         */
+        // Iterate over each day the user selected, at least one at most every day of the week
         // ############################################################
         for (int Pos = 0; Pos < WEEK_DEFAULT.length; Pos++) {
 
             if (WeekDay_Iteration[Pos] != null) {
 
                 DAY_Current = WeekDay_Iteration[Pos];
-                System.out.println("Day current " + DAY_Current);
+                
                 /**
                  * for each day iterate through every user selected time interval they want to make a schedule for.
                  * If they did not submit any preferences create a schedule for the full hours of the day
                  */
-
                 // interval of user submitted time(s)
                 // ############################################################
                 int Interval_HourStart  = 0;
@@ -530,45 +533,6 @@ public class ManageScheduleCalculation {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * CalculateInterval()
      * Description: runs calculations for the full list of people provided one at a time
@@ -578,6 +542,7 @@ public class ManageScheduleCalculation {
 
         // Calculation variables
         // ############################################################
+
         // user submitted preference day and time
         int     IntervalStartHour   = STARTHOUR;
         int     IntervalStartMin    = STARTMIN;
@@ -596,14 +561,14 @@ public class ManageScheduleCalculation {
         Arrays.fill(MinEndRange, 59);
 
         // preference variables to store an interval in a selected datacard
+        // these values store exisiting employee preference daya to be compared against user selected intervals (above)
         int     PreferenceStartHour;
         int     PreferenceStartMin;
         int     PreferenceEndHour;
         int     PreferenceEndMin; 
-
-
-
+        
         // 2D array storing hour and all employees who fall on that Hour
+        //TODO: Change
         Object[][] EmployeeHourRelation = new Object[24][1];
 
         for (int Pos = 0; Pos < EmployeeHourRelation.length; Pos++) {
@@ -612,22 +577,30 @@ public class ManageScheduleCalculation {
             // set all values to -1, values of -1 will be filtered out later
             Arrays.fill(((int[]) EmployeeHourRelation[Pos][0]), -1);
             //EmployeeHourRelation[Pos][0] = new LinkedList<Integer>();
+
+
+
+
+
         }
         // ############################################################
 
 
-        // current interval position within a single datacard
-        int IntervalPos;
-        PreferenceFull Employee;
+        // While loop variables
+        // ############################################################
+        int             IntervalPos;    // current time preference interval in an emplyee preference object
+        PreferenceFull  Employee;       // current employee preference object being compared
+        // ############################################################
 
 
         // Iterate through every Preference datacard in the refined Array previously calculated
         // ############################################################
-        for (int EmployeePosition = 0; EmployeePosition < Employee_FullList_RefinedArray.length; EmployeePosition++) {
-            // for (PreferenceFull Employee: Employee_FullList_RefinedArray) {
+        for (int IDPosition = 0; IDPosition < Employee_FullList_RefinedArray.length; IDPosition++) {
             
-            Employee = Employee_FullList_RefinedArray[EmployeePosition];
-            IntervalPos = 0;
+            // Set employee preferenc eobject from the full refined list of them
+            Employee    = Employee_FullList_RefinedArray[IDPosition];
+            // Set IntervalPos to 0 for each while loop iteration
+            IntervalPos = 0;    
 
             // iterate through every interval in each Preference 
             while (IntervalPos < Employee.GetIntervals().length) {
@@ -653,12 +626,15 @@ public class ManageScheduleCalculation {
                     }
 
                     // access the 2d array [Hour][int[] for IDs for the hour]
-                    for (int Pos = PreferenceStartHour; Pos <= PreferenceEndHour; Pos++) {
-                        ((int[]) EmployeeHourRelation[Pos][0])[EmployeePosition] = Employee.GetIdent();
+                    for (int hour = PreferenceStartHour; hour <= PreferenceEndHour; hour++) {
+                        // at row (hour of the day) in the only column (id list int[]) set the id at the current position (EmployeePosition)
+                        // in Employee_FullList_RefinedArray.
+                        ((int[]) EmployeeHourRelation[hour][0])[IDPosition] = Employee.GetIdent();
                     }
 
                 } // (Employee.GetIntervals()[IntervalPos].GetWeekDay().equals(IntervalDay))
 
+                // increment preference interval each while loop
                 IntervalPos++;
 
             } // while (IntervalPos < Employee.GetIntervals().length)
@@ -667,7 +643,6 @@ public class ManageScheduleCalculation {
         // ############################################################
 
 
-        System.out.println("Hour Range" + Arrays.toString(HourPrevalence));
 
         // Refine the data based on user Input
         // remove any values that fall outside user time input
@@ -692,66 +667,97 @@ public class ManageScheduleCalculation {
         }
         // ############################################################
 
-        int StartHour       = 0;
-        int EndHour         = 0;
-        int CurrentAmmount  = 0;
-        int NextAmmount     = 0;
 
 
-        System.out.println("Hour Range" + Arrays.toString(HourPrevalence));
+        // schedule intervals
+        int hourStartTime   = 0;    // Starting hour for the schedule
+        int hourEndingTime  = 0;    // ending hour for the schedule
 
-        // TODO:
+        // current id set in a given hour
         int[] CurrentIDs;
+        // id set in a subsequent hour
         int[] NextIDs;
+        // Id list filtered of any -1s from EmployeeHourRelation[][]
+        int[] FilteredIdList;
+
+        int[] temp;
+        System.out.println("Day: " + PREFDAY);
+        for (int x = 0; x < 24; x++) {
+            temp = (int[]) EmployeeHourRelation[x][0];
+
+            (EmployeeHourRelation[x][0]) = Arrays.stream(temp).filter(num -> num >= 0).toArray();
 
 
-        System.out.println("End interval: " + IntervalEndHour);
-        // iterate through the full prevalence set
-        for (int Pos = IntervalStartHour; Pos < IntervalEndHour; Pos++) {
+            System.out.println("Full ID Set: " + Arrays.toString((int[]) EmployeeHourRelation[x][0]));
+        }
 
-            if (HourPrevalence[Pos] > 0) {
-
-                CurrentIDs = (int[]) EmployeeHourRelation[Pos][0];
+        // loop through every hour in the pinterval
+        for (int hourPos = IntervalStartHour; hourPos < IntervalEndHour; hourPos++) {
+            // only check ids if there is at least a single available person to be scheduled
+            if (HourPrevalence[hourPos] > 0) {
+                
+                // get the current ids available to be scheduled at a given hour
+                CurrentIDs = (int[]) EmployeeHourRelation[hourPos][0];
                 Arrays.sort(CurrentIDs);
 
-                NextIDs = (int[]) EmployeeHourRelation[Pos][0];
+                // get the current ids available to be scheduled at a given hour to be compared to CurrentIDs
+                NextIDs = (int[]) EmployeeHourRelation[hourPos][0];
                 Arrays.sort(NextIDs);
 
-
-                // Starting hour for a schedule
-                StartHour       = Pos;
-                // current ammount of people in that hour
-                CurrentAmmount  = HourPrevalence[Pos];
-                // ammount of people in the next hour
-                NextAmmount     = HourPrevalence[Pos];
-
-                // While the Id stored in each Array remain the same, incrment the position until a difference occurs
-                while ( (Arrays.equals(CurrentIDs, NextIDs)) && (Pos < IntervalEndHour) && (HourPrevalence[Pos] > 0)) {
-                    NextAmmount = HourPrevalence[Pos];
-                    NextIDs = (int[]) EmployeeHourRelation[Pos][0];
-                    Arrays.sort(NextIDs);
-                    Pos++;
-                }
-                // ending hour for a schedule, should be equal to the previous hour before a difference occurs between the two arrays
-                if (Pos >= (StartHour + 1)) {
-                    EndHour = Pos - 1;
-                } else {
-                    EndHour = StartHour;
-                }
-
-                System.out.println("Starting Hour: " + StartHour);
-                System.out.println("Ending Hour: " + EndHour);
-                // Create a schedule with this time frame
-                CalculateSpecificRange(StartHour, MinStartRange[StartHour], EndHour, MinEndRange[EndHour], IntervalDay);
-
-            } // if (HourPrevalence[Pos] > 0)
-
-            System.out.println("pos value: " + Pos);
-        } // for (int Pos = IntervalStartHour; Pos < IntervalEndHour; Pos++)
+                if (Arrays.equals(CurrentIDs, NextIDs)) {
+                    
+                    hourStartTime = hourPos;
+                    hourEndingTime = hourPos;
+                    System.out.println("Hour start " + hourStartTime);
 
 
+                    while ( (Arrays.equals(CurrentIDs, NextIDs)) && (hourEndingTime < IntervalEndHour) && (HourPrevalence[hourPos] > 0)) {
+                        // get the current ids available to be scheduled at a given hour to be compared to CurrentIDs
+                        NextIDs = (int[]) EmployeeHourRelation[hourEndingTime][0];
+                        Arrays.sort(NextIDs);
+                        hourEndingTime++;
+                        System.out.println("Hour increment " + hourEndingTime);
+                    }
+
+                    hourEndingTime--;
+                    System.out.println("Hour end " + hourEndingTime);
 
 
+                    // ensure that the ending never comes before the start time
+                    if (hourEndingTime < hourStartTime ) {
+                        hourEndingTime = hourStartTime;
+                    } 
+
+
+                    // Create a schedule with this time frame
+                    // CalculateSpecificRange(StartHour, MinStartRange[StartHour], EndHour, MinEndRange[EndHour], IntervalDay);
+                    FilteredIdList = Arrays.stream(CurrentIDs).filter(num -> num >= 0).toArray();
+
+                    System.out.println("filtered list---");
+                    for (int x = 0; x < FilteredIdList.length; x++) {
+                        System.out.println("filtered list: " + FilteredIdList[x]);
+                    }
+
+                    if (FilteredIdList.length > 0) {
+                        System.out.println("Added to Calc_SpecificRangeIDs");
+                        System.out.println("Day: " + IntervalDay);
+                        System.out.println("Start hour: " + hourStartTime);
+                        System.out.println("End Hour: " + hourEndingTime);
+                        Calc_SpecificRangeIDs.add(FilteredIdList);
+                        Calc_SpecificRangeSet.add(new PreferenceTime(IntervalDay, hourStartTime, MinStartRange[hourStartTime], hourEndingTime, MinEndRange[hourEndingTime]));
+                    }
+
+                    // reduce by 1, as the for loop will bring it back to this position in the next loop;
+                    hourPos = hourEndingTime - 1;
+
+                } // if (Arrays.equals(CurrentIDs, NextIDs))
+
+
+
+
+            } // if (HourPrevalence[hourPos] > 0) 
+
+        } // for (int hourPos = IntervalStartHour; hourPos < IntervalEndHour; hourPos++)
 
 
     } // CalculateInterval()
@@ -761,122 +767,309 @@ public class ManageScheduleCalculation {
 
 
     // Calculate Schedule Specific range
-    private void CalculateSpecificRange(int STARTHOUR, int STARTMIN, int ENDHOUR, int ENDMIN, String PREFDAY) {
+    // private void CalculateSpecificRange(int STARTHOUR, int STARTMIN, int ENDHOUR, int ENDMIN, String PREFDAY) {
+    private void CalculateSpecificRange() {
         
-        // Calculation variables
+
+        // Linked list Set
+        // Calc_SpecificRangeIDs    - in each position carries a set of ides that an be scheduled
+        // Calc_SpecificRangeSet    - carries a preference time for the Id array at the same relative position in Calc_SpecificRangeIDs
         // ############################################################
-        // user submitted preference day and time
-        int     IntervalStartHour   = STARTHOUR;
-        int     IntervalStartMin    = STARTMIN;
-        int     IntervalEndHour     = ENDHOUR;
-        int     IntervalEndMin      = ENDMIN;
-        String  IntervalDay         = PREFDAY;
-        // preference variables to store an interval in a selected datacard
-        int     PreferenceStartHour;
-        int     PreferenceStartMin;
-        int     PreferenceEndHour;
-        int     PreferenceEndMin; 
+        int LinkedListSize = 0;
 
-        // List of Ids that can exist in a defined schedule
-        LinkedList<String> CalculationIDList = new LinkedList<>();
+        if (Calc_SpecificRangeIDs.size() == Calc_SpecificRangeSet.size()) {
+            LinkedListSize = Calc_SpecificRangeIDs.size();
+            System.out.println("Set Size: " + LinkedListSize);
+        } else {
+            //TODO: change to global message
+            // error
+            System.out.println("different id set size");
+        }
         // ############################################################
 
-        // current interval position within a single datacard
-        int IntervalPos;
 
-        // Iterate through every Preference datacard in the refined Array previously calculated
+        // calculation variables
         // ############################################################
-        for (PreferenceFull Employee: this.Employee_FullList_RefinedArray) {
+        int[]           CurrentIdList;      // Id list stored in Calc_SpecificRangeIDs at a given position
+        PreferenceTime  CurrentTimeSet;     // current preference for a given id set
+        PreferenceFull  CurrentPreference;  // current preference for a given id in FilteredIdList
+        // ############################################################
 
-            IntervalPos = 0;
-            // iterate through every interval in each Preference 
-            while (IntervalPos < Employee.GetIntervals().length) {
+
+
+        // iterate over each set of ids paired with with their respective refined schedules
+        for (int DuelPosition = 0; DuelPosition < LinkedListSize; DuelPosition++) {
+            
+            // Calculation variables
+            // ############################################################
+            // Id list and preferences
+            CurrentIdList       = Calc_SpecificRangeIDs.get(DuelPosition);
+            CurrentTimeSet      = Calc_SpecificRangeSet.get(DuelPosition);
+            // user submitted preference day and time
+            int     IntervalStartHour   = CurrentTimeSet.GetStartTimeHour();
+            int     IntervalStartMin    = CurrentTimeSet.GetStartTimeMin();
+            int     IntervalEndHour     = CurrentTimeSet.GetEndTimeHour();
+            int     IntervalEndMin      = CurrentTimeSet.GetEndTimeMin();
+            String  IntervalDay         = CurrentTimeSet.GetWeekDay();
+            // preference variables to store an interval in a selected datacard
+            int     PreferenceStartHour = 0;
+            int     PreferenceStartMin  = 0;
+            int     PreferenceEndHour   = 23;
+            int     PreferenceEndMin    = 59;
+            // latest and earliest start times throughout all intervals in this time preference
+            int earliestStartTimeHour   = 23;   // Earliest hour a person CAN be scheduled on
+            int earliestStartTimeMin    = 59;   // minute for the earliest hour that a person CAN be scheduled on
+            int latestStartTimeHour     = 0;    // latest hour a person CAN be scheduled on
+            int latestStartTimeMin      = 0;    // minute for the latest hour a person CAN be scheduled on
+            // latest and earliest end times throughout all intervals in this time preference
+            int earliestEndTimeHour     = 23;   // Earliest hour a person CAN'T be scheduled on
+            int earliestEndTimeMin      = 59;   // minute for the earliest hour a person CAN'T be scheduled on
+            int latestEndTimeHour       = 0;    // latest Hour a person CAN'T be scheduled on
+            int latestEndTimeMin        = 0;    // minute for the latest Hour a Person CANN'T be scheduled on
+            // ############################################################
+
+
+            // only modify schedule times if there is more than one person in the list
+            if (CurrentIdList.length > 1) {
+
+                System.out.println("ID list --");
+                for (int x = 0; x < CurrentIdList.length; x++) {
+                    System.out.println("List of ID: " + CurrentIdList[x]);
+                }
+
+
+
+
+                // Iterate through each person in th Id list
+                for (int IdPos = 0; IdPos < CurrentIdList.length; IdPos++) {
+
+                    CurrentPreference = FullListKeyValuePair.get(CurrentIdList[IdPos]);
+
+                    if (CurrentPreference != null) {
+
+                        // Iterate through each interval a person in the ID list (CurrentIdList) has.
+                        for (int interval = 0; interval < CurrentPreference.GetIntervals().length; interval++) {
+
+                            PreferenceStartHour = CurrentPreference.GetIntervals()[interval].GetStartTimeHour();
+                            PreferenceStartMin  = CurrentPreference.GetIntervals()[interval].GetStartTimeMin();
+                            PreferenceEndHour   = CurrentPreference.GetIntervals()[interval].GetEndTimeHour();
+                            PreferenceEndMin    = CurrentPreference.GetIntervals()[interval].GetEndTimeMin();
+
+
+                            // Checks latest Start time
+                            // ############################################################
+                            // if the preference time comes on or after the interval and on or after the current latest start time
+                            if ( (PreferenceStartHour >= IntervalStartHour) && (PreferenceStartHour >= latestStartTimeHour) ) {
+                                
+                                // preference lies on the same hour interval and the minute lies after the current latest start time minute
+                                if ( (PreferenceStartHour == latestStartTimeHour) && (PreferenceStartMin > latestStartTimeMin) ){
+                                    latestStartTimeMin = PreferenceStartMin;
+                                }
+
+                                // preference lies after the current latest start time hour
+                                if (PreferenceStartHour > latestStartTimeHour) {
+                                    latestStartTimeHour = PreferenceStartHour;
+                                    latestStartTimeMin = PreferenceStartMin;
+                                }
+
+                            } // if ( (PreferenceStartHour >= IntervalStartHour) && (PreferenceStartHour >= latestStartTimeHour) )
+                            // ############################################################
+                            
+
+                            // Checks earliest start time
+                            // ############################################################
+                            // preference comes after or on the start interval and before or on the current earliest start time
+                            if ( (PreferenceStartHour >= IntervalStartHour) && (PreferenceStartHour <= earliestStartTimeHour) ) {
+                                
+                                // preference lies on the same hour interval and the minute lies before the current earliest minute time
+                                if ( (PreferenceStartHour == earliestStartTimeHour) && (PreferenceStartMin < earliestStartTimeMin) ) {
+                                    earliestStartTimeMin = PreferenceStartMin;
+                                }
+
+                                // if the preference hour comes after the current latest hour change both hour and minute to the new latest times
+                                if (PreferenceStartHour < earliestStartTimeHour) {
+                                    earliestStartTimeHour   = PreferenceStartHour;
+                                    earliestStartTimeMin    = PreferenceStartMin;
+                                }
+
+                            } // ( (PreferenceStartHour >= IntervalStartHour) && (PreferenceStartHour <= earliestStartTimeHour) )
+                            // ############################################################
+
+
+
+                            // checks latest end time
+                            // ############################################################
+                            // preference time comes on or after the end interval and on or after the latest end time
+                            if ( (PreferenceEndHour <= IntervalEndHour) && (PreferenceEndHour >= latestEndTimeHour) ) {
+                                
+                                // preference hour lies on the same interval, preference minute comes after the current latest end minute
+                                if ( (PreferenceEndHour == latestEndTimeHour) && (PreferenceEndMin > latestEndTimeMin) ){
+                                    latestEndTimeMin = PreferenceEndMin;
+                                }
+
+                                // if the preference hour comes after the current latest hour change both hour and minute to the new latest times
+                                if (PreferenceEndHour > latestEndTimeHour) {
+                                    latestEndTimeHour = PreferenceEndHour;
+                                    latestEndTimeMin = PreferenceEndMin;
+                                }
+
+                            }
+                            // ############################################################
+
+
+                            // checks earliest end time
+                            // ############################################################
+                            // preference comes after or on the end interval and before or on the current earliest end time
+                            if ( (PreferenceEndHour <= IntervalEndHour) && (PreferenceEndHour <= earliestEndTimeHour) ) {
+                                
+                                // preference lies on the same hour interval and the minute lies before the current earliest minute time
+                                if ( (PreferenceEndHour == earliestEndTimeHour) && (PreferenceEndMin < earliestEndTimeMin) ){
+                                    earliestEndTimeMin = PreferenceEndMin;
+                                }
+
+                                // if the preference hour comes before the current latest hour change both hour and minute to the new earliest times
+                                if (PreferenceEndHour < earliestEndTimeHour) {
+                                    earliestEndTimeHour = PreferenceEndHour;
+                                    earliestEndTimeMin = PreferenceEndMin;
+                                }
+
+                            }
+                            // ############################################################
+
+
+                        } // for (int interval = 0; interval < CurrentPreference.GetIntervals().length; interval++)
+
+                    } // if (!CurrentPreference.equals(null)) {
+
+                } // for (int IdPos = 0; IdPos < CurrentIdList.length; IdPos++) {
+
+
+
+                // Check if all intervals overlap in some way
+                // ############################################################
+                // if the earliest end time comes before the latest start time, there is an interval where not all people can be scheduled
+                // if this is true, then the schedule should condense to the latest end time and the earliest start time.
+                // if this is false, then the schedule should condesne to the earliest end time and the latest start time
+
+                // Situation TRUE   (at least two time don't overlap)
+                // [--|++++++|-----------]  (time frame 1)
+                // [------------|+++++|--]  (time frame 2)
+                // 
+                // [--|+++++++++++++++|--]  (Usedtime frame that gets everyone)
+
+                // Situation FALSE  (all times overlap)
+                // [--|++++++|-----------]  (time frame 1)
+                // [-------|++++++++++|--]  (time frame 2)
+                //
+                // [-------|+|-----------]  (used time frame that gets everyone)
+                // ############################################################
                 
-                // if the interval lies on the correct day retrieve its times and check if it can be within the schedule
-                if (Employee.GetIntervals()[IntervalPos].GetWeekDay().equals(IntervalDay)) {
-
-                    PreferenceStartHour = Employee.GetIntervals()[IntervalPos].GetStartTimeHour();
-                    PreferenceStartMin  = Employee.GetIntervals()[IntervalPos].GetStartTimeMin(); 
-                    PreferenceEndHour   = Employee.GetIntervals()[IntervalPos].GetEndTimeHour();  
-                    PreferenceEndMin    = Employee.GetIntervals()[IntervalPos].GetEndTimeMin();
-
-                    // DataCard preference falls within hour range
-                    if ( (IntervalStartHour < PreferenceStartHour) || (IntervalEndHour > PreferenceEndHour) ) {
-                        
-                        CalculationIDList.add(Integer.toString(Employee.GetIdent()));
-                        break;
+                // earliest END hour is before the latest START hour
+                // Situation TRUE
+                if (earliestEndTimeHour < latestStartTimeHour) {
                     
-                    // the interval and preference hour start times are the same
-                    } else if (IntervalStartHour == PreferenceStartHour) {
+                    // condense schedule to earliest START time and latest END time to get everyone
+                    // ############################################################
+                    Calc_ViableSchedule = new PreferenceTime(IntervalDay, earliestStartTimeHour, earliestStartTimeMin, latestEndTimeHour, latestEndTimeMin);
+                    // ############################################################
 
-                        // the preference start minute is on or after the interval minute
-                        if (IntervalStartMin <= PreferenceStartMin) {
-                            CalculationIDList.add(Integer.toString(Employee.GetIdent()));
-                            break;
-                        }
+                // earliest end hour is the same as the latest starting hour
+                } else if (earliestEndTimeHour == latestStartTimeHour) {
                     
-                    // the interval and preference hour end times are the same
-                    } else if (IntervalEndHour == PreferenceEndHour) {
-                        
-                        // the preference end minute is on or before the interval minute
-                        if (IntervalEndMin >= PreferenceEndMin) {
-                            CalculationIDList.add(Integer.toString(Employee.GetIdent()));
-                            break;
-                        }
+                    // check if their respecitve minutes overlap
+                    // ealiest END time minute comes on or before the latest START time minute
+                    // an overlap does not occur at this location
+                    // Situation TRUE
+                    if (earliestEndTimeMin <= latestStartTimeMin) {
 
+                        // condense schedule to earliest START time and latest END time to get everyone
+                        // ############################################################
+                        Calc_ViableSchedule = new PreferenceTime(IntervalDay, earliestStartTimeHour, earliestStartTimeMin, latestEndTimeHour, latestEndTimeMin);
+                        // ############################################################
+
+
+                    // earliest END time minute comes after the latest START time minute
+                    // on overlap occurs here though small
+                    // Situation FALSE
+                    } else {
+
+                        // condense to the latest START time and earliest END time hours hours with respective minutes
+                        // Create A schedule preference time
+                        // ############################################################
+                        Calc_ViableSchedule = new PreferenceTime(IntervalDay, latestStartTimeHour, latestStartTimeMin, earliestEndTimeHour, latestEndTimeMin);
+                        // ############################################################
                     }
 
-                } // (Employee.GetIntervals()[IntervalPos].GetWeekDay().equals(IntervalDay))
+                // All times overlap
+                // Situation FALSE
+                } else {
 
-                IntervalPos++;
+                    // condense to the latest START time and earliest END time hours hours with respective minutes
+                    // Create A schedule preference time
+                    // ############################################################
+                    Calc_ViableSchedule = new PreferenceTime(IntervalDay, latestStartTimeHour, latestStartTimeMin, earliestEndTimeHour, latestEndTimeMin);
+                    // ############################################################
 
-            } // while (IntervalPos < Employee.GetIntervals().length)
-
-        } // for (PreferenceFull Employee: Employee_FullList_RefinedArray)
-        // ############################################################
+                }
 
 
+                if (UserPref_IDsProvided == true) {
 
-        /**
-         * Submitting schedules
-         */
-        // Check if the list contains the full ammount of people the user wants to schedule if true set Calc_IdealSchedule to true, false otherwise
-        // ############################################################
-        if (CalculationIDList.size() > 0) {
+                    // sort so both arrays are in the same order, necessary so Arrays.equals can check them both properly
+                    // User selected IDs
+                    Arrays.sort(UserInput_PeopleList);
+                    // calculated schedule IDs
+                    Arrays.sort(CurrentIdList);
 
-            int[] Calc_AvailableIDs_AsInt = CalculationIDList.stream().mapToInt(Integer::parseInt).toArray();
+                    if ( Arrays.equals(UserInput_PeopleList, CurrentIdList) ) {    // everyone the user wanted is on the list for this interval
+                        Calc_IdealSchedule = true;
+                    } else {                                                        // not everyone is on the list
+                        Calc_IdealSchedule = false;
+                    } // (UserInput_PeopleToSchedule.equals(Calc_AvailableIDs))
 
-            if (UserPref_IDsProvided == true) {
-
-                // sort so both arrays are in the same order, necessary so Arrays.equals can check them both properly
-                Arrays.sort(UserInput_PeopleList);
-                Arrays.sort(Calc_AvailableIDs_AsInt);
-
-                if ( Arrays.equals(UserInput_PeopleList, Calc_AvailableIDs_AsInt) ) {   // everyone the user wanted is on the list for this interval
-                    Calc_IdealSchedule = true;
-                } else {                                                                // not everyone is on the list
+                } else {
+                    // no users specified so no ideal schedule
                     Calc_IdealSchedule = false;
-                } // (UserInput_PeopleToSchedule.equals(Calc_AvailableIDs))
-
-            } else {
-                // no users specified so no ideal schedule
-                Calc_IdealSchedule = false;
-            } // (IDsProvided == true)
-            // ############################################################
+                } // (IDsProvided == true)
 
 
-            // Create A schedule preference time
-            // ############################################################
-            Calc_ViableSchedule = new PreferenceTime(IntervalDay, IntervalStartHour, IntervalStartMin, IntervalEndHour, IntervalEndMin);
-            // ############################################################
+                //TODO: remove to class variable
+                // final id list used to create a schedule
+                LinkedList<String> ScheduleIDList = new LinkedList<>();
+
+                for (int pos = 0; pos < CurrentIdList.length; pos++) {
+                    ScheduleIDList.add(String.valueOf(CurrentIdList[pos]));
+                }
 
 
-            // Full Schedule List
-            // ############################################################
-            Calc_FullScheduleList.add(new DataCompleteSchedule(PREFDAY, Calc_ViableSchedule, CalculationIDList, Calc_IdealSchedule));
-            // ############################################################
 
-        } // if (CalculationIDList.size() > 0)
+                // Full Schedule List
+                // ############################################################
+                Calc_FullScheduleList.add(new DataCompleteSchedule(IntervalDay, Calc_ViableSchedule, ScheduleIDList, Calc_IdealSchedule));
+                // ############################################################
+
+            } else if (CurrentIdList.length == 1) {
+
+                //TODO: remove to class variable
+                // final id list used to create a schedule
+                LinkedList<String> ScheduleIDList = new LinkedList<>();
+
+                for (int pos = 0; pos < CurrentIdList.length; pos++) {
+                    ScheduleIDList.add(String.valueOf(CurrentIdList[pos]));
+                }
+                
+                // Create A schedule preference time
+                // ############################################################
+                Calc_ViableSchedule = new PreferenceTime(IntervalDay, IntervalStartHour, IntervalStartMin, IntervalEndHour, IntervalEndMin);
+                // ############################################################
+
+                // Full Schedule List
+                // ############################################################
+                Calc_FullScheduleList.add(new DataCompleteSchedule(IntervalDay, Calc_ViableSchedule, ScheduleIDList, Calc_IdealSchedule));
+                // ############################################################
+            }
+
+        } // for (int DuelPosition = 0; DuelPosition < LinkedListSize; DuelPosition++) {
 
     } //CalculateSpecificRange
 
